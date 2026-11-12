@@ -9,7 +9,12 @@ import { estimateCost } from "@/content/pricing";
 import { getProvider } from "@/lib/providers";
 import { computeCacheKey, engineCache } from "./cache";
 import { ENGINE_CONFIG } from "./config";
-import { guardRequest, recordTokenUsage } from "./guard";
+import {
+  checkDailyBudget,
+  checkRateLimit,
+  recordTokenUsage,
+  validatePayloadLimits,
+} from "./guard";
 
 export const ExecuteInputSchema = z.object({
   prompt: z.string().trim().min(1, "Prompt cannot be empty"),
@@ -31,6 +36,7 @@ export type ExecuteInput = z.input<typeof ExecuteInputSchema> & {
   apiKey?: string;
   ip?: string;
   skipCache?: boolean;
+  skipRateLimit?: boolean;
 };
 
 export interface RunResult {
@@ -60,14 +66,17 @@ export async function executePrompt(input: ExecuteInput): Promise<RunResult> {
     maxOutputTokens: input.maxOutputTokens,
   });
 
-  const ip = input.ip || "127.0.0.1";
-
-  // 2. Guardrails check: Payload bounds, Daily budget hard stop, and Per-IP rate limit
-  guardRequest({
-    ip,
+  // 2. Guardrails check: Payload bounds & Daily budget hard stop
+  validatePayloadLimits({
     prompt: parsed.prompt,
     maxOutputTokens: parsed.maxOutputTokens,
   });
+  checkDailyBudget();
+
+  // Enforce per-IP rate limit when an IP is specified (e.g. from API route) and not bypassed
+  if (input.ip && !input.skipRateLimit) {
+    checkRateLimit(input.ip);
+  }
 
   // 3. Cache Check
   const cacheKey = computeCacheKey({
@@ -128,8 +137,10 @@ export async function executePrompt(input: ExecuteInput): Promise<RunResult> {
     timestamp: Date.now(),
   };
 
-  // 8. Save to cache
-  engineCache.set(cacheKey, finalResult);
+  // 8. Save to cache only when valid non-empty response was generated
+  if (finalResult.text && finalResult.text.trim().length > 0) {
+    engineCache.set(cacheKey, finalResult);
+  }
 
   return finalResult;
 }

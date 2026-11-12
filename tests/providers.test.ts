@@ -71,6 +71,65 @@ describe("PromptForge Provider Adapters", () => {
         }
       );
     });
+
+    it("throws ProviderError when Gemini candidate list is empty", async () => {
+      global.fetch = (async () => {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            candidates: [],
+          }),
+        } as unknown as Response;
+      }) as unknown as typeof fetch;
+
+      const provider = new GeminiProvider();
+      await assert.rejects(
+        async () => {
+          await provider.run({
+            prompt: "prompt with empty candidates",
+            apiKey: "dummy-key",
+          });
+        },
+        (err: unknown) => {
+          assert.ok(err instanceof ProviderError);
+          assert.ok(err.message.includes("empty response with no candidate completions"));
+          return true;
+        }
+      );
+    });
+
+    it("throws ProviderError when Gemini finishes with RECITATION block", async () => {
+      global.fetch = (async () => {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            candidates: [
+              {
+                content: { parts: [{ text: "" }] },
+                finishReason: "RECITATION",
+              },
+            ],
+          }),
+        } as unknown as Response;
+      }) as unknown as typeof fetch;
+
+      const provider = new GeminiProvider();
+      await assert.rejects(
+        async () => {
+          await provider.run({
+            prompt: "recitation test prompt",
+            apiKey: "dummy-key",
+          });
+        },
+        (err: unknown) => {
+          assert.ok(err instanceof ProviderError);
+          assert.ok(err.message.includes("recitation check"));
+          return true;
+        }
+      );
+    });
   });
 
   describe("OpenAI Adapter", () => {
@@ -121,6 +180,33 @@ describe("PromptForge Provider Adapters", () => {
         (err: unknown) => {
           assert.ok(err instanceof ProviderError);
           assert.ok(err.message.includes("blocked by OpenAI content filter"));
+          return true;
+        }
+      );
+    });
+
+    it("throws ProviderError when OpenAI choices list is empty", async () => {
+      global.fetch = (async () => {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            choices: [],
+          }),
+        } as unknown as Response;
+      }) as unknown as typeof fetch;
+
+      const provider = new OpenAIProvider();
+      await assert.rejects(
+        async () => {
+          await provider.run({
+            prompt: "empty choices prompt",
+            apiKey: "dummy-key",
+          });
+        },
+        (err: unknown) => {
+          assert.ok(err instanceof ProviderError);
+          assert.ok(err.message.includes("empty response with no choices"));
           return true;
         }
       );

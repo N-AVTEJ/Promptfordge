@@ -142,7 +142,7 @@ export function PromptPlayground() {
         headers,
         body: JSON.stringify({
           prompt: prompt.trim(),
-          system: system.trim() || undefined,
+          system: showSystem && system.trim() ? system.trim() : undefined,
           model,
           temperature,
         }),

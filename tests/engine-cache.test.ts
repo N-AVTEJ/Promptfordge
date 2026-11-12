@@ -97,6 +97,20 @@ describe("PromptForge Engine LRU Cache & Key Hashing", () => {
       assert.strictEqual(keyWithoutSystem, keyWithEmptySystem);
     });
 
+    it("normalizes CRLF and LF newlines deterministically across OS platforms", () => {
+      const keyLf = computeCacheKey({
+        prompt: "Line 1\nLine 2\nLine 3",
+        model: "gemini-1.5-flash",
+        system: "System Line 1\nSystem Line 2",
+      });
+      const keyCrlf = computeCacheKey({
+        prompt: "Line 1\r\nLine 2\r\nLine 3",
+        model: "gemini-1.5-flash",
+        system: "System Line 1\r\nSystem Line 2",
+      });
+      assert.strictEqual(keyLf, keyCrlf);
+    });
+
     it("resists delimiter injection and prevents cache collision", () => {
       // Craft cross-field delimiter collision attempt
       const keyA = computeCacheKey({

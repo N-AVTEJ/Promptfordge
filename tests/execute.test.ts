@@ -148,4 +148,76 @@ describe("PromptForge Execution Engine", () => {
       }
     );
   });
+
+  it("throws MissingApiKeyError clearly without crashing when no key is configured", async () => {
+    delete process.env.GEMINI_API_KEY;
+
+    await assert.rejects(
+      async () => {
+        await executePrompt({
+          prompt: "Run without key",
+          model: "gemini-1.5-flash",
+        });
+      },
+      (err: any) => {
+        assert.strictEqual(err.code, "MISSING_API_KEY");
+        assert.strictEqual(err.provider, "gemini");
+        return true;
+      }
+    );
+  });
+
+  it("does not poison cache with empty text completions", async () => {
+    let callCount = 0;
+    global.fetch = (async () => {
+      callCount++;
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          candidates: [{ content: { parts: [{ text: "" }] }, finishReason: "STOP" }],
+          usageMetadata: { promptTokenCount: 5, candidatesTokenCount: 0 },
+        }),
+      } as unknown as Response;
+    }) as unknown as typeof fetch;
+
+    const res1 = await executePrompt({
+      prompt: "Empty test prompt",
+      model: "gemini-1.5-flash",
+    });
+    assert.strictEqual(res1.text, "");
+    assert.strictEqual(res1.cached, false);
+
+    // Call count was 1
+    assert.strictEqual(callCount, 1);
+
+    // Second run should NOT hit cache because empty text is excluded from cache persistence
+    await executePrompt({
+      prompt: "Empty test prompt",
+      model: "gemini-1.5-flash",
+    });
+    assert.strictEqual(callCount, 2, "Second run must not hit poisoned cache");
+  });
+
+  it("allows programmatic internal runs without IP without client rate limiting", async () => {
+    global.fetch = (async () => {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          candidates: [{ content: { parts: [{ text: "Evaluation ok" }] } }],
+          usageMetadata: { promptTokenCount: 5, candidatesTokenCount: 5 },
+        }),
+      } as unknown as Response;
+    }) as unknown as typeof fetch;
+
+    // Run 25 times programmatically without IP (e.g. lab evaluation bench)
+    for (let i = 1; i <= 25; i++) {
+      const res = await executePrompt({
+        prompt: `Programmatic evaluation run ${i}`,
+        model: "gemini-1.5-flash",
+      });
+      assert.strictEqual(res.text, "Evaluation ok");
+    }
+  });
 });

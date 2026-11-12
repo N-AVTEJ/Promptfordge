@@ -190,4 +190,96 @@ describe("POST /api/run Route Handler", () => {
     assert.strictEqual(data2.success, false);
     assert.strictEqual(data2.error.code, "BUDGET_EXHAUSTED");
   });
+
+  it("enforces hard rate-limit error on the 21st request in an hour under default 20 runs/hr limit", async () => {
+    const testIp = "198.51.100.77";
+
+    global.fetch = (async () => {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          candidates: [{ content: { parts: [{ text: "Rate limit test run" }] } }],
+          usageMetadata: { promptTokenCount: 5, candidatesTokenCount: 5 },
+        }),
+      } as unknown as Response;
+    }) as unknown as typeof fetch;
+
+    // Send 20 requests with unique prompts
+    for (let i = 1; i <= 20; i++) {
+      const res = await POST(
+        createMockRequest(
+          { prompt: `Unique prompt run ${i}` },
+          { ip: testIp, headers: { "x-provider-key": "test-key" } }
+        )
+      );
+      assert.strictEqual(res.status, 200, `Request ${i} should be 200 OK`);
+    }
+
+    // 21st request must receive 429 RATE_LIMITED
+    const res21 = await POST(
+      createMockRequest(
+        { prompt: "21st prompt run" },
+        { ip: testIp, headers: { "x-provider-key": "test-key" } }
+      )
+    );
+    assert.strictEqual(res21.status, 429);
+    const data21 = await res21.json();
+    assert.strictEqual(data21.success, false);
+    assert.strictEqual(data21.error.code, "RATE_LIMITED");
+    assert.ok(data21.error.message.includes("20 runs per hour"));
+  });
+
+  it("supports Authorization Bearer header as BYOK key", async () => {
+    global.fetch = (async () => {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          candidates: [{ content: { parts: [{ text: "Bearer token worked" }] } }],
+          usageMetadata: { promptTokenCount: 5, candidatesTokenCount: 5 },
+        }),
+      } as unknown as Response;
+    }) as unknown as typeof fetch;
+
+    const req = createMockRequest(
+      { prompt: "Test with Authorization header" },
+      { headers: { authorization: "Bearer custom-user-bearer-token" } }
+    );
+    const res = await POST(req);
+    assert.strictEqual(res.status, 200);
+    const data = await res.json();
+    assert.strictEqual(data.data.text, "Bearer token worked");
+  });
+
+  it("rejects whitespace-only prompt without consuming rate limit quota", async () => {
+    setTestRateLimit(1);
+    const testIp = "192.0.2.100";
+
+    // Invalid whitespace prompt
+    const invalidRes = await POST(
+      createMockRequest({ prompt: "    \t   " }, { ip: testIp })
+    );
+    assert.strictEqual(invalidRes.status, 400);
+
+    // Follow-up valid request should still succeed because the invalid prompt did not burn the quota
+    global.fetch = (async () => {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          candidates: [{ content: { parts: [{ text: "Valid run ok" }] } }],
+          usageMetadata: { promptTokenCount: 5, candidatesTokenCount: 5 },
+        }),
+      } as unknown as Response;
+    }) as unknown as typeof fetch;
+
+    const validRes = await POST(
+      createMockRequest(
+        { prompt: "Valid run" },
+        { ip: testIp, headers: { "x-provider-key": "key" } }
+      )
+    );
+    assert.strictEqual(validRes.status, 200);
+  });
 });

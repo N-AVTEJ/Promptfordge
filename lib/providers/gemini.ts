@@ -100,15 +100,46 @@ export class GeminiProvider implements Provider {
       }
 
       const candidate = data.candidates?.[0];
-      if (candidate?.finishReason === "SAFETY") {
+      if (!candidate) {
+        throw new ProviderError(
+          "gemini",
+          "Gemini API returned an empty response with no candidate completions."
+        );
+      }
+
+      if (candidate.finishReason === "SAFETY") {
         throw new ProviderError(
           "gemini",
           "Response generation was blocked by safety filters."
         );
       }
+      if (candidate.finishReason === "RECITATION") {
+        throw new ProviderError(
+          "gemini",
+          "Response generation was blocked due to recitation check."
+        );
+      }
+      if (candidate.finishReason === "BLOCKLIST") {
+        throw new ProviderError(
+          "gemini",
+          "Response generation was blocked by blocklist filter."
+        );
+      }
+      if (candidate.finishReason === "PROHIBITED_CONTENT") {
+        throw new ProviderError(
+          "gemini",
+          "Response generation was blocked due to prohibited content policy."
+        );
+      }
+      if (candidate.finishReason === "SPII") {
+        throw new ProviderError(
+          "gemini",
+          "Response generation was blocked due to sensitive PII policy."
+        );
+      }
 
       const text =
-        candidate?.content?.parts
+        candidate.content?.parts
           ?.map((part: { text?: string }) => part.text || "")
           .join("") ?? "";
 
@@ -124,7 +155,7 @@ export class GeminiProvider implements Provider {
         tokensIn,
         tokensOut,
         latencyMs,
-        finishReason: candidate?.finishReason || "STOP",
+        finishReason: candidate.finishReason || "STOP",
       };
     } catch (err: unknown) {
       if (err instanceof ProviderError || err instanceof MissingApiKeyError) {

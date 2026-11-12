@@ -123,6 +123,28 @@ describe("PromptForge Guard Engine", () => {
   });
 
   describe("Payload Limits Validation", () => {
+    it("rejects empty or whitespace-only prompt", () => {
+      assert.throws(
+        () => validatePayloadLimits({ prompt: "" }),
+        (err: unknown) => {
+          assert.ok(err instanceof GuardValidationError);
+          assert.strictEqual(err.field, "prompt");
+          assert.strictEqual(err.message, "Prompt cannot be empty.");
+          return true;
+        }
+      );
+
+      assert.throws(
+        () => validatePayloadLimits({ prompt: "    \n\t  " }),
+        (err: unknown) => {
+          assert.ok(err instanceof GuardValidationError);
+          assert.strictEqual(err.field, "prompt");
+          assert.strictEqual(err.message, "Prompt cannot be empty.");
+          return true;
+        }
+      );
+    });
+
     it("rejects prompts that exceed maxPromptLength", () => {
       const oversizedPrompt = "A".repeat(ENGINE_CONFIG.maxPromptLength + 1);
 

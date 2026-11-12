@@ -163,6 +163,9 @@ export function validatePayloadLimits(params: {
   maxOutputTokens?: number;
 }): void {
   const promptStr = typeof params.prompt === "string" ? params.prompt : "";
+  if (!promptStr.trim()) {
+    throw new GuardValidationError("prompt", "Prompt cannot be empty.");
+  }
   if (promptStr.length > ENGINE_CONFIG.maxPromptLength) {
     throw new GuardValidationError(
       "prompt",

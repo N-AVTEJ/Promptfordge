@@ -14,13 +14,18 @@ import {
   BudgetExhaustedError,
   GuardValidationError,
   RateLimitError,
+  guardRequest,
 } from "@/lib/engine/guard";
 import { MissingApiKeyError, ProviderError } from "@/lib/providers/types";
 
 export const runtime = "nodejs";
 
 function cleanIpString(rawIp: string): string {
-  const trimmed = rawIp.trim();
+  let trimmed = rawIp.trim();
+  // Strip mapped IPv4 prefix ::ffff:
+  if (trimmed.startsWith("::ffff:")) {
+    trimmed = trimmed.slice(7);
+  }
   // Strip port from IPv4 with port: 203.0.113.195:443 -> 203.0.113.195
   if (/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d+$/.test(trimmed)) {
     return trimmed.split(":")[0];
@@ -51,6 +56,13 @@ function extractClientIp(req: NextRequest): string {
 }
 
 function extractByokKey(req: NextRequest): string | undefined {
+  // Support Authorization: Bearer <key>
+  const auth = req.headers.get("authorization");
+  if (auth && auth.startsWith("Bearer ")) {
+    const token = auth.slice(7).trim();
+    if (token.length > 0) return token;
+  }
+
   // Support standard Bring-Your-Own-Key headers
   const key =
     req.headers.get("x-provider-key") ||
@@ -100,21 +112,32 @@ export async function POST(req: NextRequest) {
   const payload = body as Record<string, unknown>;
 
   try {
+    const promptStr = typeof payload.prompt === "string" ? payload.prompt : "";
+    const maxOutputTokens =
+      typeof payload.maxOutputTokens === "number"
+        ? payload.maxOutputTokens
+        : undefined;
+
+    // Route Guard step: enforce payload bounds, daily budget hard stop, and per-IP rate limit
+    guardRequest({
+      ip: clientIp,
+      prompt: promptStr,
+      maxOutputTokens,
+    });
+
     const result = await executePrompt({
-      prompt: typeof payload.prompt === "string" ? payload.prompt : "",
+      prompt: promptStr,
       system: typeof payload.system === "string" ? payload.system : undefined,
       model: typeof payload.model === "string" ? payload.model : undefined,
       temperature:
         typeof payload.temperature === "number"
           ? payload.temperature
           : undefined,
-      maxOutputTokens:
-        typeof payload.maxOutputTokens === "number"
-          ? payload.maxOutputTokens
-          : undefined,
+      maxOutputTokens,
       skipCache: Boolean(payload.skipCache),
       apiKey: byokKey,
       ip: clientIp,
+      skipRateLimit: true, // Route guard already enforced and tracked per-IP rate limit
     });
 
     return NextResponse.json({

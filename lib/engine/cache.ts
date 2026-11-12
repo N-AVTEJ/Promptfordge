@@ -29,8 +29,12 @@ export interface CacheKeyParams {
  */
 export function computeCacheKey(params: CacheKeyParams): string {
   const normalizedModel = (params.model || "default").trim().toLowerCase();
-  const normalizedPrompt = (params.prompt || "").trim();
-  const normalizedSystem = (params.system || "").trim();
+  const normalizedPrompt = (params.prompt || "")
+    .replace(/\r\n/g, "\n")
+    .trim();
+  const normalizedSystem = (params.system || "")
+    .replace(/\r\n/g, "\n")
+    .trim();
   const normalizedTemp = (params.temperature ?? 0.7).toFixed(2);
 
   // Canonical structured JSON prevents delimiter collision vulnerabilities
