@@ -11,19 +11,14 @@ import { computeCacheKey, engineCache } from "./cache";
 import { guardRequest, recordTokenUsage } from "./guard";
 
 export const ExecuteInputSchema = z.object({
-  prompt: z
-    .string({
-      required_error: "Prompt is required",
-      invalid_type_error: "Prompt must be a string",
-    })
-    .min(1, "Prompt cannot be empty"),
+  prompt: z.string().min(1, "Prompt cannot be empty"),
   system: z.string().optional(),
   model: z.string().default("gemini-1.5-flash"),
   temperature: z.number().min(0).max(2).default(0.7),
   maxOutputTokens: z.number().int().min(1).max(8192).optional(),
 });
 
-export type ExecuteInput = z.infer<typeof ExecuteInputSchema> & {
+export type ExecuteInput = z.input<typeof ExecuteInputSchema> & {
   apiKey?: string;
   ip?: string;
   skipCache?: boolean;

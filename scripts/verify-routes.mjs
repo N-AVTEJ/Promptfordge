@@ -2,6 +2,7 @@ const routes = [
   "/",
   "/academy",
   "/labs",
+  "/labs/playground",
   "/workflow",
   "/evaluate",
   "/arena",

@@ -42,7 +42,9 @@ describe("PromptForge Execution Engine", () => {
           candidates: [
             {
               content: {
-                parts: [{ text: "Quantum computing uses qubits in superposition." }],
+                parts: [
+                  { text: "Quantum computing uses qubits in superposition." },
+                ],
               },
               finishReason: "STOP",
             },
@@ -67,14 +69,21 @@ describe("PromptForge Execution Engine", () => {
     assert.strictEqual(res1.cached, false);
     assert.strictEqual(res1.tokensIn, 15);
     assert.strictEqual(res1.tokensOut, 20);
-    assert.strictEqual(res1.text, "Quantum computing uses qubits in superposition.");
+    assert.strictEqual(
+      res1.text,
+      "Quantum computing uses qubits in superposition."
+    );
     assert.ok(res1.costEstimateUsd > 0);
     assert.strictEqual(fetchCalls, 1);
 
     // Second call (MUST be cached)
     const res2 = await executePrompt(input);
     assert.strictEqual(res2.cached, true);
-    assert.strictEqual(res2.latencyMs <= 1, true, "Cached call latency should be near-zero");
+    assert.strictEqual(
+      res2.latencyMs <= 1,
+      true,
+      "Cached call latency should be near-zero"
+    );
     assert.strictEqual(res2.text, res1.text);
     assert.strictEqual(res2.tokensIn, 15);
     assert.strictEqual(res2.tokensOut, 20);
@@ -101,7 +110,10 @@ describe("PromptForge Execution Engine", () => {
     // Second call: guard must throw BudgetExhaustedError
     await assert.rejects(
       async () => {
-        await executePrompt({ prompt: "Second run", model: "gemini-1.5-flash" });
+        await executePrompt({
+          prompt: "Second run",
+          model: "gemini-1.5-flash",
+        });
       },
       (err: any) => {
         assert.strictEqual(err.code, "BUDGET_EXHAUSTED");

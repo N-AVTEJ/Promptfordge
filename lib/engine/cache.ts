@@ -40,7 +40,9 @@ export function computeCacheKey(params: CacheKeyParams): string {
     `prompt:${normalizedPrompt}`,
   ].join("|#_#|");
 
-  const hash = createHash("sha256").update(canonicalString, "utf8").digest("hex");
+  const hash = createHash("sha256")
+    .update(canonicalString, "utf8")
+    .digest("hex");
   return `pf_run_${hash}`;
 }
 
@@ -121,4 +123,4 @@ export class MemoryLruCache<T = unknown> implements CacheStore<T> {
 }
 
 // Global singleton cache instance for the execution engine
-export const engineCache = new MemoryLruCache<any>();
+export const engineCache = new MemoryLruCache<unknown>();

@@ -20,10 +20,14 @@ export function getProvider(nameOrModel: string): Provider {
   }
 
   // Match supported model
-  if (geminiProvider.supportedModels.some((m) => m.toLowerCase() === normalized)) {
+  if (
+    geminiProvider.supportedModels.some((m) => m.toLowerCase() === normalized)
+  ) {
     return geminiProvider;
   }
-  if (openaiProvider.supportedModels.some((m) => m.toLowerCase() === normalized)) {
+  if (
+    openaiProvider.supportedModels.some((m) => m.toLowerCase() === normalized)
+  ) {
     return openaiProvider;
   }
 

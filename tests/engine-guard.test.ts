@@ -27,7 +27,10 @@ describe("PromptForge Guard Engine", () => {
 
       // 20 requests should all succeed
       for (let i = 1; i <= 20; i++) {
-        assert.doesNotThrow(() => checkRateLimit(testIp), `Request ${i} should be allowed`);
+        assert.doesNotThrow(
+          () => checkRateLimit(testIp),
+          `Request ${i} should be allowed`
+        );
       }
     });
 

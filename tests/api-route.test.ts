@@ -66,7 +66,10 @@ describe("POST /api/run Route Handler", () => {
   });
 
   it("returns 400 with MISSING_API_KEY when no server key or BYOK header is set", async () => {
-    const req = createMockRequest({ prompt: "Hello world", model: "gemini-1.5-flash" });
+    const req = createMockRequest({
+      prompt: "Hello world",
+      model: "gemini-1.5-flash",
+    });
     const res = await POST(req);
     assert.strictEqual(res.status, 400);
     const data = await res.json();

@@ -30,7 +30,8 @@ describe("PromptForge Pricing & Cost Estimator", () => {
   it("falls back to default pricing for unrecognized models", () => {
     const cost = estimateCost("unknown-exotic-model", 1_000_000, 1_000_000);
     const expected =
-      DEFAULT_MODEL_PRICING.inputCostPer1M + DEFAULT_MODEL_PRICING.outputCostPer1M;
+      DEFAULT_MODEL_PRICING.inputCostPer1M +
+      DEFAULT_MODEL_PRICING.outputCostPer1M;
     assert.strictEqual(cost, expected);
   });
 
@@ -44,7 +45,10 @@ describe("PromptForge Pricing & Cost Estimator", () => {
     ];
 
     for (const model of expectedModels) {
-      assert.ok(MODEL_PRICING_TABLE[model], `Missing model in pricing: ${model}`);
+      assert.ok(
+        MODEL_PRICING_TABLE[model],
+        `Missing model in pricing: ${model}`
+      );
       assert.ok(MODEL_PRICING_TABLE[model].inputCostPer1M > 0);
       assert.ok(MODEL_PRICING_TABLE[model].outputCostPer1M > 0);
     }

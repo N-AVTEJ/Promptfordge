@@ -1,24 +1,16 @@
-import { PhaseStub } from "@/components/shell/phase-stub";
+import { Metadata } from "next";
+import { PromptPlayground } from "@/components/labs/playground";
 
-export const metadata = {
-  title: "Live Labs | PromptForge",
-  description: "Real-time interactive prompt engineering sandbox.",
+export const metadata: Metadata = {
+  title: "Live Labs & Playground | PromptForge",
+  description:
+    "Interactive live prompt engineering playground with multi-model adapters, token telemetry, LRU caching, and cost estimation.",
 };
 
 export default function LabsPage() {
   return (
-    <PhaseStub
-      moduleName="Interactive Live Labs"
-      phaseLabel="Phase 3"
-      iconType="labs"
-      description="Live prompt playground with token stream visualizations, system prompt configuration, variable slots, and prompt diffing."
-      plannedFeatures={[
-        "Unified Prompt Execution Engine (/lib/engine)",
-        "Server-side adapter integration (Gemini & OpenAI)",
-        "Live token usage counters and latency metrics",
-        "Versioned local prompt drafts and auto-save",
-      ]}
-      nextRoute={{ label: "Workflow Studio", href: "/workflow" }}
-    />
+    <div className="mx-auto min-h-screen max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <PromptPlayground />
+    </div>
   );
 }

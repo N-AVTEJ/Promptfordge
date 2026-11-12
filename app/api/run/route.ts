@@ -86,7 +86,9 @@ export async function POST(req: NextRequest) {
       system: typeof payload.system === "string" ? payload.system : undefined,
       model: typeof payload.model === "string" ? payload.model : undefined,
       temperature:
-        typeof payload.temperature === "number" ? payload.temperature : undefined,
+        typeof payload.temperature === "number"
+          ? payload.temperature
+          : undefined,
       maxOutputTokens:
         typeof payload.maxOutputTokens === "number"
           ? payload.maxOutputTokens
@@ -201,7 +203,9 @@ export async function POST(req: NextRequest) {
 
     // 7. Generic Internal Error
     const fallbackMessage =
-      err instanceof Error ? err.message : "An unexpected engine error occurred.";
+      err instanceof Error
+        ? err.message
+        : "An unexpected engine error occurred.";
     return NextResponse.json(
       {
         success: false,
