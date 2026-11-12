@@ -3,25 +3,87 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b0c0e;
+  --foreground: #f5f6f8;
+  --forge-surface: #121417;
+  --forge-elevated: #171b21;
+  --forge-border: #232832;
+  --ember: #ff6b00;
+  --cyan: #00e5ff;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background-color: #0b0c0e;
+  color: #f5f6f8;
+  color-scheme: dark;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #0b0c0e;
+  color: #f5f6f8;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  overflow-x: clip;
+  min-height: 100vh;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* Custom Forge Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0c0e;
+}
+::-webkit-scrollbar-thumb {
+  background: #232832;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #373f4e;
+}
+
+/* Code and tokens */
+code,
+pre,
+kbd {
+  font-family: var(--font-jetbrains-mono), monospace;
+}
+
+/* Selection highlight */
+::selection {
+  background-color: rgba(255, 107, 0, 0.35);
+  color: #fff7ed;
+}
+
+/* Lenis smooth scrolling base rules */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Accessibility: respect user prefers-reduced-motion in CSS animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
