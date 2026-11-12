@@ -30,6 +30,33 @@ describe("PromptForge Execution Engine", () => {
     );
   });
 
+  it("rejects whitespace-only prompt with Zod validation error instead of hitting upstream", async () => {
+    await assert.rejects(
+      async () => {
+        await executePrompt({ prompt: "   \n\t   " });
+      },
+      (err: unknown) => {
+        assert.ok(err && typeof err === "object" && "issues" in err);
+        return true;
+      }
+    );
+  });
+
+  it("rejects maxOutputTokens exceeding engine limit with Zod error", async () => {
+    await assert.rejects(
+      async () => {
+        await executePrompt({
+          prompt: "Valid prompt",
+          maxOutputTokens: 99999,
+        });
+      },
+      (err: unknown) => {
+        assert.ok(err && typeof err === "object" && "issues" in err);
+        return true;
+      }
+    );
+  });
+
   it("returns cached: true and near-zero latency on the second identical run", async () => {
     let fetchCalls = 0;
     // Mock successful Gemini response

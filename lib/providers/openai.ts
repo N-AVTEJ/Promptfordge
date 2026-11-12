@@ -81,7 +81,15 @@ export class OpenAIProvider implements Provider {
 
       const data = await response.json();
       const choice = data.choices?.[0];
-      const text = choice?.message?.content ?? "";
+
+      if (choice?.finish_reason === "content_filter") {
+        throw new ProviderError(
+          "openai",
+          "Response generation was blocked by OpenAI content filter."
+        );
+      }
+
+      const text = choice?.message?.content ?? choice?.message?.refusal ?? "";
 
       const tokensIn =
         data.usage?.prompt_tokens ??

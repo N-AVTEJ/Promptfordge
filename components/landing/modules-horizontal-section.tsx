@@ -4,12 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  Clock,
-  BookOpen,
-  Flame,
-  ChevronRight,
-} from "lucide-react";
+import { Clock, BookOpen, Flame, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CURRICULUM_MODULES, CurriculumModule } from "@/content/modules";
@@ -48,7 +43,8 @@ export function ModulesHorizontalSection() {
       ScrollTrigger.create({
         trigger: section,
         start: "top top",
-        end: () => `+=${Math.max(2400, cards.scrollWidth - window.innerWidth + 800)}`,
+        end: () =>
+          `+=${Math.max(2400, cards.scrollWidth - window.innerWidth + 800)}`,
         pin: track,
         pinSpacing: true,
         scrub: 0.8,
@@ -78,7 +74,7 @@ export function ModulesHorizontalSection() {
   // Reduced motion fallback: responsive standard grid
   if (prefersReduced) {
     return (
-      <section className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 bg-forge-950">
+      <section className="relative mx-auto max-w-7xl bg-forge-950 px-4 py-24 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <Badge
             variant="outline"
@@ -90,7 +86,8 @@ export function ModulesHorizontalSection() {
             From Token Splits to Autonomous Swarms
           </h2>
           <p className="mt-3 text-forge-muted">
-            The full pedagogical pathway spanning every layer of the prompt engineering stack.
+            The full pedagogical pathway spanning every layer of the prompt
+            engineering stack.
           </p>
         </div>
 
@@ -105,9 +102,12 @@ export function ModulesHorizontalSection() {
 
   return (
     <section ref={sectionRef} className="relative z-10 bg-forge-950">
-      <div ref={trackRef} className="flex min-h-screen flex-col justify-center overflow-hidden py-12">
+      <div
+        ref={trackRef}
+        className="flex min-h-screen flex-col justify-center overflow-hidden py-12"
+      >
         {/* Pinned Header Controls */}
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 mb-8">
+        <div className="mx-auto mb-8 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-end justify-between gap-4 border-b border-forge-border/80 pb-6">
             <div>
               <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-ember-400">
@@ -121,7 +121,11 @@ export function ModulesHorizontalSection() {
 
             <div className="flex items-center gap-4">
               <span className="font-mono text-xs text-forge-muted">
-                Showing Module <strong className="text-ember-400">{activeModuleIdx + 1}</strong> of {CURRICULUM_MODULES.length}
+                Showing Module{" "}
+                <strong className="text-ember-400">
+                  {activeModuleIdx + 1}
+                </strong>{" "}
+                of {CURRICULUM_MODULES.length}
               </span>
               {/* Progress mini indicator */}
               <div className="flex h-2 w-32 overflow-hidden rounded-full bg-forge-border">
@@ -144,7 +148,7 @@ export function ModulesHorizontalSection() {
             style={{ width: "max-content" }}
           >
             {CURRICULUM_MODULES.map((module) => (
-              <div key={module.id} className="w-[340px] sm:w-[400px] shrink-0">
+              <div key={module.id} className="w-[340px] shrink-0 sm:w-[400px]">
                 <ModuleCard module={module} />
               </div>
             ))}
@@ -160,7 +164,7 @@ function ModuleCard({ module }: { module: CurriculumModule }) {
 
   return (
     <div
-      className={`group flex h-full flex-col justify-between rounded-2xl border p-6 sm:p-7 bg-forge-900/90 shadow-xl transition-all duration-300 hover:scale-[1.01] ${
+      className={`bg-forge-900/90 group flex h-full flex-col justify-between rounded-2xl border p-6 shadow-xl transition-all duration-300 hover:scale-[1.01] sm:p-7 ${
         isAmber
           ? "border-ember-500/30 hover:border-ember-500/70 hover:shadow-[0_0_25px_rgba(255,107,0,0.15)]"
           : "border-cyan-500/30 hover:border-cyan-500/70 hover:shadow-[0_0_25px_rgba(0,229,255,0.15)]"
@@ -189,10 +193,12 @@ function ModuleCard({ module }: { module: CurriculumModule }) {
         </div>
 
         {/* Title & Subtitle */}
-        <h3 className="mt-4 font-mono text-xl font-bold text-forge-text group-hover:text-forge-50">
+        <h3 className="group-hover:text-forge-50 mt-4 font-mono text-xl font-bold text-forge-text">
           {module.title}
         </h3>
-        <p className="mt-1 font-mono text-xs text-forge-muted">{module.subtitle}</p>
+        <p className="mt-1 font-mono text-xs text-forge-muted">
+          {module.subtitle}
+        </p>
 
         {/* Description */}
         <p className="mt-3 text-xs leading-relaxed text-forge-muted sm:text-sm">
@@ -204,7 +210,7 @@ function ModuleCard({ module }: { module: CurriculumModule }) {
           {module.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded bg-forge-surface px-2 py-0.5 font-mono text-[10px] text-forge-text/80 border border-forge-border"
+              className="rounded border border-forge-border bg-forge-surface px-2 py-0.5 font-mono text-[10px] text-forge-text/80"
             >
               #{tag}
             </span>
@@ -213,14 +219,16 @@ function ModuleCard({ module }: { module: CurriculumModule }) {
 
         {/* Takeaway Box */}
         <div className="mt-4 rounded-lg border border-forge-border/40 bg-forge-surface/60 p-3 font-mono text-xs text-forge-text/90">
-          <span className="text-[10px] uppercase text-ember-400 block mb-0.5">Core Invariant:</span>
+          <span className="mb-0.5 block text-[10px] uppercase text-ember-400">
+            Core Invariant:
+          </span>
           &ldquo;{module.keyTakeaway}&rdquo;
         </div>
       </div>
 
       {/* Footer Info & Action */}
       <div className="mt-6 border-t border-forge-border/60 pt-4">
-        <div className="flex items-center justify-between font-mono text-xs text-forge-muted mb-4">
+        <div className="mb-4 flex items-center justify-between font-mono text-xs text-forge-muted">
           <span className="flex items-center gap-1">
             <BookOpen className="h-3.5 w-3.5" /> {module.lessonCount} Lessons
           </span>
@@ -232,7 +240,7 @@ function ModuleCard({ module }: { module: CurriculumModule }) {
         <Button
           asChild
           variant="outline"
-          className="w-full justify-between font-mono text-xs border-forge-border hover:border-ember-500 hover:text-ember-400"
+          className="w-full justify-between border-forge-border font-mono text-xs hover:border-ember-500 hover:text-ember-400"
         >
           <Link href="/academy">
             <span>Explore Curriculum</span>

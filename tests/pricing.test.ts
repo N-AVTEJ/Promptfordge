@@ -35,6 +35,13 @@ describe("PromptForge Pricing & Cost Estimator", () => {
     assert.strictEqual(cost, expected);
   });
 
+  it("resolves pricing case-insensitively with whitespace tolerance", () => {
+    const costLower = estimateCost("gemini-1.5-pro", 1000, 1000);
+    const costUpper = estimateCost("  GEMINI-1.5-PRO  ", 1000, 1000);
+    assert.strictEqual(costUpper, costLower);
+    assert.ok(costUpper > 0.01); // Gemini 1.5 Pro is expensive, verifying it didn't fall back to cheap default
+  });
+
   it("contains all required models in the pricing table", () => {
     const expectedModels = [
       "gemini-1.5-flash",

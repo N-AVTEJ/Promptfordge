@@ -13,7 +13,7 @@ export function FinalCtaSection() {
   const activeVariant = prefersReduced ? fadeUpReducedVariants : fadeUpVariants;
 
   return (
-    <section className="relative overflow-hidden py-24 sm:py-36 bg-forge-950 border-t border-forge-border/40">
+    <section className="relative overflow-hidden border-t border-forge-border/40 bg-forge-950 py-24 sm:py-36">
       {/* Molten Amber Forge Glow */}
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[500px] w-[800px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(255,107,0,0.18),rgba(11,12,14,0))]"
@@ -43,8 +43,9 @@ export function FinalCtaSection() {
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-forge-muted sm:text-lg">
-            Ten comprehensive modules. Interactive browser-based token telemetry.
-            Real evaluation assertions that protect your production pipelines.
+            Ten comprehensive modules. Interactive browser-based token
+            telemetry. Real evaluation assertions that protect your production
+            pipelines.
           </p>
 
           {/* Action CTAs */}
@@ -52,9 +53,12 @@ export function FinalCtaSection() {
             <Button
               asChild
               size="lg"
-              className="h-14 px-8 font-mono text-base font-bold shadow-[0_0_30px_rgba(255,107,0,0.35)] hover:shadow-[0_0_45px_rgba(255,107,0,0.5)] transition-all"
+              className="h-14 px-8 font-mono text-base font-bold shadow-[0_0_30px_rgba(255,107,0,0.35)] transition-all hover:shadow-[0_0_45px_rgba(255,107,0,0.5)]"
             >
-              <Link href="/academy" className="inline-flex items-center gap-2.5">
+              <Link
+                href="/academy"
+                className="inline-flex items-center gap-2.5"
+              >
                 <span>Enter the Academy</span>
                 <ArrowRight className="h-5 w-5" />
               </Link>
@@ -66,7 +70,10 @@ export function FinalCtaSection() {
               size="lg"
               className="h-14 border-forge-border bg-forge-surface px-8 font-mono text-sm font-semibold text-forge-text hover:border-cyan-500 hover:text-cyan-400"
             >
-              <Link href="/library" className="inline-flex items-center gap-2.5">
+              <Link
+                href="/library"
+                className="inline-flex items-center gap-2.5"
+              >
                 <Library className="h-4 w-4 text-cyan-400" />
                 <span>Browse Prompt Blueprints</span>
               </Link>
@@ -76,15 +83,18 @@ export function FinalCtaSection() {
           {/* Invariant Note */}
           <div className="mt-12 flex flex-wrap items-center justify-center gap-6 font-mono text-xs text-forge-muted">
             <span className="flex items-center gap-1.5">
-              <Sparkles className="h-3.5 w-3.5 text-ember-400" /> 100% Free & Open Sandbox
+              <Sparkles className="h-3.5 w-3.5 text-ember-400" /> 100% Free &
+              Open Sandbox
             </span>
             <span className="h-1 w-1 rounded-full bg-forge-border" />
             <span className="flex items-center gap-1.5">
-              <Terminal className="h-3.5 w-3.5 text-cyan-400" /> Zero Authentication Wall
+              <Terminal className="h-3.5 w-3.5 text-cyan-400" /> Zero
+              Authentication Wall
             </span>
             <span className="h-1 w-1 rounded-full bg-forge-border" />
             <span className="flex items-center gap-1.5">
-              <Flame className="h-3.5 w-3.5 text-ember-400" /> Embedded Video Masterclasses
+              <Flame className="h-3.5 w-3.5 text-ember-400" /> Embedded Video
+              Masterclasses
             </span>
           </div>
         </motion.div>

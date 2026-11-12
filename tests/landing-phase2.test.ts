@@ -7,14 +7,21 @@ describe("Phase 2: Landing Page Data & Motion Verification", () => {
   test("Curriculum defines exactly 10 comprehensive modules", () => {
     assert.strictEqual(CURRICULUM_MODULES.length, 10);
     CURRICULUM_MODULES.forEach((mod, idx) => {
-      assert.strictEqual(mod.number, idx + 1, `Module at index ${idx} must have number ${idx + 1}`);
+      assert.strictEqual(
+        mod.number,
+        idx + 1,
+        `Module at index ${idx} must have number ${idx + 1}`
+      );
       assert.ok(mod.id.length > 0, "Module must have an id");
       assert.ok(mod.title.length > 0, "Module must have a title");
       assert.ok(mod.subtitle.length > 0, "Module must have a subtitle");
       assert.ok(mod.description.length > 0, "Module must have a description");
       assert.ok(mod.lessonCount > 0, "Module must have at least 1 lesson");
       assert.ok(mod.tags.length > 0, "Module must have tags");
-      assert.ok(mod.youtubeVideoId.length > 0, "Module must have a YouTube video ID");
+      assert.ok(
+        mod.youtubeVideoId.length > 0,
+        "Module must have a YouTube video ID"
+      );
       assert.ok(mod.keyTakeaway.length > 0, "Module must have a key takeaway");
     });
   });
@@ -31,7 +38,11 @@ describe("Phase 2: Landing Page Data & Motion Verification", () => {
   test("Curriculum slugs are URL-friendly and unique", () => {
     const slugs = new Set<string>();
     CURRICULUM_MODULES.forEach((mod) => {
-      assert.match(mod.slug, /^[a-z0-9-]+$/, `Slug "${mod.slug}" must be URL friendly`);
+      assert.match(
+        mod.slug,
+        /^[a-z0-9-]+$/,
+        `Slug "${mod.slug}" must be URL friendly`
+      );
       assert.ok(!slugs.has(mod.slug), `Duplicate slug detected: ${mod.slug}`);
       slugs.add(mod.slug);
     });

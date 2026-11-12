@@ -3,13 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  Flame,
-  Terminal,
-  ArrowRight,
-  Sparkles,
-  Code2,
-} from "lucide-react";
+import { Flame, Terminal, ArrowRight, Sparkles, Code2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
@@ -19,28 +13,98 @@ const STREAM_PROMPT =
   "System: You are a compiler architect. Optimize an async state machine in Rust with zero-alloc invariants.";
 
 const STREAM_TOKENS = [
-  { text: "System:", id: 1045, color: "text-ember-400 border-ember-500/40 bg-ember-500/10" },
-  { text: " You", id: 284, color: "text-forge-text border-forge-border bg-forge-elevated" },
-  { text: " are", id: 527, color: "text-forge-text border-forge-border bg-forge-elevated" },
-  { text: " a", id: 264, color: "text-forge-text border-forge-border bg-forge-elevated" },
-  { text: " compiler", id: 18452, color: "text-cyan-400 border-cyan-500/40 bg-cyan-500/10" },
-  { text: " architect.", id: 14210, color: "text-cyan-400 border-cyan-500/40 bg-cyan-500/10" },
-  { text: " Optimize", id: 31201, color: "text-ember-400 border-ember-500/40 bg-ember-500/10" },
-  { text: " an", id: 459, color: "text-forge-text border-forge-border bg-forge-elevated" },
-  { text: " async", id: 9811, color: "text-forge-text border-forge-border bg-forge-elevated" },
-  { text: " state", id: 1782, color: "text-forge-text border-forge-border bg-forge-elevated" },
-  { text: " machine", id: 6224, color: "text-forge-text border-forge-border bg-forge-elevated" },
-  { text: " in", id: 304, color: "text-forge-text border-forge-border bg-forge-elevated" },
-  { text: " Rust", id: 7421, color: "text-cyan-400 border-cyan-500/40 bg-cyan-500/10" },
-  { text: " with", id: 449, color: "text-forge-text border-forge-border bg-forge-elevated" },
-  { text: " zero-", id: 1899, color: "text-ember-400 border-ember-500/40 bg-ember-500/10" },
-  { text: "alloc", id: 24190, color: "text-ember-400 border-ember-500/40 bg-ember-500/10" },
-  { text: " invariants.", id: 34182, color: "text-cyan-400 border-cyan-500/40 bg-cyan-500/10" },
+  {
+    text: "System:",
+    id: 1045,
+    color: "text-ember-400 border-ember-500/40 bg-ember-500/10",
+  },
+  {
+    text: " You",
+    id: 284,
+    color: "text-forge-text border-forge-border bg-forge-elevated",
+  },
+  {
+    text: " are",
+    id: 527,
+    color: "text-forge-text border-forge-border bg-forge-elevated",
+  },
+  {
+    text: " a",
+    id: 264,
+    color: "text-forge-text border-forge-border bg-forge-elevated",
+  },
+  {
+    text: " compiler",
+    id: 18452,
+    color: "text-cyan-400 border-cyan-500/40 bg-cyan-500/10",
+  },
+  {
+    text: " architect.",
+    id: 14210,
+    color: "text-cyan-400 border-cyan-500/40 bg-cyan-500/10",
+  },
+  {
+    text: " Optimize",
+    id: 31201,
+    color: "text-ember-400 border-ember-500/40 bg-ember-500/10",
+  },
+  {
+    text: " an",
+    id: 459,
+    color: "text-forge-text border-forge-border bg-forge-elevated",
+  },
+  {
+    text: " async",
+    id: 9811,
+    color: "text-forge-text border-forge-border bg-forge-elevated",
+  },
+  {
+    text: " state",
+    id: 1782,
+    color: "text-forge-text border-forge-border bg-forge-elevated",
+  },
+  {
+    text: " machine",
+    id: 6224,
+    color: "text-forge-text border-forge-border bg-forge-elevated",
+  },
+  {
+    text: " in",
+    id: 304,
+    color: "text-forge-text border-forge-border bg-forge-elevated",
+  },
+  {
+    text: " Rust",
+    id: 7421,
+    color: "text-cyan-400 border-cyan-500/40 bg-cyan-500/10",
+  },
+  {
+    text: " with",
+    id: 449,
+    color: "text-forge-text border-forge-border bg-forge-elevated",
+  },
+  {
+    text: " zero-",
+    id: 1899,
+    color: "text-ember-400 border-ember-500/40 bg-ember-500/10",
+  },
+  {
+    text: "alloc",
+    id: 24190,
+    color: "text-ember-400 border-ember-500/40 bg-ember-500/10",
+  },
+  {
+    text: " invariants.",
+    id: 34182,
+    color: "text-cyan-400 border-cyan-500/40 bg-cyan-500/10",
+  },
 ];
 
 export function HeroSection() {
   const prefersReduced = useReducedMotion();
-  const [typedChars, setTypedChars] = useState(prefersReduced ? STREAM_PROMPT.length : 0);
+  const [typedChars, setTypedChars] = useState(
+    prefersReduced ? STREAM_PROMPT.length : 0
+  );
   const [isTokenized, setIsTokenized] = useState(Boolean(prefersReduced));
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -94,7 +158,10 @@ export function HeroSection() {
       vx: (Math.random() - 0.5) * 0.35,
       vy: (Math.random() - 0.5) * 0.35,
       radius: Math.random() * 2 + 1,
-      color: Math.random() > 0.4 ? "rgba(255, 107, 0, 0.4)" : "rgba(0, 229, 255, 0.35)",
+      color:
+        Math.random() > 0.4
+          ? "rgba(255, 107, 0, 0.4)"
+          : "rgba(0, 229, 255, 0.35)",
       idStr: `T${Math.floor(Math.random() * 9000 + 1000)}`,
     }));
 
@@ -147,7 +214,7 @@ export function HeroSection() {
   const activeVariant = prefersReduced ? fadeUpReducedVariants : fadeUpVariants;
 
   return (
-    <section className="relative overflow-hidden pt-12 pb-20 sm:pt-20 sm:pb-32">
+    <section className="relative overflow-hidden pb-20 pt-12 sm:pb-32 sm:pt-20">
       {/* Background Ambience */}
       <div
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_60%_at_50%_-10%,rgba(255,107,0,0.18),rgba(11,12,14,0))]"
@@ -179,17 +246,24 @@ export function HeroSection() {
               Master Prompts.
             </span>
             <br />
-            <span className="text-forge-text">Engineer Better Intelligence.</span>
+            <span className="text-forge-text">
+              Engineer Better Intelligence.
+            </span>
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-forge-muted sm:text-lg lg:text-xl">
-            Move past naive intuition. Deconstruct subword token splits, attention matrices,
-            and latent steering vectors inside live interactive sandboxes.
+            Move past naive intuition. Deconstruct subword token splits,
+            attention matrices, and latent steering vectors inside live
+            interactive sandboxes.
           </p>
 
           {/* Primary CTA "Enter the Academy", secondary "Try a live lab" */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Button asChild size="lg" className="h-12 px-8 font-mono text-sm font-bold shadow-ember-glow">
+            <Button
+              asChild
+              size="lg"
+              className="h-12 px-8 font-mono text-sm font-bold shadow-ember-glow"
+            >
               <Link href="/academy" className="inline-flex items-center gap-2">
                 <span>Enter the Academy</span>
                 <ArrowRight className="h-4 w-4" />
@@ -224,7 +298,7 @@ export function HeroSection() {
             className="pointer-events-none absolute inset-0 z-0 h-full w-full rounded-2xl opacity-75"
           />
 
-          <div className="relative z-10 overflow-hidden rounded-2xl border border-forge-border bg-forge-900/90 shadow-2xl backdrop-blur-md">
+          <div className="bg-forge-900/90 relative z-10 overflow-hidden rounded-2xl border border-forge-border shadow-2xl backdrop-blur-md">
             {/* Terminal Header */}
             <div className="flex items-center justify-between border-b border-forge-border bg-forge-elevated/70 px-4 py-3">
               <div className="flex items-center gap-2">
@@ -236,9 +310,14 @@ export function HeroSection() {
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <Badge variant="outline" className="border-ember-500/40 font-mono text-[10px] text-ember-400">
+                <Badge
+                  variant="outline"
+                  className="border-ember-500/40 font-mono text-[10px] text-ember-400"
+                >
                   <Sparkles className="mr-1 h-3 w-3" />
-                  {isTokenized ? "BPE Tokenized (17 tokens)" : "Ingesting Byte Stream..."}
+                  {isTokenized
+                    ? "BPE Tokenized (17 tokens)"
+                    : "Ingesting Byte Stream..."}
                 </Badge>
               </div>
             </div>
@@ -259,18 +338,20 @@ export function HeroSection() {
                 {!isTokenized ? (
                   <p className="text-forge-text">
                     {STREAM_PROMPT.slice(0, typedChars)}
-                    <span className="inline-block h-4 w-2 animate-pulse bg-ember-500 align-middle ml-1" />
+                    <span className="ml-1 inline-block h-4 w-2 animate-pulse bg-ember-500 align-middle" />
                   </p>
                 ) : (
                   <div className="flex flex-wrap gap-1.5">
                     {STREAM_TOKENS.map((token, index) => (
                       <span
                         key={index}
-                        className={`inline-flex items-center rounded border px-2 py-0.5 text-xs font-mono transition-transform hover:scale-105 ${token.color}`}
+                        className={`inline-flex items-center rounded border px-2 py-0.5 font-mono text-xs transition-transform hover:scale-105 ${token.color}`}
                         title={`Token ID: ${token.id}`}
                       >
                         {token.text}
-                        <span className="ml-1 text-[9px] opacity-40">#{token.id}</span>
+                        <span className="ml-1 text-[9px] opacity-40">
+                          #{token.id}
+                        </span>
                       </span>
                     ))}
                   </div>
@@ -278,22 +359,36 @@ export function HeroSection() {
               </div>
 
               {/* Live Token Telemetry Footer */}
-              <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 font-mono text-xs">
+              <div className="mt-4 grid grid-cols-2 gap-3 font-mono text-xs sm:grid-cols-4">
                 <div className="rounded-lg border border-forge-border/40 bg-forge-surface/50 p-2.5">
-                  <div className="text-[10px] uppercase text-forge-muted">Input Tokens</div>
-                  <div className="mt-1 font-bold text-forge-text">17 tokens</div>
+                  <div className="text-[10px] uppercase text-forge-muted">
+                    Input Tokens
+                  </div>
+                  <div className="mt-1 font-bold text-forge-text">
+                    17 tokens
+                  </div>
                 </div>
                 <div className="rounded-lg border border-forge-border/40 bg-forge-surface/50 p-2.5">
-                  <div className="text-[10px] uppercase text-forge-muted">Characters</div>
+                  <div className="text-[10px] uppercase text-forge-muted">
+                    Characters
+                  </div>
                   <div className="mt-1 font-bold text-ember-400">102 chars</div>
                 </div>
                 <div className="rounded-lg border border-forge-border/40 bg-forge-surface/50 p-2.5">
-                  <div className="text-[10px] uppercase text-forge-muted">Compression Ratio</div>
-                  <div className="mt-1 font-bold text-cyan-400">6.00 chars/tok</div>
+                  <div className="text-[10px] uppercase text-forge-muted">
+                    Compression Ratio
+                  </div>
+                  <div className="mt-1 font-bold text-cyan-400">
+                    6.00 chars/tok
+                  </div>
                 </div>
                 <div className="rounded-lg border border-forge-border/40 bg-forge-surface/50 p-2.5">
-                  <div className="text-[10px] uppercase text-forge-muted">Attention Density</div>
-                  <div className="mt-1 font-bold text-forge-text">100% full-rank</div>
+                  <div className="text-[10px] uppercase text-forge-muted">
+                    Attention Density
+                  </div>
+                  <div className="mt-1 font-bold text-forge-text">
+                    100% full-rank
+                  </div>
                 </div>
               </div>
             </div>

@@ -125,6 +125,8 @@ export function PromptPlayground() {
     setIsLoading(true);
     setError(null);
     setCopied(false);
+    setResult(null);
+    setRevealedText("");
 
     try {
       const headers: Record<string, string> = {
@@ -456,7 +458,10 @@ export function PromptPlayground() {
                     </span>
                     {error.retryAfterSeconds && (
                       <Badge variant="destructive" className="text-[10px]">
-                        Retry in {error.retryAfterSeconds}s
+                        Retry in{" "}
+                        {error.retryAfterSeconds >= 60
+                          ? `~${Math.ceil(error.retryAfterSeconds / 60)}m`
+                          : `${error.retryAfterSeconds}s`}
                       </Badge>
                     )}
                   </div>

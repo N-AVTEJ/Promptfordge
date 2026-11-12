@@ -19,14 +19,33 @@ import { MissingApiKeyError, ProviderError } from "@/lib/providers/types";
 
 export const runtime = "nodejs";
 
+function cleanIpString(rawIp: string): string {
+  const trimmed = rawIp.trim();
+  // Strip port from IPv4 with port: 203.0.113.195:443 -> 203.0.113.195
+  if (/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d+$/.test(trimmed)) {
+    return trimmed.split(":")[0];
+  }
+  // Strip port/brackets from bracketed IPv6: [2001:db8::1]:8080 -> 2001:db8::1
+  const bracketMatch = /^\[([a-fA-F0-9:]+)\](?::\d+)?$/.exec(trimmed);
+  if (bracketMatch && bracketMatch[1]) {
+    return bracketMatch[1];
+  }
+  return trimmed;
+}
+
 function extractClientIp(req: NextRequest): string {
+  const reqIp = (req as unknown as { ip?: string }).ip;
+  if (reqIp && reqIp.trim().length > 0) {
+    return cleanIpString(reqIp);
+  }
+
   const forwardedFor = req.headers.get("x-forwarded-for");
   if (forwardedFor) {
     const firstIp = forwardedFor.split(",")[0]?.trim();
-    if (firstIp) return firstIp;
+    if (firstIp) return cleanIpString(firstIp);
   }
   const realIp = req.headers.get("x-real-ip");
-  if (realIp) return realIp.trim();
+  if (realIp) return cleanIpString(realIp);
 
   return "127.0.0.1";
 }

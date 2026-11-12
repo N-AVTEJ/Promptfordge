@@ -34,7 +34,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     tags: ["BPE", "Self-Attention", "Context Window"],
     youtubeVideoId: "bZQun8Y4L2A",
     accent: "amber",
-    keyTakeaway: "LLMs don't read words or letters; they calculate probabilistic transitions over subword token IDs.",
+    keyTakeaway:
+      "LLMs don't read words or letters; they calculate probabilistic transitions over subword token IDs.",
   },
   {
     id: "mod-02",
@@ -50,7 +51,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     tags: ["System Prompts", "Delimiters", "Constraints"],
     youtubeVideoId: "jC4v5AS4RIM",
     accent: "cyan",
-    keyTakeaway: "Explicit structural delimiters prevent prompt injection and eliminate instruction ambiguity.",
+    keyTakeaway:
+      "Explicit structural delimiters prevent prompt injection and eliminate instruction ambiguity.",
   },
   {
     id: "mod-03",
@@ -66,7 +68,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     tags: ["Few-Shot", "Exemplar Selection", "Format Steering"],
     youtubeVideoId: "dQw4w9WgXcQ",
     accent: "amber",
-    keyTakeaway: "3 well-chosen contrasting negative/positive exemplars anchor latent distributions better than 500 words of rules.",
+    keyTakeaway:
+      "3 well-chosen contrasting negative/positive exemplars anchor latent distributions better than 500 words of rules.",
   },
   {
     id: "mod-04",
@@ -82,7 +85,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     tags: ["CoT", "Self-Consistency", "Decomposition"],
     youtubeVideoId: "wVzUYep1ooU",
     accent: "cyan",
-    keyTakeaway: "Reasoning tokens give the attention mechanism intermediate memory scratchpads to converge on correct trajectories.",
+    keyTakeaway:
+      "Reasoning tokens give the attention mechanism intermediate memory scratchpads to converge on correct trajectories.",
   },
   {
     id: "mod-05",
@@ -98,7 +102,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     tags: ["JSON Mode", "Zod", "Grammar Sampling"],
     youtubeVideoId: "9pZsnhPqE1Q",
     accent: "amber",
-    keyTakeaway: "Schema-enforced grammar constraints eliminate parser crashes before the token is even emitted.",
+    keyTakeaway:
+      "Schema-enforced grammar constraints eliminate parser crashes before the token is even emitted.",
   },
   {
     id: "mod-06",
@@ -114,7 +119,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     tags: ["Meta-Prompting", "DSPy", "Automated Refinement"],
     youtubeVideoId: "HNnP_fP_n50",
     accent: "cyan",
-    keyTakeaway: "Let the LLM optimize its own instructions against quantitative unit test evaluations.",
+    keyTakeaway:
+      "Let the LLM optimize its own instructions against quantitative unit test evaluations.",
   },
   {
     id: "mod-07",
@@ -130,7 +136,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     tags: ["RAG", "Grounding", "Citation Anchors"],
     youtubeVideoId: "T-D1KVIuvjA",
     accent: "amber",
-    keyTakeaway: "Place critical instructions at the boundaries of the context window to counter mid-context attention fading.",
+    keyTakeaway:
+      "Place critical instructions at the boundaries of the context window to counter mid-context attention fading.",
   },
   {
     id: "mod-08",
@@ -146,7 +153,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     tags: ["ReAct", "Tool Use", "Multi-Agent"],
     youtubeVideoId: "sal78ACtGTc",
     accent: "cyan",
-    keyTakeaway: "Decouple planning from execution: single agents hallucinate tools, specialized swarms verify state changes.",
+    keyTakeaway:
+      "Decouple planning from execution: single agents hallucinate tools, specialized swarms verify state changes.",
   },
   {
     id: "mod-09",
@@ -162,7 +170,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     tags: ["Red Teaming", "Prompt Injection", "Jailbreaks"],
     youtubeVideoId: "ndGsB6ODkYg",
     accent: "amber",
-    keyTakeaway: "Untrusted user input must never share an undelimited semantic stream with privileged system instructions.",
+    keyTakeaway:
+      "Untrusted user input must never share an undelimited semantic stream with privileged system instructions.",
   },
   {
     id: "mod-10",
@@ -178,6 +187,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     tags: ["Canary Tokens", "Evals", "CI/CD Gates"],
     youtubeVideoId: "V_0p_i-0g5Y",
     accent: "cyan",
-    keyTakeaway: "Never deploy a prompt to production without a versioned suite of deterministic and model-graded assertion checks.",
+    keyTakeaway:
+      "Never deploy a prompt to production without a versioned suite of deterministic and model-graded assertion checks.",
   },
 ];

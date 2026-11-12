@@ -3,12 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  Sparkles,
-  Cpu,
-  Braces,
-  Info,
-} from "lucide-react";
+import { Sparkles, Cpu, Braces, Info } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 
@@ -37,7 +32,8 @@ const STAGES: StageData[] = [
     description:
       "Your prompt begins as a continuous UTF-8 byte stream. Before the neural network computes a single parameter, the text is treated as raw characters without inherent concept boundaries.",
     mathematicalOperation: "x_raw = UTF-8(Bytes)",
-    insight: "LLMs do not comprehend sentences directly; text must first be discretized into discrete symbolic fragments.",
+    insight:
+      "LLMs do not comprehend sentences directly; text must first be discretized into discrete symbolic fragments.",
   },
   {
     number: 2,
@@ -49,7 +45,8 @@ const STAGES: StageData[] = [
     description:
       "A Byte Pair Encoding (BPE) tokenizer scans the byte stream and breaks words into subword fragments from a fixed vocabulary dictionary (e.g. 32k to 128k tokens). Words like 'entanglement' fracture into multiple pieces.",
     mathematicalOperation: "T = [id_1, id_2, ..., id_N] \\in V^N",
-    insight: "Token boundaries dictate model reasoning. If a word splits awkwardly, the model must expend extra attention capacity reconstructing it.",
+    insight:
+      "Token boundaries dictate model reasoning. If a word splits awkwardly, the model must expend extra attention capacity reconstructing it.",
   },
   {
     number: 3,
@@ -61,7 +58,8 @@ const STAGES: StageData[] = [
     description:
       "Each token ID indexes a learned embedding table, converting integers into continuous vectors in 4,096-dimensional space. Sinusoidal or RoPE (Rotary) positional encodings are injected so the model knows word order.",
     mathematicalOperation: "E_i = Embedding(id_i) + PositionalEncoding(i)",
-    insight: "Words with similar syntactic and semantic roles cluster together geometrically in latent space.",
+    insight:
+      "Words with similar syntactic and semantic roles cluster together geometrically in latent space.",
   },
   {
     number: 4,
@@ -72,8 +70,10 @@ const STAGES: StageData[] = [
     tagline: "Every token cross-examines every other token",
     description:
       "The transformer executes scaled dot-product attention across dozens of parallel attention heads. Query (Q) and Key (K) vectors compute an N×N attention affinity matrix, dynamically routing semantic context between tokens.",
-    mathematicalOperation: "Attention(Q, K, V) = softmax(Q K^T / \\sqrt{d_k}) V",
-    insight: "The token 'compiler' pays heavy attention to 'entanglement', priming the model to bridge quantum mechanics with computer science.",
+    mathematicalOperation:
+      "Attention(Q, K, V) = softmax(Q K^T / \\sqrt{d_k}) V",
+    insight:
+      "The token 'compiler' pays heavy attention to 'entanglement', priming the model to bridge quantum mechanics with computer science.",
   },
   {
     number: 5,
@@ -85,7 +85,8 @@ const STAGES: StageData[] = [
     description:
       "The final transformer layer outputs unnormalized logit scores across the entire vocabulary. Temperature and top-p sampling select the highest-affinity next token, which is appended to the context for the next cycle.",
     mathematicalOperation: "P(w_{t+1} | w_{1:t}) = softmax(W_u h_t)",
-    insight: "Generation is iterative and probabilistic. Every newly emitted token modifies the attention field for subsequent tokens.",
+    insight:
+      "Generation is iterative and probabilistic. Every newly emitted token modifies the attention field for subsequent tokens.",
   },
 ];
 
@@ -174,7 +175,8 @@ export function PinnedStorySection() {
             Inside the LLM Attention Lifecycle
           </h2>
           <p className="mt-2 text-forge-muted">
-            Static step-by-step deconstruction of how neural transformers parse prompts into completions.
+            Static step-by-step deconstruction of how neural transformers parse
+            prompts into completions.
           </p>
         </div>
 
@@ -182,32 +184,47 @@ export function PinnedStorySection() {
           {STAGES.map((stage) => (
             <div
               key={stage.id}
-              className="rounded-2xl border border-forge-border bg-forge-900/80 p-6 sm:p-8"
+              className="bg-forge-900/80 rounded-2xl border border-forge-border p-6 sm:p-8"
             >
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-forge-border pb-4">
                 <div className="flex items-center gap-3">
-                  <Badge variant="outline" className="border-ember-500/40 text-ember-400 font-mono">
+                  <Badge
+                    variant="outline"
+                    className="border-ember-500/40 font-mono text-ember-400"
+                  >
                     {stage.badge}
                   </Badge>
-                  <h3 className="font-mono text-xl font-bold text-forge-text">{stage.title}</h3>
+                  <h3 className="font-mono text-xl font-bold text-forge-text">
+                    {stage.title}
+                  </h3>
                 </div>
-                <span className="font-mono text-xs text-cyan-400">{stage.mathematicalOperation}</span>
+                <span className="font-mono text-xs text-cyan-400">
+                  {stage.mathematicalOperation}
+                </span>
               </div>
               <div className="mt-4 grid gap-6 md:grid-cols-2">
                 <div>
-                  <p className="text-sm leading-relaxed text-forge-muted">{stage.description}</p>
+                  <p className="text-sm leading-relaxed text-forge-muted">
+                    {stage.description}
+                  </p>
                   <p className="mt-3 text-xs italic text-forge-text/80">
-                    <strong className="text-ember-400">Key Insight:</strong> {stage.insight}
+                    <strong className="text-ember-400">Key Insight:</strong>{" "}
+                    {stage.insight}
                   </p>
                 </div>
                 <div className="flex items-center justify-center rounded-xl border border-forge-border/60 bg-forge-surface p-4 font-mono text-xs text-forge-text">
                   {stage.number === 1 && (
-                    <div className="text-center font-mono text-ember-400">{RAW_PROMPT}</div>
+                    <div className="text-center font-mono text-ember-400">
+                      {RAW_PROMPT}
+                    </div>
                   )}
                   {stage.number === 2 && (
-                    <div className="flex flex-wrap gap-1.5 justify-center">
+                    <div className="flex flex-wrap justify-center gap-1.5">
                       {INPUT_TOKENS.map((t) => (
-                        <span key={t.id} className="rounded border border-ember-500/40 bg-ember-500/10 px-2 py-1">
+                        <span
+                          key={t.id}
+                          className="rounded border border-ember-500/40 bg-ember-500/10 px-2 py-1"
+                        >
                           {t.text} <span className="opacity-40">#{t.id}</span>
                         </span>
                       ))}
@@ -215,18 +232,23 @@ export function PinnedStorySection() {
                   )}
                   {stage.number === 3 && (
                     <div className="text-center text-cyan-400">
-                      Embedding Vectors: [0.142, -0.984, 0.412, ..., 0.051] ∈ ℝ⁴⁰⁹⁶
+                      Embedding Vectors: [0.142, -0.984, 0.412, ..., 0.051] ∈
+                      ℝ⁴⁰⁹⁶
                     </div>
                   )}
                   {stage.number === 4 && (
                     <div className="text-center text-ember-400">
-                      Self-Attention Matrix: softmax(QKᵀ / √64) V → 12 Heads × 48 Layers
+                      Self-Attention Matrix: softmax(QKᵀ / √64) V → 12 Heads ×
+                      48 Layers
                     </div>
                   )}
                   {stage.number === 5 && (
-                    <div className="flex flex-wrap gap-1.5 justify-center">
+                    <div className="flex flex-wrap justify-center gap-1.5">
                       {OUTPUT_TOKENS.map((t) => (
-                        <span key={t.id} className="rounded border border-cyan-500/40 bg-cyan-500/10 px-2 py-1 text-cyan-300">
+                        <span
+                          key={t.id}
+                          className="rounded border border-cyan-500/40 bg-cyan-500/10 px-2 py-1 text-cyan-300"
+                        >
                           {t.text}
                         </span>
                       ))}
@@ -282,11 +304,11 @@ export function PinnedStorySection() {
           {/* Centerpiece Layout: Left Visualizer + Right Stage Caption Card */}
           <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
             {/* Visualizer Frame (7 columns) */}
-            <div className="relative flex min-h-[380px] sm:min-h-[440px] flex-col justify-between overflow-hidden rounded-2xl border border-forge-border bg-forge-900/90 p-6 shadow-2xl backdrop-blur-md lg:col-span-7">
+            <div className="bg-forge-900/90 relative flex min-h-[380px] flex-col justify-between overflow-hidden rounded-2xl border border-forge-border p-6 shadow-2xl backdrop-blur-md sm:min-h-[440px] lg:col-span-7">
               {/* Top toolbar */}
               <div className="flex items-center justify-between border-b border-forge-border/60 pb-3 font-mono text-xs">
                 <div className="flex items-center gap-2 text-forge-muted">
-                  <span className="h-2 w-2 rounded-full bg-ember-500 animate-pulse" />
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-ember-500" />
                   <span>Pipeline State: {activeStage.name}</span>
                 </div>
                 <div className="text-[11px] text-forge-muted">
@@ -298,16 +320,31 @@ export function PinnedStorySection() {
               <div className="relative my-auto flex min-h-[260px] w-full items-center justify-center py-4">
                 <svg
                   viewBox="0 0 800 240"
-                  className="h-full w-full max-w-[760px] overflow-visible select-none"
+                  className="h-full w-full max-w-[760px] select-none overflow-visible"
                   aria-label={`Transformer stage ${currentStageIdx + 1}: ${activeStage.title}`}
                 >
                   {/* Grid Lines */}
                   <defs>
-                    <pattern id="forge-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="1" />
+                    <pattern
+                      id="forge-grid"
+                      width="40"
+                      height="40"
+                      patternUnits="userSpaceOnUse"
+                    >
+                      <path
+                        d="M 40 0 L 0 0 0 40"
+                        fill="none"
+                        stroke="rgba(255, 255, 255, 0.04)"
+                        strokeWidth="1"
+                      />
                     </pattern>
                   </defs>
-                  <rect width="800" height="240" fill="url(#forge-grid)" rx="8" />
+                  <rect
+                    width="800"
+                    height="240"
+                    fill="url(#forge-grid)"
+                    rx="8"
+                  />
 
                   {/* STAGE 1: RAW TEXT */}
                   {currentStageIdx === 0 && (
@@ -342,7 +379,8 @@ export function PinnedStorySection() {
                         fontFamily="monospace"
                         fontSize="12"
                       >
-                        [Contiguous byte stream: 51 ASCII characters, no token boundaries]
+                        [Contiguous byte stream: 51 ASCII characters, no token
+                        boundaries]
                       </text>
                     </g>
                   )}
@@ -353,7 +391,10 @@ export function PinnedStorySection() {
                       {INPUT_TOKENS.map((token, i) => {
                         const spreadX = 40 + i * 80;
                         return (
-                          <g key={token.id} transform={`translate(${spreadX}, 90)`}>
+                          <g
+                            key={token.id}
+                            transform={`translate(${spreadX}, 90)`}
+                          >
                             <rect
                               x="0"
                               y="0"
@@ -397,7 +438,8 @@ export function PinnedStorySection() {
                         fontFamily="monospace"
                         fontSize="12"
                       >
-                        Notice: &apos;entanglement&apos; → [&apos;ent&apos;, &apos;angle&apos;, &apos;ment&apos;] (3 subwords)
+                        Notice: &apos;entanglement&apos; → [&apos;ent&apos;,
+                        &apos;angle&apos;, &apos;ment&apos;] (3 subwords)
                       </text>
                     </g>
                   )}
@@ -406,22 +448,68 @@ export function PinnedStorySection() {
                   {currentStageIdx === 2 && (
                     <g className="transition-opacity duration-300">
                       {/* Geometric coordinate axes */}
-                      <line x1="80" y1="200" x2="720" y2="200" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
-                      <line x1="400" y1="30" x2="400" y2="210" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
-                      <text x="730" y="204" fill="#A0A5B2" fontFamily="monospace" fontSize="10">d₁ (Semantic)</text>
-                      <text x="400" y="20" textAnchor="middle" fill="#A0A5B2" fontFamily="monospace" fontSize="10">d₄₀₉₆ (Context)</text>
+                      <line
+                        x1="80"
+                        y1="200"
+                        x2="720"
+                        y2="200"
+                        stroke="rgba(255,255,255,0.15)"
+                        strokeWidth="1"
+                      />
+                      <line
+                        x1="400"
+                        y1="30"
+                        x2="400"
+                        y2="210"
+                        stroke="rgba(255,255,255,0.15)"
+                        strokeWidth="1"
+                      />
+                      <text
+                        x="730"
+                        y="204"
+                        fill="#A0A5B2"
+                        fontFamily="monospace"
+                        fontSize="10"
+                      >
+                        d₁ (Semantic)
+                      </text>
+                      <text
+                        x="400"
+                        y="20"
+                        textAnchor="middle"
+                        fill="#A0A5B2"
+                        fontFamily="monospace"
+                        fontSize="10"
+                      >
+                        d₄₀₉₆ (Context)
+                      </text>
 
                       {INPUT_TOKENS.map((token, i) => {
                         // Vector coordinates in space
-                        const posX = 110 + (i * 70) + Math.sin(i * 1.8) * 35;
+                        const posX = 110 + i * 70 + Math.sin(i * 1.8) * 35;
                         const posY = 130 + Math.cos(i * 1.5) * 55;
                         return (
-                          <g key={token.id} transform={`translate(${posX}, ${posY})`}>
+                          <g
+                            key={token.id}
+                            transform={`translate(${posX}, ${posY})`}
+                          >
                             {/* Glowing vector point */}
                             <circle r="7" fill="#00E5FF" opacity="0.9" />
-                            <circle r="14" fill="#00E5FF" opacity="0.2" className="animate-ping" />
+                            <circle
+                              r="14"
+                              fill="#00E5FF"
+                              opacity="0.2"
+                              className="animate-ping"
+                            />
                             {/* Vector line to axis */}
-                            <line x1="0" y1="0" x2="0" y2={200 - posY} stroke="rgba(0, 229, 255, 0.3)" strokeDasharray="2 2" />
+                            <line
+                              x1="0"
+                              y1="0"
+                              x2="0"
+                              y2={200 - posY}
+                              stroke="rgba(0, 229, 255, 0.3)"
+                              strokeDasharray="2 2"
+                            />
                             <text
                               x="0"
                               y="-12"
@@ -461,7 +549,9 @@ export function PinnedStorySection() {
                                 (i === 0 && j === 1) ||
                                 (i === 7 && j === 8);
                               const opacity = isSemanticPair ? 0.95 : 0.14;
-                              const strokeColor = isSemanticPair ? "#FF6B00" : "#00E5FF";
+                              const strokeColor = isSemanticPair
+                                ? "#FF6B00"
+                                : "#00E5FF";
                               const strokeW = isSemanticPair ? 2.5 : 1;
                               const arcHeight = Math.abs(j - i) * 18;
 
@@ -492,7 +582,14 @@ export function PinnedStorySection() {
                           </g>
                         );
                       })}
-                      <text x="400" y="35" textAnchor="middle" fill="#FF6B00" fontFamily="monospace" fontSize="12">
+                      <text
+                        x="400"
+                        y="35"
+                        textAnchor="middle"
+                        fill="#FF6B00"
+                        fontFamily="monospace"
+                        fontSize="12"
+                      >
                         Attention Weight Affinity: Softmax(Q · Kᵀ / √dₖ)
                       </text>
                     </g>
@@ -510,22 +607,44 @@ export function PinnedStorySection() {
                         fill="rgba(11,12,14,0.6)"
                         stroke="rgba(255,255,255,0.1)"
                       />
-                      <text x="60" y="45" fill="#A0A5B2" fontFamily="monospace" fontSize="11">
+                      <text
+                        x="60"
+                        y="45"
+                        fill="#A0A5B2"
+                        fontFamily="monospace"
+                        fontSize="11"
+                      >
                         PROMPT CONTEXT CACHE:
                       </text>
-                      <text x="60" y="75" fill="#A0A5B2" fontFamily="monospace" fontSize="13">
+                      <text
+                        x="60"
+                        y="75"
+                        fill="#A0A5B2"
+                        fontFamily="monospace"
+                        fontSize="13"
+                      >
                         &quot;{RAW_PROMPT}&quot;
                       </text>
 
                       {/* Output tokens generated sequentially */}
                       <g transform="translate(40, 130)">
-                        <text x="20" y="20" fill="#00E5FF" fontFamily="monospace" fontSize="12" fontWeight="bold">
+                        <text
+                          x="20"
+                          y="20"
+                          fill="#00E5FF"
+                          fontFamily="monospace"
+                          fontSize="12"
+                          fontWeight="bold"
+                        >
                           AUTOREGRESSIVE COMPLETION:
                         </text>
                         {OUTPUT_TOKENS.map((outTok, idx) => {
                           const posX = 20 + idx * 88;
                           return (
-                            <g key={outTok.id} transform={`translate(${posX}, 35)`}>
+                            <g
+                              key={outTok.id}
+                              transform={`translate(${posX}, 35)`}
+                            >
                               <rect
                                 x="0"
                                 y="0"
@@ -570,7 +689,8 @@ export function PinnedStorySection() {
               {/* Bottom Telemetry Strip */}
               <div className="flex flex-wrap items-center justify-between gap-2 border-t border-forge-border/60 pt-3 font-mono text-xs">
                 <span className="flex items-center gap-1.5 text-ember-400">
-                  <Braces className="h-3.5 w-3.5" /> Math Op: {activeStage.mathematicalOperation}
+                  <Braces className="h-3.5 w-3.5" /> Math Op:{" "}
+                  {activeStage.mathematicalOperation}
                 </span>
                 <span className="text-[11px] text-forge-muted">
                   Scroll down to scrub sequence · Zero layout reflow
@@ -579,11 +699,14 @@ export function PinnedStorySection() {
             </div>
 
             {/* Side Caption Card (5 columns) */}
-            <div className="flex flex-col justify-between rounded-2xl border border-forge-border bg-forge-surface/90 p-6 sm:p-8 shadow-xl lg:col-span-5">
+            <div className="flex flex-col justify-between rounded-2xl border border-forge-border bg-forge-surface/90 p-6 shadow-xl sm:p-8 lg:col-span-5">
               <div>
                 {/* Stage Badge & Step Indicator */}
                 <div className="flex items-center justify-between">
-                  <Badge variant="outline" className="border-ember-500/40 text-ember-400 font-mono text-xs">
+                  <Badge
+                    variant="outline"
+                    className="border-ember-500/40 font-mono text-xs text-ember-400"
+                  >
                     {activeStage.badge} · {activeStage.name}
                   </Badge>
                   <span className="font-mono text-xs text-forge-muted">
@@ -619,9 +742,11 @@ export function PinnedStorySection() {
 
               {/* Progress Indicator dots & bar */}
               <div className="mt-8 border-t border-forge-border/60 pt-6">
-                <div className="flex items-center justify-between font-mono text-xs text-forge-muted mb-2">
+                <div className="mb-2 flex items-center justify-between font-mono text-xs text-forge-muted">
                   <span>Transformation Pipeline</span>
-                  <span className="text-ember-400 font-bold">Stage {currentStageIdx + 1}</span>
+                  <span className="font-bold text-ember-400">
+                    Stage {currentStageIdx + 1}
+                  </span>
                 </div>
 
                 <div className="grid grid-cols-5 gap-1.5">
@@ -632,8 +757,8 @@ export function PinnedStorySection() {
                         idx === currentStageIdx
                           ? "bg-ember-500 shadow-ember-glow"
                           : idx < currentStageIdx
-                          ? "bg-cyan-500/60"
-                          : "bg-forge-border"
+                            ? "bg-cyan-500/60"
+                            : "bg-forge-border"
                       }`}
                     />
                   ))}

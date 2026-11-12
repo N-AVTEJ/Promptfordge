@@ -25,6 +25,7 @@ export interface CacheKeyParams {
 
 /**
  * Computes a deterministic SHA-256 hash of normalized prompt + model + temperature + system.
+ * Uses structured JSON encoding to mathematically prevent delimiter collision injection.
  */
 export function computeCacheKey(params: CacheKeyParams): string {
   const normalizedModel = (params.model || "default").trim().toLowerCase();
@@ -32,13 +33,13 @@ export function computeCacheKey(params: CacheKeyParams): string {
   const normalizedSystem = (params.system || "").trim();
   const normalizedTemp = (params.temperature ?? 0.7).toFixed(2);
 
-  // Canonical delimiter-separated string representation
-  const canonicalString = [
-    `model:${normalizedModel}`,
-    `temp:${normalizedTemp}`,
-    `sys:${normalizedSystem}`,
-    `prompt:${normalizedPrompt}`,
-  ].join("|#_#|");
+  // Canonical structured JSON prevents delimiter collision vulnerabilities
+  const canonicalString = JSON.stringify({
+    m: normalizedModel,
+    p: normalizedPrompt,
+    s: normalizedSystem,
+    t: normalizedTemp,
+  });
 
   const hash = createHash("sha256")
     .update(canonicalString, "utf8")
@@ -65,6 +66,7 @@ export class MemoryLruCache<T = unknown> implements CacheStore<T> {
   }
 
   get(key: string): T | null {
+    if (this.maxEntries <= 0) return null;
     const entry = this.store.get(key);
     if (!entry) return null;
 
@@ -82,6 +84,7 @@ export class MemoryLruCache<T = unknown> implements CacheStore<T> {
   }
 
   set(key: string, value: T, ttlMs?: number): void {
+    if (this.maxEntries <= 0) return;
     const ttl = ttlMs ?? this.defaultTtlMs;
     const expiresAt = Date.now() + ttl;
 

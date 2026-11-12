@@ -34,7 +34,8 @@ const TECHNIQUES: TechniqueItem[] = [
       "Direct task instruction with zero exemplars. Requires ultra-precise intent framing and unambiguous verbs to avoid distribution drift.",
     icon: Zap,
     formula: "Output = P(Task | Instruction)",
-    exampleSnippet: "Classify triage severity of kernel trace. Return [P0, P1, P2].",
+    exampleSnippet:
+      "Classify triage severity of kernel trace. Return [P0, P1, P2].",
     accent: "amber",
   },
   {
@@ -45,7 +46,8 @@ const TECHNIQUES: TechniqueItem[] = [
       "A single canonical example calibrates the output schema, stylistic tone, and conciseness ceiling with minimal token overhead.",
     icon: Target,
     formula: "Output = P(Task | Exemplar_1, Instruction)",
-    exampleSnippet: "Input: 'Out of memory at 0x4f'. Output: {err: 'OOM', fatal: true}",
+    exampleSnippet:
+      "Input: 'Out of memory at 0x4f'. Output: {err: 'OOM', fatal: true}",
     accent: "cyan",
   },
   {
@@ -56,7 +58,8 @@ const TECHNIQUES: TechniqueItem[] = [
       "3 to 5 contrasting positive and negative examples anchor latent distributions, dramatically reducing edge-case hallucination.",
     icon: Copy,
     formula: "Output = P(Task | {E_1, E_2, E_3}, Instruction)",
-    exampleSnippet: "Provide boundary condition exemplars (null, max_int, malformed).",
+    exampleSnippet:
+      "Provide boundary condition exemplars (null, max_int, malformed).",
     accent: "amber",
   },
   {
@@ -67,7 +70,8 @@ const TECHNIQUES: TechniqueItem[] = [
       "Declaring high-leverage personas ('Principal Cryptographic Engineer') primes specialized sub-networks and elevates reasoning rigor.",
     icon: UserCheck,
     formula: "Prior = P(Specialized Latents | Persona)",
-    exampleSnippet: "You are a Rust borrow-checker auditor reviewing unwrap() calls.",
+    exampleSnippet:
+      "You are a Rust borrow-checker auditor reviewing unwrap() calls.",
     accent: "cyan",
   },
   {
@@ -78,7 +82,8 @@ const TECHNIQUES: TechniqueItem[] = [
       "Enforcing strict negative boundaries, output limits, and forbidden token sequences eliminates conversational filler.",
     icon: ShieldAlert,
     formula: "Constraint: ∀t ∈ Output, t ∉ ForbiddenSet",
-    exampleSnippet: "Hard rule: Output raw JSON only. Zero prose. Zero markdown quotes.",
+    exampleSnippet:
+      "Hard rule: Output raw JSON only. Zero prose. Zero markdown quotes.",
     accent: "amber",
   },
   {
@@ -110,8 +115,14 @@ function TechniqueCard({
   const mouseY = useMotionValue(0);
 
   const springConfig = { damping: 20, stiffness: 200 };
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), springConfig);
+  const rotateX = useSpring(
+    useTransform(mouseY, [-0.5, 0.5], [6, -6]),
+    springConfig
+  );
+  const rotateY = useSpring(
+    useTransform(mouseX, [-0.5, 0.5], [-6, 6]),
+    springConfig
+  );
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (prefersReduced) return;
@@ -155,10 +166,10 @@ function TechniqueCard({
         delay: prefersReduced ? 0 : index * 0.08,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`group relative flex flex-col justify-between rounded-2xl border p-6 sm:p-7 transition-all duration-300 ${
+      className={`group relative flex flex-col justify-between rounded-2xl border p-6 transition-all duration-300 sm:p-7 ${
         isAmber
-          ? "border-ember-500/30 bg-forge-900/70 hover:border-ember-500/70 hover:shadow-[0_0_30px_rgba(255,107,0,0.15)]"
-          : "border-cyan-500/30 bg-forge-900/70 hover:border-cyan-500/70 hover:shadow-[0_0_30px_rgba(0,229,255,0.15)]"
+          ? "bg-forge-900/70 border-ember-500/30 hover:border-ember-500/70 hover:shadow-[0_0_30px_rgba(255,107,0,0.15)]"
+          : "bg-forge-900/70 border-cyan-500/30 hover:border-cyan-500/70 hover:shadow-[0_0_30px_rgba(0,229,255,0.15)]"
       }`}
     >
       <div>
@@ -186,7 +197,7 @@ function TechniqueCard({
         </div>
 
         {/* Title & Description */}
-        <h3 className="mt-5 font-mono text-lg font-bold text-forge-text sm:text-xl group-hover:text-forge-50">
+        <h3 className="group-hover:text-forge-50 mt-5 font-mono text-lg font-bold text-forge-text sm:text-xl">
           {item.name}
         </h3>
         <p className="mt-2 text-xs leading-relaxed text-forge-muted sm:text-sm">
@@ -195,15 +206,23 @@ function TechniqueCard({
 
         {/* Formula Math Box */}
         <div className="mt-4 rounded-lg border border-forge-border/60 bg-forge-surface/80 px-3 py-2 font-mono text-xs text-forge-muted">
-          <span className="text-[10px] uppercase text-forge-muted block mb-0.5">Formalization</span>
-          <span className={isAmber ? "text-ember-400" : "text-cyan-400"}>{item.formula}</span>
+          <span className="mb-0.5 block text-[10px] uppercase text-forge-muted">
+            Formalization
+          </span>
+          <span className={isAmber ? "text-ember-400" : "text-cyan-400"}>
+            {item.formula}
+          </span>
         </div>
       </div>
 
       {/* Code Snippet Box */}
       <div className="mt-5 rounded-lg border border-forge-border/40 bg-forge-950 p-3 font-mono text-[11px] text-forge-text/90">
-        <span className="text-[9px] uppercase tracking-wider text-forge-muted block mb-1">Pattern In Action</span>
-        <code className="text-forge-text block truncate">{item.exampleSnippet}</code>
+        <span className="mb-1 block text-[9px] uppercase tracking-wider text-forge-muted">
+          Pattern In Action
+        </span>
+        <code className="block truncate text-forge-text">
+          {item.exampleSnippet}
+        </code>
       </div>
     </motion.div>
   );
@@ -213,7 +232,7 @@ export function TechniqueShowcaseSection() {
   const prefersReduced = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden py-24 sm:py-32 bg-forge-950">
+    <section className="relative overflow-hidden bg-forge-950 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
@@ -225,8 +244,8 @@ export function TechniqueShowcaseSection() {
             Core Prompting Techniques
           </h2>
           <p className="mt-4 text-base leading-relaxed text-forge-muted sm:text-lg">
-            Master the six non-negotiable prompt architectures used by senior AI engineers
-            to elicit deterministic, high-reasoning completions.
+            Master the six non-negotiable prompt architectures used by senior AI
+            engineers to elicit deterministic, high-reasoning completions.
           </p>
         </div>
 

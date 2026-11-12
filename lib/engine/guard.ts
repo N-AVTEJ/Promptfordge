@@ -109,6 +109,18 @@ export function checkRateLimit(ip: string): void {
   const windowMs = 60 * 60 * 1000; // 1 hour
   const limit = getRateLimitPerHour();
 
+  // Periodic pruning of expired IP windows to prevent memory exhaustion
+  if (state.ipWindows.size > 2000) {
+    state.ipWindows.forEach((timestamps, key) => {
+      if (
+        timestamps.length === 0 ||
+        now - timestamps[timestamps.length - 1] >= windowMs
+      ) {
+        state.ipWindows.delete(key);
+      }
+    });
+  }
+
   const timestamps = state.ipWindows.get(normalizedIp) || [];
   // Evict timestamps older than 1 hour
   const recentTimestamps = timestamps.filter((t) => now - t < windowMs);
@@ -150,21 +162,27 @@ export function validatePayloadLimits(params: {
   prompt: string;
   maxOutputTokens?: number;
 }): void {
-  if (params.prompt.length > ENGINE_CONFIG.maxPromptLength) {
+  const promptStr = typeof params.prompt === "string" ? params.prompt : "";
+  if (promptStr.length > ENGINE_CONFIG.maxPromptLength) {
     throw new GuardValidationError(
       "prompt",
-      `Prompt length of ${params.prompt.length} exceeds maximum limit of ${ENGINE_CONFIG.maxPromptLength} characters.`
+      `Prompt length of ${promptStr.length} exceeds maximum limit of ${ENGINE_CONFIG.maxPromptLength} characters.`
     );
   }
 
-  if (
-    params.maxOutputTokens !== undefined &&
-    params.maxOutputTokens > ENGINE_CONFIG.maxOutputTokens
-  ) {
-    throw new GuardValidationError(
-      "maxOutputTokens",
-      `Requested maxOutputTokens (${params.maxOutputTokens}) exceeds engine limit of ${ENGINE_CONFIG.maxOutputTokens}.`
-    );
+  if (params.maxOutputTokens !== undefined) {
+    if (params.maxOutputTokens <= 0) {
+      throw new GuardValidationError(
+        "maxOutputTokens",
+        "Requested maxOutputTokens must be greater than 0."
+      );
+    }
+    if (params.maxOutputTokens > ENGINE_CONFIG.maxOutputTokens) {
+      throw new GuardValidationError(
+        "maxOutputTokens",
+        `Requested maxOutputTokens (${params.maxOutputTokens}) exceeds engine limit of ${ENGINE_CONFIG.maxOutputTokens}.`
+      );
+    }
   }
 }
 

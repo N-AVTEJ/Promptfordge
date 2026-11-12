@@ -65,7 +65,7 @@ function SectionSkeleton({ height }: { height: string }) {
   return (
     <div
       aria-hidden="true"
-      className={`w-full ${height} animate-pulse bg-forge-950/50 flex items-center justify-center`}
+      className={`w-full ${height} flex animate-pulse items-center justify-center bg-forge-950/50`}
     >
       <div className="h-2 w-24 rounded-full bg-forge-border/40" />
     </div>

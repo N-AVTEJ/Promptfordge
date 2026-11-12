@@ -1,17 +1,22 @@
-import { describe, it, beforeEach } from "node:test";
+import { describe, it, beforeEach, afterEach } from "node:test";
 import assert from "node:assert";
 import { GeminiProvider } from "../lib/providers/gemini";
 import { OpenAIProvider } from "../lib/providers/openai";
 import { getProvider } from "../lib/providers/index";
-import { MissingApiKeyError } from "../lib/providers/types";
+import { MissingApiKeyError, ProviderError } from "../lib/providers/types";
 
 describe("PromptForge Provider Adapters", () => {
   const originalGeminiKey = process.env.GEMINI_API_KEY;
   const originalOpenAiKey = process.env.OPENAI_API_KEY;
+  const originalFetch = global.fetch;
 
   beforeEach(() => {
     delete process.env.GEMINI_API_KEY;
     delete process.env.OPENAI_API_KEY;
+  });
+
+  afterEach(() => {
+    global.fetch = originalFetch;
   });
 
   describe("Gemini Adapter", () => {
@@ -39,6 +44,33 @@ describe("PromptForge Provider Adapters", () => {
         }
       );
     });
+
+    it("throws ProviderError when Gemini prompt is blocked by safety policy", async () => {
+      global.fetch = (async () => {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            promptFeedback: { blockReason: "SAFETY" },
+          }),
+        } as unknown as Response;
+      }) as unknown as typeof fetch;
+
+      const provider = new GeminiProvider();
+      await assert.rejects(
+        async () => {
+          await provider.run({
+            prompt: "unsafe prompt",
+            apiKey: "dummy-key",
+          });
+        },
+        (err: unknown) => {
+          assert.ok(err instanceof ProviderError);
+          assert.ok(err.message.includes("blocked by safety policy"));
+          return true;
+        }
+      );
+    });
   });
 
   describe("OpenAI Adapter", () => {
@@ -62,6 +94,33 @@ describe("PromptForge Provider Adapters", () => {
           assert.ok(err instanceof MissingApiKeyError);
           assert.strictEqual(err.provider, "openai");
           assert.ok(err.message.includes("disabled cleanly"));
+          return true;
+        }
+      );
+    });
+
+    it("throws ProviderError when OpenAI response is blocked by content filter", async () => {
+      global.fetch = (async () => {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            choices: [{ finish_reason: "content_filter" }],
+          }),
+        } as unknown as Response;
+      }) as unknown as typeof fetch;
+
+      const provider = new OpenAIProvider();
+      await assert.rejects(
+        async () => {
+          await provider.run({
+            prompt: "filter triggering prompt",
+            apiKey: "dummy-key",
+          });
+        },
+        (err: unknown) => {
+          assert.ok(err instanceof ProviderError);
+          assert.ok(err.message.includes("blocked by OpenAI content filter"));
           return true;
         }
       );

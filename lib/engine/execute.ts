@@ -8,14 +8,23 @@ import { z } from "zod";
 import { estimateCost } from "@/content/pricing";
 import { getProvider } from "@/lib/providers";
 import { computeCacheKey, engineCache } from "./cache";
+import { ENGINE_CONFIG } from "./config";
 import { guardRequest, recordTokenUsage } from "./guard";
 
 export const ExecuteInputSchema = z.object({
-  prompt: z.string().min(1, "Prompt cannot be empty"),
-  system: z.string().optional(),
-  model: z.string().default("gemini-1.5-flash"),
+  prompt: z.string().trim().min(1, "Prompt cannot be empty"),
+  system: z.string().trim().optional(),
+  model: z.string().trim().default("gemini-1.5-flash"),
   temperature: z.number().min(0).max(2).default(0.7),
-  maxOutputTokens: z.number().int().min(1).max(8192).optional(),
+  maxOutputTokens: z
+    .number()
+    .int()
+    .min(1, "maxOutputTokens must be at least 1")
+    .max(
+      ENGINE_CONFIG.maxOutputTokens,
+      `Requested maxOutputTokens exceeds engine limit of ${ENGINE_CONFIG.maxOutputTokens}`
+    )
+    .optional(),
 });
 
 export type ExecuteInput = z.input<typeof ExecuteInputSchema> & {

@@ -152,6 +152,21 @@ describe("PromptForge Guard Engine", () => {
       );
     });
 
+    it("rejects non-positive maxOutputTokens", () => {
+      assert.throws(
+        () =>
+          validatePayloadLimits({
+            prompt: "Test prompt",
+            maxOutputTokens: 0,
+          }),
+        (err: unknown) => {
+          assert.ok(err instanceof GuardValidationError);
+          assert.strictEqual(err.field, "maxOutputTokens");
+          return true;
+        }
+      );
+    });
+
     it("accepts valid prompt within boundaries", () => {
       assert.doesNotThrow(() =>
         validatePayloadLimits({

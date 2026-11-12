@@ -96,6 +96,25 @@ describe("PromptForge Engine LRU Cache & Key Hashing", () => {
       });
       assert.strictEqual(keyWithoutSystem, keyWithEmptySystem);
     });
+
+    it("resists delimiter injection and prevents cache collision", () => {
+      // Craft cross-field delimiter collision attempt
+      const keyA = computeCacheKey({
+        prompt: "baz",
+        model: "default",
+        system: 'foo", "prompt": "bar',
+      });
+      const keyB = computeCacheKey({
+        prompt: 'bar", "prompt": "baz',
+        model: "default",
+        system: "foo",
+      });
+      assert.notStrictEqual(
+        keyA,
+        keyB,
+        "Delimiters across fields must never cause cache collisions"
+      );
+    });
   });
 
   describe("MemoryLruCache Behavior", () => {
@@ -168,6 +187,13 @@ describe("PromptForge Engine LRU Cache & Key Hashing", () => {
       cache.clear();
       assert.strictEqual(cache.size(), 0);
       assert.strictEqual(cache.get("1"), null);
+    });
+
+    it("handles zero or negative maxEntries safely without caching", () => {
+      const disabledCache = new MemoryLruCache<string>(0);
+      disabledCache.set("disabledKey", "val");
+      assert.strictEqual(disabledCache.get("disabledKey"), null);
+      assert.strictEqual(disabledCache.size(), 0);
     });
   });
 });

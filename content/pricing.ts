@@ -73,9 +73,12 @@ export function estimateCost(
   tokensIn: number,
   tokensOut: number
 ): number {
-  const pricing = MODEL_PRICING_TABLE[model] || DEFAULT_MODEL_PRICING;
-  const inputCost = (tokensIn / 1_000_000) * pricing.inputCostPer1M;
-  const outputCost = (tokensOut / 1_000_000) * pricing.outputCostPer1M;
+  const normalizedModel = (model || "").trim().toLowerCase();
+  const pricing = MODEL_PRICING_TABLE[normalizedModel] || DEFAULT_MODEL_PRICING;
+  const safeTokensIn = Math.max(0, tokensIn || 0);
+  const safeTokensOut = Math.max(0, tokensOut || 0);
+  const inputCost = (safeTokensIn / 1_000_000) * pricing.inputCostPer1M;
+  const outputCost = (safeTokensOut / 1_000_000) * pricing.outputCostPer1M;
   const total = inputCost + outputCost;
   // Round to 6 decimal places to prevent float precision noise
   return Math.round(total * 1_000_000) / 1_000_000;

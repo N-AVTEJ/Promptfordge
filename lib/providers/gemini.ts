@@ -90,7 +90,23 @@ export class GeminiProvider implements Provider {
       }
 
       const data = await response.json();
+
+      // Detect upstream safety/policy blocks
+      if (data.promptFeedback?.blockReason) {
+        throw new ProviderError(
+          "gemini",
+          `Prompt was blocked by safety policy: ${data.promptFeedback.blockReason}`
+        );
+      }
+
       const candidate = data.candidates?.[0];
+      if (candidate?.finishReason === "SAFETY") {
+        throw new ProviderError(
+          "gemini",
+          "Response generation was blocked by safety filters."
+        );
+      }
+
       const text =
         candidate?.content?.parts
           ?.map((part: { text?: string }) => part.text || "")
