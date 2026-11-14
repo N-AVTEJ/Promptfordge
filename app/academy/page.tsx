@@ -1,25 +1,16 @@
-import { PhaseStub } from "@/components/shell/phase-stub";
+import { Metadata } from "next";
+import { AcademyGrid } from "@/components/academy/academy-grid";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Academy | PromptForge",
   description:
-    "Interactive prompt engineering curriculum with embedded YouTube lessons.",
+    "Comprehensive 10-module interactive prompt engineering curriculum with embedded video lessons and side-by-side lab studios.",
 };
 
 export default function AcademyPage() {
   return (
-    <PhaseStub
-      moduleName="Academy Curriculum"
-      phaseLabel="Phase 2"
-      iconType="academy"
-      description="Structured interactive prompt engineering curriculum organized by core principles: System Framing, Few-Shot Demonstrations, Chain-of-Thought, and Constraint Anchoring with embedded YouTube walkthroughs."
-      plannedFeatures={[
-        "Interactive video player synchronized with code markers",
-        "Typed lesson notes and executable quick-start templates",
-        "Linear and freeform learning progression paths",
-        "Local progress persistence in typed storage module",
-      ]}
-      nextRoute={{ label: "Labs", href: "/labs" }}
-    />
+    <div className="mx-auto min-h-screen max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <AcademyGrid />
+    </div>
   );
 }

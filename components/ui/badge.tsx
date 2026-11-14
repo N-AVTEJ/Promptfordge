@@ -8,7 +8,9 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default: "border-ember-500/30 bg-ember-500/10 text-ember-400",
+        ember: "border-ember-500/30 bg-ember-500/10 text-ember-400",
         secondary: "border-cyan-500/30 bg-cyan-500/10 text-cyan-400",
+        cyan: "border-cyan-500/30 bg-cyan-500/10 text-cyan-400",
         outline: "border-forge-border bg-forge-surface text-forge-muted",
         destructive: "border-rose-500/40 bg-rose-500/10 text-rose-300",
         success: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",

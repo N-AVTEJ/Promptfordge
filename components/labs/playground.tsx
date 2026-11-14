@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
+import { cn } from "@/lib/utils";
 
 interface RunData {
   text: string;
@@ -64,12 +65,26 @@ const SAMPLE_PROMPTS = [
   },
 ];
 
-export function PromptPlayground() {
+export interface PromptPlaygroundProps {
+  initialPrompt?: string;
+  initialSystem?: string;
+  compact?: boolean;
+}
+
+export function PromptPlayground({
+  initialPrompt,
+  initialSystem,
+  compact = false,
+}: PromptPlaygroundProps = {}) {
   const prefersReducedMotion = useReducedMotion();
 
   // Inputs
-  const [prompt, setPrompt] = React.useState(SAMPLE_PROMPTS[0].prompt);
-  const [system, setSystem] = React.useState(SAMPLE_PROMPTS[0].system);
+  const [prompt, setPrompt] = React.useState(
+    initialPrompt !== undefined ? initialPrompt : SAMPLE_PROMPTS[0].prompt
+  );
+  const [system, setSystem] = React.useState(
+    initialSystem !== undefined ? initialSystem : SAMPLE_PROMPTS[0].system
+  );
   const [showSystem, setShowSystem] = React.useState(true);
   const [model, setModel] = React.useState("gemini-1.5-flash");
   const [temperature, setTemperature] = React.useState(0.7);
@@ -83,6 +98,19 @@ export function PromptPlayground() {
   const [isRevealing, setIsRevealing] = React.useState(false);
   const [error, setError] = React.useState<RunError | null>(null);
   const [copied, setCopied] = React.useState(false);
+
+  // Sync when initialPrompt or initialSystem prop changes
+  React.useEffect(() => {
+    if (initialPrompt !== undefined) {
+      setPrompt(initialPrompt);
+    }
+  }, [initialPrompt]);
+
+  React.useEffect(() => {
+    if (initialSystem !== undefined) {
+      setSystem(initialSystem);
+    }
+  }, [initialSystem]);
 
   // Stream-style typewriter reveal
   React.useEffect(() => {
@@ -194,48 +222,50 @@ export function PromptPlayground() {
   };
 
   return (
-    <div className="w-full space-y-8">
+    <div className={cn("w-full space-y-8", compact && "space-y-4")}>
       {/* Playground Header */}
-      <div className="flex flex-col gap-3 border-b border-forge-border pb-6 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <Badge
-              variant="default"
-              className="text-[10px] uppercase tracking-wider"
-            >
-              Phase 3 AI Backend
-            </Badge>
-            <span className="font-mono text-xs text-forge-subtle">
-              Unified LLM Runtime
-            </span>
+      {!compact && (
+        <div className="flex flex-col gap-3 border-b border-forge-border pb-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="flex items-center gap-2">
+              <Badge
+                variant="default"
+                className="text-[10px] uppercase tracking-wider"
+              >
+                Phase 3 AI Backend
+              </Badge>
+              <span className="font-mono text-xs text-forge-subtle">
+                Unified LLM Runtime
+              </span>
+            </div>
+            <h1 className="mt-1 font-mono text-2xl font-bold tracking-tight text-forge-text sm:text-3xl">
+              Live Prompt Playground
+            </h1>
+            <p className="mt-1 text-sm text-forge-muted">
+              Execute prompts across Gemini & OpenAI with automatic LRU caching,
+              per-IP rate limiting, and cost estimation.
+            </p>
           </div>
-          <h1 className="mt-1 font-mono text-2xl font-bold tracking-tight text-forge-text sm:text-3xl">
-            Live Prompt Playground
-          </h1>
-          <p className="mt-1 text-sm text-forge-muted">
-            Execute prompts across Gemini & OpenAI with automatic LRU caching,
-            per-IP rate limiting, and cost estimation.
-          </p>
-        </div>
 
-        {/* Quick Sample Chips */}
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs text-forge-subtle">Presets:</span>
-          {SAMPLE_PROMPTS.map((sample) => (
-            <button
-              key={sample.title}
-              onClick={() => {
-                setPrompt(sample.prompt);
-                setSystem(sample.system);
-                setError(null);
-              }}
-              className="rounded-md border border-forge-border bg-forge-surface px-2.5 py-1 text-xs text-forge-muted transition hover:border-forge-border-bright hover:bg-forge-elevated hover:text-forge-text"
-            >
-              {sample.title}
-            </button>
-          ))}
+          {/* Quick Sample Chips */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs text-forge-subtle">Presets:</span>
+            {SAMPLE_PROMPTS.map((sample) => (
+              <button
+                key={sample.title}
+                onClick={() => {
+                  setPrompt(sample.prompt);
+                  setSystem(sample.system);
+                  setError(null);
+                }}
+                className="rounded-md border border-forge-border bg-forge-surface px-2.5 py-1 text-xs text-forge-muted transition hover:border-forge-border-bright hover:bg-forge-elevated hover:text-forge-text"
+              >
+                {sample.title}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         {/* Left Column: Controls & Prompt Input (7 cols) */}
