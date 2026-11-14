@@ -1,16 +1,16 @@
 import { Metadata } from "next";
-import { PromptPlayground } from "@/components/labs/playground";
+import { LabsHub } from "@/components/labs/labs-hub";
 
 export const metadata: Metadata = {
-  title: "Live Labs & Playground | PromptForge",
+  title: "Visual Labs & Interactive Simulators | PromptForge",
   description:
-    "Interactive live prompt engineering playground with multi-model adapters, token telemetry, LRU caching, and cost estimation.",
+    "Interactive prompt engineering visual laboratories: Prompt Anatomy Inspector, 6-Stage LLM Transformer Simulator, and Multi-Model Execution Playground.",
 };
 
 export default function LabsPage() {
   return (
     <div className="mx-auto min-h-screen max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <PromptPlayground />
+      <LabsHub />
     </div>
   );
 }

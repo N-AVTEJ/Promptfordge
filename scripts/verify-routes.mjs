@@ -2,6 +2,8 @@ const routes = [
   "/",
   "/academy",
   "/labs",
+  "/labs/anatomy",
+  "/labs/llm-simulator",
   "/labs/playground",
   "/workflow",
   "/evaluate",
