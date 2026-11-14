@@ -37,10 +37,19 @@ export interface SavedPrompt {
   updatedAt: number;
 }
 
+export interface LastVisitedLesson {
+  moduleId: string;
+  lessonId: string;
+  timestamp: number;
+}
+
 export interface ProgressData {
   completedLessonIds: string[];
   completedLabIds: string[];
   challengeScores: Record<string, number>;
+  quizScores?: Record<string, number>;
+  quizTotalQuestions?: Record<string, number>;
+  lastVisited?: LastVisitedLesson | null;
   streakDays: number;
   lastActiveTimestamp: number;
 }
@@ -66,6 +75,9 @@ export const STORAGE_DEFAULTS: StorageSchema = {
     completedLessonIds: [],
     completedLabIds: [],
     challengeScores: {},
+    quizScores: {},
+    quizTotalQuestions: {},
+    lastVisited: null,
     streakDays: 0,
     lastActiveTimestamp: 0,
   },
