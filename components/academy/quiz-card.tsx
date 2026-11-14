@@ -73,14 +73,19 @@ export function QuizCard({
     }
   };
 
-  const handleRetake = () => {
+  const handleRetake = React.useCallback(() => {
     setCurrentIndex(0);
     setSelectedOption(null);
     setIsAnswered(false);
     setUserAnswers([]);
     setIsCompleted(false);
     setFinalScore(0);
-  };
+  }, []);
+
+  // Reset quiz state when switching lessons
+  React.useEffect(() => {
+    handleRetake();
+  }, [lessonId, handleRetake]);
 
   if (!questions || questions.length === 0) {
     return (
@@ -93,7 +98,7 @@ export function QuizCard({
   // Final Score View
   if (isCompleted) {
     const percent = Math.round((finalScore / questions.length) * 100);
-    const passed = percent >= 70;
+    const passed = percent >= 66;
 
     return (
       <div

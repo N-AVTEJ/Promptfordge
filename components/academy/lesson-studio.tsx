@@ -61,9 +61,11 @@ export function LessonStudio({
   // Custom prompt sent from practice challenge to lab
   const [customLabPrompt, setCustomLabPrompt] = React.useState<string | undefined>(undefined);
 
-  // Register last visited on mount
+  // Register last visited and reset transient state on lesson change
   React.useEffect(() => {
     visitLesson(module.id, lesson.id);
+    setCustomLabPrompt(undefined);
+    setCurrentPlaybackSecond(0);
   }, [module.id, lesson.id, visitLesson]);
 
   // Handle seek requested by chapter chips
@@ -92,31 +94,31 @@ export function LessonStudio({
       {/* Studio Top Navigation Bar */}
       <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-forge-border bg-forge-black/90 px-4 sm:px-6 backdrop-blur-md">
         {/* Breadcrumb / Back to Academy */}
-        <div className="flex items-center gap-2 text-xs sm:text-sm">
+        <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm min-w-0 flex-1 mr-2">
           <Link
             href="/academy"
-            className="flex items-center gap-1.5 text-forge-muted hover:text-ember-400 transition-colors"
+            className="flex items-center gap-1 sm:gap-1.5 text-forge-muted hover:text-ember-400 transition-colors shrink-0"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span className="font-semibold">Academy</span>
+            <span className="font-semibold hidden xs:inline">Academy</span>
           </Link>
-          <span className="text-forge-subtle">/</span>
-          <span className="font-mono text-xs text-forge-muted hidden sm:inline">
+          <span className="text-forge-subtle shrink-0">/</span>
+          <span className="font-mono text-xs text-forge-muted hidden md:inline shrink-0">
             Mod {module.number.toString().padStart(2, "0")}
           </span>
-          <span className="text-forge-subtle hidden sm:inline">/</span>
-          <span className="font-medium text-forge-text truncate max-w-[140px] sm:max-w-[280px]">
+          <span className="text-forge-subtle hidden md:inline shrink-0">/</span>
+          <span className="font-medium text-forge-text truncate max-w-[90px] xs:max-w-[140px] sm:max-w-[280px]">
             {lesson.title}
           </span>
         </div>
 
         {/* Header Actions */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           {/* Progress Ring / Module Progress */}
           <div className="flex items-center gap-2">
             <ProgressRing
               percent={modulePercent}
-              size={32}
+              size={30}
               strokeWidth={3}
               accent={module.accent === "cyan" ? "cyan" : "amber"}
             />
@@ -130,7 +132,7 @@ export function LessonStudio({
             variant="outline"
             size="sm"
             onClick={() => setIsModalOpen(true)}
-            className="h-8 text-xs flex items-center gap-1.5 border-forge-border hover:bg-forge-elevated"
+            className="h-8 px-2 sm:px-3 text-xs flex items-center gap-1.5 border-forge-border hover:bg-forge-elevated"
             title="Export or Import Progress"
           >
             <FileJson className="h-3.5 w-3.5 text-ember-400" />
@@ -143,14 +145,19 @@ export function LessonStudio({
             size="sm"
             onClick={() => toggleLesson(lesson.id)}
             className={cn(
-              "h-8 text-xs flex items-center gap-1.5 font-medium transition-all",
+              "h-8 px-2 sm:px-3 text-xs flex items-center gap-1.5 font-medium transition-all",
               isCurrentLessonComplete
                 ? "border-emerald-500/40 text-emerald-400 bg-emerald-950/20 hover:bg-emerald-950/40"
                 : "bg-ember-500 hover:bg-ember-600 text-white"
             )}
           >
-            <CheckCircle className="h-3.5 w-3.5" />
-            <span>{isCurrentLessonComplete ? "Completed" : "Mark Complete"}</span>
+            <CheckCircle className="h-3.5 w-3.5 shrink-0" />
+            <span className="hidden xs:inline">
+              {isCurrentLessonComplete ? "Completed" : "Mark Complete"}
+            </span>
+            <span className="xs:hidden">
+              {isCurrentLessonComplete ? "Done" : "Mark"}
+            </span>
           </Button>
         </div>
       </header>
@@ -161,37 +168,39 @@ export function LessonStudio({
           type="button"
           onClick={() => setMobileTab("outline")}
           className={cn(
-            "flex-1 py-2.5 text-xs font-semibold uppercase tracking-wider text-center border-b-2 transition-colors",
+            "flex-1 py-2 text-xs font-semibold uppercase tracking-wider text-center border-b-2 transition-colors",
             mobileTab === "outline"
               ? "border-ember-500 text-ember-400 bg-forge-surface"
               : "border-transparent text-forge-muted hover:text-forge-text"
           )}
         >
-          1. Curriculum
+          <span className="hidden sm:inline">1. </span>Outline
         </button>
         <button
           type="button"
           onClick={() => setMobileTab("center")}
           className={cn(
-            "flex-1 py-2.5 text-xs font-semibold uppercase tracking-wider text-center border-b-2 transition-colors",
+            "flex-1 py-2 text-xs font-semibold uppercase tracking-wider text-center border-b-2 transition-colors",
             mobileTab === "center"
               ? "border-ember-500 text-ember-400 bg-forge-surface"
               : "border-transparent text-forge-muted hover:text-forge-text"
           )}
         >
-          2. Lesson & Video
+          <span className="hidden sm:inline">2. </span>
+          <span className="sm:hidden">Video</span>
+          <span className="hidden sm:inline">Lesson & Video</span>
         </button>
         <button
           type="button"
           onClick={() => setMobileTab("right")}
           className={cn(
-            "flex-1 py-2.5 text-xs font-semibold uppercase tracking-wider text-center border-b-2 transition-colors",
+            "flex-1 py-2 text-xs font-semibold uppercase tracking-wider text-center border-b-2 transition-colors",
             mobileTab === "right"
               ? "border-ember-500 text-ember-400 bg-forge-surface"
               : "border-transparent text-forge-muted hover:text-forge-text"
           )}
         >
-          3. Lab & Notes
+          <span className="hidden sm:inline">3. </span>Lab & Notes
         </button>
       </div>
 
@@ -257,34 +266,38 @@ export function LessonStudio({
                           : "bg-forge-surface/60 border-forge-border hover:bg-forge-elevated hover:border-forge-border-bright"
                       )}
                     >
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleLesson(les.id);
+                        }}
+                        className="shrink-0 p-1 text-forge-muted hover:text-emerald-400 transition-colors"
+                        title={isComplete ? "Mark incomplete" : "Mark complete"}
+                        aria-label={
+                          isComplete
+                            ? `Mark ${les.title} incomplete`
+                            : `Mark ${les.title} complete`
+                        }
+                      >
+                        {isComplete ? (
+                          <CheckCircle className="h-4 w-4 text-emerald-400" />
+                        ) : (
+                          <Circle className="h-4 w-4 text-forge-subtle" />
+                        )}
+                      </button>
+
                       <Link
                         href={`/academy/${module.id}/${les.id}`}
-                        className="flex-1 flex items-center gap-2.5 min-w-0 pr-2"
+                        className="flex-1 flex items-center justify-between min-w-0 px-2 group/link"
                       >
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            toggleLesson(les.id);
-                          }}
-                          className="shrink-0 text-forge-muted hover:text-emerald-400 transition-colors"
-                          title={isComplete ? "Mark incomplete" : "Mark complete"}
-                        >
-                          {isComplete ? (
-                            <CheckCircle className="h-4 w-4 text-emerald-400" />
-                          ) : (
-                            <Circle className="h-4 w-4 text-forge-subtle" />
-                          )}
-                        </button>
-
                         <div className="min-w-0 flex-1">
                           <div
                             className={cn(
                               "text-xs font-medium truncate leading-tight",
                               isActive
                                 ? "text-ember-300 font-semibold"
-                                : "text-forge-text group-hover:text-ember-400"
+                                : "text-forge-text group-hover/link:text-ember-400"
                             )}
                           >
                             {idx + 1}. {les.title}
@@ -298,16 +311,16 @@ export function LessonStudio({
                             )}
                           </div>
                         </div>
-                      </Link>
 
-                      <ChevronRight
-                        className={cn(
-                          "h-3.5 w-3.5 shrink-0 transition-transform",
-                          isActive
-                            ? "text-ember-400 translate-x-0.5"
-                            : "text-forge-subtle opacity-40 group-hover:opacity-100"
-                        )}
-                      />
+                        <ChevronRight
+                          className={cn(
+                            "h-3.5 w-3.5 shrink-0 transition-transform ml-1",
+                            isActive
+                              ? "text-ember-400 translate-x-0.5"
+                              : "text-forge-subtle opacity-40 group-hover/link:opacity-100"
+                          )}
+                        />
+                      </Link>
                     </div>
 
                     {/* Expandable Chapters under Active Lesson */}
@@ -562,14 +575,21 @@ export function LessonStudio({
 
             {/* Active Tab Panel Content */}
             <div className="pt-1">
-              {rightTab === "notes" && <NotesPanel lesson={lesson} />}
+              {rightTab === "notes" && (
+                <NotesPanel key={lesson.id} lesson={lesson} />
+              )}
 
               {rightTab === "lab" && (
-                <LabSlotPanel lesson={lesson} customPrompt={customLabPrompt} />
+                <LabSlotPanel
+                  key={lesson.id}
+                  lesson={lesson}
+                  customPrompt={customLabPrompt}
+                />
               )}
 
               {rightTab === "quiz" && (
                 <QuizCard
+                  key={lesson.id}
                   questions={lesson.quiz}
                   lessonId={lesson.id}
                   lessonTitle={lesson.title}

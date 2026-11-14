@@ -102,9 +102,9 @@ export function saveQuizScore(
     [lessonId]: totalQuestions,
   };
 
-  // Auto-mark complete if score is 100% or passing (>= 70%)
+  // Auto-mark complete if score is 100% or passing (>= 66% e.g. 2/3, 1/1, 2/2)
   const completedLessons = new Set(current.completedLessonIds);
-  if (totalQuestions > 0 && score / totalQuestions >= 0.7) {
+  if (totalQuestions > 0 && Math.round((score / totalQuestions) * 100) >= 66) {
     completedLessons.add(lessonId);
   }
 
@@ -221,20 +221,33 @@ export function importProgressFromJson(rawJson: string): {
 
     const candidate = progressObj as Partial<ProgressData>;
 
-    // Validate completedLessonIds
+    // Validate completedLessonIds and deduplicate
     const completedLessonIds = Array.isArray(candidate.completedLessonIds)
-      ? candidate.completedLessonIds.filter((id): id is string => typeof id === "string")
+      ? Array.from(
+          new Set(
+            candidate.completedLessonIds.filter(
+              (id): id is string => typeof id === "string" && id.trim().length > 0
+            )
+          )
+        )
       : [];
 
     const completedLabIds = Array.isArray(candidate.completedLabIds)
-      ? candidate.completedLabIds.filter((id): id is string => typeof id === "string")
+      ? Array.from(
+          new Set(
+            candidate.completedLabIds.filter(
+              (id): id is string => typeof id === "string" && id.trim().length > 0
+            )
+          )
+        )
       : [];
 
     const challengeScores: Record<string, number> = {};
     if (candidate.challengeScores && typeof candidate.challengeScores === "object") {
       for (const [k, v] of Object.entries(candidate.challengeScores)) {
-        if (typeof v === "number" && Number.isFinite(v)) {
-          challengeScores[k] = v;
+        const num = typeof v === "number" ? v : Number(v);
+        if (Number.isFinite(num)) {
+          challengeScores[k] = num;
         }
       }
     }
@@ -242,8 +255,9 @@ export function importProgressFromJson(rawJson: string): {
     const quizScores: Record<string, number> = {};
     if (candidate.quizScores && typeof candidate.quizScores === "object") {
       for (const [k, v] of Object.entries(candidate.quizScores)) {
-        if (typeof v === "number" && Number.isFinite(v)) {
-          quizScores[k] = v;
+        const num = typeof v === "number" ? v : Number(v);
+        if (Number.isFinite(num)) {
+          quizScores[k] = num;
         }
       }
     }
@@ -251,8 +265,9 @@ export function importProgressFromJson(rawJson: string): {
     const quizTotalQuestions: Record<string, number> = {};
     if (candidate.quizTotalQuestions && typeof candidate.quizTotalQuestions === "object") {
       for (const [k, v] of Object.entries(candidate.quizTotalQuestions)) {
-        if (typeof v === "number" && Number.isFinite(v)) {
-          quizTotalQuestions[k] = v;
+        const num = typeof v === "number" ? v : Number(v);
+        if (Number.isFinite(num)) {
+          quizTotalQuestions[k] = num;
         }
       }
     }
@@ -310,12 +325,9 @@ export function resetAllProgress(): ProgressData {
  * React Hook for reactive progress tracking across all Academy components.
  */
 export function useProgress() {
-  const [progress, setProgress] = useState<ProgressData>(() => {
-    if (typeof window === "undefined") {
-      return STORAGE_DEFAULTS[STORAGE_KEYS.PROGRESS];
-    }
-    return getStoredProgress();
-  });
+  const [progress, setProgress] = useState<ProgressData>(
+    STORAGE_DEFAULTS[STORAGE_KEYS.PROGRESS]
+  );
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {

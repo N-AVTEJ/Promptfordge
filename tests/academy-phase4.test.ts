@@ -84,6 +84,10 @@ describe("Phase 4: Academy Acceptance Verification", () => {
 
     mockSeek(chapters[2].time);
     assert.strictEqual(seekedTime, 140, "Seek handler must jump to exact second 140");
+
+    // Verify seeking works for long-form video chapters beyond 12 mins (720s)
+    mockSeek(950);
+    assert.strictEqual(seekedTime, 950, "Seek handler must jump to target second beyond 720s");
   });
 
   test("Complete a quiz, refresh the page, progress ring is still correct", () => {
@@ -199,5 +203,17 @@ describe("Phase 4: Academy Acceptance Verification", () => {
     });
 
     assert.strictEqual(seenLessonIds.size, 30);
+  });
+
+  test("Quiz auto-completes passing grade (>= 66%) but rejects sub-passing scores", () => {
+    // 1 out of 3 = 33% (fails)
+    saveQuizScore("mod-03-les-01", 1, 3);
+    let current = getStoredProgress();
+    assert.strictEqual(current.completedLessonIds.includes("mod-03-les-01"), false);
+
+    // 2 out of 3 = 67% (passes)
+    saveQuizScore("mod-03-les-01", 2, 3);
+    current = getStoredProgress();
+    assert.strictEqual(current.completedLessonIds.includes("mod-03-les-01"), true);
   });
 });

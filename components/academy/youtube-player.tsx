@@ -16,19 +16,37 @@ export interface YouTubePlayerProps {
   onTimeUpdate?: (seconds: number) => void;
   className?: string;
   aspectRatio?: "16/9" | "4/3";
+  duration?: number;
 }
 
 export const YouTubePlayer = React.forwardRef<YouTubePlayerRef, YouTubePlayerProps>(
-  ({ youtubeId, title, onTimeUpdate, className }, ref) => {
+  (
+    {
+      youtubeId,
+      title,
+      onTimeUpdate,
+      className,
+      aspectRatio = "16/9",
+      duration = 720,
+    },
+    ref
+  ) => {
     const isPlaceholder = !youtubeId || youtubeId.startsWith("TODO");
     const iframeRef = React.useRef<HTMLIFrameElement>(null);
+    const [origin, setOrigin] = React.useState<string>("");
 
     // Mock player state for placeholders
     const [currentTime, setCurrentTime] = React.useState(0);
     const [isPlaying, setIsPlaying] = React.useState(false);
     const [isMuted, setIsMuted] = React.useState(false);
     const [seekFeedback, setSeekFeedback] = React.useState<string | null>(null);
-    const totalDuration = 720; // 12 minutes default placeholder duration
+    const totalDuration = Math.max(720, duration);
+
+    React.useEffect(() => {
+      if (typeof window !== "undefined" && window.location.origin) {
+        setOrigin(window.location.origin);
+      }
+    }, []);
 
     const formatTime = (secs: number) => {
       const m = Math.floor(secs / 60);
@@ -39,12 +57,16 @@ export const YouTubePlayer = React.forwardRef<YouTubePlayerRef, YouTubePlayerPro
     // Imperative seek methods for parent / timestamp chips
     const seekTo = React.useCallback(
       (seconds: number) => {
-        const clamped = Math.max(0, Math.min(seconds, totalDuration));
-        setCurrentTime(clamped);
-        onTimeUpdate?.(clamped);
+        // Only clamp to totalDuration for mock placeholder mode; real videos seek freely
+        const targetSeconds = isPlaceholder
+          ? Math.max(0, Math.min(seconds, totalDuration))
+          : Math.max(0, seconds);
+
+        setCurrentTime(targetSeconds);
+        onTimeUpdate?.(targetSeconds);
 
         // Visual flash feedback
-        setSeekFeedback(`Seeked to ${formatTime(clamped)}`);
+        setSeekFeedback(`Seeked to ${formatTime(targetSeconds)}`);
         const timer = setTimeout(() => setSeekFeedback(null), 1800);
 
         if (iframeRef.current && iframeRef.current.contentWindow) {
@@ -53,7 +75,7 @@ export const YouTubePlayer = React.forwardRef<YouTubePlayerRef, YouTubePlayerPro
               JSON.stringify({
                 event: "command",
                 func: "seekTo",
-                args: [clamped, true],
+                args: [targetSeconds, true],
               }),
               "*"
             );
@@ -64,7 +86,7 @@ export const YouTubePlayer = React.forwardRef<YouTubePlayerRef, YouTubePlayerPro
 
         return () => clearTimeout(timer);
       },
-      [onTimeUpdate, totalDuration]
+      [isPlaceholder, onTimeUpdate, totalDuration]
     );
 
     const play = React.useCallback(() => {
@@ -122,6 +144,28 @@ export const YouTubePlayer = React.forwardRef<YouTubePlayerRef, YouTubePlayerPro
       return () => clearInterval(interval);
     }, [isPlaying, isPlaceholder, onTimeUpdate, totalDuration]);
 
+    const handleIframeLoad = () => {
+      // Announce readiness to YouTube IFrame API
+      if (iframeRef.current && iframeRef.current.contentWindow) {
+        try {
+          iframeRef.current.contentWindow.postMessage(
+            JSON.stringify({ event: "listening" }),
+            "*"
+          );
+        } catch {
+          // Ignore
+        }
+      }
+    };
+
+    const iframeSrc = React.useMemo(() => {
+      if (isPlaceholder) return "";
+      const base = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(
+        youtubeId
+      )}?enablejsapi=1&rel=0&modestbranding=1&iv_load_policy=3`;
+      return origin ? `${base}&origin=${encodeURIComponent(origin)}` : base;
+    }, [isPlaceholder, youtubeId, origin]);
+
     return (
       <div
         className={cn(
@@ -129,16 +173,20 @@ export const YouTubePlayer = React.forwardRef<YouTubePlayerRef, YouTubePlayerPro
           className
         )}
       >
-        <div className="relative aspect-video w-full">
+        <div
+          className={cn(
+            "relative w-full",
+            aspectRatio === "4/3" ? "aspect-[4/3]" : "aspect-video"
+          )}
+        >
           {!isPlaceholder ? (
             /* Privacy-enhanced YouTube Iframe Embed */
             <iframe
               ref={iframeRef}
-              src={`https://www.youtube-nocookie.com/embed/${encodeURIComponent(
-                youtubeId
-              )}?enablejsapi=1&rel=0&modestbranding=1&iv_load_policy=3`}
+              src={iframeSrc}
               title={title}
               loading="lazy"
+              onLoad={handleIframeLoad}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
               className="absolute inset-0 h-full w-full border-0"

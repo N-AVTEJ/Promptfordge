@@ -58,28 +58,40 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
 
     const reader = new FileReader();
     reader.onload = (event) => {
-      const content = event.target?.result as string;
-      if (content) {
-        const res = importJson(content);
-        if (res.success) {
-          setImportStatus({
-            success: true,
-            message: `Successfully restored ${res.progress?.completedLessonIds.length || 0} completed lessons and ${Object.keys(res.progress?.quizScores || {}).length} quiz scores.`,
-          });
-          setPasteJsonInput("");
-        } else {
-          setImportStatus({
-            success: false,
-            message: res.error || "Failed to import JSON.",
-          });
-        }
+      const content = (event.target?.result as string) || "";
+      const res = importJson(content);
+      if (res.success) {
+        setImportStatus({
+          success: true,
+          message: `Successfully restored ${res.progress?.completedLessonIds.length || 0} completed lessons and ${Object.keys(res.progress?.quizScores || {}).length} quiz scores.`,
+        });
+        setPasteJsonInput("");
+      } else {
+        setImportStatus({
+          success: false,
+          message: res.error || "Failed to import JSON.",
+        });
       }
     };
+    reader.onerror = () => {
+      setImportStatus({
+        success: false,
+        message: "Failed to read the selected file.",
+      });
+    };
     reader.readAsText(file);
+    // Reset input value so re-selecting same file triggers onChange
+    e.target.value = "";
   };
 
   const handlePasteImport = () => {
-    if (!pasteJsonInput.trim()) return;
+    if (!pasteJsonInput.trim()) {
+      setImportStatus({
+        success: false,
+        message: "Please enter JSON content to import.",
+      });
+      return;
+    }
     const res = importJson(pasteJsonInput);
     if (res.success) {
       setImportStatus({

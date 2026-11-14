@@ -267,9 +267,19 @@ export function PromptPlayground({
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-        {/* Left Column: Controls & Prompt Input (7 cols) */}
-        <div className="space-y-6 lg:col-span-7">
+      <div
+        className={cn(
+          "grid grid-cols-1 gap-8",
+          compact ? "gap-5" : "lg:grid-cols-12"
+        )}
+      >
+        {/* Left Column: Controls & Prompt Input */}
+        <div
+          className={cn(
+            "space-y-6",
+            compact ? "space-y-4" : "lg:col-span-7"
+          )}
+        >
           {/* Controls Bar */}
           <Card className="border-forge-border bg-forge-surface/80 p-4 backdrop-blur-sm">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -428,7 +438,7 @@ export function PromptPlayground({
               </span>
             </div>
             <textarea
-              rows={8}
+              rows={compact ? 5 : 8}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -471,8 +481,13 @@ export function PromptPlayground({
           </div>
         </div>
 
-        {/* Right Column: Execution Output & Metrics (5 cols) */}
-        <div className="space-y-6 lg:col-span-5">
+        {/* Right Column: Execution Output & Metrics */}
+        <div
+          className={cn(
+            "space-y-6",
+            compact ? "space-y-4" : "lg:col-span-5"
+          )}
+        >
           {/* Error Banner if any */}
           {error && (
             <div
@@ -508,7 +523,12 @@ export function PromptPlayground({
           )}
 
           {/* Result Card */}
-          <Card className="relative flex min-h-[460px] flex-col border-forge-border bg-forge-surface/90">
+          <Card
+            className={cn(
+              "relative flex flex-col border-forge-border bg-forge-surface/90",
+              compact ? "min-h-[280px]" : "min-h-[460px]"
+            )}
+          >
             {/* Card Header & Metrics */}
             <CardHeader className="border-b border-forge-border/80 pb-3">
               <div className="flex items-center justify-between">

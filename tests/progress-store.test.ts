@@ -95,6 +95,11 @@ describe("PromptForge Progress Store & JSON Export/Import", () => {
     saveQuizScore("mod-01-les-01", 2, 3);
     progress = getStoredProgress();
     assert.strictEqual(progress.quizScores?.["mod-01-les-01"], 3);
+
+    // New lesson: 2 out of 3 (67%) is a passing grade (>= 66%)
+    saveQuizScore("mod-01-les-02", 2, 3);
+    progress = getStoredProgress();
+    assert.ok(progress.completedLessonIds.includes("mod-01-les-02"), "2/3 should pass and complete lesson");
   });
 
   it("records and retrieves last visited lesson", () => {
@@ -156,6 +161,26 @@ describe("PromptForge Progress Store & JSON Export/Import", () => {
 
     const primitive = importProgressFromJson("42");
     assert.strictEqual(primitive.success, false);
+  });
+
+  it("deduplicates lesson IDs and coerces string scores on import", () => {
+    const messyPayload = JSON.stringify({
+      app: "promptforge",
+      version: 1,
+      data: {
+        completedLessonIds: ["mod-01-les-01", "mod-01-les-01", "mod-01-les-02"],
+        quizScores: { "mod-01-les-01": "2", "mod-01-les-02": 3 },
+        quizTotalQuestions: { "mod-01-les-01": "2", "mod-01-les-02": "3" },
+      },
+    });
+
+    const result = importProgressFromJson(messyPayload);
+    assert.strictEqual(result.success, true);
+    const restored = getStoredProgress();
+    assert.strictEqual(restored.completedLessonIds.length, 2);
+    assert.deepStrictEqual(restored.completedLessonIds, ["mod-01-les-01", "mod-01-les-02"]);
+    assert.strictEqual(restored.quizScores?.["mod-01-les-01"], 2);
+    assert.strictEqual(restored.quizTotalQuestions?.["mod-01-les-01"], 2);
   });
 
   it("resets all progress cleanly", () => {
