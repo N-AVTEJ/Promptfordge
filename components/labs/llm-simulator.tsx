@@ -13,6 +13,9 @@ import {
   Globe2,
   Info,
   Check,
+  Activity,
+  Compass,
+  Sparkles,
 } from "lucide-react";
 import {
   STAGES,
@@ -38,9 +41,20 @@ export function LlmSimulatorLab() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1.0);
 
-  // Stage 5 Attention selection
+  // Stage 2 Tokenization hover state
+  const [hoveredTokenIndex, setHoveredTokenIndex] = useState<number | null>(null);
+
+  // Stage 3 Embedding exploration state
+  const [selectedTokenA, setSelectedTokenA] = useState<number>(0);
+  const [selectedTokenB, setSelectedTokenB] = useState<number>(1);
+
+  // Stage 4 Positional harmonic state
+  const [harmonicIndex, setHarmonicIndex] = useState<number>(0);
+
+  // Stage 5 Attention selection & hover
   const [selectedQueryTokenIndex, setSelectedQueryTokenIndex] = useState<number>(0);
   const [activeHeadIndex, setActiveHeadIndex] = useState<number>(0);
+  const [hoveredArcKey, setHoveredArcKey] = useState<number | null>(null);
 
   // Stage 6 Generation state
   const [temperature, setTemperature] = useState<number>(0.7);
@@ -76,19 +90,26 @@ export function LlmSimulatorLab() {
     return compareTokenizers(costLensText);
   }, [costLensText]);
 
-  // Ensure selectedQueryTokenIndex is within valid range
+  // Ensure selected indices are within valid ranges
   useEffect(() => {
-    if (tokens.length > 0 && selectedQueryTokenIndex >= tokens.length) {
-      setSelectedQueryTokenIndex(0);
+    if (tokens.length > 0) {
+      if (selectedQueryTokenIndex >= tokens.length) {
+        setSelectedQueryTokenIndex(0);
+      }
+      if (selectedTokenA >= tokens.length) {
+        setSelectedTokenA(0);
+      }
+      if (selectedTokenB >= tokens.length) {
+        setSelectedTokenB(Math.min(1, tokens.length - 1));
+      }
     }
-  }, [tokens.length, selectedQueryTokenIndex]);
+  }, [tokens.length, selectedQueryTokenIndex, selectedTokenA, selectedTokenB]);
 
   // Step Forward invariant: transitions to next stage (or next generation step if on stage 6)
   const stepForward = useCallback(() => {
     if (currentStageIndex < 5) {
       setCurrentStageIndex((prev) => prev + 1);
     } else {
-      // On stage 6, step forward advances next-token emission
       setActiveGenStep((prev) => Math.min(generationSteps.length - 1, prev + 1));
     }
   }, [currentStageIndex, generationSteps.length]);
@@ -123,6 +144,12 @@ export function LlmSimulatorLab() {
     }
   }, []);
 
+  // Use refs for clean autoplay timer execution without nested setState side-effects
+  const stageRef = useRef(currentStageIndex);
+  stageRef.current = currentStageIndex;
+  const genStepRef = useRef(activeGenStep);
+  genStepRef.current = activeGenStep;
+
   // Autoplay loop timer
   useEffect(() => {
     if (!isPlaying) {
@@ -136,22 +163,20 @@ export function LlmSimulatorLab() {
     const intervalMs = Math.round(2200 / playbackSpeed);
 
     playTimerRef.current = setInterval(() => {
-      setCurrentStageIndex((prevStage) => {
-        if (prevStage < 5) {
-          return prevStage + 1;
+      const curStage = stageRef.current;
+      const curGen = genStepRef.current;
+
+      if (curStage < 5) {
+        setCurrentStageIndex(curStage + 1);
+      } else {
+        if (curGen < generationSteps.length - 1) {
+          setActiveGenStep(curGen + 1);
         } else {
-          // On generation stage, cycle through generation steps
-          setActiveGenStep((prevStep) => {
-            if (prevStep < generationSteps.length - 1) {
-              return prevStep + 1;
-            } else {
-              // Loop back to start after finishing generation
-              return 0;
-            }
-          });
-          return 5;
+          // Finished generation: cycle back to start cleanly
+          setCurrentStageIndex(0);
+          setActiveGenStep(0);
         }
-      });
+      }
     }, intervalMs);
 
     return () => {
@@ -194,6 +219,36 @@ export function LlmSimulatorLab() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [togglePlay, stepForward, stepBackward, handleReplay, jumpToStage]);
+
+  // Compute Cosine Similarity between selectedTokenA and selectedTokenB
+  const embeddingSimilarity = useMemo(() => {
+    if (tokens.length === 0) return { dot: 0, normA: 0, normB: 0, cosine: 0 };
+    const embA = embeddings[selectedTokenA]?.dimensions || [];
+    const embB = embeddings[selectedTokenB]?.dimensions || [];
+
+    let dot = 0;
+    let sumSqA = 0;
+    let sumSqB = 0;
+
+    for (let i = 0; i < 16; i++) {
+      const vA = embA[i] ?? 0;
+      const vB = embB[i] ?? 0;
+      dot += vA * vB;
+      sumSqA += vA * vA;
+      sumSqB += vB * vB;
+    }
+
+    const normA = Math.sqrt(sumSqA);
+    const normB = Math.sqrt(sumSqB);
+    const cosine = normA > 0 && normB > 0 ? dot / (normA * normB) : 0;
+
+    return {
+      dot: Number(dot.toFixed(4)),
+      normA: Number(normA.toFixed(3)),
+      normB: Number(normB.toFixed(3)),
+      cosine: Number(cosine.toFixed(4)),
+    };
+  }, [embeddings, selectedTokenA, selectedTokenB, tokens.length]);
 
   return (
     <div className="space-y-8">
@@ -272,7 +327,10 @@ export function LlmSimulatorLab() {
                   </div>
                 </div>
 
-                <Badge variant="outline" className="border-ember-500/40 text-ember-400 self-start sm:self-center font-mono text-xs">
+                <Badge
+                  variant="outline"
+                  className="border-ember-500/40 text-ember-400 self-start sm:self-center font-mono text-xs"
+                >
                   Real In-Browser BPE
                 </Badge>
               </div>
@@ -346,7 +404,9 @@ export function LlmSimulatorLab() {
                     <div className="mt-2 space-y-1 text-xs font-mono text-forge-muted">
                       <div className="flex justify-between">
                         <span>Characters / Token:</span>
-                        <span className="text-forge-text font-bold">{item.compressionRatio}</span>
+                        <span className="text-forge-text font-bold">
+                          {item.compressionRatio}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span>Relative Expansion:</span>
@@ -394,8 +454,8 @@ export function LlmSimulatorLab() {
                     Why does non-English text cost more?
                   </span>
                   <p className="leading-relaxed">
-                    {MULTILINGUAL_PRESETS[selectedMultilingualPreset].insight}
-                    {" "}Legacy vocabularies like r50k split non-Latin unicode characters into separate raw byte tokens, whereas modern o200k embeds common word chunks into native single tokens.
+                    {MULTILINGUAL_PRESETS[selectedMultilingualPreset].insight}{" "}
+                    Legacy vocabularies like r50k split non-Latin unicode characters into separate raw byte tokens, whereas modern o200k embeds common word chunks into native single tokens.
                   </p>
                 </div>
               </div>
@@ -431,7 +491,9 @@ export function LlmSimulatorLab() {
                   0{stage.number}
                 </span>
                 {isPassed && <Check className="h-3.5 w-3.5 text-cyan-400" />}
-                {isActive && <div className="h-2 w-2 rounded-full bg-ember-500 animate-pulse" />}
+                {isActive && (
+                  <div className="h-2 w-2 rounded-full bg-ember-500 animate-pulse" />
+                )}
               </div>
               <span
                 className={`mt-1 font-semibold text-xs truncate ${
@@ -493,7 +555,9 @@ export function LlmSimulatorLab() {
             variant="outline"
             size="sm"
             onClick={stepForward}
-            disabled={currentStageIndex === 5 && activeGenStep === generationSteps.length - 1}
+            disabled={
+              currentStageIndex === 5 && activeGenStep === generationSteps.length - 1
+            }
             className="border-forge-border text-forge-text hover:bg-forge-surface"
             title="Step Forward (ArrowRight)"
           >
@@ -563,7 +627,10 @@ export function LlmSimulatorLab() {
         <div className="flex flex-col gap-2 rounded-xl border border-forge-border bg-forge-surface p-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Badge variant="outline" className="border-ember-500/40 bg-ember-500/10 text-ember-400 font-mono text-xs">
+              <Badge
+                variant="outline"
+                className="border-ember-500/40 bg-ember-500/10 text-ember-400 font-mono text-xs"
+              >
                 {currentStageDef.badgeLabel}
               </Badge>
               <h2 className="text-lg font-bold text-forge-text">
@@ -643,7 +710,7 @@ export function LlmSimulatorLab() {
                 })}
               </div>
               <p className="text-[11px] text-forge-muted leading-relaxed">
-                Tokens are not characters. In the next stage, the tokenizer maps contiguous character slices into integer tokens.
+                Tokens are not characters. In the next stage, the tokenizer maps contiguous character slices into discrete integer tokens.
               </p>
             </Card>
           </div>
@@ -661,31 +728,67 @@ export function LlmSimulatorLab() {
                   Discrete Vocabulary Tokens ({tokens.length} tokens extracted)
                 </h3>
               </div>
-              <Badge variant="outline" className="border-cyan-500/40 text-cyan-300 font-mono text-xs self-start sm:self-center">
+              <Badge
+                variant="outline"
+                className="border-cyan-500/40 text-cyan-300 font-mono text-xs self-start sm:self-center"
+              >
                 cl100k_base Engine
               </Badge>
             </div>
 
+            {/* Interactive Bidirectional Highlight Area */}
+            <div className="space-y-2">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-forge-muted block">
+                Bidirectional Text Mapping (Hover tokens below to inspect exact character boundaries):
+              </span>
+              <div className="rounded-xl border border-forge-border bg-forge-black/80 p-4 font-mono text-xs leading-relaxed">
+                {tokens.map((t) => {
+                  const isHovered = hoveredTokenIndex === t.index;
+                  return (
+                    <span
+                      key={t.index}
+                      onMouseEnter={() => setHoveredTokenIndex(t.index)}
+                      onMouseLeave={() => setHoveredTokenIndex(null)}
+                      style={{
+                        backgroundColor: isHovered ? `${t.hexColor}44` : undefined,
+                        borderBottom: isHovered ? `2px solid ${t.hexColor}` : undefined,
+                      }}
+                      className="cursor-pointer transition-colors px-0.5 py-0.5 rounded-sm"
+                    >
+                      {t.text}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Token Chips Array */}
             <div className="flex flex-wrap gap-2 p-4 rounded-xl border border-forge-border/80 bg-forge-black/70 min-h-[120px]">
-              {tokens.map((token) => (
-                <div
-                  key={token.index}
-                  className={`group relative flex flex-col rounded-lg border px-3 py-1.5 transition-all hover:scale-105 cursor-pointer ${token.colorClass}`}
-                >
-                  <div className="flex items-center justify-between gap-3 text-[10px] font-mono opacity-80">
-                    <span>#{token.index}</span>
-                    <span className="font-bold text-forge-text">ID: {token.id}</span>
+              {tokens.map((token) => {
+                const isHovered = hoveredTokenIndex === token.index;
+                return (
+                  <div
+                    key={token.index}
+                    onMouseEnter={() => setHoveredTokenIndex(token.index)}
+                    onMouseLeave={() => setHoveredTokenIndex(null)}
+                    className={`group relative flex flex-col rounded-lg border px-3 py-1.5 transition-all cursor-pointer ${
+                      isHovered ? "ring-2 ring-forge-text scale-105 shadow-md" : ""
+                    } ${token.colorClass}`}
+                  >
+                    <div className="flex items-center justify-between gap-3 text-[10px] font-mono opacity-80">
+                      <span>#{token.index}</span>
+                      <span className="font-bold text-forge-text">ID: {token.id}</span>
+                    </div>
+                    <span className="mt-0.5 font-mono text-sm font-semibold text-forge-text whitespace-pre">
+                      {token.cleanText}
+                    </span>
+                    <div className="mt-1 flex items-center justify-between text-[9px] font-mono opacity-70">
+                      <span>{token.byteLength} B</span>
+                      <span>chars [{token.charStart}:{token.charEnd}]</span>
+                    </div>
                   </div>
-                  <span className="mt-0.5 font-mono text-sm font-semibold text-forge-text whitespace-pre">
-                    {token.cleanText}
-                  </span>
-                  <div className="mt-1 flex items-center justify-between text-[9px] font-mono opacity-70">
-                    <span>{token.byteLength} B</span>
-                    <span>chars [{token.charStart}:{token.charEnd}]</span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Token Statistics Readout */}
@@ -694,13 +797,17 @@ export function LlmSimulatorLab() {
                 <span className="text-[10px] font-mono uppercase text-forge-muted block">
                   Total Tokens
                 </span>
-                <span className="text-xl font-bold font-mono text-cyan-400">{tokens.length}</span>
+                <span className="text-xl font-bold font-mono text-cyan-400">
+                  {tokens.length}
+                </span>
               </div>
               <div className="rounded-lg border border-forge-border bg-forge-black/50 p-3">
                 <span className="text-[10px] font-mono uppercase text-forge-muted block">
                   Character Length
                 </span>
-                <span className="text-xl font-bold font-mono text-forge-text">{inputText.length}</span>
+                <span className="text-xl font-bold font-mono text-forge-text">
+                  {inputText.length}
+                </span>
               </div>
               <div className="rounded-lg border border-forge-border bg-forge-black/50 p-3">
                 <span className="text-[10px] font-mono uppercase text-forge-muted block">
@@ -720,21 +827,82 @@ export function LlmSimulatorLab() {
           </Card>
         )}
 
-        {/* STAGE 3: TOKEN VECTOR EMBEDDINGS */}
+        {/* STAGE 3: TOKEN VECTOR EMBEDDINGS (HEATMAP + 2D PROJECTION & COSINE SIMILARITY) */}
         {currentStageIndex === 2 && (
           <Card className="border-forge-border bg-forge-surface p-6 space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-forge-border pb-4">
               <div>
                 <span className="font-mono text-xs uppercase tracking-wider text-purple-400">
-                  Continuous Representation
+                  Continuous Geometric Space
                 </span>
                 <h3 className="text-base font-bold text-forge-text mt-0.5">
-                  Dense Vector Projections ($d = 16$ Visualized / 768 Total)
+                  Dense Vector Embeddings &amp; Cosine Similarity ($d = 16$ Visualized)
                 </h3>
               </div>
               <div className="flex items-center gap-2 text-xs font-mono text-forge-muted">
                 <div className="h-3 w-8 rounded bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500" />
                 <span>Value: -1.0 to +1.0</span>
+              </div>
+            </div>
+
+            {/* Interactive Cosine Similarity Inspector */}
+            <div className="rounded-xl border border-purple-500/30 bg-purple-950/15 p-4 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <span className="text-xs font-mono font-bold text-purple-300 flex items-center gap-1.5">
+                  <Compass className="h-4 w-4" />
+                  <span>Geometric Cosine Similarity Inspector</span>
+                </span>
+                <span className="text-[11px] font-mono text-forge-muted">
+                  {"cos(e_A, e_B) = (e_A · e_B) / (||e_A|| ||e_B||)"}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
+                {/* Token A Selector */}
+                <div className="flex items-center gap-2 bg-forge-black/60 rounded-lg p-2 border border-forge-border">
+                  <span className="text-[10px] font-mono text-forge-muted uppercase">
+                    Token A:
+                  </span>
+                  <select
+                    value={selectedTokenA}
+                    onChange={(e) => setSelectedTokenA(parseInt(e.target.value, 10))}
+                    className="bg-transparent font-mono text-xs text-forge-text focus:outline-none flex-1"
+                  >
+                    {tokens.map((t) => (
+                      <option key={t.index} value={t.index} className="bg-forge-black text-forge-text">
+                        #{t.index}: &quot;{t.cleanText}&quot;
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Token B Selector */}
+                <div className="flex items-center gap-2 bg-forge-black/60 rounded-lg p-2 border border-forge-border">
+                  <span className="text-[10px] font-mono text-forge-muted uppercase">
+                    Token B:
+                  </span>
+                  <select
+                    value={selectedTokenB}
+                    onChange={(e) => setSelectedTokenB(parseInt(e.target.value, 10))}
+                    className="bg-transparent font-mono text-xs text-forge-text focus:outline-none flex-1"
+                  >
+                    {tokens.map((t) => (
+                      <option key={t.index} value={t.index} className="bg-forge-black text-forge-text">
+                        #{t.index}: &quot;{t.cleanText}&quot;
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Mathematical Result */}
+                <div className="flex items-center justify-between bg-forge-black/80 rounded-lg p-2.5 border border-purple-500/40">
+                  <div className="text-[11px] font-mono text-forge-muted">
+                    Dot: <span className="text-forge-text">{embeddingSimilarity.dot}</span>
+                  </div>
+                  <div className="font-mono text-sm font-bold text-cyan-300">
+                    Similarity: {(embeddingSimilarity.cosine * 100).toFixed(1)}%
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -758,7 +926,6 @@ export function LlmSimulatorLab() {
                     {/* 16-Dimension Heatmap Grid */}
                     <div className="flex-1 grid grid-cols-16 gap-1">
                       {emb.dimensions.map((val, dimIdx) => {
-                        // Normalize -1..1 to 0..1
                         const normVal = (val + 1) / 2;
                         const r = Math.round(59 + normVal * 180);
                         const g = Math.round(130 - normVal * 80);
@@ -794,7 +961,7 @@ export function LlmSimulatorLab() {
           </Card>
         )}
 
-        {/* STAGE 4: POSITIONAL ENCODING (WAVES & ROPE) */}
+        {/* STAGE 4: POSITIONAL ENCODING (CONTINUOUS WAVEFORM CANVAS) */}
         {currentStageIndex === 3 && (
           <Card className="border-forge-border bg-forge-surface p-6 space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-forge-border pb-4">
@@ -806,9 +973,122 @@ export function LlmSimulatorLab() {
                   Sinusoidal Positional Encoding ($\sin / \cos$ Superposition)
                 </h3>
               </div>
-              <Badge variant="outline" className="border-cyan-500/40 text-cyan-300 font-mono text-xs self-start sm:self-center">
+              <Badge
+                variant="outline"
+                className="border-cyan-500/40 text-cyan-300 font-mono text-xs self-start sm:self-center"
+              >
                 {"PE(pos, 2i) = sin(pos / 10000^(2i/d))"}
               </Badge>
+            </div>
+
+            {/* Continuous SVG Sinusoidal Waveform Canvas */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-forge-muted">
+                  Continuous Sinusoidal Wave Over Sequence Index (Harmonic Frequency $i={harmonicIndex}$):
+                </span>
+                <div className="flex items-center gap-1 font-mono text-xs text-forge-muted">
+                  <span>Frequency:</span>
+                  {[0, 1, 2, 4, 7].map((h) => (
+                    <button
+                      key={h}
+                      onClick={() => setHarmonicIndex(h)}
+                      className={`px-2 py-0.5 rounded text-[10px] ${
+                        harmonicIndex === h
+                          ? "bg-cyan-500 text-forge-black font-bold"
+                          : "border border-forge-border hover:bg-forge-surface"
+                      }`}
+                    >
+                      i={h}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* SVG Waveform Rendering */}
+              <div className="relative rounded-xl border border-cyan-500/30 bg-forge-black/80 p-4 overflow-hidden">
+                <svg
+                  viewBox="0 0 1000 160"
+                  className="w-full h-40 overflow-visible"
+                  preserveAspectRatio="none"
+                >
+                  {/* Zero axis */}
+                  <line
+                    x1="0"
+                    y1="80"
+                    x2="1000"
+                    y2="80"
+                    stroke="#334155"
+                    strokeWidth="1"
+                    strokeDasharray="4 4"
+                  />
+
+                  {/* Continuous Sine Wave Path */}
+                  {(() => {
+                    const N = Math.max(1, tokens.length);
+                    const denominator = Math.pow(10000, (2 * harmonicIndex) / 16);
+                    let pathD = "M 0 80";
+                    for (let x = 0; x <= 1000; x += 10) {
+                      const pos = (x / 1000) * (N - 1);
+                      const angle = pos / denominator;
+                      const y = 80 - Math.sin(angle) * 55;
+                      pathD += ` L ${x} ${y.toFixed(1)}`;
+                    }
+                    return (
+                      <path
+                        d={pathD}
+                        fill="none"
+                        stroke="#06b6d4"
+                        strokeWidth="2.5"
+                        className="opacity-90"
+                      />
+                    );
+                  })()}
+
+                  {/* Discrete Token Points along the wave */}
+                  {tokens.map((token, idx) => {
+                    const N = Math.max(1, tokens.length);
+                    const denominator = Math.pow(10000, (2 * harmonicIndex) / 16);
+                    const x = N === 1 ? 500 : (idx / (N - 1)) * 900 + 50;
+                    const angle = idx / denominator;
+                    const sinVal = Math.sin(angle);
+                    const y = 80 - sinVal * 55;
+
+                    return (
+                      <g key={token.index} className="cursor-pointer group">
+                        <line
+                          x1={x}
+                          y1="80"
+                          x2={x}
+                          y2={y}
+                          stroke="#06b6d4"
+                          strokeWidth="1.5"
+                          strokeDasharray="2 2"
+                          opacity="0.6"
+                        />
+                        <circle
+                          cx={x}
+                          cy={y}
+                          r="5"
+                          fill="#f97316"
+                          stroke="#ffffff"
+                          strokeWidth="1.5"
+                        />
+                        <text
+                          x={x}
+                          y={y > 80 ? y + 16 : y - 10}
+                          textAnchor="middle"
+                          fill="#e2e8f0"
+                          fontSize="10"
+                          fontFamily="monospace"
+                        >
+                          {token.cleanText.slice(0, 5)}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </svg>
+              </div>
             </div>
 
             {/* Positional Wave Visualization Grid */}
@@ -862,16 +1142,17 @@ export function LlmSimulatorLab() {
           </Card>
         )}
 
-        {/* STAGE 5: MULTI-HEAD SELF-ATTENTION (INTERACTIVE GRAPH) */}
+        {/* STAGE 5: MULTI-HEAD SELF-ATTENTION (BEAST SVG ANIMATED BEAMS) */}
         {currentStageIndex === 4 && (
           <Card className="border-forge-border bg-forge-surface p-6 space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-forge-border pb-4">
               <div>
-                <span className="font-mono text-xs uppercase tracking-wider text-ember-400">
-                  Dynamic Semantic Routing
+                <span className="font-mono text-xs uppercase tracking-wider text-ember-400 flex items-center gap-1.5">
+                  <Activity className="h-4 w-4" />
+                  <span>Dynamic Semantic Routing Graph</span>
                 </span>
                 <h3 className="text-base font-bold text-forge-text mt-0.5">
-                  Self-Attention Graph: Click Any Token to Inspect Query Beams
+                  Multi-Head Self-Attention: Animated Query Routing Beams
                 </h3>
               </div>
 
@@ -903,7 +1184,7 @@ export function LlmSimulatorLab() {
             {/* Interactive Token Strip: Click to set Query Token */}
             <div>
               <span className="text-[11px] font-mono uppercase tracking-wider text-forge-muted block mb-2">
-                Tokens (Click to set as Active Query $q_i$):
+                Tokens (Click any token to set as Active Query $q_i$):
               </span>
               <div className="flex flex-wrap gap-2">
                 {tokens.map((token, idx) => {
@@ -917,14 +1198,14 @@ export function LlmSimulatorLab() {
                       onClick={() => setSelectedQueryTokenIndex(idx)}
                       className={`relative flex flex-col rounded-lg border px-3 py-2 text-left font-mono transition-all ${
                         isQuery
-                          ? "border-ember-500 bg-ember-500/20 text-ember-300 ring-2 ring-ember-500/50 scale-105"
+                          ? "border-ember-500 bg-ember-500/20 text-ember-300 ring-2 ring-ember-500/50 scale-105 shadow-lg"
                           : "border-forge-border bg-forge-black/60 text-forge-text hover:border-forge-text/50"
                       }`}
                     >
                       <div className="flex items-center justify-between text-[10px] text-forge-muted">
                         <span>#{idx}</span>
                         {isQuery && (
-                          <span className="rounded bg-ember-500 text-forge-black px-1 font-bold">
+                          <span className="rounded bg-ember-500 text-forge-black px-1 font-bold text-[9px]">
                             QUERY
                           </span>
                         )}
@@ -941,48 +1222,234 @@ export function LlmSimulatorLab() {
               </div>
             </div>
 
-            {/* Attention Arc Beam Visualizer (SVG Beams) */}
-            <div className="relative rounded-xl border border-forge-border/80 bg-forge-black/90 p-5 overflow-hidden">
-              <span className="text-[11px] font-mono uppercase tracking-wider text-forge-muted block mb-3">
-                Attention Routing Beams from Query Token [
-                {tokens[selectedQueryTokenIndex]?.cleanText}]
-              </span>
-
-              {/* Attention Weights Bar Breakdown */}
-              <div className="space-y-2 pt-2">
-                {tokens.map((kToken, kIdx) => {
-                  const weight =
-                    attentionHeads[activeHeadIndex]?.weights[selectedQueryTokenIndex]?.[kIdx] ?? 0;
-                  const isSelf = selectedQueryTokenIndex === kIdx;
-
-                  return (
-                    <div
-                      key={kIdx}
-                      className="flex items-center gap-3 font-mono text-xs text-forge-text"
-                    >
-                      <div className="w-24 truncate font-bold text-forge-muted">
-                        {kToken.cleanText}
-                        {isSelf && " (self)"}
-                      </div>
-                      <div className="flex-1 h-3 rounded-full bg-forge-surface overflow-hidden">
-                        <div
-                          style={{ width: `${Math.max(2, weight * 100)}%`, opacity: Math.max(0.2, weight) }}
-                          className={`h-full rounded-full transition-all duration-300 ${
-                            isSelf
-                              ? "bg-amber-400"
-                              : weight > 0.15
-                              ? "bg-cyan-400"
-                              : "bg-purple-500"
-                          }`}
-                        />
-                      </div>
-                      <span className="w-14 text-right text-cyan-400 font-bold">
-                        {(weight * 100).toFixed(1)}%
-                      </span>
-                    </div>
-                  );
-                })}
+            {/* GENUINE SVG ATTENTION BEAMS VISUALIZER */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-cyan-400">
+                  Animated Attention Beams from Query [{tokens[selectedQueryTokenIndex]?.cleanText}]
+                </span>
+                <span className="text-[10px] font-mono text-forge-muted">
+                  {"Curved stroke opacity equals attention weight α(query, key)"}
+                </span>
               </div>
+
+              <div className="relative rounded-2xl border border-forge-border/90 bg-forge-black p-4 overflow-hidden shadow-2xl">
+                {/* SVG Routing Arcs Canvas */}
+                <svg
+                  viewBox="0 0 1000 280"
+                  className="w-full h-64 overflow-visible"
+                  preserveAspectRatio="xMidYMid meet"
+                >
+                  <defs>
+                    <linearGradient id="beamGradientEmber" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#f97316" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.9" />
+                    </linearGradient>
+                    <linearGradient id="beamGradientPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#a855f7" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.9" />
+                    </linearGradient>
+                    <linearGradient id="beamGradientEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#10b981" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.9" />
+                    </linearGradient>
+                    <filter id="beamGlow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="3" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  {/* Draw Attention Curved Beams from Query token to all Key tokens */}
+                  {tokens.map((kToken, kIdx) => {
+                    const N = Math.max(1, tokens.length);
+                    const qIdx = selectedQueryTokenIndex;
+                    const xQ = N === 1 ? 500 : 70 + (qIdx / (N - 1)) * 860;
+                    const xK = N === 1 ? 500 : 70 + (kIdx / (N - 1)) * 860;
+                    const yNode = 60;
+
+                    const weight =
+                      attentionHeads[activeHeadIndex]?.weights[qIdx]?.[kIdx] ?? 0;
+                    const isSelf = qIdx === kIdx;
+                    const isHovered = hoveredArcKey === kIdx;
+
+                    const strokeGradient =
+                      activeHeadIndex === 0
+                        ? "url(#beamGradientEmber)"
+                        : activeHeadIndex === 1
+                        ? "url(#beamGradientPurple)"
+                        : "url(#beamGradientEmerald)";
+
+                    // Self loop vs quadratic bezier to other tokens
+                    let arcPathD = "";
+                    if (isSelf) {
+                      arcPathD = `M ${xQ - 12} ${yNode} C ${xQ - 30} ${yNode + 60}, ${xQ + 30} ${yNode + 60}, ${xQ + 12} ${yNode}`;
+                    } else {
+                      const cx = (xQ + xK) / 2;
+                      const dist = Math.abs(xK - xQ);
+                      const cy = yNode + Math.min(200, 45 + dist * 0.32);
+                      arcPathD = `M ${xQ} ${yNode} Q ${cx} ${cy} ${xK} ${yNode}`;
+                    }
+
+                    // Strict contract: opacity proportional to weight
+                    const strokeOpacity = Math.max(0.12, weight * 0.95);
+                    const strokeWidth = Math.max(1.5, weight * 9);
+
+                    return (
+                      <g
+                        key={kIdx}
+                        onMouseEnter={() => setHoveredArcKey(kIdx)}
+                        onMouseLeave={() => setHoveredArcKey(null)}
+                        className="cursor-pointer transition-all"
+                      >
+                        {/* Interactive Invisible Fat Hitbox for easy hover */}
+                        <path
+                          d={arcPathD}
+                          fill="none"
+                          stroke="transparent"
+                          strokeWidth="20"
+                        />
+                        {/* Visible Glowing Energy Beam */}
+                        <path
+                          d={arcPathD}
+                          fill="none"
+                          stroke={strokeGradient}
+                          strokeWidth={isHovered ? strokeWidth + 2 : strokeWidth}
+                          strokeOpacity={isHovered ? 1.0 : strokeOpacity}
+                          strokeDasharray="6 4"
+                          filter={weight > 0.15 || isHovered ? "url(#beamGlow)" : undefined}
+                          className="transition-all duration-300"
+                        >
+                          <animate
+                            attributeName="stroke-dashoffset"
+                            from="20"
+                            to="0"
+                            dur={weight > 0.2 ? "1.0s" : "2.0s"}
+                            repeatCount="indefinite"
+                          />
+                        </path>
+                      </g>
+                    );
+                  })}
+
+                  {/* Draw Token Nodes along horizontal axis */}
+                  {tokens.map((token, idx) => {
+                    const N = Math.max(1, tokens.length);
+                    const x = N === 1 ? 500 : 70 + (idx / (N - 1)) * 860;
+                    const y = 60;
+                    const isQuery = selectedQueryTokenIndex === idx;
+                    const weight =
+                      attentionHeads[activeHeadIndex]?.weights[selectedQueryTokenIndex]?.[idx] ?? 0;
+                    const nodeRadius = isQuery ? 10 : Math.max(6, 6 + weight * 12);
+
+                    return (
+                      <g
+                        key={token.index}
+                        onClick={() => setSelectedQueryTokenIndex(idx)}
+                        onMouseEnter={() => setHoveredArcKey(idx)}
+                        onMouseLeave={() => setHoveredArcKey(null)}
+                        className="cursor-pointer group"
+                      >
+                        {/* Pulsing ring for active query */}
+                        {isQuery && (
+                          <circle
+                            cx={x}
+                            cy={y}
+                            r="16"
+                            fill="none"
+                            stroke="#f97316"
+                            strokeWidth="2"
+                            strokeDasharray="4 2"
+                            className="animate-spin opacity-80"
+                          />
+                        )}
+
+                        {/* Node circle */}
+                        <circle
+                          cx={x}
+                          cy={y}
+                          r={nodeRadius}
+                          fill={isQuery ? "#f97316" : "#0f172a"}
+                          stroke={isQuery ? "#ffffff" : weight > 0.15 ? "#06b6d4" : "#475569"}
+                          strokeWidth="2"
+                          className="transition-all duration-300 group-hover:scale-125"
+                        />
+
+                        {/* Token Text Label */}
+                        <text
+                          x={x}
+                          y={y - 20}
+                          textAnchor="middle"
+                          fill={isQuery ? "#f97316" : "#f1f5f9"}
+                          fontSize="11"
+                          fontWeight={isQuery ? "bold" : "600"}
+                          fontFamily="monospace"
+                        >
+                          {token.cleanText.slice(0, 8)}
+                        </text>
+
+                        {/* Attention percentage indicator */}
+                        <text
+                          x={x}
+                          y={y + 24}
+                          textAnchor="middle"
+                          fill={isQuery ? "#f97316" : "#06b6d4"}
+                          fontSize="9"
+                          fontFamily="monospace"
+                          fontWeight="bold"
+                        >
+                          {(weight * 100).toFixed(0)}%
+                        </text>
+                      </g>
+                    );
+                  })}
+                </svg>
+              </div>
+            </div>
+
+            {/* Attention Weights Bar Breakdown */}
+            <div className="space-y-2 pt-2">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-forge-muted block">
+                Row-Wise Softmax Distribution from Query Token [
+                {tokens[selectedQueryTokenIndex]?.cleanText}]:
+              </span>
+              {tokens.map((kToken, kIdx) => {
+                const weight =
+                  attentionHeads[activeHeadIndex]?.weights[selectedQueryTokenIndex]?.[kIdx] ?? 0;
+                const isSelf = selectedQueryTokenIndex === kIdx;
+
+                return (
+                  <div
+                    key={kIdx}
+                    className="flex items-center gap-3 font-mono text-xs text-forge-text"
+                  >
+                    <div className="w-24 truncate font-bold text-forge-muted">
+                      {kToken.cleanText}
+                      {isSelf && " (self)"}
+                    </div>
+                    <div className="flex-1 h-3 rounded-full bg-forge-surface overflow-hidden">
+                      <div
+                        style={{
+                          width: `${Math.max(2, weight * 100)}%`,
+                          opacity: Math.max(0.2, weight),
+                        }}
+                        className={`h-full rounded-full transition-all duration-300 ${
+                          isSelf
+                            ? "bg-amber-400"
+                            : weight > 0.15
+                            ? "bg-cyan-400"
+                            : "bg-purple-500"
+                        }`}
+                      />
+                    </div>
+                    <span className="w-14 text-right text-cyan-400 font-bold">
+                      {(weight * 100).toFixed(1)}%
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </Card>
         )}
@@ -992,18 +1459,23 @@ export function LlmSimulatorLab() {
           <Card className="border-forge-border bg-forge-surface p-6 space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-forge-border pb-4">
               <div>
-                <span className="font-mono text-xs uppercase tracking-wider text-emerald-400">
-                  Iterative Token Emission
+                <span className="font-mono text-xs uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                  <Sparkles className="h-4 w-4" />
+                  <span>Iterative Token Emission</span>
                 </span>
                 <h3 className="text-base font-bold text-forge-text mt-0.5">
-                  Autoregressive Softmax Sampling (Step {activeGenStep + 1} of {generationSteps.length})
+                  Autoregressive Softmax Sampling (Step {activeGenStep + 1} of{" "}
+                  {generationSteps.length})
                 </h3>
               </div>
 
               {/* Temperature Slider */}
               <div className="flex items-center gap-3">
                 <span className="text-xs font-mono text-forge-muted">
-                  Temp: <span className="text-amber-400 font-bold">{temperature.toFixed(2)}</span>
+                  Temp:{" "}
+                  <span className="text-amber-400 font-bold">
+                    {temperature.toFixed(2)}
+                  </span>
                 </span>
                 <input
                   type="range"
@@ -1038,7 +1510,8 @@ export function LlmSimulatorLab() {
             {/* Top-5 Candidate Softmax Probabilities Bar Chart */}
             <div className="space-y-3">
               <span className="text-[11px] font-mono uppercase tracking-wider text-forge-muted block">
-                Top Vocabulary Candidates (Softmax Distribution):
+                Top Vocabulary Candidates (Softmax Distribution with Temperature T=
+                {temperature}):
               </span>
 
               <div className="space-y-2">
@@ -1063,7 +1536,9 @@ export function LlmSimulatorLab() {
                       {/* Probability Bar */}
                       <div className="flex-1 h-3 rounded-full bg-forge-surface overflow-hidden">
                         <div
-                          style={{ width: `${(cand.probability * 100).toFixed(1)}%` }}
+                          style={{
+                            width: `${(cand.probability * 100).toFixed(1)}%`,
+                          }}
                           className={`h-full rounded-full transition-all duration-300 ${
                             isSelected ? "bg-emerald-400" : "bg-cyan-500/70"
                           }`}
@@ -1075,7 +1550,10 @@ export function LlmSimulatorLab() {
                       </span>
 
                       {isSelected && (
-                        <Badge variant="outline" className="border-emerald-500/40 text-emerald-400 text-[10px] py-0">
+                        <Badge
+                          variant="outline"
+                          className="border-emerald-500/40 text-emerald-400 text-[10px] py-0"
+                        >
                           SAMPLED
                         </Badge>
                       )}
@@ -1103,7 +1581,11 @@ export function LlmSimulatorLab() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setActiveGenStep((prev) => Math.min(generationSteps.length - 1, prev + 1))}
+                  onClick={() =>
+                    setActiveGenStep((prev) =>
+                      Math.min(generationSteps.length - 1, prev + 1)
+                    )
+                  }
                   disabled={activeGenStep === generationSteps.length - 1}
                   className="text-xs"
                 >

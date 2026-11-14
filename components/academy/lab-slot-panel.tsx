@@ -62,14 +62,36 @@ export function LabSlotPanel({
             <span className="hidden sm:inline">Reset</span>
           </Button>
 
-          <Link href="/labs" target="_blank">
+          <Link
+            href={
+              lesson.relatedLab === "anatomy"
+                ? "/labs/anatomy"
+                : lesson.relatedLab === "simulator"
+                ? "/labs/llm-simulator"
+                : "/labs"
+            }
+            target="_blank"
+          >
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
-              className="h-7 px-2 text-xs text-forge-muted hover:text-forge-text"
-              title="Open full labs playground in new tab"
+              className="h-7 px-2 text-xs text-forge-muted hover:text-forge-text border-forge-border flex items-center gap-1"
+              title={
+                lesson.relatedLab === "anatomy"
+                  ? "Open Prompt Anatomy Visualizer in new tab"
+                  : lesson.relatedLab === "simulator"
+                  ? "Open LLM Simulator in new tab"
+                  : "Open full labs in new tab"
+              }
             >
-              <ExternalLink className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">
+                {lesson.relatedLab === "anatomy"
+                  ? "Open Anatomy Lab"
+                  : lesson.relatedLab === "simulator"
+                  ? "Open Simulator Lab"
+                  : "Full Lab"}
+              </span>
+              <ExternalLink className="h-3.5 w-3.5 text-cyan-400" />
             </Button>
           </Link>
         </div>

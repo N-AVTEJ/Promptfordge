@@ -131,7 +131,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
               "In GPT and Claude tokenizers, ' apple' and 'apple' have different token IDs. Leading whitespace is part of the token byte representation.",
           },
         ],
-        relatedLab: "playground",
+        relatedLab: "simulator",
         notesMarkdown: `### BPE & Token Boundary Fundamentals
 - **Token IDs**: Models take integers, not characters.
 - **Leading spaces matter**: Always consider whether your prompts insert unintended spaces before delimiters.
@@ -178,7 +178,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
               "Attention scores follow a distinct U-shaped curve in Transformer models: the initial tokens (system instructions) and final tokens (immediate query) receive highest focus, while middle tokens suffer attention degradation.",
           },
         ],
-        relatedLab: "playground",
+        relatedLab: "simulator",
         notesMarkdown: `### Key Attention Takeaways
 1. **Primacy Bias**: First 100 tokens frame the semantic direction.
 2. **Recency Bias**: The last 50 tokens before generation have the freshest attention state.
@@ -225,7 +225,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
               "Tokenizers rely on frequent word and subword occurrences. High-entropy strings like Base64 hashes break common subword patterns, causing the tokenizer to emit almost 1 token per character.",
           },
         ],
-        relatedLab: "playground",
+        relatedLab: "simulator",
         notesMarkdown: `### Token Economy Cheat Sheet
 - Avoid unnecessary JSON key verbosity in few-shot exemplars.
 - Prefer YAML or concise XML delimiters over nested JSON when token budget is tight.
@@ -296,7 +296,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
               "The Output contract defines the exact envelope, data format, and syntax rules of the response, strictly prohibiting preamble and conversational filler.",
           },
         ],
-        relatedLab: "playground",
+        relatedLab: "anatomy",
         notesMarkdown: `### The 4-Part Production Architecture
 1. **Persona**: Identity, tone, scope of expertise.
 2. **Context**: Input data, database schemas, environmental state.
@@ -344,7 +344,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
               "Closing tags (e.g. </user_data>) provide an unambiguous boundary indicating exactly where untrusted or reference content terminates, preventing semantic bleed into surrounding instructions.",
           },
         ],
-        relatedLab: "playground",
+        relatedLab: "anatomy",
         notesMarkdown: `### Semantic Fencing Rules
 - Use \`<documents>\`, \`<rules>\`, and \`<user_input>\` for clean modularity.
 - Reference tags explicitly: *"Analyze the text inside \`<source_data>\`"*.
@@ -391,7 +391,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
               "Privilege inversion happens when the model treats user instructions as having greater authority than the underlying system prompt, often triggered by role-playing or simulation scenarios.",
           },
         ],
-        relatedLab: "playground",
+        relatedLab: "anatomy",
         notesMarkdown: `### Role Hierarchy Best Practices
 - Never mix privileged system instructions into the user role channel.
 - Treat all text coming from third parties as untrusted data payloads.

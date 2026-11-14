@@ -2,6 +2,8 @@ import { describe, it } from "node:test";
 import assert from "node:assert";
 import {
   parsePromptAnatomy,
+  parseAiAnalysisResponse,
+  simulateDeepAnalysis,
   SPEC_SAMPLE_PROMPT,
   ANATOMY_PRESETS,
   COMPONENT_DIFF_SCENARIOS,
@@ -168,6 +170,66 @@ describe("Phase 5: Visual Labs & Simulators Acceptance Verification", () => {
         assert.notStrictEqual(scenario.originalText, scenario.modifiedText);
         assert.ok(scenario.explanationOfImpact.length > 20);
       }
+    });
+
+    it("accurately detects context, task, and constraints across generalized prompts without overfitting", () => {
+      const generalizedPrompt =
+        "You are a coding mentor. Teach how recursion works to a junior developer. Keep under 50 words. Format your output as a concise bulleted summary.";
+
+      const analysis = parsePromptAnatomy(generalizedPrompt);
+
+      assert.ok(analysis.presentTypes.includes("role"), "Detects role");
+      assert.ok(analysis.presentTypes.includes("task"), "Detects task (Teach)");
+      assert.ok(
+        analysis.presentTypes.includes("context"),
+        "Detects context (to a junior developer) without hardcoded strings"
+      );
+      assert.ok(
+        analysis.presentTypes.includes("constraints"),
+        "Detects constraints (Keep under 50 words)"
+      );
+      assert.ok(
+        analysis.presentTypes.includes("output_format"),
+        "Detects output format (bulleted summary)"
+      );
+
+      const contextSpan = analysis.detectedSpans.find((s) => s.type === "context");
+      assert.ok(contextSpan, "Context span found");
+      assert.ok(
+        contextSpan.text.includes("junior developer"),
+        `Context should contain 'junior developer', got: ${contextSpan.text}`
+      );
+    });
+
+    it("parses AI decomposition JSON with markdown fences and sets source to ai-assisted", () => {
+      const prompt = "Act as an architect. Build a secure auth system. No external libraries.";
+      const mockAiResponse = `\`\`\`json
+{
+  "summary": "Clear role and constraint",
+  "components": [
+    { "type": "role", "text": "Act as an architect.", "rationale": "Persona definition" },
+    { "type": "task", "text": "Build a secure auth system.", "rationale": "Action directive" },
+    { "type": "constraints", "text": "No external libraries.", "rationale": "Negative constraint" }
+  ]
+}
+\`\`\``;
+
+      const result = parseAiAnalysisResponse(mockAiResponse, prompt);
+      assert.strictEqual(result.source, "ai-assisted");
+      assert.ok(result.presentTypes.includes("role"));
+      assert.ok(result.presentTypes.includes("task"));
+      assert.ok(result.presentTypes.includes("constraints"));
+      assert.strictEqual(result.detectedSpans.length, 3);
+      assert.strictEqual(result.detectedSpans[0].startIndex, 0);
+    });
+
+    it("falls back to simulated deep analysis gracefully when execution engine is offline", () => {
+      const prompt = "Explain Docker containers to an intern.";
+      const simulated = simulateDeepAnalysis(prompt);
+
+      assert.strictEqual(simulated.source, "ai-assisted");
+      assert.ok(simulated.detectedSpans.length > 0);
+      assert.ok(simulated.detectedSpans[0].rationale.includes("AI Semantic Decomposition"));
     });
   });
 
@@ -343,6 +405,31 @@ describe("Phase 5: Visual Labs & Simulators Acceptance Verification", () => {
         assert.strictEqual(step.topCandidates[0].rank, 1);
         assert.strictEqual(step.selectedToken, step.topCandidates[0]);
       });
+    });
+
+    it("verifies mathematical consistency of embedding cosine similarity", () => {
+      const tokens = tokenizeInputText("Machine learning transformers");
+      const embeddings = generateEmbeddings(tokens, 42);
+
+      assert.strictEqual(embeddings.length, 3);
+      const e0 = embeddings[0].dimensions;
+      const e1 = embeddings[1].dimensions;
+
+      let dot = 0;
+      let sumSqA = 0;
+      let sumSqB = 0;
+      for (let i = 0; i < 16; i++) {
+        dot += e0[i] * e1[i];
+        sumSqA += e0[i] * e0[i];
+        sumSqB += e1[i] * e1[i];
+      }
+      const normA = Math.sqrt(sumSqA);
+      const normB = Math.sqrt(sumSqB);
+      const cosine = dot / (normA * normB);
+
+      // Cosine similarity is bounded in [-1.0, 1.0]
+      assert.ok(cosine >= -1.0 && cosine <= 1.0);
+      assert.ok(normA > 0 && normB > 0);
     });
   });
 });
