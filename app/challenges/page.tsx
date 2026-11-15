@@ -1,25 +1,16 @@
-import { PhaseStub } from "@/components/shell/phase-stub";
+import { Metadata } from "next";
+import { ChallengesHub } from "@/components/challenges/challenges-hub";
 
-export const metadata = {
-  title: "Challenges | PromptForge",
+export const metadata: Metadata = {
+  title: "Challenges & Badges | PromptForge",
   description:
-    "Prompt golf, adversarial defense, and structured output coding puzzles.",
+    "Master prompt engineering missions with automated verification, points, and unlockable badges across all live laboratories.",
 };
 
 export default function ChallengesPage() {
   return (
-    <PhaseStub
-      moduleName="Prompt Engineering Challenges"
-      phaseLabel="Phase 8"
-      iconType="challenges"
-      description="Gamified challenges including Prompt Golf (minimal tokens for target behavior), Jailbreak Defense (system prompt hardening), and Strict JSON Schema Puzzles."
-      plannedFeatures={[
-        "Interactive challenge leaderboard based on local storage scores",
-        "Automated grading runner against boundary test vectors",
-        "Token efficiency scoreboards and hint systems",
-        "Progress badges and mastery certificates",
-      ]}
-      nextRoute={{ label: "Academy Curriculum", href: "/academy" }}
-    />
+    <div className="mx-auto min-h-screen max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <ChallengesHub />
+    </div>
   );
 }

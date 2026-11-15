@@ -9,6 +9,7 @@
 
 import type { WorkflowDefinition } from "@/lib/workflow/types";
 import type { ArenaProgress } from "@/lib/arena/types";
+import type { ChallengesData } from "./challenges";
 
 export const STORAGE_PREFIX = "pf_v1_";
 
@@ -21,6 +22,7 @@ export const STORAGE_KEYS = {
   COMPARE_EXPERIMENTS: `${STORAGE_PREFIX}compare_experiments`,
   WORKFLOWS: `${STORAGE_PREFIX}workflows`,
   ARENA_PROGRESS: `${STORAGE_PREFIX}arena_progress`,
+  CHALLENGES: `${STORAGE_PREFIX}challenges`,
 } as const;
 
 export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
@@ -110,6 +112,7 @@ export interface StorageSchema {
   [STORAGE_KEYS.COMPARE_EXPERIMENTS]: CompareExperimentRecord[];
   [STORAGE_KEYS.WORKFLOWS]: WorkflowDefinition[];
   [STORAGE_KEYS.ARENA_PROGRESS]: ArenaProgress;
+  [STORAGE_KEYS.CHALLENGES]: ChallengesData;
 }
 
 export const STORAGE_DEFAULTS: StorageSchema = {
@@ -139,6 +142,13 @@ export const STORAGE_DEFAULTS: StorageSchema = {
     totalRedVsBlueRuns: 0,
     lastActiveTab: "levels",
     updatedAt: 0,
+  },
+  [STORAGE_KEYS.CHALLENGES]: {
+    completedMissionIds: [],
+    unlockedBadgeIds: [],
+    totalPoints: 0,
+    completedAt: {},
+    badgeUnlockedAt: {},
   },
 };
 
@@ -172,6 +182,12 @@ export const STORAGE_VALIDATORS: {
     typeof data === "object" &&
     !Array.isArray(data) &&
     Array.isArray((data as ArenaProgress).completedLevels),
+  [STORAGE_KEYS.CHALLENGES]: (data: unknown): data is ChallengesData =>
+    data !== null &&
+    typeof data === "object" &&
+    !Array.isArray(data) &&
+    Array.isArray((data as ChallengesData).completedMissionIds) &&
+    Array.isArray((data as ChallengesData).unlockedBadgeIds),
 };
 
 // In-memory cache fallback for SSR or restricted environments
