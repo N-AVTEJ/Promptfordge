@@ -32,7 +32,6 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
     message: string;
   } | null>(null);
 
-  // Close on Escape
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -80,7 +79,6 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
       });
     };
     reader.readAsText(file);
-    // Reset input value so re-selecting same file triggers onChange
     e.target.value = "";
   };
 
@@ -117,24 +115,24 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-indigo-950/40 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="progress-modal-title"
     >
-      <div className="relative w-full max-w-lg rounded-forge-xl border border-forge-border bg-forge-surface shadow-forge overflow-hidden">
+      <div className="relative w-full max-w-lg rounded-2xl border border-indigo-950/10 bg-white shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-forge-border px-6 py-4">
+        <div className="flex items-center justify-between border-b border-indigo-950/10 px-6 py-4">
           <div className="flex items-center gap-2">
-            <FileJson className="h-5 w-5 text-ember-400" />
-            <h3 id="progress-modal-title" className="text-base font-bold text-forge-text">
+            <FileJson className="h-5 w-5 text-coral" />
+            <h3 id="progress-modal-title" className="text-base font-bold text-indigo">
               Curriculum Progress Management
             </h3>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-forge p-1 text-forge-muted hover:bg-forge-elevated hover:text-forge-text"
+            className="rounded-lg p-1.5 text-indigo-900/60 hover:bg-indigo-950/5 hover:text-indigo"
             aria-label="Close modal"
           >
             <X className="h-5 w-5" />
@@ -142,7 +140,7 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
         </div>
 
         {/* Tab Selection */}
-        <div className="flex border-b border-forge-border bg-forge-elevated/50 px-6 pt-2">
+        <div className="flex border-b border-indigo-950/10 bg-cream/50 px-6 pt-2">
           <button
             type="button"
             onClick={() => {
@@ -152,8 +150,8 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
             className={cn(
               "px-4 py-2 text-xs font-semibold uppercase tracking-wider border-b-2 transition-colors",
               activeTab === "export"
-                ? "border-ember-500 text-ember-400"
-                : "border-transparent text-forge-muted hover:text-forge-text"
+                ? "border-coral text-coral"
+                : "border-transparent text-indigo-900/60 hover:text-indigo"
             )}
           >
             Export Progress
@@ -167,8 +165,8 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
             className={cn(
               "px-4 py-2 text-xs font-semibold uppercase tracking-wider border-b-2 transition-colors",
               activeTab === "import"
-                ? "border-ember-500 text-ember-400"
-                : "border-transparent text-forge-muted hover:text-forge-text"
+                ? "border-coral text-coral"
+                : "border-transparent text-indigo-900/60 hover:text-indigo"
             )}
           >
             Import Progress
@@ -182,8 +180,8 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
             className={cn(
               "px-4 py-2 text-xs font-semibold uppercase tracking-wider border-b-2 transition-colors",
               activeTab === "reset"
-                ? "border-red-500 text-red-400"
-                : "border-transparent text-forge-muted hover:text-forge-text"
+                ? "border-rose-500 text-rose-600"
+                : "border-transparent text-indigo-900/60 hover:text-indigo"
             )}
           >
             Reset
@@ -195,51 +193,51 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
           {importStatus && (
             <div
               className={cn(
-                "flex items-start gap-2.5 rounded-forge p-3 border",
+                "flex items-start gap-2.5 rounded-xl p-3 border",
                 importStatus.success
-                  ? "bg-emerald-950/30 border-emerald-500/40 text-emerald-300"
-                  : "bg-red-950/30 border-red-500/40 text-red-300"
+                  ? "bg-teal/10 border-teal/30 text-teal"
+                  : "bg-rose-50 border-rose-300 text-rose-700"
               )}
             >
               {importStatus.success ? (
-                <CheckCircle className="h-4 w-4 shrink-0 mt-0.5" />
+                <CheckCircle className="h-4 w-4 shrink-0 mt-0.5 text-teal" />
               ) : (
-                <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+                <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5 text-rose-600" />
               )}
-              <span>{importStatus.message}</span>
+              <span className="leading-relaxed">{importStatus.message}</span>
             </div>
           )}
 
           {activeTab === "export" && (
             <div className="space-y-4">
-              <p className="text-forge-muted leading-relaxed">
-                Export your entire PromptForge Academy progress (completed lessons, quiz best scores, and last visited position) as a standalone JSON file.
+              <p className="text-indigo-900/70 leading-relaxed">
+                Save your completed lesson checkmarks and quiz scores into a lightweight JSON file or copy raw text to restore on another device.
               </p>
 
-              <div className="rounded-forge bg-forge-black p-3 font-mono text-[11px] text-forge-muted border border-forge-border space-y-1">
-                <div>Completed Lessons: {progress.completedLessonIds.length}</div>
-                <div>Quizzes Passed: {Object.keys(progress.quizScores || {}).length}</div>
-                <div>Last Visited: {progress.lastVisited?.lessonId || "None"}</div>
+              <div className="rounded-xl bg-cream p-4 font-mono text-[11px] text-indigo border border-indigo-950/10 space-y-1">
+                <div>Completed lessons: {progress.completedLessonIds.length}</div>
+                <div>Quiz results recorded: {Object.keys(progress.quizScores || {}).length}</div>
+                <div>Last updated: {new Date(progress.updatedAt || Date.now()).toLocaleString()}</div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-2 pt-2">
+              <div className="flex flex-wrap items-center gap-3 pt-2">
                 <Button
                   onClick={downloadFile}
-                  className="flex-1 flex items-center justify-center gap-2 bg-ember-500 hover:bg-ember-600 text-white shadow-ember-sm"
+                  className="flex items-center gap-2 text-xs"
                 >
                   <Download className="h-4 w-4" />
-                  <span>Download JSON File</span>
+                  <span>Download Backup JSON</span>
                 </Button>
 
                 <Button
                   variant="outline"
                   onClick={handleCopyJson}
-                  className="flex items-center justify-center gap-2 border-forge-border hover:bg-forge-elevated"
+                  className="flex items-center gap-2 text-xs"
                 >
                   {copied ? (
                     <>
-                      <Check className="h-4 w-4 text-emerald-400" />
-                      <span>Copied JSON</span>
+                      <Check className="h-4 w-4 text-teal" />
+                      <span>Copied!</span>
                     </>
                   ) : (
                     <>
@@ -254,66 +252,72 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
 
           {activeTab === "import" && (
             <div className="space-y-4">
-              <p className="text-forge-muted leading-relaxed">
-                Restore your curriculum progress by uploading a downloaded JSON file, or paste raw JSON into the box below.
+              <p className="text-indigo-900/70 leading-relaxed">
+                Restore your previous progress by uploading a backup file or pasting JSON content.
               </p>
 
-              {/* File Upload Button */}
               <div>
-                <label className="flex flex-col items-center justify-center rounded-forge border border-dashed border-forge-border bg-forge-elevated/40 p-4 cursor-pointer hover:border-ember-500/50 hover:bg-forge-elevated transition-colors">
-                  <Upload className="h-6 w-6 text-ember-400 mb-2" />
-                  <span className="font-semibold text-forge-text">Upload JSON File</span>
-                  <span className="text-[11px] text-forge-subtle mt-0.5">
-                    Click to select .json export from your device
-                  </span>
-                  <input
-                    type="file"
-                    accept=".json"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
+                <label
+                  htmlFor="progress-file-input"
+                  className="block text-xs font-semibold text-indigo mb-1.5"
+                >
+                  Upload JSON File
                 </label>
+                <input
+                  id="progress-file-input"
+                  type="file"
+                  accept=".json,application/json"
+                  onChange={handleFileUpload}
+                  className="w-full text-xs text-indigo-900/70 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-coral file:text-white hover:file:bg-coral-600 cursor-pointer"
+                />
               </div>
 
-              {/* Paste JSON */}
-              <div className="space-y-2">
-                <label className="text-[11px] font-semibold uppercase tracking-wider text-forge-muted">
-                  Or Paste JSON Text:
+              <div className="space-y-1.5">
+                <label
+                  htmlFor="paste-json-input"
+                  className="block text-xs font-semibold text-indigo"
+                >
+                  Or Paste JSON Directly
                 </label>
                 <textarea
+                  id="paste-json-input"
+                  rows={4}
                   value={pasteJsonInput}
                   onChange={(e) => setPasteJsonInput(e.target.value)}
-                  placeholder='{"app": "promptforge", "version": 1, ...}'
-                  rows={4}
-                  className="w-full rounded-forge border border-forge-border bg-forge-black p-3 font-mono text-[11px] text-forge-text placeholder:text-forge-subtle focus:border-ember-500 focus:outline-none"
+                  placeholder='{"completedLessonIds": [...], "quizScores": {...}}'
+                  className="w-full rounded-xl border border-indigo-950/15 bg-cream p-3 font-mono text-[11px] text-indigo placeholder:text-indigo-900/40 focus:border-coral focus:outline-none"
                 />
-                <Button
-                  onClick={handlePasteImport}
-                  disabled={!pasteJsonInput.trim()}
-                  className="w-full bg-ember-500 hover:bg-ember-600 text-white disabled:opacity-50"
-                >
-                  Import From Text
-                </Button>
               </div>
+
+              <Button
+                onClick={handlePasteImport}
+                className="w-full flex items-center justify-center gap-2 text-xs"
+              >
+                <Upload className="h-4 w-4" />
+                <span>Import and Restore Progress</span>
+              </Button>
             </div>
           )}
 
           {activeTab === "reset" && (
             <div className="space-y-4">
-              <div className="rounded-forge bg-red-950/20 border border-red-500/30 p-3 text-red-300 space-y-1">
-                <strong className="block text-red-200">Warning: Irreversible Action</strong>
-                <p>
-                  Resetting will wipe all completed lesson marks, quiz scores, and history from your browser local storage.
-                </p>
+              <div className="rounded-xl border border-rose-200 bg-rose-50 p-3.5 flex items-start gap-2.5 text-rose-800">
+                <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <span className="font-bold block">Caution: Irreversible Action</span>
+                  <p className="text-xs text-rose-700 leading-relaxed">
+                    This will clear all completed lesson records, saved quiz scores, and telemetry timestamps stored in this browser session.
+                  </p>
+                </div>
               </div>
 
               <Button
                 variant="destructive"
                 onClick={handleResetConfirm}
-                className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white"
+                className="w-full flex items-center justify-center gap-2 text-xs font-semibold"
               >
                 <RotateCcw className="h-4 w-4" />
-                <span>Confirm & Reset All Progress</span>
+                <span>Confirm Reset All Progress</span>
               </Button>
             </div>
           )}

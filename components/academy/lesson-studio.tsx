@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useProgress } from "@/lib/storage/progress";
 import { ProgressRing } from "@/components/academy/progress-ring";
-import { YouTubePlayer, type YouTubePlayerRef } from "@/components/academy/youtube-player";
+import { YouTubeEmbed, type YouTubeEmbedRef } from "@/components/academy/youtube-embed";
 import { TimestampChips } from "@/components/academy/timestamp-chips";
 import { QuizCard } from "@/components/academy/quiz-card";
 import { NotesPanel } from "@/components/academy/notes-panel";
@@ -44,25 +44,14 @@ export function LessonStudio({
   const { progress, toggleLesson, visitLesson } = useProgress();
   const router = useRouter();
 
-  // YouTube player imperative seek ref
-  const playerRef = React.useRef<YouTubePlayerRef>(null);
-
-  // Active second from player playback
+  const playerRef = React.useRef<YouTubeEmbedRef>(null);
   const [currentPlaybackSecond, setCurrentPlaybackSecond] = React.useState(0);
-
-  // Right panel tabs: "notes" | "lab" | "quiz"
   const [rightTab, setRightTab] = React.useState<"notes" | "lab" | "quiz">("notes");
-
-  // Mobile layout tabs (< 1024px): "outline" | "center" | "right"
   const [mobileTab, setMobileTab] = React.useState<"outline" | "center" | "right">("center");
-
-  // Progress modal
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-
-  // Custom prompt sent from practice challenge to lab
   const [customLabPrompt, setCustomLabPrompt] = React.useState<string | undefined>(undefined);
 
-  // Full keyboard navigation pass
+  // Keyboard navigation
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
@@ -110,20 +99,17 @@ export function LessonStudio({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [router, prevLesson, nextLesson, lesson.id, toggleLesson]);
 
-  // Register last visited and reset transient state on lesson change
   React.useEffect(() => {
     visitLesson(module.id, lesson.id);
     setCustomLabPrompt(undefined);
     setCurrentPlaybackSecond(0);
   }, [module.id, lesson.id, visitLesson]);
 
-  // Handle seek requested by chapter chips
   const handleSeek = (seconds: number) => {
     playerRef.current?.seekTo(seconds);
     setCurrentPlaybackSecond(seconds);
   };
 
-  // Calculate module completion percentage
   const completedInModule = module.lessons.filter((l) =>
     progress.completedLessonIds.includes(l.id)
   ).length;
@@ -139,164 +125,148 @@ export function LessonStudio({
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-forge-950 text-forge-text">
+    <div className="flex min-h-screen flex-col bg-cream text-indigo">
       {/* Studio Top Navigation Bar */}
-      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-white/[0.08] bg-[#0A0C0F]/95 px-4 sm:px-6 backdrop-blur-md">
-        {/* Breadcrumb / Back to Academy */}
-        <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm min-w-0 flex-1 mr-2">
+      <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-indigo-950/10 bg-cream/95 px-6 backdrop-blur-md">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-sm min-w-0 flex-1 mr-4">
           <Link
             href="/academy"
-            className="flex items-center gap-1 sm:gap-1.5 text-zinc-400 hover:text-white transition-colors shrink-0"
+            className="flex items-center gap-1.5 text-indigo-900/70 hover:text-indigo font-semibold shrink-0"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span className="font-medium hidden xs:inline">Academy</span>
+            <span>Academy</span>
           </Link>
-          <span className="text-zinc-600 shrink-0">/</span>
-          <span className="font-mono text-xs text-zinc-400 hidden md:inline shrink-0">
+          <span className="text-indigo-900/30 shrink-0">/</span>
+          <span className="font-mono text-xs text-indigo-900/60 hidden md:inline shrink-0 font-bold">
             Mod {module.number.toString().padStart(2, "0")}
           </span>
-          <span className="text-zinc-600 hidden md:inline shrink-0">/</span>
-          <span className="font-medium text-forge-text truncate max-w-[90px] xs:max-w-[140px] sm:max-w-[280px]">
+          <span className="text-indigo-900/30 hidden md:inline shrink-0">/</span>
+          <span className="font-bold text-indigo truncate max-w-[280px]">
             {lesson.title}
           </span>
         </div>
 
         {/* Header Actions */}
-        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-          {/* Progress Ring / Module Progress */}
+        <div className="flex items-center gap-3 shrink-0">
           <div className="flex items-center gap-2">
             <ProgressRing
               percent={modulePercent}
-              size={30}
+              size={32}
               strokeWidth={3}
-              accent={module.accent === "cyan" ? "cyan" : "amber"}
+              accent="amber"
             />
-            <span className="text-xs font-mono text-zinc-400 hidden md:inline">
+            <span className="text-xs font-mono text-indigo-900/60 hidden md:inline">
               {completedInModule}/{module.lessons.length} done
             </span>
           </div>
 
-          {/* Progress Import/Export Modal Trigger */}
           <Button
             variant="outline"
             size="sm"
             onClick={() => setIsModalOpen(true)}
-            className="h-8 px-2 sm:px-3 text-xs flex items-center gap-1.5 border-white/[0.08] bg-white/[0.03] text-zinc-300 hover:bg-white/[0.08]"
+            className="h-8 px-3 text-xs flex items-center gap-1.5"
             title="Export or Import Progress"
           >
-            <FileJson className="h-3.5 w-3.5 text-ember-400" />
+            <FileJson className="h-3.5 w-3.5 text-coral" />
             <span className="hidden sm:inline">Progress sync</span>
           </Button>
 
-          {/* Mark Complete Quick Toggle */}
           <Button
             variant={isCurrentLessonComplete ? "outline" : "default"}
             size="sm"
             onClick={() => toggleLesson(lesson.id)}
             className={cn(
-              "h-8 px-2 sm:px-3 text-xs flex items-center gap-1.5 font-medium transition-all",
+              "h-8 px-3 text-xs flex items-center gap-1.5 font-bold transition-all",
               isCurrentLessonComplete
-                ? "border-emerald-500/40 text-emerald-400 bg-emerald-950/20 hover:bg-emerald-950/40"
-                : "bg-ember-500 hover:bg-ember-600 text-black font-semibold"
+                ? "border-teal/30 text-teal bg-teal/10 hover:bg-teal/20"
+                : "bg-coral hover:bg-coral-600 text-white shadow-coral-glow"
             )}
           >
             <CheckCircle className="h-3.5 w-3.5 shrink-0" />
-            <span className="hidden xs:inline">
-              {isCurrentLessonComplete ? "Completed" : "Mark complete"}
-            </span>
-            <span className="xs:hidden">
-              {isCurrentLessonComplete ? "Done" : "Mark"}
-            </span>
+            <span>{isCurrentLessonComplete ? "Completed" : "Mark complete"}</span>
           </Button>
         </div>
       </header>
 
       {/* Mobile Screen Tab Navigation (< 1024px) */}
-      <div className="lg:hidden sticky top-14 z-20 flex border-b border-forge-border bg-forge-elevated">
+      <div className="lg:hidden sticky top-16 z-20 flex border-b border-indigo-950/10 bg-white">
         <button
           type="button"
           onClick={() => setMobileTab("outline")}
           className={cn(
-            "flex-1 py-2 text-xs font-semibold uppercase tracking-wider text-center border-b-2 transition-colors",
+            "flex-1 py-2.5 text-xs font-bold uppercase tracking-wider text-center border-b-2 transition-colors",
             mobileTab === "outline"
-              ? "border-ember-500 text-ember-400 bg-forge-surface"
-              : "border-transparent text-forge-muted hover:text-forge-text"
+              ? "border-coral text-coral bg-cream"
+              : "border-transparent text-indigo-900/60 hover:text-indigo"
           )}
         >
-          <span className="hidden sm:inline">1. </span>Outline
+          1. Outline
         </button>
         <button
           type="button"
           onClick={() => setMobileTab("center")}
           className={cn(
-            "flex-1 py-2 text-xs font-semibold uppercase tracking-wider text-center border-b-2 transition-colors",
+            "flex-1 py-2.5 text-xs font-bold uppercase tracking-wider text-center border-b-2 transition-colors",
             mobileTab === "center"
-              ? "border-ember-500 text-ember-400 bg-forge-surface"
-              : "border-transparent text-forge-muted hover:text-forge-text"
+              ? "border-coral text-coral bg-cream"
+              : "border-transparent text-indigo-900/60 hover:text-indigo"
           )}
         >
-          <span className="hidden sm:inline">2. </span>
-          <span className="sm:hidden">Video</span>
-          <span className="hidden sm:inline">Lesson & Video</span>
+          2. Lesson & Video
         </button>
         <button
           type="button"
           onClick={() => setMobileTab("right")}
           className={cn(
-            "flex-1 py-2 text-xs font-semibold uppercase tracking-wider text-center border-b-2 transition-colors",
+            "flex-1 py-2.5 text-xs font-bold uppercase tracking-wider text-center border-b-2 transition-colors",
             mobileTab === "right"
-              ? "border-ember-500 text-ember-400 bg-forge-surface"
-              : "border-transparent text-forge-muted hover:text-forge-text"
+              ? "border-coral text-coral bg-cream"
+              : "border-transparent text-indigo-900/60 hover:text-indigo"
           )}
         >
-          <span className="hidden sm:inline">3. </span>Lab & Notes
+          3. Lab & Notes
         </button>
       </div>
 
-      {/* Main Studio Body: 3 Panels */}
-      <main className="flex-1 w-full max-w-[1800px] mx-auto p-3 sm:p-4 md:p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* ============================================================== */}
+      {/* Main Studio Body: Three Panels */}
+      <main className="flex-1 w-full max-w-[1720px] mx-auto p-4 sm:p-6 lg:p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* PANEL 1 (LEFT): Module Curriculum & Chapter List (Cols: 3/12) */}
-          {/* ============================================================== */}
           <aside
             className={cn(
-              "lg:col-span-3 rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#11141A] to-[#0A0C0F] p-4 space-y-5 lg:sticky lg:top-20",
+              "lg:col-span-3 rounded-2xl border border-indigo-950/10 bg-white p-6 space-y-6 shadow-card lg:sticky lg:top-24",
               mobileTab !== "outline" && "hidden lg:block"
             )}
           >
-            {/* Module Card Mini-Header */}
-            <div className="space-y-2 border-b border-white/[0.06] pb-4">
+            <div className="space-y-2 border-b border-indigo-950/10 pb-4">
               <div className="flex items-center justify-between">
-                <Badge
-                  variant="outline"
-                  className="text-[10px] font-mono uppercase border-white/[0.1] bg-white/[0.04] text-zinc-300"
-                >
+                <span className="rounded-full bg-cream px-3 py-1 font-mono text-xs font-bold text-indigo border border-indigo-950/10">
                   Module {module.number}
-                </Badge>
-                <span className="text-[11px] font-mono text-zinc-400">
+                </span>
+                <span className="text-xs font-mono text-indigo-900/60">
                   {module.duration}
                 </span>
               </div>
-              <h2 className="text-sm font-bold text-forge-text leading-snug">
+              <h2 className="text-base font-bold text-indigo leading-snug">
                 {module.title}
               </h2>
-              <div className="flex items-center gap-2 pt-1">
-                <div className="flex-1 h-1.5 bg-white/[0.08] rounded-full overflow-hidden">
+              <div className="flex items-center gap-2 pt-2">
+                <div className="flex-1 h-2 bg-indigo-950/10 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-ember-500 to-cyan-400 transition-all duration-500"
+                    className="h-full bg-coral transition-all duration-500"
                     style={{ width: `${modulePercent}%` }}
                   />
                 </div>
-                <span className="text-[11px] font-mono text-zinc-400">
+                <span className="text-xs font-mono text-indigo-900/70 font-semibold">
                   {modulePercent}%
                 </span>
               </div>
             </div>
 
-            {/* Lessons List in this Module */}
-            <div className="space-y-1.5">
-              <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 px-1">
+            {/* Lessons List in Module */}
+            <div className="space-y-2">
+              <div className="text-[11px] font-mono uppercase tracking-wider text-indigo-900/50 font-bold px-1">
                 Lessons in this module
               </div>
 
@@ -309,10 +279,10 @@ export function LessonStudio({
                   <div key={les.id} className="space-y-1">
                     <div
                       className={cn(
-                        "group flex items-center justify-between rounded-lg p-2 transition-all border",
+                        "group flex items-center justify-between rounded-xl p-2.5 transition-all border",
                         isActive
-                          ? "bg-white/[0.06] border-ember-500/40 text-amber-300"
-                          : "bg-transparent border-transparent hover:bg-white/[0.03] hover:border-white/[0.06]"
+                          ? "bg-coral/10 border-coral/40 text-coral font-bold shadow-sm"
+                          : "bg-cream/40 border-indigo-950/5 hover:bg-cream hover:border-indigo-950/15"
                       )}
                     >
                       <button
@@ -321,7 +291,7 @@ export function LessonStudio({
                           e.stopPropagation();
                           toggleLesson(les.id);
                         }}
-                        className="shrink-0 p-1 text-zinc-500 hover:text-emerald-400 transition-colors"
+                        className="shrink-0 p-1 text-indigo-900/40 hover:text-teal transition-colors"
                         title={isComplete ? "Mark incomplete" : "Mark complete"}
                         aria-label={
                           isComplete
@@ -330,9 +300,9 @@ export function LessonStudio({
                         }
                       >
                         {isComplete ? (
-                          <CheckCircle className="h-4 w-4 text-emerald-400" />
+                          <CheckCircle className="h-4 w-4 text-teal" />
                         ) : (
-                          <Circle className="h-4 w-4 text-zinc-600" />
+                          <Circle className="h-4 w-4 text-indigo-900/30" />
                         )}
                       </button>
 
@@ -343,18 +313,18 @@ export function LessonStudio({
                         <div className="min-w-0 flex-1">
                           <div
                             className={cn(
-                              "text-xs truncate leading-tight font-mono",
+                              "text-xs truncate leading-tight font-sans font-semibold",
                               isActive
-                                ? "text-amber-300 font-semibold"
-                                : "text-zinc-300 group-hover/link:text-white"
+                                ? "text-coral font-bold"
+                                : "text-indigo group-hover/link:text-coral"
                             )}
                           >
                             {idx + 1}. {les.title}
                           </div>
-                          <div className="flex items-center gap-2 text-[10px] text-zinc-500 mt-0.5">
+                          <div className="flex items-center gap-2 text-[10px] text-indigo-900/50 mt-0.5 font-mono">
                             <span>{les.chapters.length} chapters</span>
                             {score !== undefined && (
-                              <span className="text-cyan-400 font-mono">
+                              <span className="text-teal font-bold font-mono">
                                 Quiz: {score}/{les.quiz.length}
                               </span>
                             )}
@@ -363,29 +333,29 @@ export function LessonStudio({
 
                         <ChevronRight
                           className={cn(
-                            "h-3.5 w-3.5 shrink-0 transition-transform ml-1",
+                            "h-4 w-4 shrink-0 transition-transform ml-1",
                             isActive
-                              ? "text-amber-400 translate-x-0.5"
-                              : "text-zinc-600 opacity-40 group-hover/link:opacity-100"
+                              ? "text-coral translate-x-0.5"
+                              : "text-indigo-900/30 group-hover/link:text-coral"
                           )}
                         />
                       </Link>
                     </div>
 
-                    {/* Expandable Chapters under Active Lesson */}
+                    {/* Expandable Chapters */}
                     {isActive && (
-                      <div className="ml-6 border-l border-white/[0.08] pl-3 py-1 space-y-1">
+                      <div className="ml-6 border-l-2 border-coral/30 pl-3 py-1 space-y-1">
                         {les.chapters.map((chap, cIdx) => (
                           <button
                             key={cIdx}
                             type="button"
                             onClick={() => handleSeek(chap.time)}
-                            className="flex w-full items-center justify-between text-left text-[11px] text-zinc-400 hover:text-amber-400 py-1 transition-colors group"
+                            className="flex w-full items-center justify-between text-left text-xs text-indigo-900/70 hover:text-coral py-1 transition-colors group"
                           >
                             <span className="truncate pr-1 group-hover:underline">
                               {chap.label}
                             </span>
-                            <span className="font-mono text-[10px] text-zinc-500 shrink-0">
+                            <span className="font-mono text-[10px] text-indigo-900/50 shrink-0">
                               {Math.floor(chap.time / 60)}:
                               {(chap.time % 60).toString().padStart(2, "0")}
                             </span>
@@ -398,10 +368,10 @@ export function LessonStudio({
               })}
             </div>
 
-            {/* Adjacent Lessons Navigation Footer */}
-            <div className="border-t border-forge-border pt-4 space-y-2">
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-forge-muted px-1">
-                Curriculum Progression
+            {/* Progression Footer */}
+            <div className="border-t border-indigo-950/10 pt-4 space-y-2">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-indigo-900/60 font-mono px-1">
+                Progression
               </div>
               <div className="grid grid-cols-2 gap-2">
                 {prevLesson ? (
@@ -409,7 +379,7 @@ export function LessonStudio({
                     <Button
                       variant="outline"
                       size="sm"
-                      className="w-full text-xs h-8 flex items-center justify-center gap-1 border-forge-border"
+                      className="w-full text-xs h-9 flex items-center justify-center gap-1"
                     >
                       <ArrowLeft className="h-3 w-3" />
                       <span className="truncate">Prev</span>
@@ -420,7 +390,7 @@ export function LessonStudio({
                     variant="outline"
                     size="sm"
                     disabled
-                    className="w-full text-xs h-8 border-forge-border opacity-40"
+                    className="w-full text-xs h-9 opacity-40"
                   >
                     <span className="truncate">Start</span>
                   </Button>
@@ -430,7 +400,7 @@ export function LessonStudio({
                   <Link href={`/academy/${nextLesson.moduleId}/${nextLesson.lessonId}`}>
                     <Button
                       size="sm"
-                      className="w-full text-xs h-8 flex items-center justify-center gap-1 bg-ember-500 hover:bg-ember-600 text-white"
+                      className="w-full text-xs h-9 flex items-center justify-center gap-1"
                     >
                       <span className="truncate">Next</span>
                       <ArrowRight className="h-3 w-3" />
@@ -440,7 +410,7 @@ export function LessonStudio({
                   <Link href="/academy">
                     <Button
                       size="sm"
-                      className="w-full text-xs h-8 flex items-center justify-center gap-1 bg-emerald-600 text-white"
+                      className="w-full text-xs h-9 flex items-center justify-center gap-1 bg-teal hover:bg-teal-600 text-white"
                     >
                       <span>Completed</span>
                     </Button>
@@ -450,9 +420,7 @@ export function LessonStudio({
             </div>
           </aside>
 
-          {/* ============================================================== */}
-          {/* PANEL 2 (CENTER): YouTube Embed & Video Studio (Cols: 5/12)   */}
-          {/* ============================================================== */}
+          {/* PANEL 2 (CENTER): YouTube Embed & Video Studio (Cols: 5/12) */}
           <section
             className={cn(
               "lg:col-span-5 space-y-6",
@@ -462,33 +430,33 @@ export function LessonStudio({
             {/* Lesson Title & Badges */}
             <div className="space-y-2">
               <div className="flex flex-wrap items-center gap-2">
-                <Badge variant="outline" className="text-xs font-mono">
+                <Badge variant="outline" className="text-xs font-mono font-semibold">
                   Module {module.number} · Lesson {module.lessons.findIndex((l) => l.id === lesson.id) + 1}
                 </Badge>
-                <Badge variant={module.accent === "cyan" ? "cyan" : "ember"} className="text-xs">
+                <Badge variant="secondary" className="text-xs font-bold">
                   {module.level}
                 </Badge>
                 {quizScore !== undefined && (
-                  <Badge variant="outline" className="text-xs font-mono text-cyan-400 border-cyan-500/30">
+                  <Badge variant="secondary" className="text-xs font-mono">
                     Quiz Score: {quizScore}/{lesson.quiz.length}
                   </Badge>
                 )}
               </div>
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-forge-text">
+              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-indigo font-sans">
                 {lesson.title}
               </h1>
             </div>
 
-            {/* Official YouTube Embed (Lazy-loaded, privacy-enhanced nocookie domain) */}
-            <YouTubePlayer
+            {/* Official YouTube Embed (using youtube-nocookie.com, lazy loaded, 16:9, rounded) */}
+            <YouTubeEmbed
               ref={playerRef}
               youtubeId={lesson.youtubeId}
               title={lesson.title}
               onTimeUpdate={(sec) => setCurrentPlaybackSecond(sec)}
             />
 
-            {/* Timestamp Chips that Seek Player via API */}
-            <div className="rounded-forge-lg border border-forge-border bg-forge-surface p-4">
+            {/* Timestamp Chips that seek player */}
+            <div className="rounded-2xl border border-indigo-950/10 bg-white p-6 shadow-card">
               <TimestampChips
                 chapters={lesson.chapters}
                 currentTime={currentPlaybackSecond}
@@ -497,25 +465,25 @@ export function LessonStudio({
             </div>
 
             {/* Lesson Summary */}
-            <div className="rounded-forge-lg border border-forge-border bg-forge-surface p-4 sm:p-5 space-y-2">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-forge-muted">
+            <div className="rounded-2xl border border-indigo-950/10 bg-white p-6 shadow-card space-y-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900/60 font-mono">
                 Lesson Overview
               </h3>
-              <p className="text-xs sm:text-sm text-forge-text leading-relaxed">
+              <p className="text-sm text-indigo-900/80 leading-[1.7]">
                 {lesson.summary}
               </p>
             </div>
 
             {/* Key Concepts */}
             <div className="space-y-2">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-forge-muted">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900/60 font-mono">
                 Key Concepts
               </h3>
               <div className="flex flex-wrap gap-2">
                 {lesson.keyConcepts.map((concept, idx) => (
                   <span
                     key={idx}
-                    className="inline-flex items-center rounded-forge border border-forge-border bg-forge-elevated px-2.5 py-1 text-xs font-medium text-forge-text"
+                    className="inline-flex items-center rounded-xl border border-indigo-950/10 bg-white px-3 py-1.5 text-xs font-semibold text-indigo shadow-sm"
                   >
                     {concept}
                   </span>
@@ -523,38 +491,38 @@ export function LessonStudio({
               </div>
             </div>
 
-            {/* Practice Challenge Card with "Send to Lab" */}
-            <div className="rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#12151C] to-[#0A0C0F] p-4 sm:p-5 space-y-3">
+            {/* Practice Challenge Card */}
+            <div className="rounded-2xl border border-indigo-950/10 bg-white p-6 shadow-card space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Terminal className="h-4 w-4 text-ember-400" />
-                  <h3 className="text-sm font-bold text-forge-text font-mono">
-                    Practice challenge: {lesson.practiceChallenge.title}
+                  <Terminal className="h-4 w-4 text-coral" />
+                  <h3 className="text-sm font-bold text-indigo font-sans">
+                    Practice Challenge: {lesson.practiceChallenge.title}
                   </h3>
                 </div>
-                <Badge variant="outline" className="border-white/[0.1] bg-white/[0.04] text-[10px] font-mono text-zinc-300">
+                <Badge variant="outline" className="text-[10px] font-mono">
                   Hands-on
                 </Badge>
               </div>
 
-              <p className="text-xs text-zinc-400 leading-relaxed">
+              <p className="text-xs sm:text-sm text-indigo-900/75 leading-[1.7]">
                 {lesson.practiceChallenge.instructions}
               </p>
 
               {lesson.practiceChallenge.starterPrompt && (
-                <div className="rounded-lg bg-black/60 p-3 font-mono text-[11px] text-zinc-200 border border-white/[0.06] overflow-x-auto">
+                <div className="rounded-xl bg-cream p-4 font-mono text-[11px] text-indigo border border-indigo-950/10 overflow-x-auto leading-relaxed">
                   {lesson.practiceChallenge.starterPrompt}
                 </div>
               )}
 
               <div className="flex items-center justify-between pt-1">
-                <span className="text-[11px] text-zinc-500 italic">
-                  Run in the right panel playground
+                <span className="text-xs text-indigo-900/60 italic font-sans">
+                  Execute inside right panel sandbox
                 </span>
                 <Button
                   size="sm"
                   onClick={handleSendToLab}
-                  className="bg-ember-500 hover:bg-ember-600 text-black font-semibold text-xs flex items-center gap-1.5"
+                  className="gap-1.5 text-xs font-bold"
                 >
                   <Terminal className="h-3.5 w-3.5" />
                   <span>Open in Lab Studio</span>
@@ -563,18 +531,16 @@ export function LessonStudio({
             </div>
           </section>
 
-          {/* ============================================================== */}
-          {/* PANEL 3 (RIGHT): Tabbed Notes, Lab Slot & Quiz (Cols: 4/12)   */}
-          {/* ============================================================== */}
+          {/* PANEL 3 (RIGHT): Tabbed Notes, Lab Slot & Quiz (Cols: 4/12) */}
           <aside
             className={cn(
-              "lg:col-span-4 rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#11141A] to-[#0A0C0F] p-4 space-y-4 lg:sticky lg:top-20",
+              "lg:col-span-4 rounded-2xl border border-indigo-950/10 bg-white p-6 space-y-6 shadow-card lg:sticky lg:top-24",
               mobileTab !== "right" && "hidden lg:block"
             )}
           >
             {/* Panel Tabs Header */}
             <div
-              className="flex border border-white/[0.06] bg-black/40 rounded-lg p-1"
+              className="flex border border-indigo-950/10 bg-cream rounded-xl p-1"
               role="tablist"
               aria-label="Lesson workspace panels"
             >
@@ -584,16 +550,16 @@ export function LessonStudio({
                 id="tab-notes"
                 aria-selected={rightTab === "notes"}
                 aria-controls="panel-notes"
-                aria-label="Notes panel (Shortcut: 1)"
+                aria-label="Notes panel"
                 onClick={() => setRightTab("notes")}
                 className={cn(
-                  "flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded transition-all font-mono",
+                  "flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all font-sans",
                   rightTab === "notes"
-                    ? "bg-white/[0.08] text-white"
-                    : "text-zinc-400 hover:text-white"
+                    ? "bg-white text-indigo shadow-card"
+                    : "text-indigo-900/60 hover:text-indigo"
                 )}
               >
-                <BookOpen className="h-3.5 w-3.5" />
+                <BookOpen className="h-3.5 w-3.5 text-violet" />
                 <span>Notes</span>
               </button>
 
@@ -603,16 +569,16 @@ export function LessonStudio({
                 id="tab-lab"
                 aria-selected={rightTab === "lab"}
                 aria-controls="panel-lab"
-                aria-label="Lab playground panel (Shortcut: 2)"
+                aria-label="Interactive lab panel"
                 onClick={() => setRightTab("lab")}
                 className={cn(
-                  "flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded transition-all font-mono",
+                  "flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all font-sans",
                   rightTab === "lab"
-                    ? "bg-white/[0.08] text-cyan-300"
-                    : "text-zinc-400 hover:text-white"
+                    ? "bg-white text-indigo shadow-card"
+                    : "text-indigo-900/60 hover:text-indigo"
                 )}
               >
-                <Terminal className="h-3.5 w-3.5" />
+                <Terminal className="h-3.5 w-3.5 text-coral" />
                 <span>Lab</span>
               </button>
 
@@ -622,54 +588,53 @@ export function LessonStudio({
                 id="tab-quiz"
                 aria-selected={rightTab === "quiz"}
                 aria-controls="panel-quiz"
-                aria-label="Quiz comprehension panel (Shortcut: 3)"
+                aria-label="Comprehension quiz panel"
                 onClick={() => setRightTab("quiz")}
                 className={cn(
-                  "flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded transition-all font-mono",
+                  "flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all font-sans",
                   rightTab === "quiz"
-                    ? "bg-white/[0.08] text-amber-300"
-                    : "text-zinc-400 hover:text-white"
+                    ? "bg-white text-indigo shadow-card"
+                    : "text-indigo-900/60 hover:text-indigo"
                 )}
               >
-                <HelpCircle className="h-3.5 w-3.5" />
+                <HelpCircle className="h-3.5 w-3.5 text-teal" />
                 <span>Quiz</span>
-                {lesson.quiz.length > 0 && (
-                  <span className="font-mono text-[10px] opacity-70">
-                    ({lesson.quiz.length})
-                  </span>
-                )}
               </button>
             </div>
 
-            {/* Active Tab Panel Content */}
-            <div className="pt-1">
+            {/* Active Panel View */}
+            <div className="pt-2">
               {rightTab === "notes" && (
-                <NotesPanel key={lesson.id} lesson={lesson} />
+                <div id="panel-notes" role="tabpanel" aria-labelledby="tab-notes">
+                  <NotesPanel lesson={lesson} />
+                </div>
               )}
 
               {rightTab === "lab" && (
-                <LabSlotPanel
-                  key={lesson.id}
-                  lesson={lesson}
-                  customPrompt={customLabPrompt}
-                />
+                <div id="panel-lab" role="tabpanel" aria-labelledby="tab-lab">
+                  <LabSlotPanel lesson={lesson} customPrompt={customLabPrompt} />
+                </div>
               )}
 
               {rightTab === "quiz" && (
-                <QuizCard
-                  key={lesson.id}
-                  questions={lesson.quiz}
-                  lessonId={lesson.id}
-                  lessonTitle={lesson.title}
-                />
+                <div id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz">
+                  <QuizCard
+                    questions={lesson.quiz}
+                    lessonId={lesson.id}
+                    lessonTitle={lesson.title}
+                  />
+                </div>
               )}
             </div>
           </aside>
         </div>
       </main>
 
-      {/* Progress Export/Import Modal Dialog */}
-      <ProgressModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {/* Progress Sync Modal */}
+      <ProgressModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }

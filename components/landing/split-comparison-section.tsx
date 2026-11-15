@@ -5,243 +5,247 @@ import { motion } from "framer-motion";
 import {
   Play,
   FlaskConical,
-  CheckCircle2,
   XCircle,
   Zap,
+  CheckCircle2,
 } from "lucide-react";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
-import { fadeUpVariants, fadeUpReducedVariants } from "@/lib/motion";
+import { CurvedDivider } from "@/components/ui/curved-divider";
 
 export function SplitComparisonSection() {
   const prefersReduced = useReducedMotion();
   const [activeTab, setActiveTab] = useState<"naive" | "engineered">("engineered");
 
-  const activeVariant = prefersReduced ? fadeUpReducedVariants : fadeUpVariants;
-
   return (
-    <section className="relative overflow-hidden py-20 sm:py-28 bg-[#090A0D] border-t border-white/[0.06]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-cream pt-0 pb-0">
+      <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28">
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 font-mono text-xs font-semibold text-amber-400 shadow-[0_0_15px_rgba(255,107,0,0.15)]">
-            <FlaskConical className="h-3.5 w-3.5 text-ember-500" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-coral/30 bg-coral/10 px-4 py-1.5 text-xs font-bold text-coral shadow-card">
+            <FlaskConical className="h-4 w-4 text-coral" />
             <span>Pedagogical Methodology</span>
           </div>
-          <h2 className="mt-4 font-mono text-2xl font-extrabold tracking-tight text-forge-text sm:text-4xl">
-            Experiment, Don&apos;t Watch
+          <h2 className="mt-4 font-sans text-3xl font-extrabold tracking-tight text-indigo sm:text-5xl">
+            Experiment, Don&apos;t Just Watch
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-zinc-400 sm:text-base">
-            Video tutorials give an illusion of competence. Only turning knobs on
-            temperature, token limits, and delimiter boundaries builds real muscle memory.
+          <p className="mt-4 max-w-[65ch] mx-auto text-base sm:text-lg leading-[1.7] text-indigo-900/75">
+            Video tutorials provide an illusion of competence. Only turning knobs on temperature,
+            token boundaries, and delimiter syntax builds real production muscle memory.
           </p>
         </div>
 
-        {/* Split Comparison Cards */}
-        <div className="mt-14 grid gap-6 lg:grid-cols-2">
+        {/* Split Comparison: Left (Passive) vs Right (Active Practitioner) */}
+        <div className="mt-16 grid gap-8 lg:grid-cols-2 items-stretch">
           {/* LEFT: Watching a video (Passive) */}
-          <motion.div
-            variants={activeVariant}
-            initial={false}
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-            className="relative flex flex-col justify-between rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#111319] to-[#08090C] p-6 sm:p-7 shadow-xl"
-          >
+          <div className="flex flex-col justify-between rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card">
             <div>
               {/* Header */}
-              <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-md border border-white/[0.08] bg-[#13151A] text-zinc-400">
-                    <Play className="h-3.5 w-3.5" />
+              <div className="flex items-center justify-between border-b border-indigo-950/10 pb-5">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-indigo-950/10 bg-cream text-indigo-900/60">
+                    <Play className="h-4 w-4" />
                   </div>
                   <div>
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 block">
-                      Passive spectator mode
+                    <span className="font-mono text-xs uppercase tracking-wider text-indigo-900/50 block font-semibold">
+                      Passive Spectator Mode
                     </span>
-                    <h3 className="font-mono text-base font-semibold text-zinc-200">
+                    <h3 className="font-sans text-lg font-bold text-indigo">
                       Watching a Video
                     </h3>
                   </div>
                 </div>
-                <span className="rounded border border-red-500/30 bg-red-500/10 px-2 py-0.5 font-mono text-[10px] text-red-400 font-semibold">
+                <span className="rounded-full border border-coral/30 bg-coral/10 px-3 py-1 font-mono text-xs font-bold text-coral">
                   Passive
                 </span>
               </div>
 
-              {/* Passive Player Simulation */}
-              <div className="mt-5 rounded-lg border border-white/[0.06] bg-[#08090C] p-3">
-                <div className="relative aspect-video w-full rounded bg-[#050608] flex flex-col items-center justify-center border border-white/[0.04]">
-                  <div className="h-10 w-10 rounded-full border border-white/[0.1] bg-white/[0.04] flex items-center justify-center text-forge-muted">
-                    <Play className="h-4 w-4 ml-0.5" />
+              {/* Passive simulation thumbnail */}
+              <div className="mt-6 rounded-xl border border-indigo-950/10 bg-cream/70 p-4">
+                <div className="relative aspect-video w-full rounded-lg bg-white flex flex-col items-center justify-center border border-indigo-950/10 shadow-sm">
+                  <div className="h-12 w-12 rounded-full border border-indigo-950/15 bg-cream flex items-center justify-center text-indigo-900/50">
+                    <Play className="h-5 w-5 ml-0.5 text-indigo-900/60" />
                   </div>
-                  <span className="mt-2.5 font-mono text-[11px] text-forge-muted">
+                  <span className="mt-3 font-mono text-xs font-medium text-indigo-900/70">
                     &quot;10 Prompt Hacks in 2026&quot; (48:12)
                   </span>
-                  {/* Scrub bar */}
-                  <div className="absolute bottom-3 left-4 right-4 h-1 rounded-full bg-white/[0.08]">
-                    <div className="h-full w-1/3 bg-white/[0.25] rounded-full" />
+                  <div className="absolute bottom-3 left-4 right-4 h-1.5 rounded-full bg-indigo-950/10">
+                    <div className="h-full w-1/3 bg-indigo-950/30 rounded-full" />
                   </div>
                 </div>
               </div>
 
-              {/* Critique Breakdown */}
-              <div className="mt-5 space-y-2.5 font-mono text-xs text-forge-muted">
-                <div className="flex items-start gap-2">
-                  <XCircle className="h-3.5 w-3.5 text-red-400 shrink-0 mt-0.5" />
+              {/* Critiques */}
+              <div className="mt-6 space-y-3 text-sm text-indigo-900/80">
+                <div className="flex items-start gap-2.5">
+                  <XCircle className="h-4 w-4 text-coral shrink-0 mt-0.5" />
                   <span>
-                    <strong className="text-forge-text">Illusion of Competence:</strong> Nodding along to curated demos hides real failure modes.
+                    <strong className="text-indigo font-semibold">Illusion of Competence:</strong> Nodding along to curated demos hides edge-case failure modes.
                   </span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <XCircle className="h-3.5 w-3.5 text-red-400 shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2.5">
+                  <XCircle className="h-4 w-4 text-coral shrink-0 mt-0.5" />
                   <span>
-                    <strong className="text-forge-text">Rapid Retention Decay:</strong> Most passively watched advice fades within 48 hours.
+                    <strong className="text-indigo font-semibold">Rapid Retention Decay:</strong> Passively watched advice fades without hands-on verification.
                   </span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <XCircle className="h-3.5 w-3.5 text-red-400 shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2.5">
+                  <XCircle className="h-4 w-4 text-coral shrink-0 mt-0.5" />
                   <span>
-                    <strong className="text-forge-text">Zero Telemetry:</strong> No visibility into token distributions or latency trade-offs.
+                    <strong className="text-indigo font-semibold">Zero Telemetry:</strong> No visibility into token variance, latency spikes, or cost trade-offs.
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Metric pill */}
-            <div className="mt-6 rounded-md border border-white/[0.06] bg-[#08090C] p-3 font-mono text-xs">
-              <div className="flex justify-between items-center text-forge-muted">
+            <div className="mt-8 rounded-xl border border-coral/20 bg-coral/5 p-4 text-xs font-mono">
+              <div className="flex justify-between items-center text-indigo-900/70">
                 <span>Production Preparedness:</span>
-                <span className="text-red-400 font-semibold">14% (Fails on edge cases)</span>
+                <span className="text-coral font-bold">14% (Fails on unpredicted inputs)</span>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          {/* RIGHT: Running the experiment (Active Forge) */}
+          {/* RIGHT: Running the experiment (Right side animates in) */}
           <motion.div
-            variants={activeVariant}
-            initial={false}
-            whileInView="visible"
+            initial={prefersReduced ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            className="relative flex flex-col justify-between rounded-xl border border-amber-500/40 bg-gradient-to-b from-[#151926] via-[#0E1119] to-[#08090C] p-6 sm:p-7 shadow-[0_0_35px_rgba(255,107,0,0.18)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-amber-400/50 before:to-transparent"
+            transition={
+              prefersReduced
+                ? { duration: 0 }
+                : { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+            }
+            className="flex flex-col justify-between rounded-2xl border-2 border-teal/40 bg-white p-8 shadow-card-hover"
           >
             <div>
               {/* Header */}
-              <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-md border border-ember-500/40 bg-ember-500/10 text-amber-400 shadow-[0_0_12px_rgba(255,107,0,0.2)]">
-                    <FlaskConical className="h-4 w-4" />
+              <div className="flex items-center justify-between border-b border-indigo-950/10 pb-5">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-teal/30 bg-teal/10 text-teal">
+                    <FlaskConical className="h-5 w-5" />
                   </div>
                   <div>
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-amber-400 font-semibold block">
-                      Practitioner sandbox mode
+                    <span className="font-mono text-xs uppercase tracking-wider text-teal block font-bold">
+                      Practitioner Sandbox Mode
                     </span>
-                    <h3 className="font-mono text-base font-semibold text-white">
+                    <h3 className="font-sans text-lg font-bold text-indigo">
                       Running the Experiment
                     </h3>
                   </div>
                 </div>
-                <span className="rounded border border-cyan-500/40 bg-cyan-500/15 px-2.5 py-0.5 font-mono text-[10px] text-cyan-300 font-bold flex items-center gap-1 shadow-[0_0_10px_rgba(0,229,255,0.2)]">
-                  <Zap className="h-2.5 w-2.5 text-cyan-400 fill-cyan-400" /> Live Lab
+                <span className="rounded-full border border-teal/30 bg-teal/10 px-3 py-1 font-mono text-xs font-bold text-teal flex items-center gap-1">
+                  <Zap className="h-3 w-3 fill-teal" /> Live Lab
                 </span>
               </div>
 
-              {/* Mini Side-by-Side Output Card */}
-              <div className="mt-5 rounded-lg border border-white/[0.08] bg-[#08090C] p-3.5">
-                {/* Tab switch */}
-                <div className="flex items-center justify-between border-b border-white/[0.06] pb-2.5">
-                  <div className="flex gap-1.5">
+              {/* Mini Side-by-Side Interactive Diff */}
+              <div className="mt-6 rounded-xl border border-indigo-950/10 bg-cream/50 p-4">
+                <div className="flex items-center justify-between border-b border-indigo-950/10 pb-3">
+                  <div className="flex gap-2">
                     <button
+                      type="button"
                       onClick={() => setActiveTab("naive")}
-                      className={`rounded px-2.5 py-1 font-mono text-[11px] font-medium transition-colors ${
+                      className={`rounded-lg px-3 py-1 font-mono text-xs font-semibold transition-colors ${
                         activeTab === "naive"
-                          ? "bg-red-500/20 text-red-300 border border-red-500/30"
-                          : "text-forge-muted hover:text-forge-text"
+                          ? "bg-coral text-white"
+                          : "bg-white text-indigo-900/60 border border-indigo-950/10 hover:text-indigo"
                       }`}
                     >
                       Prompt A: Naive
                     </button>
                     <button
+                      type="button"
                       onClick={() => setActiveTab("engineered")}
-                      className={`rounded px-2.5 py-1 font-mono text-[11px] font-medium transition-colors ${
+                      className={`rounded-lg px-3 py-1 font-mono text-xs font-semibold transition-colors ${
                         activeTab === "engineered"
-                          ? "bg-ember-500/20 text-ember-400 border border-ember-500/30"
-                          : "text-forge-muted hover:text-forge-text"
+                          ? "bg-teal text-white"
+                          : "bg-white text-indigo-900/60 border border-indigo-950/10 hover:text-indigo"
                       }`}
                     >
                       Prompt B: Forged
                     </button>
                   </div>
-                  <span className="font-mono text-[10px] text-cyan-400">
+                  <span className="font-mono text-xs text-teal font-medium">
                     Live Diff Telemetry
                   </span>
                 </div>
 
-                {/* Card output simulation */}
-                <div className="mt-3 font-mono text-xs">
+                {/* Diff Output */}
+                <div className="mt-4 font-mono text-xs space-y-3">
                   {activeTab === "naive" ? (
-                    <div className="space-y-2">
-                      <div className="rounded border border-red-500/20 bg-red-950/20 p-2 text-forge-text">
-                        <span className="text-red-400 font-bold block text-[10px] mb-0.5">PROMPT:</span>
+                    <>
+                      <div className="rounded-lg border border-coral/30 bg-coral/10 p-3 text-indigo">
+                        <span className="text-coral font-bold block text-[11px] mb-1">
+                          PROMPT:
+                        </span>
                         &quot;Extract customer names and amounts from this email, hurry.&quot;
                       </div>
-                      <div className="rounded border border-white/[0.06] bg-[#040507] p-2 text-forge-muted">
-                        <span className="text-forge-subtle font-bold block text-[10px] mb-0.5">COMPLETION:</span>
+                      <div className="rounded-lg border border-indigo-950/10 bg-white p-3 text-indigo-900/80">
+                        <span className="text-indigo-900/50 font-bold block text-[11px] mb-1">
+                          COMPLETION:
+                        </span>
                         &quot;Here are the names: Alice spent around $40. Bob bought something too!&quot;
-                        <div className="mt-1.5 text-[10px] text-red-400 flex items-center gap-1">
-                          <XCircle className="h-3 w-3" /> Failed JSON parse · Conversational preamble
+                        <div className="mt-2 text-coral font-semibold flex items-center gap-1 text-[11px]">
+                          <XCircle className="h-3.5 w-3.5" /> Failed JSON parse · Conversational preamble
                         </div>
                       </div>
-                    </div>
+                    </>
                   ) : (
-                    <div className="space-y-2">
-                      <div className="rounded border border-ember-500/20 bg-ember-950/20 p-2 text-forge-text">
-                        <span className="text-ember-400 font-bold block text-[10px] mb-0.5">DELIMITED PROMPT:</span>
-                        &lt;instruction&gt;Extract orders to JSON: &#123;customer: str, amount_cents: int&#125;. No preamble.&lt;/instruction&gt;
+                    <>
+                      <div className="rounded-lg border border-teal/30 bg-teal/10 p-3 text-indigo">
+                        <span className="text-teal font-bold block text-[11px] mb-1">
+                          DELIMITED PROMPT:
+                        </span>
+                        &lt;instruction&gt;Extract orders to JSON: &#123;customer: str, amount_cents: int&#125;. No prose.&lt;/instruction&gt;
                       </div>
-                      <div className="rounded border border-cyan-500/30 bg-[#040507] p-2 text-cyan-300">
-                        <span className="text-cyan-400 font-bold block text-[10px] mb-0.5">OUTPUT TELEMETRY:</span>
-                        &#123;&quot;orders&quot;: [&#123;&quot;customer&quot;: &quot;Alice&quot;, &quot;amount_cents&quot;: 4250&#125;]&#125;
-                        <div className="mt-1.5 text-[10px] text-emerald-400 flex items-center gap-1">
-                          <CheckCircle2 className="h-3 w-3" /> Validated Zod schema · Deterministic 0-shot
+                      <div className="rounded-lg border border-indigo-950/10 bg-white p-3 text-teal">
+                        <span className="text-indigo-900/50 font-bold block text-[11px] mb-1">
+                          COMPLETION:
+                        </span>
+                        <pre className="font-mono text-[11px] text-indigo leading-tight">
+{`[
+  { "customer": "Alice", "amount_cents": 4000 },
+  { "customer": "Bob", "amount_cents": 1250 }
+]`}
+                        </pre>
+                        <div className="mt-2 text-teal font-semibold flex items-center gap-1 text-[11px]">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-teal" /> 100% Schema Compliance · 0ms latency penalty
                         </div>
                       </div>
-                    </div>
+                    </>
                   )}
                 </div>
               </div>
 
-              {/* Practitioner Benefits */}
-              <div className="mt-5 space-y-2.5 font-mono text-xs text-forge-muted">
-                <div className="flex items-start gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
+              {/* Benefits */}
+              <div className="mt-6 space-y-3 text-sm text-indigo-900/80">
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="h-4 w-4 text-teal shrink-0 mt-0.5" />
                   <span>
-                    <strong className="text-forge-text">Real Feedback Loop:</strong> Adjust delimiters and see latency shifts in real-time.
+                    <strong className="text-indigo font-semibold">Immediate Feedback:</strong> Test hypotheses against multiple models in parallel with real tokens.
                   </span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="h-4 w-4 text-teal shrink-0 mt-0.5" />
                   <span>
-                    <strong className="text-forge-text">High-Retention Mastery:</strong> 92% retention rate through hands-on failure recovery.
-                  </span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>
-                    <strong className="text-forge-text">Production Invariants:</strong> Real assertions you can export directly to CI/CD suites.
+                    <strong className="text-indigo font-semibold">Deterministic Rubrics:</strong> Evaluate compliance against programmatic schema assertions.
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Metric pill */}
-            <div className="mt-6 rounded-md border border-ember-500/30 bg-ember-500/[0.06] p-3 font-mono text-xs">
-              <div className="flex justify-between items-center text-forge-text">
-                <span className="text-ember-400 font-semibold">Production Reliability:</span>
-                <span className="text-emerald-400 font-semibold">99.8% (Deterministic Schema Gate)</span>
+            <div className="mt-8 rounded-xl border border-teal/30 bg-teal/10 p-4 text-xs font-mono">
+              <div className="flex justify-between items-center text-indigo">
+                <span>Production Preparedness:</span>
+                <span className="text-teal font-bold">96% (Verified on edge-case suites)</span>
               </div>
             </div>
           </motion.div>
         </div>
       </div>
+
+      {/* Curved Divider into Mint Band */}
+      <CurvedDivider fillColor="text-mint" />
     </section>
   );
 }

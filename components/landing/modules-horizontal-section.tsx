@@ -4,13 +4,93 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Clock, BookOpen, Flame, ChevronRight, ChevronLeft } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Clock, BookOpen, ChevronRight, Layers } from "lucide-react";
 import { CURRICULUM_MODULES, CurriculumModule } from "@/content/modules";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
+import { CurvedDivider } from "@/components/ui/curved-divider";
 
 gsap.registerPlugin(ScrollTrigger);
+
+function ModuleCard({
+  module,
+  isActive = false,
+}: {
+  module: CurriculumModule;
+  isActive?: boolean;
+}) {
+  const firstLesson = module.lessons[0];
+  const targetHref = firstLesson
+    ? `/academy/${module.id}/${firstLesson.id}`
+    : `/academy/${module.id}`;
+
+  return (
+    <div
+      className={`hover-lift flex h-full flex-col justify-between rounded-2xl border bg-white p-8 shadow-card transition-all ${
+        isActive
+          ? "border-coral/50 shadow-card-hover"
+          : "border-indigo-950/10 hover:border-indigo-950/20"
+      }`}
+    >
+      <div>
+        {/* Module Number & Level */}
+        <div className="flex items-center justify-between">
+          <span className="rounded-full bg-butter px-3 py-1 font-mono text-xs font-bold text-indigo border border-indigo-950/10">
+            Module {String(module.number).padStart(2, "0")}
+          </span>
+          <span className="font-mono text-xs font-semibold text-teal">
+            {module.level}
+          </span>
+        </div>
+
+        {/* Title */}
+        <h3 className="mt-5 font-sans text-xl font-bold text-indigo">
+          {module.title}
+        </h3>
+
+        <p className="mt-1 text-xs font-bold uppercase tracking-wider text-coral">
+          {module.subtitle}
+        </p>
+
+        <p className="mt-3 text-sm leading-[1.7] text-indigo-900/75">
+          {module.description}
+        </p>
+
+        {/* Tags */}
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {module.tags.slice(0, 3).map((tag) => (
+            <span
+              key={tag}
+              className="rounded-md bg-cream px-2 py-0.5 font-mono text-[11px] text-indigo-900/70 border border-indigo-950/5"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-6 pt-4 border-t border-indigo-950/10">
+        <div className="flex items-center justify-between text-xs font-mono text-indigo-900/60 mb-4">
+          <span className="flex items-center gap-1">
+            <BookOpen className="h-3.5 w-3.5 text-violet" />
+            {module.lessonCount} Lessons
+          </span>
+          <span className="flex items-center gap-1">
+            <Clock className="h-3.5 w-3.5 text-teal" />
+            {module.duration}
+          </span>
+        </div>
+
+        <Link
+          href={targetHref}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-coral/10 py-2.5 text-xs font-bold text-coral transition-colors hover:bg-coral hover:text-white"
+        >
+          <span>Open Module Studio</span>
+          <ChevronRight className="h-4 w-4" />
+        </Link>
+      </div>
+    </div>
+  );
+}
 
 export function ModulesHorizontalSection() {
   const prefersReduced = useReducedMotion();
@@ -18,7 +98,7 @@ export function ModulesHorizontalSection() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const cardsRef = useRef<HTMLDivElement | null>(null);
-  const [activeModuleIdx, setActiveModuleIdx] = useState<number>(0);
+  const [activeIdx, setActiveIdx] = useState<number>(0);
 
   useEffect(() => {
     setMounted(true);
@@ -33,7 +113,6 @@ export function ModulesHorizontalSection() {
     if (!section || !track || !cards) return;
 
     const ctx = gsap.context(() => {
-      // Calculate total horizontal scroll distance
       const getScrollAmount = () => {
         const cardsWidth = cards.scrollWidth;
         const windowWidth = window.innerWidth;
@@ -48,11 +127,10 @@ export function ModulesHorizontalSection() {
       ScrollTrigger.create({
         trigger: section,
         start: "top top",
-        end: () =>
-          `+=${Math.max(1600, cards.scrollWidth - window.innerWidth + 400)}`,
+        end: () => `+=${Math.max(1800, cards.scrollWidth - window.innerWidth + 400)}`,
         pin: track,
         pinSpacing: true,
-        scrub: 0.25,
+        scrub: 0.3,
         animation: horizontalTween,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
@@ -60,7 +138,7 @@ export function ModulesHorizontalSection() {
             CURRICULUM_MODULES.length - 1,
             Math.floor(self.progress * CURRICULUM_MODULES.length)
           );
-          setActiveModuleIdx(idx);
+          setActiveIdx(idx);
         },
       });
     }, section);
@@ -76,227 +154,79 @@ export function ModulesHorizontalSection() {
     };
   }, [prefersReduced]);
 
-  // Reduced motion fallback: responsive standard grid
+  // Reduced motion static fallback
   if (mounted && prefersReduced) {
     return (
-      <section className="relative mx-auto max-w-7xl bg-forge-950 px-4 py-24 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
-          <div className="inline-flex items-center gap-2 rounded-md border border-white/[0.1] bg-white/[0.04] px-3 py-1 font-mono text-xs text-zinc-300">
-            <span>Complete 10-module curriculum</span>
+      <section className="relative overflow-hidden bg-butter py-20 lg:py-28">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="mb-12 text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-indigo-950/15 bg-white px-4 py-1.5 text-xs font-bold text-indigo shadow-card">
+              <Layers className="h-4 w-4 text-coral" />
+              <span>Complete 10-Module Curriculum</span>
+            </div>
+            <h2 className="mt-4 font-sans text-3xl font-extrabold tracking-tight text-indigo sm:text-5xl">
+              From Token Splits to Autonomous Agents
+            </h2>
+            <p className="mt-4 max-w-[65ch] mx-auto text-base sm:text-lg leading-[1.7] text-indigo-900/75">
+              The full pedagogical pathway spanning every layer of modern prompt architecture.
+            </p>
           </div>
-          <h2 className="mt-4 font-mono text-3xl font-extrabold text-forge-text sm:text-5xl">
-            From Token Splits to Autonomous Swarms
-          </h2>
-          <p className="mt-3 text-forge-muted">
-            The full pedagogical pathway spanning every layer of the prompt
-            engineering stack.
-          </p>
-        </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {CURRICULUM_MODULES.map((module) => (
-            <ModuleCard key={module.id} module={module} />
-          ))}
+          <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {CURRICULUM_MODULES.map((module) => (
+              <ModuleCard key={module.id} module={module} />
+            ))}
+          </div>
         </div>
+        <CurvedDivider fillColor="text-lavender" />
       </section>
     );
   }
 
   return (
-    <section ref={sectionRef} className="relative z-10 bg-forge-950">
+    <section ref={sectionRef} className="relative bg-butter pt-0 pb-0">
       <div
         ref={trackRef}
-        className="flex min-h-screen flex-col justify-center overflow-hidden py-12"
+        className="relative flex min-h-screen flex-col justify-center py-20 lg:py-28 overflow-hidden"
       >
-        {/* Pinned Header Controls */}
-        <div className="mx-auto mb-8 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/[0.08] pb-6">
+        <div className="mx-auto w-full max-w-6xl px-6">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end mb-10">
             <div>
-              <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold text-ember-400">
-                <Flame className="h-4 w-4" />
-                <span>The 10 curriculum modules</span>
+              <div className="inline-flex items-center gap-2 rounded-full border border-indigo-950/15 bg-white px-4 py-1.5 text-xs font-bold text-indigo shadow-card">
+                <Layers className="h-4 w-4 text-coral" />
+                <span>Horizontal Track · 10 Modules</span>
               </div>
-              <h2 className="mt-2 font-mono text-3xl font-extrabold text-forge-text sm:text-4xl">
-                Master the Full Architecture
+              <h2 className="mt-3 font-sans text-3xl font-extrabold tracking-tight text-indigo sm:text-5xl">
+                From Token Splits to Autonomous Agents
               </h2>
             </div>
-
-            <div className="flex items-center gap-4">
-              <span className="font-mono text-xs text-forge-muted">
-                Module{" "}
-                <strong className="text-ember-400">
-                  {activeModuleIdx + 1}
-                </strong>{" "}
-                of {CURRICULUM_MODULES.length}
-              </span>
-              {/* Progress mini indicator */}
-              <div className="flex h-1.5 w-24 sm:w-32 overflow-hidden rounded-full bg-white/[0.08]">
-                <div
-                  className="bg-ember-500 transition-all duration-150"
-                  style={{
-                    width: `${((activeModuleIdx + 1) / CURRICULUM_MODULES.length) * 100}%`,
-                  }}
-                />
-              </div>
-
-              {/* Prev / Next Carousel Controls */}
-              <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => {
-                    const nextIdx = Math.max(0, activeModuleIdx - 1);
-                    setActiveModuleIdx(nextIdx);
-                    if (cardsRef.current) {
-                      const cardEl = cardsRef.current.children[nextIdx] as HTMLElement;
-                      if (cardEl) {
-                        cardEl.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-                      }
-                    }
-                  }}
-                  disabled={activeModuleIdx === 0}
-                  className="flex h-7 w-7 items-center justify-center rounded border border-white/[0.1] bg-[#12151C] text-zinc-300 transition-colors hover:border-white/[0.25] hover:text-white disabled:opacity-30 disabled:pointer-events-none"
-                  aria-label="Previous module"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const nextIdx = Math.min(CURRICULUM_MODULES.length - 1, activeModuleIdx + 1);
-                    setActiveModuleIdx(nextIdx);
-                    if (cardsRef.current) {
-                      const cardEl = cardsRef.current.children[nextIdx] as HTMLElement;
-                      if (cardEl) {
-                        cardEl.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-                      }
-                    }
-                  }}
-                  disabled={activeModuleIdx === CURRICULUM_MODULES.length - 1}
-                  className="flex h-7 w-7 items-center justify-center rounded border border-amber-500/40 bg-amber-500/10 text-amber-300 transition-colors hover:bg-amber-500/20 hover:text-white disabled:opacity-30 disabled:pointer-events-none"
-                  aria-label="Next module"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </div>
+            <div className="font-mono text-xs font-semibold text-indigo-900/60">
+              Module {activeIdx + 1} of {CURRICULUM_MODULES.length} · Scroll to advance track
             </div>
           </div>
         </div>
 
-        {/* Horizontal Sliding Track */}
-        <div className="w-full pl-4 sm:pl-8 lg:pl-16">
+        {/* Pinned horizontal scrolling cards container */}
+        <div className="w-full overflow-hidden px-6">
           <div
             ref={cardsRef}
-            className="flex gap-6 pr-12 will-change-transform"
+            className="flex gap-8 will-change-transform pb-4"
             style={{ width: "max-content" }}
           >
-            {CURRICULUM_MODULES.map((module) => (
-              <div key={module.id} className="w-[340px] shrink-0 sm:w-[400px]">
-                <ModuleCard module={module} />
+            {CURRICULUM_MODULES.map((module, i) => (
+              <div
+                key={module.id}
+                className="w-[340px] sm:w-[380px] shrink-0"
+              >
+                <ModuleCard module={module} isActive={i === activeIdx} />
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Curved Divider into Lavender Band */}
+      <CurvedDivider fillColor="text-lavender" />
     </section>
-  );
-}
-
-function ModuleCard({ module }: { module: CurriculumModule }) {
-  const isAmber = module.accent === "amber";
-
-  return (
-    <div
-      className={`group relative flex h-full flex-col justify-between rounded-xl border p-6 transition-all duration-300 sm:p-7 ${
-        isAmber
-          ? "border-amber-500/30 bg-gradient-to-b from-[#181C28] via-[#10131B] to-[#08090C] hover:border-amber-400/60 hover:shadow-[0_0_35px_rgba(255,107,0,0.2)]"
-          : "border-cyan-500/30 bg-gradient-to-b from-[#101E28] via-[#0C151D] to-[#08090C] hover:border-cyan-400/60 hover:shadow-[0_0_35px_rgba(0,229,255,0.2)]"
-      }`}
-    >
-      {/* Top Hairline Glow */}
-      <div
-        className={`absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent to-transparent pointer-events-none ${
-          isAmber ? "via-amber-400/50 group-hover:via-amber-400" : "via-cyan-400/50 group-hover:via-cyan-400"
-        }`}
-      />
-
-      <div>
-        {/* Top Header */}
-        <div className="flex items-center justify-between">
-          <span
-            className={`font-mono text-3xl font-black ${
-              isAmber ? "text-amber-400 drop-shadow-[0_0_12px_rgba(255,107,0,0.3)]" : "text-cyan-400 drop-shadow-[0_0_12px_rgba(0,229,255,0.3)]"
-            }`}
-          >
-            {module.number < 10 ? `0${module.number}` : module.number}
-          </span>
-          <Badge
-            variant="outline"
-            className={`font-mono text-[11px] font-semibold px-2.5 py-0.5 ${
-              isAmber
-                ? "border-amber-500/40 bg-amber-500/10 text-amber-300"
-                : "border-cyan-500/40 bg-cyan-500/10 text-cyan-300"
-            }`}
-          >
-            {module.level}
-          </Badge>
-        </div>
-
-        {/* Title & Subtitle */}
-        <h3 className="mt-4 font-mono text-xl font-bold text-white group-hover:text-amber-300 transition-colors">
-          {module.title}
-        </h3>
-        <p className="mt-1 font-mono text-xs text-zinc-400">
-          {module.subtitle}
-        </p>
-
-        {/* Description */}
-        <p className="mt-3 text-xs leading-relaxed text-zinc-300 sm:text-sm">
-          {module.description}
-        </p>
-
-        {/* Tags */}
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {module.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded border border-white/[0.08] bg-black/40 px-2 py-0.5 font-mono text-[10px] text-zinc-300"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-
-        {/* Takeaway Box */}
-        <div className="mt-4 rounded-lg border border-amber-500/20 bg-black/60 p-3 font-mono text-xs text-zinc-200">
-          <span className="mb-0.5 block text-[10px] uppercase tracking-wider text-amber-400 font-bold">
-            Core invariant:
-          </span>
-          &ldquo;{module.keyTakeaway}&rdquo;
-        </div>
-      </div>
-
-      {/* Footer Info & Action */}
-      <div className="mt-6 border-t border-white/[0.08] pt-4">
-        <div className="mb-4 flex items-center justify-between font-mono text-xs text-zinc-300">
-          <span className="flex items-center gap-1.5">
-            <BookOpen className="h-3.5 w-3.5 text-amber-400" /> {module.lessonCount} Lessons
-          </span>
-          <span className="flex items-center gap-1.5">
-            <Clock className="h-3.5 w-3.5 text-cyan-400" /> {module.duration}
-          </span>
-        </div>
-
-        <Button
-          asChild
-          variant="outline"
-          className="w-full justify-between border-amber-500/30 bg-amber-500/10 font-mono text-xs text-amber-300 hover:border-amber-400 hover:bg-amber-500/20 hover:text-white transition-all shadow-[0_0_15px_rgba(255,107,0,0.12)]"
-        >
-          <Link href="/academy">
-            <span>Explore curriculum</span>
-            <ChevronRight className="h-4 w-4" />
-          </Link>
-        </Button>
-      </div>
-    </div>
   );
 }

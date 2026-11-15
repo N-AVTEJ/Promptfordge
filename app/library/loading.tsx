@@ -1,38 +1,40 @@
 export default function LibraryLoading() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8 animate-pulse">
-      {/* Library Header Skeleton */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="space-y-2">
-          <div className="h-4 w-28 rounded bg-white/[0.06]" />
-          <div className="h-8 w-60 rounded bg-white/[0.08]" />
-          <div className="h-4 w-80 rounded bg-white/[0.04]" />
-        </div>
-        <div className="h-9 w-32 rounded-lg bg-white/[0.06]" />
-      </div>
-
-      {/* Filter and Search Bar Skeleton */}
-      <div className="h-12 w-full rounded-xl border border-white/[0.06] bg-[#0E1015]/60" />
-
-      {/* Prompts Grid Skeleton */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
-          <div
-            key={i}
-            className="h-48 rounded-xl border border-white/[0.06] bg-[#0E1015]/60 p-5 space-y-3"
-          >
-            <div className="flex justify-between">
-              <div className="h-4 w-32 rounded bg-white/[0.08]" />
-              <div className="h-4 w-10 rounded bg-white/[0.06]" />
-            </div>
-            <div className="h-3 w-full rounded bg-white/[0.04]" />
-            <div className="h-3 w-4/5 rounded bg-white/[0.04]" />
-            <div className="pt-4 flex justify-between items-center border-t border-white/[0.04]">
-              <div className="h-4 w-20 rounded bg-white/[0.04]" />
-              <div className="h-4 w-16 rounded bg-white/[0.06]" />
-            </div>
+    <div className="min-h-screen bg-cream">
+      <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28 space-y-8 animate-pulse">
+        {/* Library Header Skeleton */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="space-y-2">
+            <div className="h-4 w-28 rounded-full bg-indigo-950/10" />
+            <div className="h-8 w-60 rounded-xl bg-indigo-950/15" />
+            <div className="h-4 w-80 rounded bg-indigo-950/5" />
           </div>
-        ))}
+          <div className="h-10 w-36 rounded-xl bg-coral/20" />
+        </div>
+
+        {/* Filter and Search Bar Skeleton */}
+        <div className="h-12 w-full rounded-2xl border border-indigo-950/10 bg-white" />
+
+        {/* Prompts Grid Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div
+              key={i}
+              className="h-56 rounded-2xl border border-indigo-950/10 bg-white p-8 space-y-3 shadow-card"
+            >
+              <div className="flex justify-between">
+                <div className="h-4 w-32 rounded bg-indigo-950/10" />
+                <div className="h-4 w-10 rounded bg-indigo-950/5" />
+              </div>
+              <div className="h-3 w-full rounded bg-indigo-950/5" />
+              <div className="h-3 w-4/5 rounded bg-indigo-950/5" />
+              <div className="pt-6 flex justify-between items-center border-t border-indigo-950/10">
+                <div className="h-4 w-20 rounded bg-indigo-950/5" />
+                <div className="h-4 w-16 rounded bg-indigo-950/10" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

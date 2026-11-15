@@ -1,9 +1,11 @@
 export default function WorkflowLoading() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-6 animate-pulse">
-      <div className="h-32 w-full rounded-xl border border-white/[0.06] bg-[#0E1015]/60" />
-      <div className="h-[600px] w-full rounded-xl border border-white/[0.06] bg-[#0E1015]/60 flex items-center justify-center">
-        <span className="font-mono text-xs text-forge-muted">Loading Workflow Graph Studio...</span>
+    <div className="min-h-screen bg-cream">
+      <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28 space-y-8 animate-pulse">
+        <div className="h-36 w-full rounded-2xl border border-indigo-950/10 bg-white" />
+        <div className="h-[600px] w-full rounded-2xl border border-indigo-950/10 bg-white flex items-center justify-center">
+          <span className="font-mono text-sm text-indigo-900/60 font-semibold">Loading Workflow Graph Studio...</span>
+        </div>
       </div>
     </div>
   );

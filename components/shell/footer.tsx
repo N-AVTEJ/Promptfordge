@@ -1,48 +1,48 @@
 import React from "react";
 import Link from "next/link";
-import { Flame, ShieldCheck, Terminal } from "lucide-react";
+import { Flame, ShieldCheck, Terminal, ArrowRight } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="w-full border-t border-white/[0.07] bg-[#07080A] py-12 text-forge-muted">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <footer className="w-full border-t border-indigo-950/10 bg-cream py-16 text-indigo-900/70">
+      <div className="mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Brand Info */}
           <div className="space-y-4 md:col-span-2">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-7 w-7 items-center justify-center rounded-md border border-white/[0.08] bg-gradient-to-b from-[#1C2028] to-[#101215]">
-                <Flame className="h-3.5 w-3.5 text-ember-500" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-coral/30 bg-coral/10">
+                <Flame className="h-4 w-4 text-coral" />
               </div>
-              <span className="font-mono text-sm font-bold tracking-tight text-forge-text">
-                PROMPT<span className="text-ember-500">FORGE</span>
+              <span className="font-sans text-lg font-bold tracking-tight text-indigo">
+                Prompt<span className="text-coral">Forge</span>
               </span>
             </div>
-            <p className="max-w-md text-xs leading-relaxed text-forge-muted">
+            <p className="max-w-[65ch] text-sm leading-relaxed text-indigo-900/70">
               Interactive prompt engineering academy and laboratory. Master tokenomics,
               decomposition chains, structured output contracts, and adversarial defense.
             </p>
-            <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-[11px]">
-              <span className="inline-flex items-center gap-1.5 rounded-md border border-white/[0.06] bg-[#0F1115] px-2 py-0.5 text-cyan-400">
-                <ShieldCheck className="h-3 w-3" />
+            <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-xs">
+              <span className="inline-flex items-center gap-1.5 rounded-md border border-teal/30 bg-teal/10 px-2.5 py-1 text-teal font-medium">
+                <ShieldCheck className="h-3.5 w-3.5" />
                 Educational Simulation
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-md border border-white/[0.06] bg-[#0F1115] px-2 py-0.5 text-forge-muted">
-                <Terminal className="h-3 w-3 text-ember-500" />
-                Deterministic Telemetry
+              <span className="inline-flex items-center gap-1.5 rounded-md border border-coral/30 bg-coral/10 px-2.5 py-1 text-coral font-medium">
+                <Terminal className="h-3.5 w-3.5" />
+                Zero Auth Wall
               </span>
             </div>
           </div>
 
-          {/* Curriculum & Tools */}
+          {/* Curriculum & Labs */}
           <div>
-            <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-forge-text">
+            <h3 className="font-sans text-xs font-bold uppercase tracking-wider text-indigo">
               Curriculum & Labs
             </h3>
-            <ul className="mt-4 space-y-2 text-xs">
+            <ul className="mt-4 space-y-2.5 text-sm">
               <li>
                 <Link
                   href="/academy"
-                  className="transition-colors hover:text-forge-text"
+                  className="transition-colors hover:text-coral"
                 >
                   Academy Modules (1–10)
                 </Link>
@@ -50,7 +50,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/labs/anatomy"
-                  className="transition-colors hover:text-forge-text"
+                  className="transition-colors hover:text-coral"
                 >
                   Prompt Anatomy Studio
                 </Link>
@@ -58,7 +58,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/labs/llm-simulator"
-                  className="transition-colors hover:text-forge-text"
+                  className="transition-colors hover:text-coral"
                 >
                   LLM Transformer Simulator
                 </Link>
@@ -66,7 +66,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/labs/playground"
-                  className="transition-colors hover:text-forge-text"
+                  className="transition-colors hover:text-coral"
                 >
                   Live Prompt Playground
                 </Link>
@@ -74,16 +74,25 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Platform & Architecture */}
+          {/* Quick Access */}
           <div>
-            <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-forge-text">
-              Architecture & Safety
+            <h3 className="font-sans text-xs font-bold uppercase tracking-wider text-indigo">
+              Quick Launch
             </h3>
-            <ul className="mt-4 space-y-2 text-xs">
+            <ul className="mt-4 space-y-2.5 text-sm">
+              <li>
+                <Link
+                  href="/dashboard"
+                  className="inline-flex items-center gap-1 font-semibold text-coral transition-colors hover:text-coral-600"
+                >
+                  <span>Go to Dashboard</span>
+                  <ArrowRight className="h-3 w-3" />
+                </Link>
+              </li>
               <li>
                 <Link
                   href="/evaluate"
-                  className="transition-colors hover:text-forge-text"
+                  className="transition-colors hover:text-coral"
                 >
                   Evaluation Engine
                 </Link>
@@ -91,25 +100,17 @@ export function Footer() {
               <li>
                 <Link
                   href="/arena"
-                  className="transition-colors hover:text-forge-text"
+                  className="transition-colors hover:text-coral"
                 >
                   Model Benchmark Arena
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/library"
-                  className="transition-colors hover:text-forge-text"
-                >
-                  Production Blueprints
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/challenges"
-                  className="transition-colors hover:text-forge-text"
+                  className="transition-colors hover:text-coral"
                 >
-                  Adversarial Defense Sandbox
+                  Defense Challenges
                 </Link>
               </li>
             </ul>
@@ -117,11 +118,11 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-10 flex flex-col items-center justify-between border-t border-white/[0.06] pt-6 sm:flex-row font-mono text-[11px]">
-          <p className="text-forge-muted">
+        <div className="mt-12 flex flex-col items-center justify-between border-t border-indigo-950/10 pt-6 sm:flex-row text-xs text-indigo-900/60 font-mono">
+          <p>
             PromptForge Academy · Designed for engineers building reliable AI systems.
           </p>
-          <p className="mt-2 text-forge-muted sm:mt-0">
+          <p className="mt-2 sm:mt-0">
             Open-source architecture · Server-side execution
           </p>
         </div>

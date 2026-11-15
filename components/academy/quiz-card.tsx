@@ -8,7 +8,6 @@ import {
   ArrowRight,
   RotateCcw,
   Award,
-  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -67,7 +66,6 @@ export function QuizCard({
       setFinalScore(correctCount);
       setIsCompleted(true);
 
-      // Save to localStorage progress store
       saveQuiz(lessonId, correctCount, questions.length);
       onComplete?.(correctCount, questions.length);
     }
@@ -82,14 +80,13 @@ export function QuizCard({
     setFinalScore(0);
   }, []);
 
-  // Reset quiz state when switching lessons
   React.useEffect(() => {
     handleRetake();
   }, [lessonId, handleRetake]);
 
   if (!questions || questions.length === 0) {
     return (
-      <div className="rounded-forge-lg border border-forge-border bg-forge-elevated p-6 text-center text-sm text-forge-muted">
+      <div className="rounded-2xl border border-indigo-950/10 bg-white p-6 text-center text-sm text-indigo-900/60 shadow-card">
         No quiz available for this lesson.
       </div>
     );
@@ -103,39 +100,39 @@ export function QuizCard({
     return (
       <div
         className={cn(
-          "rounded-forge-lg border border-forge-border bg-forge-surface p-6 shadow-forge text-center space-y-6",
+          "rounded-2xl border border-indigo-950/10 bg-white p-6 sm:p-8 shadow-card text-center space-y-6",
           className
         )}
       >
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-ember-500/10 text-ember-400 border border-ember-500/30">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-coral/10 text-coral border border-coral/30">
           <Award className="h-8 w-8" />
         </div>
 
         <div className="space-y-2">
           <Badge
-            variant={passed ? "cyan" : "outline"}
-            className="px-3 py-1 text-xs uppercase tracking-wider font-mono"
+            variant={passed ? "secondary" : "outline"}
+            className="px-3 py-1 text-xs uppercase tracking-wider font-mono font-bold"
           >
             {passed ? "Assessment Passed" : "Knowledge Check Complete"}
           </Badge>
-          <h3 className="text-xl font-bold text-forge-text">
-            {passed ? "Excellent Work!" : "Keep Honing Your Instincts"}
+          <h3 className="text-xl font-bold text-indigo">
+            {passed ? "Excellent Comprehension!" : "Keep Honing Your Knowledge"}
           </h3>
-          <p className="text-xs text-forge-muted">
+          <p className="text-xs text-indigo-900/70">
             {lessonTitle ? `Knowledge check for "${lessonTitle}"` : "Lesson Quiz"}
           </p>
         </div>
 
-        {/* Score Ring / Metric */}
-        <div className="mx-auto flex flex-col items-center justify-center rounded-forge-md bg-forge-elevated p-4 border border-forge-border max-w-xs">
-          <div className="font-mono text-3xl font-extrabold text-forge-text">
-            {finalScore} <span className="text-forge-subtle">/</span> {questions.length}
+        {/* Score Metric */}
+        <div className="mx-auto flex flex-col items-center justify-center rounded-xl bg-cream p-4 border border-indigo-950/10 max-w-xs">
+          <div className="font-mono text-3xl font-extrabold text-indigo">
+            {finalScore} <span className="opacity-40">/</span> {questions.length}
           </div>
-          <div className="text-xs font-medium text-forge-muted mt-1">
-            Score: <span className={cn("font-bold font-mono", passed ? "text-cyan-400" : "text-ember-400")}>{percent}%</span>
+          <div className="text-xs font-semibold text-indigo-900/70 mt-1">
+            Score: <span className={cn("font-bold font-mono", passed ? "text-teal" : "text-coral")}>{percent}%</span>
           </div>
           {bestScore !== undefined && (
-            <div className="mt-2 text-[11px] font-mono text-forge-subtle">
+            <div className="mt-2 text-[11px] font-mono text-indigo-900/50">
               Best Saved Score: {bestScore} / {questions.length}
             </div>
           )}
@@ -160,28 +157,28 @@ export function QuizCard({
   return (
     <div
       className={cn(
-        "rounded-forge-lg border border-forge-border bg-forge-surface p-5 sm:p-6 shadow-forge space-y-5",
+        "rounded-2xl border border-indigo-950/10 bg-white p-6 shadow-card space-y-5",
         className
       )}
     >
       {/* Header & Progress */}
-      <div className="flex items-center justify-between border-b border-forge-border pb-3">
+      <div className="flex items-center justify-between border-b border-indigo-950/10 pb-3">
         <div className="flex items-center gap-2">
-          <HelpCircle className="h-4 w-4 text-cyan-400" />
-          <span className="text-xs font-semibold text-forge-muted uppercase tracking-wider">
+          <HelpCircle className="h-4 w-4 text-violet" />
+          <span className="text-xs font-bold text-indigo-900/60 uppercase tracking-wider font-mono">
             Knowledge Check
           </span>
         </div>
-        <div className="font-mono text-xs text-forge-muted">
-          Question <span className="text-forge-text font-bold">{currentIndex + 1}</span> of{" "}
+        <div className="font-mono text-xs text-indigo-900/60">
+          Question <span className="text-indigo font-bold">{currentIndex + 1}</span> of{" "}
           <span>{questions.length}</span>
         </div>
       </div>
 
       {/* Progress Line */}
-      <div className="h-1 w-full bg-forge-border rounded-full overflow-hidden">
+      <div className="h-1.5 w-full bg-indigo-950/10 rounded-full overflow-hidden">
         <div
-          className="h-full bg-gradient-to-r from-ember-500 to-cyan-400 transition-all duration-300"
+          className="h-full bg-coral transition-all duration-300"
           style={{
             width: `${((currentIndex + 1) / questions.length) * 100}%`,
           }}
@@ -190,7 +187,7 @@ export function QuizCard({
 
       {/* Question Text */}
       <div className="space-y-1">
-        <h4 className="text-sm sm:text-base font-semibold text-forge-text leading-snug">
+        <h4 className="text-base font-bold text-indigo leading-snug">
           {currentQ.question}
         </h4>
       </div>
@@ -198,22 +195,20 @@ export function QuizCard({
       {/* Options List */}
       <div className="space-y-2.5">
         {currentQ.options.map((option, idx) => {
-          const letter = String.fromCharCode(65 + idx); // A, B, C, D
+          const letter = String.fromCharCode(65 + idx);
           const isSelected = selectedOption === idx;
           const isCorrect = idx === currentQ.answerIndex;
 
           let optionStyle =
-            "bg-forge-elevated text-forge-muted border-forge-border hover:bg-forge-overlay hover:text-forge-text hover:border-forge-border-bright";
+            "bg-cream text-indigo border-indigo-950/10 hover:bg-white hover:border-indigo-950/20";
 
           if (isAnswered) {
             if (isCorrect) {
-              optionStyle =
-                "bg-emerald-950/40 text-emerald-300 border-emerald-500/60 shadow-[0_0_12px_-2px_rgba(16,185,129,0.3)]";
+              optionStyle = "bg-teal/10 text-teal border-teal/40 font-semibold";
             } else if (isSelected && !isCorrect) {
-              optionStyle =
-                "bg-red-950/40 text-red-300 border-red-500/60 shadow-[0_0_12px_-2px_rgba(239,68,68,0.3)]";
+              optionStyle = "bg-rose-50 text-rose-700 border-rose-300 font-semibold";
             } else {
-              optionStyle = "bg-forge-elevated/40 text-forge-subtle border-forge-border/40 opacity-50";
+              optionStyle = "bg-cream/40 text-indigo-900/40 border-indigo-950/5 opacity-60";
             }
           }
 
@@ -224,18 +219,18 @@ export function QuizCard({
               disabled={isAnswered}
               onClick={() => handleSelectOption(idx)}
               className={cn(
-                "group flex w-full items-start gap-3 rounded-forge-md border p-3 text-left text-xs sm:text-sm font-medium transition-all focus:outline-none min-h-[44px]",
+                "group flex w-full items-start gap-3 rounded-xl border p-3.5 text-left text-xs sm:text-sm font-medium transition-all focus:outline-none min-h-[44px]",
                 optionStyle
               )}
             >
               <span
                 className={cn(
-                  "flex h-6 w-6 shrink-0 items-center justify-center rounded font-mono text-xs font-bold transition-colors",
+                  "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg font-mono text-xs font-bold transition-colors",
                   isAnswered && isCorrect
-                    ? "bg-emerald-500 text-black"
+                    ? "bg-teal text-white"
                     : isAnswered && isSelected && !isCorrect
-                    ? "bg-red-500 text-white"
-                    : "bg-forge-surface text-forge-muted group-hover:text-forge-text"
+                    ? "bg-rose-500 text-white"
+                    : "bg-white text-indigo-900/70 border border-indigo-950/10"
                 )}
               >
                 {letter}
@@ -246,9 +241,9 @@ export function QuizCard({
               {isAnswered && (
                 <span className="shrink-0 pt-0.5">
                   {isCorrect ? (
-                    <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+                    <CheckCircle2 className="h-5 w-5 text-teal" />
                   ) : isSelected ? (
-                    <XCircle className="h-5 w-5 text-red-400" />
+                    <XCircle className="h-5 w-5 text-rose-500" />
                   ) : null}
                 </span>
               )}
@@ -257,37 +252,28 @@ export function QuizCard({
         })}
       </div>
 
-      {/* Explanation Box (Animated Reveal) */}
+      {/* Answer Explanation & Next Button */}
       {isAnswered && (
-        <div
-          className={cn(
-            "rounded-forge-md p-3.5 text-xs border leading-relaxed transition-all duration-300",
-            selectedOption === currentQ.answerIndex
-              ? "bg-emerald-950/30 border-emerald-500/30 text-emerald-200"
-              : "bg-forge-elevated border-ember-500/30 text-forge-text"
-          )}
-        >
-          <div className="font-semibold text-xs mb-1 flex items-center gap-1.5">
-            <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
-            <span>Explanation:</span>
+        <div className="rounded-xl border border-indigo-950/10 bg-cream p-4 space-y-3">
+          <div className="text-xs font-semibold text-indigo-900/80 leading-relaxed">
+            <strong className="text-indigo font-bold block mb-1">
+              Explanation:
+            </strong>
+            {currentQ.explanation}
           </div>
-          <p>{currentQ.explanation}</p>
-        </div>
-      )}
 
-      {/* Footer Navigation */}
-      {isAnswered && (
-        <div className="flex justify-end pt-1">
-          <Button
-            size="sm"
-            onClick={handleNext}
-            className="flex items-center gap-2 bg-ember-500 hover:bg-ember-600 text-white shadow-ember-sm"
-          >
-            <span>
-              {currentIndex < questions.length - 1 ? "Next Question" : "Complete Quiz"}
-            </span>
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Button>
+          <div className="flex justify-end pt-1">
+            <Button
+              size="sm"
+              onClick={handleNext}
+              className="gap-1.5 text-xs"
+            >
+              <span>
+                {currentIndex < questions.length - 1 ? "Next Question" : "See Final Score"}
+              </span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Button>
+          </div>
         </div>
       )}
     </div>

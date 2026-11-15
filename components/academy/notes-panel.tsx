@@ -24,10 +24,10 @@ export function NotesPanel({ lesson, className }: NotesPanelProps) {
   return (
     <div className={cn("space-y-6 text-sm", className)}>
       {/* Top Header */}
-      <div className="flex items-center justify-between border-b border-forge-border pb-3">
+      <div className="flex items-center justify-between border-b border-indigo-950/10 pb-3">
         <div className="flex items-center gap-2">
-          <BookOpen className="h-4 w-4 text-cyan-400" />
-          <span className="text-xs font-semibold uppercase tracking-wider text-forge-muted">
+          <BookOpen className="h-4 w-4 text-violet" />
+          <span className="text-xs font-bold uppercase tracking-wider text-indigo-900/60 font-mono">
             Lesson Notes & Study Guide
           </span>
         </div>
@@ -35,16 +35,16 @@ export function NotesPanel({ lesson, className }: NotesPanelProps) {
           variant="outline"
           size="sm"
           onClick={handleCopyNotes}
-          className="h-7 text-xs flex items-center gap-1.5 border-forge-border hover:bg-forge-elevated"
+          className="h-8 text-xs flex items-center gap-1.5"
         >
           {copied ? (
             <>
-              <Check className="h-3 w-3 text-emerald-400" />
+              <Check className="h-3.5 w-3.5 text-teal" />
               <span>Copied</span>
             </>
           ) : (
             <>
-              <Copy className="h-3 w-3" />
+              <Copy className="h-3.5 w-3.5" />
               <span>Copy Notes</span>
             </>
           )}
@@ -53,18 +53,18 @@ export function NotesPanel({ lesson, className }: NotesPanelProps) {
 
       {/* Key Concepts Grid */}
       <div className="space-y-2">
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-forge-muted">
-          <Key className="h-3.5 w-3.5 text-ember-400" />
+        <div className="flex items-center gap-1.5 text-xs font-bold text-indigo-900/70 font-mono">
+          <Key className="h-3.5 w-3.5 text-coral" />
           <span>Core Architectural Principles</span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {lesson.keyConcepts.map((concept, idx) => (
             <div
               key={idx}
-              className="flex items-start gap-2 rounded-forge bg-forge-elevated p-2.5 border border-forge-border"
+              className="flex items-start gap-2 rounded-xl bg-cream p-3 border border-indigo-950/10"
             >
-              <div className="mt-0.5 h-1.5 w-1.5 rounded-full bg-cyan-400 shrink-0" />
-              <span className="text-xs text-forge-text font-medium leading-relaxed">
+              <div className="mt-1 h-2 w-2 rounded-full bg-violet shrink-0" />
+              <span className="text-xs text-indigo font-medium leading-relaxed">
                 {concept}
               </span>
             </div>
@@ -73,13 +73,13 @@ export function NotesPanel({ lesson, className }: NotesPanelProps) {
       </div>
 
       {/* Detailed Notes Markdown Render */}
-      <div className="space-y-3">
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-forge-muted">
-          <FileText className="h-3.5 w-3.5 text-cyan-400" />
+      <div className="space-y-2">
+        <div className="flex items-center gap-1.5 text-xs font-bold text-indigo-900/70 font-mono">
+          <FileText className="h-3.5 w-3.5 text-teal" />
           <span>Technical Reference</span>
         </div>
 
-        <div className="rounded-forge-md border border-forge-border bg-forge-surface p-4 text-xs leading-relaxed space-y-3 text-forge-muted whitespace-pre-wrap font-sans">
+        <div className="rounded-xl border border-indigo-950/10 bg-cream/50 p-4 text-xs leading-relaxed space-y-3 text-indigo-900/80 whitespace-pre-wrap font-sans">
           {lesson.notesMarkdown || lesson.summary}
         </div>
       </div>
@@ -87,13 +87,13 @@ export function NotesPanel({ lesson, className }: NotesPanelProps) {
       {/* Starter Template Snippet */}
       {lesson.practiceChallenge.starterPrompt && (
         <div className="space-y-2">
-          <div className="flex items-center justify-between text-xs font-semibold text-forge-muted">
+          <div className="flex items-center justify-between text-xs font-bold text-indigo-900/70 font-mono">
             <span className="flex items-center gap-1.5">
-              <Sparkles className="h-3.5 w-3.5 text-ember-400" />
+              <Sparkles className="h-3.5 w-3.5 text-coral" />
               <span>Starter Blueprint</span>
             </span>
           </div>
-          <pre className="overflow-x-auto rounded-forge border border-forge-border bg-forge-black p-3 font-mono text-[11px] leading-relaxed text-forge-text select-all">
+          <pre className="overflow-x-auto rounded-xl border border-indigo-950/10 bg-white p-4 font-mono text-[11px] leading-relaxed text-indigo select-all shadow-card">
             {lesson.practiceChallenge.starterPrompt}
           </pre>
         </div>

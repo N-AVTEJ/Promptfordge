@@ -2,31 +2,30 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Flame, Terminal, ArrowRight, Code2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Flame, ArrowRight, Play, Sparkles } from "lucide-react";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
+import { CurvedDivider } from "@/components/ui/curved-divider";
 
 const STREAM_PROMPT =
-  "System: You are a compiler architect. Optimize an async state machine in Rust with zero-alloc invariants.";
+  "System: You are an expert prompt engineer. Optimize an autonomous reasoning agent with strict JSON output.";
 
 const STREAM_TOKENS = [
-  { text: "System:", id: 1045, color: "text-ember-400 border-ember-500/30 bg-ember-500/[0.07]" },
-  { text: " You", id: 284, color: "text-forge-text border-white/[0.08] bg-white/[0.03]" },
-  { text: " are", id: 527, color: "text-forge-text border-white/[0.08] bg-white/[0.03]" },
-  { text: " a", id: 264, color: "text-forge-text border-white/[0.08] bg-white/[0.03]" },
-  { text: " compiler", id: 18452, color: "text-cyan-400 border-cyan-500/30 bg-cyan-500/[0.07]" },
-  { text: " architect.", id: 14210, color: "text-cyan-400 border-cyan-500/30 bg-cyan-500/[0.07]" },
-  { text: " Optimize", id: 31201, color: "text-ember-400 border-ember-500/30 bg-ember-500/[0.07]" },
-  { text: " an", id: 459, color: "text-forge-text border-white/[0.08] bg-white/[0.03]" },
-  { text: " async", id: 9811, color: "text-forge-text border-white/[0.08] bg-white/[0.03]" },
-  { text: " state", id: 1782, color: "text-forge-text border-white/[0.08] bg-white/[0.03]" },
-  { text: " machine", id: 6224, color: "text-forge-text border-white/[0.08] bg-white/[0.03]" },
-  { text: " in", id: 304, color: "text-forge-text border-white/[0.08] bg-white/[0.03]" },
-  { text: " Rust", id: 7421, color: "text-cyan-400 border-cyan-500/30 bg-cyan-500/[0.07]" },
-  { text: " with", id: 449, color: "text-forge-text border-white/[0.08] bg-white/[0.03]" },
-  { text: " zero-", id: 1899, color: "text-ember-400 border-ember-500/30 bg-ember-500/[0.07]" },
-  { text: "alloc", id: 24190, color: "text-ember-400 border-ember-500/30 bg-ember-500/[0.07]" },
-  { text: " invariants.", id: 34182, color: "text-cyan-400 border-cyan-500/30 bg-cyan-500/[0.07]" },
+  { text: "System:", id: 1045, color: "bg-coral/15 text-coral border-coral/30" },
+  { text: " You", id: 284, color: "bg-white text-indigo border-indigo-950/10" },
+  { text: " are", id: 527, color: "bg-white text-indigo border-indigo-950/10" },
+  { text: " an", id: 459, color: "bg-white text-indigo border-indigo-950/10" },
+  { text: " expert", id: 18452, color: "bg-violet/15 text-violet border-violet/30" },
+  { text: " prompt", id: 14210, color: "bg-teal/15 text-teal border-teal/30" },
+  { text: " engineer.", id: 31201, color: "bg-violet/15 text-violet border-violet/30" },
+  { text: " Optimize", id: 9811, color: "bg-coral/15 text-coral border-coral/30" },
+  { text: " an", id: 304, color: "bg-white text-indigo border-indigo-950/10" },
+  { text: " autonomous", id: 1782, color: "bg-butter text-indigo border-indigo-950/10" },
+  { text: " reasoning", id: 6224, color: "bg-mint text-indigo border-indigo-950/10" },
+  { text: " agent", id: 7421, color: "bg-teal/15 text-teal border-teal/30" },
+  { text: " with", id: 449, color: "bg-white text-indigo border-indigo-950/10" },
+  { text: " strict", id: 1899, color: "bg-lavender text-violet border-violet/30" },
+  { text: " JSON", id: 24190, color: "bg-coral/15 text-coral border-coral/30" },
+  { text: " output.", id: 34182, color: "bg-teal/15 text-teal border-teal/30" },
 ];
 
 export function HeroSection() {
@@ -35,7 +34,7 @@ export function HeroSection() {
   const [isTokenized, setIsTokenized] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // Typing stream simulation
+  // Typing stream animation
   useEffect(() => {
     if (prefersReduced) {
       setTypedChars(STREAM_PROMPT.length);
@@ -58,7 +57,7 @@ export function HeroSection() {
     return () => clearInterval(interval);
   }, [prefersReduced]);
 
-  // Ambient drifting token particles in canvas background (calm, precise)
+  // Floating ambient tokens in background canvas
   useEffect(() => {
     if (prefersReduced) return;
     const canvas = canvasRef.current;
@@ -78,21 +77,24 @@ export function HeroSection() {
     };
     window.addEventListener("resize", resizeHandler);
 
-    // Subtle drifting token nodes
-    const particles = Array.from({ length: 24 }, () => ({
+    const particles = Array.from({ length: 18 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.25,
-      vy: (Math.random() - 0.5) * 0.25,
-      radius: Math.random() * 1.5 + 1,
-      color: Math.random() > 0.4 ? "rgba(255, 107, 0, 0.3)" : "rgba(0, 229, 255, 0.25)",
-      idStr: `T${Math.floor(Math.random() * 9000 + 1000)}`,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      radius: Math.random() * 2 + 1.5,
+      color:
+        Math.random() > 0.5
+          ? "rgba(255, 107, 74, 0.25)"
+          : Math.random() > 0.5
+          ? "rgba(124, 92, 255, 0.2)"
+          : "rgba(18, 181, 166, 0.2)",
     }));
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
-      particles.forEach((p, i) => {
+      particles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
 
@@ -101,27 +103,10 @@ export function HeroSection() {
         if (p.y < 0) p.y = height;
         if (p.y > height) p.y = 0;
 
-        // Draw node
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.fill();
-
-        // Connect nearby nodes with faint attention lines
-        for (let j = i + 1; j < particles.length; j++) {
-          const other = particles[j];
-          const dx = other.x - p.x;
-          const dy = other.y - p.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(other.x, other.y);
-            ctx.strokeStyle = `rgba(255, 107, 0, ${0.08 * (1 - dist / 100)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
       });
 
       animationFrameId = requestAnimationFrame(render);
@@ -136,169 +121,115 @@ export function HeroSection() {
   }, [prefersReduced]);
 
   return (
-    <section className="relative overflow-hidden pt-14 pb-20 sm:pt-24 sm:pb-32">
-      {/* Precision hairline grid backdrop */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,#14171d_1px,transparent_1px),linear-gradient(to_bottom,#14171d_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_25%,#000_70%,transparent_100%)] opacity-60"
-        aria-hidden="true"
-      />
-
-      {/* Ambient glowing forge backdrop */}
-      <div
-        className="pointer-events-none absolute top-0 left-1/2 -z-10 h-96 w-[900px] -translate-x-1/2 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(255,107,0,0.22),transparent_70%)] animate-glow-pulse"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute top-48 left-1/2 -z-10 h-64 w-[600px] -translate-x-1/2 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(0,229,255,0.08),transparent_70%)] animate-glow-pulse"
-        aria-hidden="true"
-      />
-
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-cream pt-16 pb-0">
+      <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28">
         <div className="flex flex-col items-center text-center">
-          {/* Technical Tag Eyebrow */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 font-mono text-xs font-semibold text-amber-400 shadow-[0_0_15px_rgba(255,107,0,0.15)] animate-float">
-            <Flame className="h-3.5 w-3.5 text-ember-500 animate-pulse" />
+          {/* Eyebrow Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-coral/30 bg-coral/10 px-4 py-1.5 text-xs font-bold text-coral shadow-card">
+            <Flame className="h-4 w-4 text-coral" />
             <span>Interactive Prompt Engineering Academy</span>
           </div>
 
-          {/* Requirement 1 exact headline: "Understand AI. Master Prompts. Engineer Better Intelligence." */}
-          <h1 className="mt-8 max-w-4xl font-mono text-3xl font-extrabold tracking-tight text-forge-text sm:text-5xl lg:text-6xl">
+          {/* Big Headline (64 to 88px on desktop) */}
+          <h1 className="mt-8 max-w-4xl font-sans text-4xl sm:text-6xl lg:text-[76px] font-black tracking-tight text-indigo leading-[1.08]">
             Understand AI.
             <br />
-            <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,107,0,0.35)]">
-              Master Prompts.
-            </span>
+            <span className="text-coral">Master Prompts.</span>
             <br />
-            <span className="text-forge-text">Engineer Better Intelligence.</span>
+            <span>Engineer Better Systems.</span>
           </h1>
 
-          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base">
+          {/* Short Subline (max 65 chars, 18px base text) */}
+          <p className="mt-6 max-w-[65ch] text-base sm:text-lg leading-[1.7] text-indigo-900/75">
             Deconstruct subword token splits, attention matrices, and latent steering vectors.
             Move from intuition to deterministic execution inside live browser laboratories.
           </p>
 
-          {/* User Journey: Landing Page -> Dashboard */}
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3.5">
-            <Button
-              asChild
-              size="lg"
-              className="group h-11 rounded-lg border border-amber-400/40 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 px-7 font-mono text-xs font-bold text-black shadow-[0_0_25px_rgba(255,107,0,0.35)] hover:from-amber-400 hover:to-orange-500 hover:shadow-[0_0_35px_rgba(255,107,0,0.5)] transition-all active:scale-[0.99]"
+          {/* CTAs: "Go to Dashboard", "Watch a lesson" */}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-2 rounded-xl bg-coral px-8 py-4 font-sans text-sm font-bold text-white shadow-coral-glow transition-all hover:bg-coral-600 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
             >
-              <Link href="/dashboard" className="inline-flex items-center gap-2">
-                <span>Launch Dashboard</span>
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </Link>
-            </Button>
+              <span>Go to Dashboard</span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
 
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="h-11 rounded-lg border border-amber-500/30 bg-amber-950/20 px-6 font-mono text-xs font-semibold text-amber-300 shadow-[0_0_15px_rgba(255,107,0,0.1)] hover:border-amber-400 hover:bg-amber-900/30 hover:text-white transition-all"
+            <Link
+              href="/academy/mod-01/mod-01-les-01"
+              className="inline-flex items-center gap-2 rounded-xl border border-indigo-950/15 bg-white px-7 py-4 font-sans text-sm font-bold text-indigo shadow-card transition-all hover:border-violet/40 hover:bg-white hover:text-violet hover:shadow-card-hover"
             >
-              <Link href="/academy" className="inline-flex items-center gap-2">
-                <span>Enter Academy</span>
-              </Link>
-            </Button>
-
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="h-11 rounded-lg border border-cyan-500/40 bg-cyan-950/20 px-6 font-mono text-xs font-semibold text-cyan-300 shadow-[0_0_15px_rgba(0,229,255,0.12)] hover:border-cyan-400 hover:bg-cyan-900/30 hover:text-white hover:shadow-[0_0_25px_rgba(0,229,255,0.25)] transition-all"
-            >
-              <Link href="/labs" className="inline-flex items-center gap-2">
-                <Terminal className="h-3.5 w-3.5 text-cyan-400" />
-                <span>Try a live lab</span>
-              </Link>
-            </Button>
+              <Play className="h-4 w-4 text-violet" />
+              <span>Watch a lesson</span>
+            </Link>
           </div>
         </div>
 
-        {/* Live Token Streaming Terminal & Ambient Drift Field */}
-        <div className="relative mx-auto mt-14 max-w-4xl sm:mt-18">
-          {/* Ambient Canvas layer */}
+        {/* Prompt that types in then splits into floating colored tokens */}
+        <div className="relative mx-auto mt-16 max-w-4xl">
           <canvas
             ref={canvasRef}
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-0 h-full w-full rounded-xl opacity-60"
+            className="pointer-events-none absolute inset-0 z-0 h-full w-full rounded-2xl opacity-60"
           />
 
-          <div className="relative z-10 overflow-hidden rounded-xl border border-amber-500/30 bg-gradient-to-b from-[#131722] via-[#0E1016] to-[#08090C] shadow-[0_20px_50px_rgba(0,0,0,0.7)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-amber-400/40 before:to-transparent">
-            {/* Terminal Header */}
-            <div className="flex items-center justify-between border-b border-white/[0.08] bg-[#11141B] px-4 py-2.5">
+          <div className="relative z-10 overflow-hidden rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card">
+            {/* Terminal Top Bar */}
+            <div className="flex items-center justify-between border-b border-indigo-950/10 pb-4">
               <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
-                <span className="h-2.5 w-2.5 rounded-full bg-amber-500/80" />
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
-                <span className="ml-2 font-mono text-[11px] text-zinc-400">
+                <span className="h-3 w-3 rounded-full bg-coral/80" />
+                <span className="h-3 w-3 rounded-full bg-butter/80 border border-indigo-950/10" />
+                <span className="h-3 w-3 rounded-full bg-teal/80" />
+                <span className="ml-2 font-mono text-xs font-semibold text-indigo-900/60">
                   token_stream_telemetry.forge
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="rounded border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 font-mono text-[10px] text-amber-300">
-                  {isTokenized ? "BPE Tokenized · 17 tokens" : "Ingesting byte stream..."}
+                <span className="inline-flex items-center gap-1 rounded-full border border-teal/30 bg-teal/10 px-3 py-0.5 font-mono text-xs font-semibold text-teal">
+                  <Sparkles className="h-3 w-3" />
+                  {isTokenized ? "16 Discrete BPE Tokens" : "Tokenizing byte stream..."}
                 </span>
               </div>
             </div>
 
-            {/* Terminal Body */}
-            <div className="p-6">
-              <div className="flex items-center justify-between font-mono text-[11px] text-zinc-400 mb-3">
-                <span className="flex items-center gap-1.5 text-amber-400 font-semibold">
-                  <Code2 className="h-3.5 w-3.5 text-amber-500" /> Prompt Buffer
-                </span>
-                <span className="text-[10px] font-mono text-cyan-400">
-                  Vocabulary: 32,768 · BPE Subwords
-                </span>
+            {/* Prompt Content */}
+            <div className="mt-6">
+              <div className="text-xs font-mono font-semibold uppercase tracking-wider text-indigo-900/50 mb-3">
+                Live Subword Tokenization Preview
               </div>
 
-              {/* Streaming raw prompt vs split tokens */}
-              <div className="min-h-[84px] rounded-lg border border-white/[0.08] bg-black/60 p-4 font-mono text-xs leading-relaxed sm:text-sm shadow-inner">
-                {!isTokenized ? (
-                  <p className="text-zinc-200">
-                    {STREAM_PROMPT.slice(0, typedChars)}
-                    <span className="inline-block h-3.5 w-1.5 bg-amber-400 align-middle ml-1 animate-pulse" />
-                  </p>
-                ) : (
-                  <div className="flex flex-wrap gap-1.5">
-                    {STREAM_TOKENS.map((token, index) => (
-                      <span
-                        key={index}
-                        className={`inline-flex items-center rounded border px-2 py-0.5 text-xs font-mono transition-all hover:scale-105 ${token.color}`}
-                        title={`Token ID: ${token.id}`}
-                      >
-                        {token.text}
-                        <span className="ml-1 text-[9px] opacity-50">#{token.id}</span>
+              {!isTokenized ? (
+                <div className="min-h-[96px] rounded-xl border border-indigo-950/10 bg-cream/70 p-5 font-mono text-sm leading-relaxed text-indigo">
+                  {STREAM_PROMPT.slice(0, typedChars)}
+                  <span className="inline-block h-4 w-1.5 ml-1 bg-coral animate-pulse" />
+                </div>
+              ) : (
+                <div className="flex flex-wrap gap-2 min-h-[96px] rounded-xl border border-indigo-950/10 bg-cream/70 p-5 items-center">
+                  {STREAM_TOKENS.map((token, idx) => (
+                    <span
+                      key={idx}
+                      className={`inline-flex items-center gap-1 rounded-lg border px-3 py-1.5 font-mono text-xs font-medium shadow-sm transition-transform hover:-translate-y-1 ${token.color}`}
+                    >
+                      <span>{token.text}</span>
+                      <span className="text-[10px] opacity-60 font-mono">
+                        #{token.id}
                       </span>
-                    ))}
-                  </div>
-                )}
-              </div>
+                    </span>
+                  ))}
+                </div>
+              )}
 
-              {/* Live Token Telemetry Footer */}
-              <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4 font-mono text-xs">
-                <div className="rounded-lg border border-white/[0.08] bg-[#0E1118] p-2.5">
-                  <div className="text-[10px] text-zinc-400 uppercase tracking-wider">Input Tokens</div>
-                  <div className="mt-0.5 font-bold text-white">17 tokens</div>
-                </div>
-                <div className="rounded-lg border border-amber-500/20 bg-amber-500/[0.04] p-2.5">
-                  <div className="text-[10px] text-amber-400/80 uppercase tracking-wider">Characters</div>
-                  <div className="mt-0.5 font-bold text-amber-300">102 chars</div>
-                </div>
-                <div className="rounded-lg border border-cyan-500/20 bg-cyan-500/[0.04] p-2.5">
-                  <div className="text-[10px] text-cyan-400/80 uppercase tracking-wider">Compression</div>
-                  <div className="mt-0.5 font-bold text-cyan-300">6.00 chars/tok</div>
-                </div>
-                <div className="rounded-lg border border-white/[0.08] bg-[#0E1118] p-2.5">
-                  <div className="text-[10px] text-zinc-400 uppercase tracking-wider">Attention Matrix</div>
-                  <div className="mt-0.5 font-bold text-emerald-400">17 × 17 rank</div>
-                </div>
+              <div className="mt-4 flex items-center justify-between text-xs font-mono text-indigo-900/60">
+                <span>Model: GPT-4 / Gemini 1.5 BPE Table</span>
+                <span>Byte Compression Ratio: 3.8:1</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Curved Divider into Lavender Band */}
+      <CurvedDivider fillColor="text-lavender" />
     </section>
   );
 }

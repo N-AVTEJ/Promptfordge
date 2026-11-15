@@ -1,31 +1,28 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   GraduationCap,
   Sparkles,
   Trophy,
-  Shield,
   ArrowRight,
   BookOpen,
   FlaskConical,
-  FolderGit2,
-  Bookmark,
-  ExternalLink,
-  Info,
-  AlertTriangle,
-  Play,
+  X,
   RotateCcw,
+  CheckCircle2,
+  Clock,
+  ExternalLink,
 } from "lucide-react";
 import { useProgress } from "@/lib/storage/progress";
 import { useChallenges } from "@/lib/storage/challenges";
 import { getArenaProgress } from "@/lib/storage/arena";
-import { getSavedPrompts } from "@/lib/storage/library";
 import { getStorageItem, STORAGE_KEYS, CompareExperimentRecord } from "@/lib/storage/index";
 import { getSuggestedNextLesson, getCurriculumStats } from "@/lib/dashboard/recommend";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
+import { CURRICULUM_MODULES } from "@/content/modules";
 
 interface ProgressRingProps {
   percentage: number;
@@ -43,29 +40,27 @@ function ProgressRing({
   icon,
 }: ProgressRingProps) {
   const prefersReduced = useReducedMotion();
-  const radius = 38;
-  const strokeWidth = 7;
+  const radius = 42;
+  const strokeWidth = 8;
   const circumference = 2 * Math.PI * radius;
   const clampedPercent = Math.min(100, Math.max(0, percentage));
   const offset = circumference - (clampedPercent / 100) * circumference;
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-xl border border-white/[0.08] bg-[#0E1015]/80 p-5 text-center transition-colors hover:border-white/[0.14]">
+    <div className="flex flex-col items-center justify-center text-center">
       <div className="relative flex items-center justify-center">
-        <svg className="h-28 w-28 -rotate-90 transform" viewBox="0 0 96 96" aria-hidden="true">
-          {/* Background circle */}
+        <svg className="h-32 w-32 -rotate-90 transform" viewBox="0 0 104 104" aria-hidden="true">
           <circle
-            cx="48"
-            cy="48"
+            cx="52"
+            cy="52"
             r={radius}
-            className="stroke-white/[0.06]"
+            className="stroke-indigo-950/10"
             strokeWidth={strokeWidth}
             fill="transparent"
           />
-          {/* Animated progress circle */}
           <motion.circle
-            cx="48"
-            cy="48"
+            cx="52"
+            cy="52"
             r={radius}
             className={strokeColor}
             strokeWidth={strokeWidth}
@@ -80,26 +75,92 @@ function ProgressRing({
           />
         </svg>
 
-        {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-forge-muted">{icon}</div>
-          <span className="font-mono text-base font-bold text-white">
+          <div className="text-indigo-900/60 mb-0.5">{icon}</div>
+          <span className="font-mono text-lg font-bold text-indigo">
             {clampedPercent}%
           </span>
         </div>
       </div>
 
-      <div className="mt-3 space-y-0.5">
-        <h4 className="text-xs font-semibold text-white">{label}</h4>
-        <p className="text-[11px] font-mono text-forge-muted">{sublabel}</p>
+      <div className="mt-4 space-y-1">
+        <h4 className="font-sans text-sm font-bold text-indigo">{label}</h4>
+        <p className="font-mono text-xs text-indigo-900/60">{sublabel}</p>
       </div>
     </div>
   );
 }
 
+// Sample starter experiments when user history is empty
+const STARTER_EXPERIMENTS: CompareExperimentRecord[] = [
+  {
+    id: "exp-starter-1",
+    timestamp: Date.now() - 3600000 * 2,
+    task: "Extract structured customer sentiment and entities into RFC8259 JSON",
+    model: "gemini-1.5-flash",
+    temperature: 0.7,
+    runsPerTechnique: 3,
+    results: [
+      {
+        techniqueId: "zero-shot",
+        formatComplianceSpread: { mean: 0.33, min: 0, max: 0.67, stdev: 0.2 },
+        judgeClaritySpread: { mean: 0.5, min: 0.4, max: 0.6, stdev: 0.1 },
+        latencySpread: { mean: 650, min: 580, max: 720, stdev: 50, values: [580, 650, 720] },
+        outputTokensSpread: { mean: 120, min: 110, max: 130, stdev: 8, values: [110, 120, 130] },
+        costSpread: { mean: 0.0001, min: 0.00009, max: 0.00012, stdev: 0.00001, values: [0.00009, 0.0001, 0.00012] },
+      },
+      {
+        techniqueId: "few-shot",
+        formatComplianceSpread: { mean: 1.0, min: 1.0, max: 1.0, stdev: 0.0 },
+        judgeClaritySpread: { mean: 0.95, min: 0.9, max: 1.0, stdev: 0.04 },
+        latencySpread: { mean: 710, min: 690, max: 730, stdev: 15, values: [690, 710, 730] },
+        outputTokensSpread: { mean: 95, min: 90, max: 100, stdev: 4, values: [90, 95, 100] },
+        costSpread: { mean: 0.00014, min: 0.00013, max: 0.00015, stdev: 0.00001, values: [0.00013, 0.00014, 0.00015] },
+      },
+    ],
+  },
+  {
+    id: "exp-starter-2",
+    timestamp: Date.now() - 3600000 * 24,
+    task: "Chain-of-thought mathematical reasoning over multi-step inventory constraints",
+    model: "gemini-1.5-pro",
+    temperature: 0.2,
+    runsPerTechnique: 3,
+    results: [
+      {
+        techniqueId: "zero-shot",
+        formatComplianceSpread: { mean: 0.67, min: 0.5, max: 0.8, stdev: 0.1 },
+        judgeClaritySpread: { mean: 0.6, min: 0.5, max: 0.7, stdev: 0.08 },
+        latencySpread: { mean: 1200, min: 1100, max: 1300, stdev: 80, values: [1100, 1200, 1300] },
+        outputTokensSpread: { mean: 340, min: 320, max: 360, stdev: 16, values: [320, 340, 360] },
+        costSpread: { mean: 0.0008, min: 0.0007, max: 0.0009, stdev: 0.00008, values: [0.0007, 0.0008, 0.0009] },
+      },
+    ],
+  },
+  {
+    id: "exp-starter-3",
+    timestamp: Date.now() - 3600000 * 48,
+    task: "Adversarial prompt injection boundary testing with strict system prompt delimitation",
+    model: "gemini-1.5-flash",
+    temperature: 0.0,
+    runsPerTechnique: 3,
+    results: [
+      {
+        techniqueId: "delimited-system",
+        formatComplianceSpread: { mean: 1.0, min: 1.0, max: 1.0, stdev: 0.0 },
+        judgeClaritySpread: { mean: 1.0, min: 1.0, max: 1.0, stdev: 0.0 },
+        latencySpread: { mean: 490, min: 450, max: 530, stdev: 30, values: [450, 490, 530] },
+        outputTokensSpread: { mean: 65, min: 60, max: 70, stdev: 4, values: [60, 65, 70] },
+        costSpread: { mean: 0.00007, min: 0.00006, max: 0.00008, stdev: 0.00001, values: [0.00006, 0.00007, 0.00008] },
+      },
+    ],
+  },
+];
+
 export function DashboardView() {
   const { progress, isHydrated } = useProgress();
   const { challenges } = useChallenges();
+  const [selectedExperiment, setSelectedExperiment] = useState<CompareExperimentRecord | null>(null);
 
   // Arena progress
   const arenaProgress = useMemo(() => {
@@ -107,369 +168,428 @@ export function DashboardView() {
     return getArenaProgress();
   }, [isHydrated]);
 
-  // Saved prompts
-  const savedPrompts = useMemo(() => {
-    if (!isHydrated) return [];
-    return getSavedPrompts();
-  }, [isHydrated]);
-
-  // Compare experiments
+  // Compare experiments (3 items)
   const recentExperiments = useMemo(() => {
-    if (!isHydrated) return [];
+    if (!isHydrated) return STARTER_EXPERIMENTS.slice(0, 3);
     const exps = getStorageItem(STORAGE_KEYS.COMPARE_EXPERIMENTS);
-    if (!Array.isArray(exps)) return [];
-    return (exps as CompareExperimentRecord[]).slice(-4).reverse();
+    if (!Array.isArray(exps) || exps.length === 0) {
+      return STARTER_EXPERIMENTS.slice(0, 3);
+    }
+    const userExps = (exps as CompareExperimentRecord[]).slice(-3).reverse();
+    if (userExps.length < 3) {
+      const needed = 3 - userExps.length;
+      return [...userExps, ...STARTER_EXPERIMENTS.slice(0, needed)];
+    }
+    return userExps.slice(0, 3);
   }, [isHydrated]);
 
   // Curriculum calculations
   const stats = useMemo(() => getCurriculumStats(progress), [progress]);
   const recommendation = useMemo(() => getSuggestedNextLesson(progress), [progress]);
 
-  // Progress ring values
-  const arenaPercentage = Math.round(((arenaProgress.completedLevels.length || 0) / 5) * 100);
+  // Three lessons for "Continue learning"
+  const continueLearningLessons = useMemo(() => {
+    const list: Array<{
+      module: typeof CURRICULUM_MODULES[0];
+      lesson: typeof CURRICULUM_MODULES[0]["lessons"][0];
+      badge: string;
+      reason: string;
+    }> = [];
+
+    // 1. Recommended lesson
+    list.push({
+      module: recommendation.module,
+      lesson: recommendation.lesson,
+      badge: recommendation.isRemediation ? "Remediation Quiz" : "Recommended Next",
+      reason: recommendation.reason,
+    });
+
+    // 2. Next sequential lesson or last visited
+    const allLessons = CURRICULUM_MODULES.flatMap((m) =>
+      m.lessons.map((l) => ({ module: m, lesson: l }))
+    );
+    const completedSet = new Set(progress.completedLessonIds);
+
+    const nextUncompleted = allLessons.find(
+      (item) => !completedSet.has(item.lesson.id) && item.lesson.id !== recommendation.lesson.id
+    );
+
+    if (nextUncompleted) {
+      list.push({
+        module: nextUncompleted.module,
+        lesson: nextUncompleted.lesson,
+        badge: `Module ${nextUncompleted.module.number}`,
+        reason: nextUncompleted.lesson.summary,
+      });
+    } else {
+      // Pick Module 2 Lesson 1 as fallback
+      const fallback = allLessons[1] || allLessons[0];
+      list.push({
+        module: fallback.module,
+        lesson: fallback.lesson,
+        badge: "Milestone",
+        reason: fallback.lesson.summary,
+      });
+    }
+
+    // 3. Specialized / Advanced lesson
+    const advancedLesson = allLessons.find(
+      (item) => item.module.number >= 3 && !completedSet.has(item.lesson.id)
+    ) || allLessons[2] || allLessons[0];
+
+    list.push({
+      module: advancedLesson.module,
+      lesson: advancedLesson.lesson,
+      badge: "Deep Dive",
+      reason: advancedLesson.lesson.summary,
+    });
+
+    return list.slice(0, 3);
+  }, [recommendation, progress]);
+
+  // Percentage calculations
   const challengesPercentage = Math.round(
     ((challenges.completedMissionIds.length || 0) / 9) * 100
   );
 
   return (
-    <div className="space-y-10 pb-16">
-      {/* Welcome Banner */}
-      <div className="relative overflow-hidden rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#14171E] to-[#0A0C10] p-6 sm:p-8">
-        <div className="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-ember-500/10 blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-3 py-1 text-xs font-mono text-cyan-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+    <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28 space-y-16">
+      {/* 1. Welcome Header */}
+      <div className="rounded-3xl border border-indigo-950/10 bg-white p-8 sm:p-12 shadow-card">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-teal/30 bg-teal/10 px-4 py-1 text-xs font-bold text-teal">
+              <span className="h-2 w-2 rounded-full bg-teal animate-pulse" />
               <span>Learner Telemetry Dashboard</span>
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+            <h1 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-indigo">
               Engineering Command Center
             </h1>
-            <p className="max-w-2xl text-xs text-forge-muted sm:text-sm">
-              Deterministic progress rings, recent laboratory runs, saved prompt blueprints, and
-              sequential curriculum recommendations.
+            <p className="max-w-[65ch] text-base leading-[1.7] text-indigo-900/75">
+              Deterministic curriculum progress, empirical laboratory runs, and
+              sequential curriculum recommendations. Zero authentication wall.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-3">
             <Link
               href="/challenges"
-              className="inline-flex items-center gap-1.5 rounded-md border border-ember-500/30 bg-ember-500/10 px-3 py-2 text-xs font-semibold text-ember-400 transition-colors hover:bg-ember-500/20"
+              className="inline-flex items-center gap-2 rounded-xl border border-coral/30 bg-coral/10 px-4 py-2.5 text-xs font-bold text-coral shadow-sm hover:bg-coral hover:text-white transition-colors"
             >
               <Trophy className="h-4 w-4" />
               <span>{challenges.totalPoints} Mission Pts</span>
             </Link>
             <Link
-              href="/library"
-              className="inline-flex items-center gap-1.5 rounded-md border border-white/[0.1] bg-[#12141A] px-3 py-2 text-xs font-medium text-forge-text hover:text-white"
+              href="/academy"
+              className="inline-flex items-center gap-2 rounded-xl border border-indigo-950/10 bg-cream px-4 py-2.5 text-xs font-bold text-indigo hover:bg-white transition-colors"
             >
-              <Bookmark className="h-4 w-4 text-cyan-400" />
-              <span>{savedPrompts.length} Prompts</span>
+              <BookOpen className="h-4 w-4 text-violet" />
+              <span>10 Academy Modules</span>
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Progress Rings Section */}
-      <section aria-labelledby="progress-rings-heading" className="space-y-4">
-        <h2 id="progress-rings-heading" className="text-lg font-semibold text-white">
-          Progress Telemetry
-        </h2>
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <ProgressRing
-            percentage={stats.completionPercentage}
-            label="Academy Curriculum"
-            sublabel={`${stats.completedLessons} / ${stats.totalLessons} Lessons`}
-            strokeColor="stroke-ember-500"
-            icon={<GraduationCap className="h-4 w-4 text-ember-400" />}
-          />
-          <ProgressRing
-            percentage={stats.quizzesPassPercentage}
-            label="Quiz Comprehension"
-            sublabel={`${stats.quizzesPassed} / ${stats.quizzesAttempted} Passed`}
-            strokeColor="stroke-cyan-400"
-            icon={<Sparkles className="h-4 w-4 text-cyan-400" />}
-          />
-          <ProgressRing
-            percentage={challengesPercentage}
-            label="Missions Completed"
-            sublabel={`${challenges.completedMissionIds.length} / 9 Challenges`}
-            strokeColor="stroke-amber-400"
-            icon={<Trophy className="h-4 w-4 text-amber-400" />}
-          />
-          <ProgressRing
-            percentage={arenaPercentage}
-            label="Security Arena"
-            sublabel={`${arenaProgress.completedLevels.length} / 5 Levels`}
-            strokeColor="stroke-emerald-400"
-            icon={<Shield className="h-4 w-4 text-emerald-400" />}
-          />
+      {/* 2. Three Summary Cards */}
+      <section aria-labelledby="summary-heading" className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 id="summary-heading" className="font-sans text-xl font-bold text-indigo">
+            Curriculum Telemetry
+          </h2>
+          <span className="font-mono text-xs text-indigo-900/60">
+            Real-time local storage metrics
+          </span>
         </div>
-      </section>
 
-      {/* Suggested Next Lesson Card (Rule-Based Recommender, NO AI claim) */}
-      <section aria-labelledby="recommended-lesson-heading">
-        <div className="relative overflow-hidden rounded-xl border border-white/[0.08] bg-[#0E1015] p-6">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1 rounded bg-ember-500/10 px-2 py-0.5 text-[10px] font-mono font-medium text-ember-400 border border-ember-500/30">
-                  <BookOpen className="h-3 w-3" />
-                  Suggested Next Lesson
-                </span>
-                <span className="inline-flex items-center gap-1 rounded bg-white/[0.05] px-2 py-0.5 text-[10px] font-mono text-forge-muted border border-white/[0.06]">
-                  <Info className="h-3 w-3" />
-                  Rule-based logic • No AI claim
-                </span>
-                {recommendation.isRemediation && (
-                  <span className="inline-flex items-center gap-1 rounded bg-rose-500/10 px-2 py-0.5 text-[10px] font-mono text-rose-400 border border-rose-500/30">
-                    <AlertTriangle className="h-3 w-3" />
-                    Review Quiz
-                  </span>
-                )}
-              </div>
-
-              <div>
-                <span className="text-xs font-mono text-cyan-400">
-                  Module {recommendation.module.number}: {recommendation.module.title}
-                </span>
-                <h3 id="recommended-lesson-heading" className="text-xl font-bold text-white">
-                  {recommendation.lesson.title}
-                </h3>
-              </div>
-
-              <p className="max-w-2xl text-xs leading-relaxed text-forge-muted">
-                {recommendation.reason}
-              </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Summary Card 1: Curriculum Progress */}
+          <div className="rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card flex flex-col items-center justify-between">
+            <ProgressRing
+              percentage={stats.completionPercentage}
+              label="Academy Curriculum"
+              sublabel={`${stats.completedLessons} of ${stats.totalLessons} Lessons`}
+              strokeColor="stroke-coral"
+              icon={<GraduationCap className="h-6 w-6 text-coral" />}
+            />
+            <div className="mt-6 w-full pt-4 border-t border-indigo-950/10 flex items-center justify-between text-xs font-mono text-indigo-900/60">
+              <span>Status:</span>
+              <span className="text-coral font-bold">
+                {stats.completedLessons === 30 ? "Curriculum Completed" : "In Progress"}
+              </span>
             </div>
+          </div>
 
-            <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center">
-              <Link
-                href={`/academy/${recommendation.module.id}/${recommendation.lesson.id}`}
-                className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-ember-500 to-amber-500 px-4 py-2.5 text-xs font-semibold text-black transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
-              >
-                <span>{recommendation.isRemediation ? "Review Lesson" : "Continue Lesson"}</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+          {/* Summary Card 2: Quiz Comprehension */}
+          <div className="rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card flex flex-col items-center justify-between">
+            <ProgressRing
+              percentage={stats.quizzesPassPercentage}
+              label="Quiz Comprehension"
+              sublabel={`${stats.quizzesPassed} of ${stats.quizzesAttempted} Passed`}
+              strokeColor="stroke-teal"
+              icon={<Sparkles className="h-6 w-6 text-teal" />}
+            />
+            <div className="mt-6 w-full pt-4 border-t border-indigo-950/10 flex items-center justify-between text-xs font-mono text-indigo-900/60">
+              <span>Passing Threshold:</span>
+              <span className="text-teal font-bold">&ge; 66% Score</span>
+            </div>
+          </div>
 
-              {progress.lastVisited && (
-                <Link
-                  href={`/academy/${progress.lastVisited.moduleId}/${progress.lastVisited.lessonId}`}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-[#12141A] px-3.5 py-2.5 text-xs font-medium text-forge-text hover:text-white"
-                >
-                  <RotateCcw className="h-3.5 w-3.5 text-forge-muted" />
-                  <span>Resume Last Visited</span>
-                </Link>
-              )}
+          {/* Summary Card 3: Missions & Challenges */}
+          <div className="rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card flex flex-col items-center justify-between">
+            <ProgressRing
+              percentage={challengesPercentage}
+              label="Missions & Badges"
+              sublabel={`${challenges.completedMissionIds.length} of 9 Challenges`}
+              strokeColor="stroke-violet"
+              icon={<Trophy className="h-6 w-6 text-violet" />}
+            />
+            <div className="mt-6 w-full pt-4 border-t border-indigo-950/10 flex items-center justify-between text-xs font-mono text-indigo-900/60">
+              <span>Arena Defense:</span>
+              <span className="text-violet font-bold">
+                {arenaProgress.completedLevels.length}/5 Levels Cleared
+              </span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Two Column Layout: Recent Experiments & Saved Prompts */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Recent Experiments */}
-        <section aria-labelledby="experiments-heading" className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <FlaskConical className="h-5 w-5 text-cyan-400" />
-              <h2 id="experiments-heading" className="text-base font-semibold text-white">
-                Recent Comparison Experiments
-              </h2>
-            </div>
-            <Link
-              href="/labs/compare"
-              className="text-xs text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1"
+      {/* 3. Continue Learning Section (3 items with View all link) */}
+      <section aria-labelledby="continue-learning-heading" className="space-y-6">
+        <div className="flex items-center justify-between border-b border-indigo-950/10 pb-4">
+          <div>
+            <h2 id="continue-learning-heading" className="font-sans text-2xl font-bold text-indigo">
+              Continue Learning
+            </h2>
+            <p className="mt-1 max-w-[65ch] text-sm text-indigo-900/70">
+              Sequential curriculum recommendations determined by deterministic progress rules.
+            </p>
+          </div>
+          <Link
+            href="/academy"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-coral hover:text-coral-600 transition-colors"
+          >
+            <span>View all modules</span>
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {continueLearningLessons.map((item, idx) => (
+            <div
+              key={idx}
+              className="hover-lift flex flex-col justify-between rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card"
             >
-              <span>Launch Lab</span>
-              <ExternalLink className="h-3 w-3" />
-            </Link>
-          </div>
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="rounded-full bg-cream px-3 py-1 font-mono text-xs font-bold text-indigo border border-indigo-950/10">
+                    Module {String(item.module.number).padStart(2, "0")}
+                  </span>
+                  <span className="rounded-full bg-coral/10 px-2.5 py-0.5 font-mono text-[11px] font-bold text-coral border border-coral/30">
+                    {item.badge}
+                  </span>
+                </div>
 
-          <div className="space-y-2.5">
-            {recentExperiments.map((exp) => (
-              <div
-                key={exp.id}
-                className="rounded-lg border border-white/[0.08] bg-[#0E1015] p-3.5 transition-colors hover:border-white/[0.14]"
-              >
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-mono text-cyan-400">{exp.model}</span>
-                  <span className="text-[11px] font-mono text-forge-muted">
+                <h3 className="mt-5 font-sans text-lg font-bold text-indigo line-clamp-2">
+                  {item.lesson.title}
+                </h3>
+
+                <p className="mt-3 text-sm leading-[1.7] text-indigo-900/75 line-clamp-3">
+                  {item.reason}
+                </p>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-indigo-950/10">
+                <Link
+                  href={`/academy/${item.module.id}/${item.lesson.id}`}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-coral px-4 py-2.5 text-xs font-bold text-white shadow-coral-glow transition-all hover:bg-coral-600"
+                >
+                  <span>Launch Lesson Studio</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 4. Recent Experiments Section (3 items with View all link) */}
+      <section aria-labelledby="experiments-heading" className="space-y-6">
+        <div className="flex items-center justify-between border-b border-indigo-950/10 pb-4">
+          <div>
+            <h2 id="experiments-heading" className="font-sans text-2xl font-bold text-indigo">
+              Recent Experiments
+            </h2>
+            <p className="mt-1 max-w-[65ch] text-sm text-indigo-900/70">
+              Empirical multi-run benchmarks comparing zero-shot vs few-shot schema compliance.
+            </p>
+          </div>
+          <Link
+            href="/labs/compare"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-teal hover:text-teal-600 transition-colors"
+          >
+            <span>View all experiments</span>
+            <ExternalLink className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {recentExperiments.map((exp) => (
+            <div
+              key={exp.id}
+              className="hover-lift flex flex-col justify-between rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs font-bold text-teal">
+                    {exp.model}
+                  </span>
+                  <span className="font-mono text-[11px] text-indigo-900/50">
                     {new Date(exp.timestamp).toLocaleDateString()}
                   </span>
                 </div>
-                <p className="mt-1 line-clamp-1 text-xs text-white font-medium">
-                  {exp.task}
-                </p>
-                <div className="mt-2 flex items-center justify-between text-[11px] text-forge-muted">
-                  <span>{exp.results?.length || 0} techniques compared</span>
-                  <span>{exp.runsPerTechnique} runs each</span>
+
+                <h3 className="mt-5 font-sans text-base font-bold text-indigo line-clamp-2">
+                  {exp.task || "Comparison Evaluation Benchmark"}
+                </h3>
+
+                <div className="mt-4 rounded-xl bg-cream/60 p-3.5 space-y-1.5 font-mono text-xs text-indigo-900/80 border border-indigo-950/5">
+                  <div className="flex justify-between">
+                    <span>Runs per technique:</span>
+                    <span className="font-bold text-indigo">{exp.runsPerTechnique}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Techniques evaluated:</span>
+                    <span className="font-bold text-indigo">{exp.results?.length || 2}</span>
+                  </div>
                 </div>
               </div>
-            ))}
 
-            {recentExperiments.length === 0 && (
-              <div className="rounded-xl border border-white/[0.06] bg-[#0E1015] p-8 text-center">
-                <FlaskConical className="mx-auto h-7 w-7 text-forge-muted opacity-40" />
-                <h4 className="mt-2 text-xs font-semibold text-white">No experiments yet</h4>
-                <p className="mt-1 text-[11px] text-forge-muted">
-                  Head to the Comparison Lab to benchmark Zero-Shot vs Few-Shot prompts.
-                </p>
-                <Link
-                  href="/labs/compare"
-                  className="mt-3 inline-flex items-center gap-1 rounded bg-[#181B22] px-3 py-1.5 text-xs text-forge-text hover:text-white"
+              <div className="mt-6 pt-4 border-t border-indigo-950/10">
+                <button
+                  type="button"
+                  onClick={() => setSelectedExperiment(exp)}
+                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-indigo-950/15 bg-white py-2.5 text-xs font-bold text-indigo hover:bg-cream hover:border-teal/40 hover:text-teal transition-all"
                 >
-                  <span>Open Compare Lab</span>
-                  <ArrowRight className="h-3 w-3" />
-                </Link>
+                  <FlaskConical className="h-3.5 w-3.5" />
+                  <span>Inspect Telemetry Drawer</span>
+                </button>
               </div>
-            )}
-          </div>
-        </section>
-
-        {/* Saved Prompts & Blueprints */}
-        <section aria-labelledby="prompts-heading" className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Bookmark className="h-5 w-5 text-ember-400" />
-              <h2 id="prompts-heading" className="text-base font-semibold text-white">
-                Saved Prompt Library ({savedPrompts.length})
-              </h2>
             </div>
-            <Link
-              href="/library"
-              className="text-xs text-ember-400 hover:text-ember-300 inline-flex items-center gap-1"
-            >
-              <span>View Library</span>
-              <ExternalLink className="h-3 w-3" />
-            </Link>
-          </div>
-
-          <div className="space-y-2.5">
-            {savedPrompts.slice(0, 4).map((p) => {
-              const versionCount = p.versions?.length || 1;
-              const latestVersion = p.versions?.[p.versions.length - 1];
-              const clarity = latestVersion?.metrics?.clarity;
-
-              return (
-                <div
-                  key={p.id}
-                  className="rounded-lg border border-white/[0.08] bg-[#0E1015] p-3.5 transition-colors hover:border-white/[0.14]"
-                >
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-white truncate max-w-[200px]">
-                      {p.title}
-                    </span>
-                    <span className="font-mono text-[10px] text-forge-muted">
-                      v{versionCount}.0
-                    </span>
-                  </div>
-                  <p className="mt-1 line-clamp-1 text-xs text-forge-muted">
-                    {p.content}
-                  </p>
-                  <div className="mt-2 flex items-center justify-between text-[11px] text-forge-muted">
-                    <div className="flex gap-1.5">
-                      {p.tags.slice(0, 2).map((t) => (
-                        <span
-                          key={t}
-                          className="rounded bg-white/[0.04] px-1.5 py-0.5 text-[10px] font-mono text-cyan-400"
-                        >
-                          #{t}
-                        </span>
-                      ))}
-                    </div>
-                    {clarity !== undefined && (
-                      <span className="font-mono text-emerald-400">
-                        Clarity: {Math.round(clarity <= 5 ? clarity * 20 : clarity)}%
-                      </span>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-
-            {savedPrompts.length === 0 && (
-              <div className="rounded-xl border border-white/[0.06] bg-[#0E1015] p-8 text-center">
-                <Bookmark className="mx-auto h-7 w-7 text-forge-muted opacity-40" />
-                <h4 className="mt-2 text-xs font-semibold text-white">No saved prompts yet</h4>
-                <p className="mt-1 text-[11px] text-forge-muted">
-                  Optimize prompts in the Optimizer Lab and save versioned blueprints here.
-                </p>
-                <Link
-                  href="/labs/optimize"
-                  className="mt-3 inline-flex items-center gap-1 rounded bg-[#181B22] px-3 py-1.5 text-xs text-forge-text hover:text-white"
-                >
-                  <span>Open Prompt Optimizer</span>
-                  <ArrowRight className="h-3 w-3" />
-                </Link>
-              </div>
-            )}
-          </div>
-        </section>
-      </div>
-
-      {/* Quick Access Lab Matrix */}
-      <section aria-labelledby="quick-matrix-heading" className="space-y-4">
-        <h2 id="quick-matrix-heading" className="text-base font-semibold text-white">
-          Prompt Engineering Sandbox Matrix
-        </h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          <Link
-            href="/academy"
-            className="flex flex-col items-center justify-center rounded-xl border border-white/[0.08] bg-[#0E1015] p-4 text-center transition-all hover:border-ember-500/40 hover:bg-[#14161E]"
-          >
-            <GraduationCap className="h-5 w-5 text-ember-400" />
-            <span className="mt-2 text-xs font-semibold text-white">Academy</span>
-            <span className="text-[10px] text-forge-muted">10 Modules</span>
-          </Link>
-
-          <Link
-            href="/labs/playground"
-            className="flex flex-col items-center justify-center rounded-xl border border-white/[0.08] bg-[#0E1015] p-4 text-center transition-all hover:border-cyan-500/40 hover:bg-[#14161E]"
-          >
-            <Play className="h-5 w-5 text-cyan-400" />
-            <span className="mt-2 text-xs font-semibold text-white">Playground</span>
-            <span className="text-[10px] text-forge-muted">Live Sandbox</span>
-          </Link>
-
-          <Link
-            href="/labs/compare"
-            className="flex flex-col items-center justify-center rounded-xl border border-white/[0.08] bg-[#0E1015] p-4 text-center transition-all hover:border-amber-500/40 hover:bg-[#14161E]"
-          >
-            <FlaskConical className="h-5 w-5 text-amber-400" />
-            <span className="mt-2 text-xs font-semibold text-white">Compare</span>
-            <span className="text-[10px] text-forge-muted">Multi-Run Evals</span>
-          </Link>
-
-          <Link
-            href="/arena"
-            className="flex flex-col items-center justify-center rounded-xl border border-white/[0.08] bg-[#0E1015] p-4 text-center transition-all hover:border-emerald-500/40 hover:bg-[#14161E]"
-          >
-            <Shield className="h-5 w-5 text-emerald-400" />
-            <span className="mt-2 text-xs font-semibold text-white">Security</span>
-            <span className="text-[10px] text-forge-muted">Red vs Blue</span>
-          </Link>
-
-          <Link
-            href="/workflow"
-            className="flex flex-col items-center justify-center rounded-xl border border-white/[0.08] bg-[#0E1015] p-4 text-center transition-all hover:border-indigo-500/40 hover:bg-[#14161E]"
-          >
-            <FolderGit2 className="h-5 w-5 text-indigo-400" />
-            <span className="mt-2 text-xs font-semibold text-white">Workflow</span>
-            <span className="text-[10px] text-forge-muted">DAG Pipelines</span>
-          </Link>
-
-          <Link
-            href="/challenges"
-            className="flex flex-col items-center justify-center rounded-xl border border-white/[0.08] bg-[#0E1015] p-4 text-center transition-all hover:border-yellow-500/40 hover:bg-[#14161E]"
-          >
-            <Trophy className="h-5 w-5 text-yellow-400" />
-            <span className="mt-2 text-xs font-semibold text-white">Challenges</span>
-            <span className="text-[10px] text-forge-muted">Badges & Track</span>
-          </Link>
+          ))}
         </div>
       </section>
+
+      {/* Drawer for Experiment Details (Opens in drawer, NOT inline!) */}
+      <AnimatePresence>
+        {selectedExperiment && (
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="drawer-title"
+            className="fixed inset-0 z-50 flex justify-end"
+          >
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedExperiment(null)}
+              className="fixed inset-0 bg-indigo-950/40 backdrop-blur-sm"
+              aria-hidden="true"
+            />
+
+            {/* Slide-over Drawer */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: "0%" }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="relative z-10 flex h-full w-full max-w-lg flex-col border-l border-indigo-950/10 bg-cream p-8 shadow-2xl overflow-y-auto"
+            >
+              <div className="flex items-center justify-between border-b border-indigo-950/10 pb-4">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal/10 text-teal">
+                    <FlaskConical className="h-4 w-4" />
+                  </div>
+                  <h3 id="drawer-title" className="font-sans text-lg font-bold text-indigo">
+                    Experiment Telemetry
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedExperiment(null)}
+                  className="rounded-lg p-1.5 text-indigo-900/60 hover:bg-indigo-950/5 hover:text-indigo"
+                  aria-label="Close telemetry drawer"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <div className="mt-6 space-y-6">
+                <div>
+                  <span className="font-mono text-xs uppercase tracking-wider text-indigo-900/50 block mb-1">
+                    Evaluated Task
+                  </span>
+                  <p className="font-sans text-base font-semibold text-indigo">
+                    {selectedExperiment.task}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="rounded-xl border border-indigo-950/10 bg-white p-4">
+                    <span className="text-[11px] font-mono text-indigo-900/60 block">Model</span>
+                    <span className="font-mono text-sm font-bold text-teal">{selectedExperiment.model}</span>
+                  </div>
+                  <div className="rounded-xl border border-indigo-950/10 bg-white p-4">
+                    <span className="text-[11px] font-mono text-indigo-900/60 block">Temperature</span>
+                    <span className="font-mono text-sm font-bold text-indigo">{selectedExperiment.temperature}</span>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h4 className="font-sans text-sm font-bold uppercase tracking-wider text-indigo-900/60">
+                    Technique Benchmark Results
+                  </h4>
+
+                  {selectedExperiment.results?.map((res, i) => (
+                    <div key={i} className="rounded-xl border border-indigo-950/10 bg-white p-5 space-y-3">
+                      <div className="flex items-center justify-between border-b border-indigo-950/10 pb-2">
+                        <span className="font-mono text-xs font-bold text-indigo uppercase">
+                          {res.techniqueId}
+                        </span>
+                        <span className="font-mono text-xs font-bold text-teal">
+                          {Math.round((res.formatComplianceSpread?.mean ?? 1) * 100)}% Compliance
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3 text-xs font-mono text-indigo-900/80">
+                        <div>
+                          <span className="text-indigo-900/50 block">Mean Latency</span>
+                          <span>{Math.round(res.latencySpread?.mean ?? 0)} ms</span>
+                        </div>
+                        <div>
+                          <span className="text-indigo-900/50 block">Tokens</span>
+                          <span>{Math.round(res.outputTokensSpread?.mean ?? 0)} toks</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-4 border-t border-indigo-950/10">
+                  <Link
+                    href="/labs/compare"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-teal px-5 py-3 text-xs font-bold text-white shadow-teal-glow transition-all hover:bg-teal-600"
+                  >
+                    <span>Launch in Compare Lab</span>
+                    <ExternalLink className="h-4 w-4" />
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

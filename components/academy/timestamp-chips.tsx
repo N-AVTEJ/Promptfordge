@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Clock, Play } from "lucide-react";
+import { Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Chapter } from "@/content/modules";
 
@@ -24,7 +24,6 @@ export function TimestampChips({
   onSeek,
   className,
 }: TimestampChipsProps) {
-  // Determine active chapter based on current playback second
   const activeChapterIndex = React.useMemo(() => {
     for (let i = chapters.length - 1; i >= 0; i--) {
       if (currentTime >= chapters[i].time) {
@@ -35,9 +34,9 @@ export function TimestampChips({
   }, [chapters, currentTime]);
 
   return (
-    <div className={cn("space-y-2", className)}>
-      <div className="flex items-center gap-1.5 text-xs font-semibold text-forge-muted uppercase tracking-wider">
-        <Clock className="h-3.5 w-3.5 text-cyan-400" />
+    <div className={cn("space-y-3", className)}>
+      <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-indigo-900/60 font-mono">
+        <Clock className="h-4 w-4 text-coral" />
         <span>Video Chapters & Jump Points</span>
       </div>
 
@@ -52,33 +51,15 @@ export function TimestampChips({
               type="button"
               onClick={() => onSeek(chap.time)}
               className={cn(
-                "group inline-flex items-center gap-2 rounded-forge px-3 py-1.5 text-xs font-medium transition-all focus:outline-none focus:ring-1 focus:ring-ember-500 min-h-[36px]",
+                "group inline-flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-coral min-h-[36px]",
                 isActive
-                  ? "bg-ember-500/20 text-ember-300 border border-ember-500/50 shadow-ember-sm"
-                  : "bg-forge-elevated text-forge-muted border border-forge-border hover:bg-forge-overlay hover:text-forge-text hover:border-forge-border-bright"
+                  ? "bg-coral text-white shadow-coral-glow"
+                  : "bg-cream text-indigo-900/80 border border-indigo-950/10 hover:bg-white hover:text-indigo"
               )}
               title={`Seek video to ${formatted} (${chap.label})`}
-              aria-label={`Jump to ${formatted}: ${chap.label}`}
             >
-              <span
-                className={cn(
-                  "font-mono font-bold text-[11px] px-1.5 py-0.5 rounded",
-                  isActive
-                    ? "bg-ember-500/30 text-ember-200"
-                    : "bg-forge-surface text-forge-subtle group-hover:text-forge-muted"
-                )}
-              >
-                {formatted}
-              </span>
-              <span className="truncate max-w-[160px] sm:max-w-[220px]">
-                {chap.label}
-              </span>
-              <Play
-                className={cn(
-                  "h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100",
-                  isActive && "opacity-100 text-ember-400"
-                )}
-              />
+              <span className="font-mono text-[11px] opacity-80">{formatted}</span>
+              <span className="truncate max-w-[150px]">{chap.label}</span>
             </button>
           );
         })}

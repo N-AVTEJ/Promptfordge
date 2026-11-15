@@ -65,10 +65,7 @@ export function MobileDrawer({
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    // Focus close button on open
     closeButtonRef.current?.focus();
-
-    // Prevent body scroll when drawer is open
     document.body.style.overflow = "hidden";
 
     return () => {
@@ -92,7 +89,7 @@ export function MobileDrawer({
           role="dialog"
           aria-modal="true"
           aria-label="Mobile Navigation"
-          className="fixed inset-0 z-50 flex justify-end md:hidden"
+          className="fixed inset-0 z-50 flex justify-end lg:hidden"
         >
           {/* Backdrop */}
           <motion.div
@@ -101,7 +98,7 @@ export function MobileDrawer({
             animate="visible"
             exit="exit"
             onClick={onClose}
-            className="fixed inset-0 bg-black/75 backdrop-blur-sm"
+            className="fixed inset-0 bg-indigo-950/40 backdrop-blur-sm"
             aria-hidden="true"
           />
 
@@ -112,27 +109,39 @@ export function MobileDrawer({
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="relative z-10 flex h-full w-[85%] max-w-sm flex-col border-l border-forge-border bg-forge-surface p-6 shadow-2xl"
+            className="relative z-10 flex h-full w-[85%] max-w-sm flex-col border-l border-indigo-950/10 bg-cream p-6 shadow-2xl"
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-forge-border pb-4">
+            <div className="flex items-center justify-between border-b border-indigo-950/10 pb-4">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-8 w-8 items-center justify-center rounded border border-ember-500/30 bg-ember-500/10">
-                  <Flame className="h-4 w-4 text-ember-500" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-coral/30 bg-coral/10">
+                  <Flame className="h-4 w-4 text-coral" />
                 </div>
-                <span className="font-mono text-sm font-bold tracking-tight text-forge-text">
-                  PROMPT<span className="text-ember-500">FORGE</span>
+                <span className="font-sans text-sm font-bold tracking-tight text-indigo">
+                  Prompt<span className="text-coral">Forge</span>
                 </span>
               </div>
               <button
                 ref={closeButtonRef}
                 type="button"
                 onClick={onClose}
-                className="rounded-md p-1.5 text-forge-muted hover:bg-forge-elevated hover:text-forge-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
+                className="rounded-lg p-1.5 text-indigo-900/60 hover:bg-indigo-950/5 hover:text-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
                 aria-label="Close menu"
               >
                 <X className="h-5 w-5" aria-hidden="true" />
               </button>
+            </div>
+
+            {/* Quick Go to Dashboard Button */}
+            <div className="mt-4">
+              <Link
+                href="/dashboard"
+                onClick={onClose}
+                className="flex items-center justify-center gap-2 rounded-lg bg-coral px-4 py-2.5 text-xs font-bold text-white shadow-coral-glow hover:bg-coral-600 transition-colors"
+              >
+                <span>Go to Dashboard</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
 
             {/* Navigation links */}
@@ -142,11 +151,11 @@ export function MobileDrawer({
                 onClick={onClose}
                 className={`flex items-center justify-between rounded-lg px-3.5 py-3 text-sm font-medium transition-colors ${
                   currentPath === "/"
-                    ? "border-l-2 border-ember-500 bg-forge-elevated pl-3 font-semibold text-ember-400"
-                    : "text-forge-muted hover:bg-forge-elevated hover:text-forge-text"
+                    ? "border-l-2 border-coral bg-white pl-3 font-semibold text-coral shadow-card"
+                    : "text-indigo-900/70 hover:bg-white hover:text-indigo"
                 }`}
               >
-                <span>Overview (Home)</span>
+                <span>Landing Page</span>
                 <ArrowRight className="h-4 w-4 opacity-50" />
               </Link>
 
@@ -160,14 +169,14 @@ export function MobileDrawer({
                     onClick={onClose}
                     className={`flex items-center justify-between rounded-lg px-3.5 py-3 text-sm font-medium transition-colors ${
                       isActive
-                        ? "border-l-2 border-ember-500 bg-forge-elevated pl-3 font-semibold text-ember-400"
-                        : "text-forge-muted hover:bg-forge-elevated hover:text-forge-text"
+                        ? "border-l-2 border-coral bg-white pl-3 font-semibold text-coral shadow-card"
+                        : "text-indigo-900/70 hover:bg-white hover:text-indigo"
                     }`}
                     aria-current={isActive ? "page" : undefined}
                   >
                     <div className="flex flex-col">
                       <span>{item.label}</span>
-                      <span className="font-mono text-[10px] text-forge-subtle">
+                      <span className="font-mono text-[10px] text-indigo-900/50">
                         {item.phase}
                       </span>
                     </div>
@@ -178,10 +187,10 @@ export function MobileDrawer({
             </nav>
 
             {/* Footer inside Drawer */}
-            <div className="border-t border-forge-border pt-4">
-              <div className="flex items-center justify-between font-mono text-xs text-forge-muted">
-                <span>Phase 1: Foundation</span>
-                <span className="text-cyan-400">Strict TypeScript</span>
+            <div className="border-t border-indigo-950/10 pt-4">
+              <div className="flex items-center justify-between font-mono text-xs text-indigo-900/60">
+                <span>Free & Open Sandbox</span>
+                <span className="text-teal font-medium">No Auth Required</span>
               </div>
             </div>
           </motion.div>

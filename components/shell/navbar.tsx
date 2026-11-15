@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Menu, Flame, Terminal } from "lucide-react";
+import { Menu, Flame, ArrowRight, BookOpen } from "lucide-react";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { MobileDrawer } from "./mobile-drawer";
 
@@ -32,25 +32,22 @@ export function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-white/[0.07] bg-[#08090C]/90 backdrop-blur-md">
-        {/* Subtle top hairline highlight */}
-        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/[0.12] to-transparent pointer-events-none" />
-
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <header className="sticky top-0 z-40 w-full border-b border-indigo-950/10 bg-cream/90 backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           {/* Brand Logo */}
           <Link
             href="/"
-            className="group flex items-center gap-2.5 rounded-md py-1 transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
+            className="group flex items-center gap-2.5 py-1 transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
             aria-label="PromptForge Home"
           >
-            <div className="relative flex h-8 w-8 items-center justify-center rounded-md border border-white/[0.08] bg-gradient-to-b from-[#1E222B] to-[#121418] shadow-sm transition-colors group-hover:border-ember-500/50">
-              <Flame className="h-4 w-4 text-ember-500 transition-colors group-hover:text-ember-400" />
+            <div className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-coral/30 bg-coral/10 shadow-sm transition-transform group-hover:scale-105">
+              <Flame className="h-5 w-5 text-coral" />
             </div>
             <div className="flex items-baseline gap-1.5">
-              <span className="font-mono text-sm font-bold tracking-tight text-forge-text">
-                PROMPT<span className="bg-gradient-to-r from-ember-400 to-amber-500 bg-clip-text text-transparent">FORGE</span>
+              <span className="font-sans text-lg font-bold tracking-tight text-indigo">
+                Prompt<span className="text-coral">Forge</span>
               </span>
-              <span className="hidden font-mono text-[10px] text-forge-muted sm:inline-block">
+              <span className="hidden font-mono text-[11px] text-indigo-900/60 sm:inline-block">
                 / v1.0
               </span>
             </div>
@@ -58,7 +55,7 @@ export function Navbar() {
 
           {/* Desktop Nav Items */}
           <nav
-            className="hidden items-center space-x-1 md:flex"
+            className="hidden items-center space-x-1 lg:flex"
             aria-label="Main Navigation"
           >
             {NAV_ITEMS.map((item) => {
@@ -68,10 +65,10 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative rounded-md px-3 py-1.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 ${
+                  className={`relative rounded-lg px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral ${
                     isActive
-                      ? "text-forge-text font-semibold"
-                      : "text-forge-muted hover:text-forge-text"
+                      ? "text-indigo font-bold"
+                      : "text-indigo-900/70 hover:text-indigo hover:bg-indigo-950/5"
                   }`}
                   aria-current={isActive ? "page" : undefined}
                 >
@@ -81,7 +78,7 @@ export function Navbar() {
                       layoutId={
                         prefersReduced ? undefined : "active-nav-indicator"
                       }
-                      className="absolute inset-0 rounded-md border border-white/[0.08] bg-white/[0.04]"
+                      className="absolute inset-0 rounded-lg bg-indigo-950/[0.06]"
                       transition={
                         prefersReduced
                           ? { duration: 0 }
@@ -89,7 +86,7 @@ export function Navbar() {
                       }
                       aria-hidden="true"
                     >
-                      <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-gradient-to-r from-ember-500 via-amber-400 to-ember-500" />
+                      <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-coral rounded-full" />
                     </motion.div>
                   )}
                 </Link>
@@ -97,26 +94,29 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Right Status Indicator & Quick Launch */}
-          <div className="flex items-center gap-2.5">
+          {/* Right Action: Go to Dashboard button (No auth anywhere) */}
+          <div className="flex items-center gap-3">
             <Link
-              href="/labs/playground"
-              className="hidden items-center gap-1.5 rounded-md border border-white/[0.08] bg-gradient-to-b from-[#181B22] to-[#101216] px-2.5 py-1 font-mono text-[11px] text-forge-text transition-colors hover:border-white/[0.18] hover:text-white sm:flex"
+              href="/academy"
+              className="hidden items-center gap-1.5 rounded-lg border border-indigo-950/10 bg-white/80 px-3 py-2 text-xs font-semibold text-indigo shadow-card transition-colors hover:bg-white hover:border-indigo-950/20 sm:inline-flex"
             >
-              <Terminal className="h-3 w-3 text-cyan-400" />
-              <span>Playground</span>
+              <BookOpen className="h-3.5 w-3.5 text-violet" />
+              <span>Academy</span>
             </Link>
 
-            <div className="hidden items-center gap-1.5 rounded-md border border-white/[0.06] bg-[#0E1013] px-2.5 py-1 font-mono text-[11px] text-forge-muted sm:flex">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
-              <span>Sim Active</span>
-            </div>
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-coral px-4 py-2 text-xs font-bold text-white shadow-coral-glow transition-all hover:bg-coral-600 hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+            >
+              <span>Go to Dashboard</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
 
             {/* Mobile Drawer Trigger */}
             <button
               type="button"
               onClick={() => setDrawerOpen(true)}
-              className="inline-flex items-center justify-center rounded-md p-1.5 text-forge-muted hover:bg-forge-surface hover:text-forge-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500 md:hidden"
+              className="inline-flex items-center justify-center rounded-lg p-2 text-indigo-900/70 hover:bg-indigo-950/5 hover:text-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral lg:hidden"
               aria-label="Open navigation menu"
               aria-expanded={drawerOpen}
               aria-controls="mobile-navigation-drawer"

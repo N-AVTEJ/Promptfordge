@@ -21,7 +21,7 @@ const EVAL_DIMENSIONS = [
     description:
       "Validates JSON schemas, markdown tables, and list delimiters with deterministic AST and regex parsing.",
     badge: "Deterministic",
-    color: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
+    color: "text-teal border-teal/30 bg-teal/10",
   },
   {
     title: "Semantic Similarity (ROUGE-L)",
@@ -29,7 +29,7 @@ const EVAL_DIMENSIONS = [
     description:
       "Precision, recall, and F1 score against reference answers when ground truth is provided. Never conflated with correctness.",
     badge: "Lexical Overlap",
-    color: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10",
+    color: "text-violet border-violet/30 bg-violet/10",
   },
   {
     title: "Token & Cost Telemetry",
@@ -37,7 +37,7 @@ const EVAL_DIMENSIONS = [
     description:
       "Tracks token inflation and cost per run across Gemini 1.5 Flash, Pro, and GPT-4o with standard deviation spreads.",
     badge: "Economic",
-    color: "text-amber-400 border-amber-500/30 bg-amber-500/10",
+    color: "text-coral border-coral/30 bg-coral/10",
   },
   {
     title: "Multi-Axis LLM Judge",
@@ -45,142 +45,142 @@ const EVAL_DIMENSIONS = [
     description:
       "Evaluates Relevance, Clarity, Correctness, and Constraint Following with position-bias shuffled evaluation.",
     badge: "Qualitative",
-    color: "text-indigo-400 border-indigo-500/30 bg-indigo-500/10",
+    color: "text-indigo border-indigo-950/20 bg-cream",
   },
 ];
 
 export default function EvaluatePage() {
   return (
-    <div className="mx-auto min-h-screen max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-10 pb-16">
-      {/* Banner */}
-      <div className="relative overflow-hidden rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#14171E] to-[#0A0C10] p-6 sm:p-8">
-        <div className="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-400">
-              <Scale className="h-3.5 w-3.5" />
-              <span>PromptForge Evaluation Engine</span>
+    <div className="min-h-screen bg-cream text-indigo">
+      <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28 space-y-16">
+        {/* Banner */}
+        <div className="rounded-3xl border border-indigo-950/10 bg-white p-8 sm:p-12 shadow-card">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-teal/30 bg-teal/10 px-4 py-1 text-xs font-bold text-teal">
+                <Scale className="h-4 w-4" />
+                <span>PromptForge Evaluation Engine</span>
+              </div>
+              <h1 className="font-sans text-3xl sm:text-4xl font-black tracking-tight text-indigo">
+                Disaggregated Benchmark Suite
+              </h1>
+              <p className="max-w-[65ch] text-base leading-[1.7] text-indigo-900/75">
+                Never collapse complex prompt performance into a single misleading accuracy score.
+                PromptForge evaluates prompt techniques across independent, statistically-rigorous
+                metric dimensions.
+              </p>
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-              Disaggregated Benchmark Suite
-            </h1>
-            <p className="max-w-2xl text-xs sm:text-sm text-forge-muted">
-              Never collapse complex prompt performance into a single misleading accuracy score.
-              PromptForge evaluates prompt techniques across independent, statistically-rigorous
-              metric dimensions.
+
+            <Link
+              href="/labs/compare"
+              className="inline-flex items-center gap-2 rounded-xl bg-coral px-6 py-3 text-xs font-bold text-white shadow-coral-glow hover:bg-coral-600 transition-all shrink-0"
+            >
+              <span>Launch Comparison Lab</span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+
+        {/* Disaggregated Dimensions (Max 3 cards per row) */}
+        <section className="space-y-6">
+          <div>
+            <h2 className="font-sans text-2xl font-bold text-indigo">
+              Disaggregated Evaluation Dimensions
+            </h2>
+            <p className="mt-1 max-w-[65ch] text-sm text-indigo-900/70">
+              Independent evaluation metrics run in parallel for every prompt execution job.
             </p>
           </div>
 
-          <Link
-            href="/labs/compare"
-            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-ember-500 to-amber-500 px-4 py-2.5 text-xs font-semibold text-black transition-transform hover:scale-[1.02]"
-          >
-            <span>Launch Comparison Lab</span>
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </div>
-
-      {/* Disaggregated Dimensions */}
-      <section className="space-y-4">
-        <div>
-          <h2 className="text-lg font-semibold text-white">
-            Disaggregated Evaluation Dimensions
-          </h2>
-          <p className="text-xs text-forge-muted">
-            Independent evaluation metrics run in parallel for every prompt execution job.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {EVAL_DIMENSIONS.map((dim) => (
-            <div
-              key={dim.title}
-              className="flex flex-col justify-between rounded-xl border border-white/[0.08] bg-[#0E1015] p-5 transition-colors hover:border-white/[0.14]"
-            >
-              <div>
-                <span
-                  className={`inline-block rounded px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider border ${dim.color}`}
-                >
-                  {dim.badge}
-                </span>
-                <h3 className="mt-3 text-sm font-semibold text-white">{dim.title}</h3>
-                <p className="font-mono text-[11px] text-forge-muted mt-0.5">{dim.metric}</p>
-                <p className="mt-2 text-xs leading-relaxed text-forge-muted">
-                  {dim.description}
-                </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {EVAL_DIMENSIONS.map((dim) => (
+              <div
+                key={dim.title}
+                className="hover-lift flex flex-col justify-between rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card"
+              >
+                <div>
+                  <span
+                    className={`inline-block rounded-full px-3 py-1 text-xs font-bold font-mono border ${dim.color}`}
+                  >
+                    {dim.badge}
+                  </span>
+                  <h3 className="mt-5 font-sans text-lg font-bold text-indigo">{dim.title}</h3>
+                  <p className="font-mono text-xs text-teal font-medium mt-1">{dim.metric}</p>
+                  <p className="mt-3 text-sm leading-[1.7] text-indigo-900/75">
+                    {dim.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
 
-      {/* Connected Evaluation Labs */}
-      <section className="space-y-4">
-        <h2 className="text-lg font-semibold text-white">Evaluation Laboratories</h2>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <Link
-            href="/labs/compare"
-            className="group rounded-xl border border-white/[0.08] bg-[#0E1015] p-5 transition-all hover:border-ember-500/40 hover:bg-[#12151D]"
-          >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-amber-500/30 bg-amber-500/10 text-amber-400">
-              <FlaskConical className="h-5 w-5" />
-            </div>
-            <h3 className="mt-4 text-sm font-semibold text-white group-hover:text-amber-400">
-              Technique Comparison Lab
-            </h3>
-            <p className="mt-1 text-xs text-forge-muted">
-              Benchmark Zero-Shot vs Few-Shot vs CoT across multiple runs with metric spread
-              histograms and position-bias mitigated rubric judging.
-            </p>
-            <div className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-amber-400">
-              <span>Open Lab</span>
-              <ArrowRight className="h-3 w-3" />
-            </div>
-          </Link>
+        {/* Connected Evaluation Labs (Max 3 cards per row) */}
+        <section className="space-y-6">
+          <h2 className="font-sans text-2xl font-bold text-indigo">Evaluation Laboratories</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Link
+              href="/labs/compare"
+              className="hover-lift group rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-coral/30 bg-coral/10 text-coral">
+                <FlaskConical className="h-6 w-6" />
+              </div>
+              <h3 className="mt-5 font-sans text-lg font-bold text-indigo group-hover:text-coral transition-colors">
+                Technique Comparison Lab
+              </h3>
+              <p className="mt-2 text-sm leading-[1.7] text-indigo-900/75">
+                Benchmark Zero-Shot vs Few-Shot vs CoT across multiple runs with metric spread
+                histograms and position-bias mitigated rubric judging.
+              </p>
+              <div className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-coral">
+                <span>Open Lab</span>
+                <ArrowRight className="h-4 w-4" />
+              </div>
+            </Link>
 
-          <Link
-            href="/labs/optimize"
-            className="group rounded-xl border border-white/[0.08] bg-[#0E1015] p-5 transition-all hover:border-cyan-500/40 hover:bg-[#12151D]"
-          >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-400">
-              <Sparkles className="h-5 w-5" />
-            </div>
-            <h3 className="mt-4 text-sm font-semibold text-white group-hover:text-cyan-400">
-              Prompt Optimizer & Diff Lens
-            </h3>
-            <p className="mt-1 text-xs text-forge-muted">
-              Diagnose prompt anti-patterns, calculate pre- and post-optimization radar metrics, and
-              inspect token-level word diffs.
-            </p>
-            <div className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-cyan-400">
-              <span>Open Optimizer</span>
-              <ArrowRight className="h-3 w-3" />
-            </div>
-          </Link>
+            <Link
+              href="/labs/optimize"
+              className="hover-lift group rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-violet/30 bg-violet/10 text-violet">
+                <Sparkles className="h-6 w-6" />
+              </div>
+              <h3 className="mt-5 font-sans text-lg font-bold text-indigo group-hover:text-violet transition-colors">
+                Prompt Optimizer & Diff Lens
+              </h3>
+              <p className="mt-2 text-sm leading-[1.7] text-indigo-900/75">
+                Diagnose prompt anti-patterns, calculate pre- and post-optimization radar metrics, and
+                inspect token-level word diffs.
+              </p>
+              <div className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-violet">
+                <span>Open Optimizer</span>
+                <ArrowRight className="h-4 w-4" />
+              </div>
+            </Link>
 
-          <Link
-            href="/arena"
-            className="group rounded-xl border border-white/[0.08] bg-[#0E1015] p-5 transition-all hover:border-emerald-500/40 hover:bg-[#12151D]"
-          >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
-              <Shield className="h-5 w-5" />
-            </div>
-            <h3 className="mt-4 text-sm font-semibold text-white group-hover:text-emerald-400">
-              Adversarial Security Arena
-            </h3>
-            <p className="mt-1 text-xs text-forge-muted">
-              Evaluate system prompt boundaries against 8 automated jailbreaks and prompt injection
-              vectors with Red vs Blue automated scoring.
-            </p>
-            <div className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-emerald-400">
-              <span>Open Security Arena</span>
-              <ArrowRight className="h-3 w-3" />
-            </div>
-          </Link>
-        </div>
-      </section>
+            <Link
+              href="/arena"
+              className="hover-lift group rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-teal/30 bg-teal/10 text-teal">
+                <Shield className="h-6 w-6" />
+              </div>
+              <h3 className="mt-5 font-sans text-lg font-bold text-indigo group-hover:text-teal transition-colors">
+                Adversarial Security Arena
+              </h3>
+              <p className="mt-2 text-sm leading-[1.7] text-indigo-900/75">
+                Evaluate system prompt boundaries against 8 automated jailbreaks and prompt injection
+                vectors with Red vs Blue automated scoring.
+              </p>
+              <div className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-teal">
+                <span>Open Security Arena</span>
+                <ArrowRight className="h-4 w-4" />
+              </div>
+            </Link>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

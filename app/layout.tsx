@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B0C0E",
+  themeColor: "#FBF6EE",
   width: "device-width",
   initialScale: 1,
 };
@@ -49,11 +49,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${jetbrainsMono.variable} dark`}
+      className={`${geistSans.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-screen bg-forge-black font-sans text-forge-text antialiased selection:bg-ember-500/30 selection:text-white">
+      <body className="min-h-screen bg-cream font-sans text-indigo text-base antialiased selection:bg-coral/20 selection:text-indigo">
         <SmoothScrollProvider>
-          <div className="relative flex min-h-screen flex-col bg-forge-black">
+          <div className="relative flex min-h-screen flex-col bg-cream text-indigo">
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />

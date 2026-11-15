@@ -3,9 +3,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Cpu, Braces, Info, Layers } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Layers, Braces } from "lucide-react";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
+import { CurvedDivider } from "@/components/ui/curved-divider";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,7 +30,7 @@ const STAGES: StageData[] = [
     badge: "Stage 01",
     tagline: "Unstructured lexical input without semantic coordinates",
     description:
-      "Your prompt begins as a continuous UTF-8 byte stream. Before the neural network computes a single parameter, the text is treated as raw characters without inherent concept boundaries.",
+      "Your prompt begins as a continuous UTF-8 byte stream. Before the neural network computes a single parameter, the text is treated as raw characters without concept boundaries.",
     mathematicalOperation: "x_raw = UTF-8(Bytes)",
     insight:
       "LLMs do not comprehend sentences directly; text must first be discretized into discrete symbolic fragments.",
@@ -43,8 +43,8 @@ const STAGES: StageData[] = [
     badge: "Stage 02",
     tagline: "Lexical fragmentation into vocabulary token IDs",
     description:
-      "A Byte Pair Encoding (BPE) tokenizer scans the byte stream and breaks words into subword fragments from a fixed vocabulary dictionary (e.g. 32k to 128k tokens). Words like 'entanglement' fracture into multiple pieces.",
-    mathematicalOperation: "T = [id_1, id_2, ..., id_N] \\in V^N",
+      "A Byte Pair Encoding (BPE) tokenizer scans the byte stream and breaks words into subword fragments from a fixed vocabulary dictionary (e.g. 32k to 128k tokens).",
+    mathematicalOperation: "T = [id_1, id_2, ..., id_N] ∈ V^N",
     insight:
       "Token boundaries dictate model reasoning. If a word splits awkwardly, the model must expend extra attention capacity reconstructing it.",
   },
@@ -56,7 +56,7 @@ const STAGES: StageData[] = [
     badge: "Stage 03",
     tagline: "Mapping discrete IDs into continuous mathematical geometry",
     description:
-      "Each token ID indexes a learned embedding table, converting integers into continuous vectors in 4,096-dimensional space. Sinusoidal or RoPE (Rotary) positional encodings are injected so the model knows word order.",
+      "Each token ID indexes a learned embedding table, converting integers into continuous vectors in 4,096-dimensional space. Positional encodings are injected so the model knows word order.",
     mathematicalOperation: "E_i = Embedding(id_i) + PositionalEncoding(i)",
     insight:
       "Words with similar syntactic and semantic roles cluster together geometrically in latent space.",
@@ -69,9 +69,8 @@ const STAGES: StageData[] = [
     badge: "Stage 04",
     tagline: "Every token cross-examines every other token",
     description:
-      "The transformer executes scaled dot-product attention across dozens of parallel attention heads. Query (Q) and Key (K) vectors compute an N×N attention affinity matrix, dynamically routing semantic context between tokens.",
-    mathematicalOperation:
-      "Attention(Q, K, V) = softmax(Q K^T / \\sqrt{d_k}) V",
+      "The transformer executes scaled dot-product attention across parallel heads. Query (Q) and Key (K) vectors compute an N×N affinity matrix, dynamically routing semantic context between tokens.",
+    mathematicalOperation: "Attention(Q, K, V) = softmax(Q K^T / √d_k) V",
     insight:
       "The token 'compiler' pays heavy attention to 'entanglement', priming the model to bridge quantum mechanics with computer science.",
   },
@@ -83,7 +82,7 @@ const STAGES: StageData[] = [
     badge: "Stage 05",
     tagline: "Next-token prediction probability distributions",
     description:
-      "The final transformer layer outputs unnormalized logit scores across the entire vocabulary. Temperature and top-p sampling select the highest-affinity next token, which is appended to the context for the next cycle.",
+      "The final transformer layer outputs unnormalized logit scores across the entire vocabulary. Temperature and top-p sampling select the highest-affinity next token, appended iteratively.",
     mathematicalOperation: "P(w_{t+1} | w_{1:t}) = softmax(W_u h_t)",
     insight:
       "Generation is iterative and probabilistic. Every newly emitted token modifies the attention field for subsequent tokens.",
@@ -98,30 +97,31 @@ const INPUT_TOKENS = [
   { text: " ent", id: 914, x: 265, y: 70 },
   { text: "angle", id: 12890, x: 330, y: 70 },
   { text: "ment", id: 1204, x: 405, y: 70 },
-  { text: " to", id: 312, x: 475, y: 70 },
-  { text: " a", id: 264, x: 525, y: 70 },
-  { text: " compiler", id: 21908, x: 615, y: 70 },
-  { text: " engineer", id: 8943, x: 725, y: 70 },
+  { text: " to", id: 311, x: 480, y: 70 },
+  { text: " a", id: 264, x: 535, y: 70 },
+  { text: " compiler", id: 14210, x: 610, y: 70 },
+  { text: " engineer", id: 7421, x: 695, y: 70 },
 ];
 
 const OUTPUT_TOKENS = [
-  { text: "State", id: 5912 },
-  { text: " superposition", id: 19821 },
-  { text: " maps", id: 7421 },
-  { text: " to", id: 312 },
-  { text: " non-", id: 1842 },
-  { text: "local", id: 4912 },
-  { text: " pointer", id: 14210 },
-  { text: " aliases.", id: 38914 },
+  { text: "Quantum", id: 41209 },
+  { text: " states", id: 6241 },
+  { text: " act", id: 1402 },
+  { text: " like", id: 729 },
+  { text: " shared", id: 8912 },
+  { text: " pointers", id: 21901 },
+  { text: " without", id: 1840 },
+  { text: " mutex", id: 34102 },
 ];
 
 export function PinnedStorySection() {
   const prefersReduced = useReducedMotion();
   const [mounted, setMounted] = useState<boolean>(false);
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-  const pinTargetRef = useRef<HTMLDivElement | null>(null);
   const [currentStageIdx, setCurrentStageIdx] = useState<number>(0);
   const [scrollProgress, setScrollProgress] = useState<number>(0);
+
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const pinTargetRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -138,22 +138,20 @@ export function PinnedStorySection() {
       ScrollTrigger.create({
         trigger: section,
         start: "top top",
-        end: "+=1200",
+        end: "+=2600",
         pin: pinTarget,
         pinSpacing: true,
-        scrub: 0.25,
-        invalidateOnRefresh: true,
+        scrub: 0.5,
+        anticipatePin: 1,
         onUpdate: (self) => {
           const progress = self.progress;
           setScrollProgress(progress);
-          // 5 stages mapped across 0.0 to 1.0
           const stage = Math.min(4, Math.floor(progress * 5));
           setCurrentStageIdx(stage);
         },
       });
     }, section);
 
-    // Debounced resize handler to recalculate pins without breaks
     const handleResize = () => {
       ScrollTrigger.refresh();
     };
@@ -167,175 +165,154 @@ export function PinnedStorySection() {
 
   const activeStage = STAGES[currentStageIdx];
 
-  // Static Fallback for reduced motion: render all 5 stages in vertical layout
+  // Static Fallback for reduced motion
   if (mounted && prefersReduced) {
     return (
-      <section className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
-          <div className="inline-flex items-center gap-2 rounded-md border border-cyan-500/20 bg-cyan-500/5 px-3 py-1 font-mono text-xs font-medium text-cyan-400">
-            <Info className="h-3.5 w-3.5" />
-            <span>Educational simulation · Complete 5-stage architecture</span>
-          </div>
-          <h2 className="mt-4 font-mono text-3xl font-extrabold text-forge-text sm:text-4xl">
-            Inside the LLM Attention Lifecycle
-          </h2>
-          <p className="mt-2 text-sm text-forge-muted">
-            Static step-by-step deconstruction of how neural transformers parse
-            prompts into completions.
-          </p>
-        </div>
-
-        <div className="space-y-8">
-          {STAGES.map((stage) => (
-            <div
-              key={stage.id}
-              className="rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#11141A] to-[#0A0C0F] p-6 sm:p-8"
-            >
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.06] pb-4">
-                <div className="flex items-center gap-3">
-                  <Badge
-                    variant="outline"
-                    className="border-ember-500/30 bg-ember-500/5 font-mono text-xs text-ember-400"
-                  >
-                    {stage.badge}
-                  </Badge>
-                  <h3 className="font-mono text-xl font-bold text-forge-text">
-                    {stage.title}
-                  </h3>
-                </div>
-                <span className="font-mono text-xs text-cyan-400">
-                  {stage.mathematicalOperation}
-                </span>
-              </div>
-              <div className="mt-4 grid gap-6 md:grid-cols-2">
-                <div>
-                  <p className="text-sm leading-relaxed text-forge-muted">
-                    {stage.description}
-                  </p>
-                  <p className="mt-3 text-xs text-zinc-400">
-                    <strong className="text-ember-400 font-medium">Key insight:</strong>{" "}
-                    {stage.insight}
-                  </p>
-                </div>
-                <div className="flex items-center justify-center rounded-lg border border-white/[0.06] bg-[#08090C] p-4 font-mono text-xs text-forge-text">
-                  {stage.number === 1 && (
-                    <div className="text-center font-mono text-ember-400">
-                      {RAW_PROMPT}
-                    </div>
-                  )}
-                  {stage.number === 2 && (
-                    <div className="flex flex-wrap justify-center gap-1.5">
-                      {INPUT_TOKENS.map((t) => (
-                        <span
-                          key={t.id}
-                          className="rounded border border-ember-500/30 bg-ember-500/10 px-2 py-1"
-                        >
-                          {t.text} <span className="opacity-40">#{t.id}</span>
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  {stage.number === 3 && (
-                    <div className="text-center text-cyan-400">
-                      Embedding vectors: [0.142, -0.984, 0.412, ..., 0.051] ∈
-                      ℝ⁴⁰⁹⁶
-                    </div>
-                  )}
-                  {stage.number === 4 && (
-                    <div className="text-center text-ember-400">
-                      Self-attention matrix: softmax(QKᵀ / √64) V → 12 heads ×
-                      48 layers
-                    </div>
-                  )}
-                  {stage.number === 5 && (
-                    <div className="flex flex-wrap justify-center gap-1.5">
-                      {OUTPUT_TOKENS.map((t) => (
-                        <span
-                          key={t.id}
-                          className="rounded border border-cyan-500/30 bg-cyan-500/10 px-2 py-1 text-cyan-300"
-                        >
-                          {t.text}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
+      <section className="relative overflow-hidden bg-lavender py-20 lg:py-28">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="mb-12 text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-violet/30 bg-violet/10 px-4 py-1.5 text-xs font-bold text-violet">
+              <Layers className="h-4 w-4" />
+              <span>Educational simulation · Complete 5-stage architecture</span>
             </div>
-          ))}
+            <h2 className="mt-4 font-sans text-3xl font-extrabold text-indigo sm:text-4xl">
+              Inside the LLM Attention Lifecycle
+            </h2>
+            <p className="mt-3 max-w-[65ch] mx-auto text-base text-indigo-900/70 leading-[1.7]">
+              Static step-by-step deconstruction of how neural transformers parse prompts into completions.
+            </p>
+          </div>
+
+          <div className="space-y-8">
+            {STAGES.map((stage) => (
+              <div
+                key={stage.id}
+                className="rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-indigo-950/10 pb-4">
+                  <div className="flex items-center gap-3">
+                    <span className="rounded-full bg-coral/10 px-3 py-1 font-sans text-xs font-bold text-coral border border-coral/30">
+                      {stage.badge}
+                    </span>
+                    <h3 className="font-sans text-xl font-bold text-indigo">
+                      {stage.title}
+                    </h3>
+                  </div>
+                  <span className="font-mono text-xs text-teal font-medium">
+                    {stage.mathematicalOperation}
+                  </span>
+                </div>
+                <div className="mt-6 grid gap-6 md:grid-cols-2">
+                  <div>
+                    <p className="text-base leading-relaxed text-indigo-900/80">
+                      {stage.description}
+                    </p>
+                    <p className="mt-4 text-sm text-indigo-900/70">
+                      <strong className="text-coral font-bold">Key insight:</strong>{" "}
+                      {stage.insight}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-center rounded-xl border border-indigo-950/10 bg-cream p-6 font-mono text-sm text-indigo">
+                    {stage.number === 1 && (
+                      <div className="text-center font-mono text-coral font-semibold">
+                        &quot;{RAW_PROMPT}&quot;
+                      </div>
+                    )}
+                    {stage.number === 2 && (
+                      <div className="flex flex-wrap justify-center gap-2">
+                        {INPUT_TOKENS.map((t) => (
+                          <span
+                            key={t.id}
+                            className="rounded-lg border border-violet/30 bg-violet/10 px-2.5 py-1 text-xs font-mono text-violet font-medium"
+                          >
+                            {t.text} <span className="opacity-50">#{t.id}</span>
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    {stage.number === 3 && (
+                      <div className="text-center text-teal font-mono">
+                        Embedding vectors: [0.142, -0.984, 0.412, ..., 0.051] ∈ ℝ⁴⁰⁹⁶
+                      </div>
+                    )}
+                    {stage.number === 4 && (
+                      <div className="text-center text-violet font-mono">
+                        Self-attention matrix: softmax(QKᵀ / √64) V → 12 heads × 48 layers
+                      </div>
+                    )}
+                    {stage.number === 5 && (
+                      <div className="text-center text-coral font-mono">
+                        Autoregressive logit distribution → sample next token &quot;Quantum&quot;
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
+        <CurvedDivider fillColor="text-cream" />
       </section>
     );
   }
 
   return (
-    <section ref={sectionRef} className="relative z-20 bg-[#08090C]">
+    <section ref={sectionRef} className="relative bg-lavender pt-0 pb-0">
       <div
         ref={pinTargetRef}
-        className="flex min-h-screen w-full flex-col justify-center px-4 py-8 sm:px-6 lg:px-8"
+        className="relative flex min-h-screen flex-col justify-center py-20 lg:py-28 overflow-hidden"
       >
-        <div className="mx-auto w-full max-w-7xl">
-          {/* Header & Simulation Notice */}
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] pb-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.03]">
-                <Cpu className="h-4 w-4 text-ember-400" />
+        <div className="mx-auto w-full max-w-6xl px-6">
+          {/* Section Header */}
+          <div className="mb-10 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-violet/30 bg-violet/10 px-4 py-1 text-xs font-bold text-violet">
+                <Layers className="h-4 w-4" />
+                <span>Educational simulation</span>
               </div>
-              <div>
-                <span className="font-mono text-xs uppercase tracking-wider text-forge-muted">
-                  Transformer internals
-                </span>
-                <h2 className="font-mono text-lg font-bold text-forge-text sm:text-2xl">
-                  How an LLM Reads Your Prompt
-                </h2>
-              </div>
+              <h2 className="mt-3 font-sans text-3xl font-extrabold tracking-tight text-indigo sm:text-5xl">
+                Inside the LLM Attention Lifecycle
+              </h2>
             </div>
-
-            {/* Mandatory Honesty Rule: Labeled "Educational simulation" */}
-            <div className="flex items-center gap-3">
-              <Badge
-                variant="outline"
-                className="border-cyan-500/30 bg-cyan-500/5 font-mono text-xs font-semibold text-cyan-400"
-              >
-                <Layers className="mr-1.5 h-3.5 w-3.5" />
-                Educational simulation
-              </Badge>
-              <div className="hidden font-mono text-xs text-forge-muted sm:block">
-                Stage {currentStageIdx + 1} of 5
-              </div>
+            <div className="font-mono text-xs font-semibold text-indigo-900/60">
+              Stage {currentStageIdx + 1} of 5 · Scroll down to scrub
             </div>
           </div>
 
-          {/* Centerpiece Layout: Left Visualizer + Right Stage Caption Card */}
-          <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
-            {/* Visualizer Frame (7 columns) */}
-            <div className="relative flex min-h-[380px] flex-col justify-between overflow-hidden rounded-xl border border-amber-500/30 bg-gradient-to-b from-[#131722] via-[#0E1016] to-[#08090C] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.7)] sm:min-h-[440px] lg:col-span-7 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-amber-400/40 before:to-transparent">
+          {/* Centerpiece 2-column layout: Visualizer (Left) + Caption Card (Right) */}
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
+            {/* Visualizer Frame */}
+            <div className="relative flex min-h-[380px] flex-col justify-between overflow-hidden rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card lg:col-span-7">
               {/* Top toolbar */}
-              <div className="flex items-center justify-between border-b border-white/[0.08] bg-[#11141B]/80 px-2 pb-3 font-mono text-xs">
-                <div className="flex items-center gap-2 text-zinc-300">
-                  <span className="h-2 w-2 rounded-full bg-ember-500 animate-pulse shadow-[0_0_8px_#ff6b00]" />
-                  <span>Pipeline state: <strong className="text-amber-400">{activeStage.name}</strong></span>
+              <div className="flex items-center justify-between border-b border-indigo-950/10 pb-4 font-mono text-xs">
+                <div className="flex items-center gap-2 text-indigo">
+                  <span className="h-2.5 w-2.5 rounded-full bg-coral animate-pulse" />
+                  <span>
+                    State: <strong className="text-coral">{activeStage.name}</strong>
+                  </span>
                 </div>
-                <div className="flex items-center gap-2.5">
-                  <span className="hidden font-mono text-[11px] text-cyan-400 sm:inline-block">
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-xs text-teal font-medium">
                     Scrub: {Math.round(scrollProgress * 100)}%
                   </span>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1.5">
                     <button
                       type="button"
                       onClick={() => setCurrentStageIdx((p) => Math.max(0, p - 1))}
                       disabled={currentStageIdx === 0}
-                      className="rounded border border-white/[0.1] bg-white/[0.04] px-2 py-0.5 font-mono text-[10px] text-zinc-300 transition-colors hover:bg-white/[0.1] hover:text-white disabled:opacity-30 disabled:pointer-events-none"
-                      aria-label="Previous transformer stage"
+                      className="rounded-lg border border-indigo-950/10 bg-cream px-2.5 py-1 font-mono text-xs text-indigo hover:bg-white disabled:opacity-30 disabled:pointer-events-none"
+                      aria-label="Previous stage"
                     >
                       Prev
                     </button>
                     <button
                       type="button"
-                      onClick={() => setCurrentStageIdx((p) => Math.min(STAGES.length - 1, p + 1))}
+                      onClick={() =>
+                        setCurrentStageIdx((p) => Math.min(STAGES.length - 1, p + 1))
+                      }
                       disabled={currentStageIdx === STAGES.length - 1}
-                      className="rounded border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 font-mono text-[10px] text-amber-300 transition-colors hover:bg-amber-500/20 hover:text-white disabled:opacity-30 disabled:pointer-events-none"
-                      aria-label="Next transformer stage"
+                      className="rounded-lg border border-coral/30 bg-coral/10 px-2.5 py-1 font-mono text-xs text-coral font-bold hover:bg-coral/20 disabled:opacity-30 disabled:pointer-events-none"
+                      aria-label="Next stage"
                     >
                       Next
                     </button>
@@ -343,17 +320,16 @@ export function PinnedStorySection() {
                 </div>
               </div>
 
-              {/* Main SVG/Canvas Graphic representing the 5 stages */}
+              {/* Graphic Canvas/SVG */}
               <div className="relative my-auto flex min-h-[260px] w-full items-center justify-center py-4">
                 <svg
                   viewBox="0 0 800 240"
                   className="h-full w-full max-w-[760px] select-none overflow-visible"
                   aria-label={`Transformer stage ${currentStageIdx + 1}: ${activeStage.title}`}
                 >
-                  {/* Grid Lines */}
                   <defs>
                     <pattern
-                      id="forge-grid"
+                      id="lavender-grid"
                       width="40"
                       height="40"
                       patternUnits="userSpaceOnUse"
@@ -361,7 +337,7 @@ export function PinnedStorySection() {
                       <path
                         d="M 40 0 L 0 0 0 40"
                         fill="none"
-                        stroke="rgba(255, 255, 255, 0.04)"
+                        stroke="rgba(30, 27, 75, 0.05)"
                         strokeWidth="1"
                       />
                     </pattern>
@@ -369,8 +345,8 @@ export function PinnedStorySection() {
                   <rect
                     width="800"
                     height="240"
-                    fill="url(#forge-grid)"
-                    rx="8"
+                    fill="url(#lavender-grid)"
+                    rx="12"
                   />
 
                   {/* STAGE 1: RAW TEXT */}
@@ -378,22 +354,22 @@ export function PinnedStorySection() {
                     <g className="transition-opacity duration-300">
                       <rect
                         x="60"
-                        y="80"
+                        y="75"
                         width="680"
-                        height="60"
-                        rx="10"
-                        fill="rgba(255, 107, 0, 0.08)"
-                        stroke="#FF6B00"
+                        height="70"
+                        rx="12"
+                        fill="rgba(255, 107, 74, 0.08)"
+                        stroke="#FF6B4A"
                         strokeWidth="1.5"
                         strokeDasharray="4 4"
                       />
                       <text
                         x="400"
-                        y="117"
+                        y="118"
                         textAnchor="middle"
-                        fill="#F5F6F8"
+                        fill="#1E1B4B"
                         fontFamily="monospace"
-                        fontSize="20"
+                        fontSize="18"
                         fontWeight="bold"
                       >
                         &quot;{RAW_PROMPT}&quot;
@@ -402,12 +378,11 @@ export function PinnedStorySection() {
                         x="400"
                         y="180"
                         textAnchor="middle"
-                        fill="#A0A5B2"
+                        fill="#5B567A"
                         fontFamily="monospace"
                         fontSize="12"
                       >
-                        [Contiguous byte stream: 51 ASCII characters, no token
-                        boundaries]
+                        [Contiguous byte stream: 51 ASCII characters, no token boundaries]
                       </text>
                     </g>
                   )}
@@ -418,25 +393,22 @@ export function PinnedStorySection() {
                       {INPUT_TOKENS.map((token, i) => {
                         const spreadX = 40 + i * 80;
                         return (
-                          <g
-                            key={token.id}
-                            transform={`translate(${spreadX}, 90)`}
-                          >
+                          <g key={token.id} transform={`translate(${spreadX}, 90)`}>
                             <rect
                               x="0"
                               y="0"
                               width="72"
                               height="48"
                               rx="8"
-                              fill="rgba(255, 107, 0, 0.12)"
-                              stroke="#FF6B00"
+                              fill="rgba(124, 92, 255, 0.12)"
+                              stroke="#7C5CFF"
                               strokeWidth="1.2"
                             />
                             <text
                               x="36"
                               y="24"
                               textAnchor="middle"
-                              fill="#F5F6F8"
+                              fill="#1E1B4B"
                               fontFamily="monospace"
                               fontSize="12"
                               fontWeight="600"
@@ -447,10 +419,10 @@ export function PinnedStorySection() {
                               x="36"
                               y="38"
                               textAnchor="middle"
-                              fill="#FF6B00"
+                              fill="#7C5CFF"
                               fontFamily="monospace"
                               fontSize="9"
-                              opacity="0.8"
+                              fontWeight="bold"
                             >
                               #{token.id}
                             </text>
@@ -461,26 +433,25 @@ export function PinnedStorySection() {
                         x="400"
                         y="190"
                         textAnchor="middle"
-                        fill="#00E5FF"
+                        fill="#12B5A6"
                         fontFamily="monospace"
                         fontSize="12"
+                        fontWeight="600"
                       >
-                        Notice: &apos;entanglement&apos; → [&apos;ent&apos;,
-                        &apos;angle&apos;, &apos;ment&apos;] (3 subwords)
+                        Notice: &apos;entanglement&apos; → [&apos;ent&apos;, &apos;angle&apos;, &apos;ment&apos;] (3 subwords)
                       </text>
                     </g>
                   )}
 
-                  {/* STAGE 3: TOKENS BECOME VECTORS (DOTS IN SPACE) */}
+                  {/* STAGE 3: VECTOR EMBEDDINGS */}
                   {currentStageIdx === 2 && (
                     <g className="transition-opacity duration-300">
-                      {/* Geometric coordinate axes */}
                       <line
                         x1="80"
                         y1="200"
                         x2="720"
                         y2="200"
-                        stroke="rgba(255,255,255,0.15)"
+                        stroke="rgba(30, 27, 75, 0.15)"
                         strokeWidth="1"
                       />
                       <line
@@ -488,13 +459,13 @@ export function PinnedStorySection() {
                         y1="30"
                         x2="400"
                         y2="210"
-                        stroke="rgba(255,255,255,0.15)"
+                        stroke="rgba(30, 27, 75, 0.15)"
                         strokeWidth="1"
                       />
                       <text
                         x="730"
                         y="204"
-                        fill="#A0A5B2"
+                        fill="#5B567A"
                         fontFamily="monospace"
                         fontSize="10"
                       >
@@ -504,7 +475,7 @@ export function PinnedStorySection() {
                         x="400"
                         y="20"
                         textAnchor="middle"
-                        fill="#A0A5B2"
+                        fill="#5B567A"
                         fontFamily="monospace"
                         fontSize="10"
                       >
@@ -512,37 +483,31 @@ export function PinnedStorySection() {
                       </text>
 
                       {INPUT_TOKENS.map((token, i) => {
-                        // Vector coordinates in space
                         const posX = 110 + i * 70 + Math.sin(i * 1.8) * 35;
                         const posY = 130 + Math.cos(i * 1.5) * 55;
                         return (
-                          <g
-                            key={token.id}
-                            transform={`translate(${posX}, ${posY})`}
-                          >
-                            {/* Precision coordinate dot */}
-                            <circle r="4" fill="#00E5FF" opacity="0.9" />
+                          <g key={token.id} transform={`translate(${posX}, ${posY})`}>
+                            <circle r="4" fill="#12B5A6" />
                             <circle
                               r="10"
                               fill="none"
-                              stroke="#00E5FF"
+                              stroke="#12B5A6"
                               strokeWidth="1"
-                              opacity="0.3"
+                              opacity="0.4"
                             />
-                            {/* Vector line to axis */}
                             <line
                               x1="0"
                               y1="0"
                               x2="0"
                               y2={200 - posY}
-                              stroke="rgba(0, 229, 255, 0.25)"
+                              stroke="rgba(18, 181, 166, 0.3)"
                               strokeDasharray="2 2"
                             />
                             <text
                               x="0"
                               y="-12"
                               textAnchor="middle"
-                              fill="#F5F6F8"
+                              fill="#1E1B4B"
                               fontFamily="monospace"
                               fontSize="11"
                               fontWeight="600"
@@ -555,31 +520,26 @@ export function PinnedStorySection() {
                     </g>
                   )}
 
-                  {/* STAGE 4: ATTENTION LINES CONNECT TOKENS WITH VARYING OPACITY */}
+                  {/* STAGE 4: ATTENTION MATRIX */}
                   {currentStageIdx === 3 && (
                     <g className="transition-opacity duration-300">
-                      {/* Token nodes placed along an arc */}
                       {INPUT_TOKENS.map((t1, i) => {
                         const x1 = 70 + i * 78;
                         const y1 = 170;
 
                         return (
                           <g key={`node-${t1.id}`}>
-                            {/* Attention lines connecting to other tokens with varying opacity */}
                             {INPUT_TOKENS.map((t2, j) => {
                               if (j <= i) return null;
                               const x2 = 70 + j * 78;
                               const y2 = 170;
-                              // High attention between "quantum" (index 1) and "compiler" (index 7)
                               const isSemanticPair =
                                 (i === 1 && j === 7) ||
                                 (i === 3 && j === 8) ||
                                 (i === 0 && j === 1) ||
                                 (i === 7 && j === 8);
-                              const opacity = isSemanticPair ? 0.95 : 0.14;
-                              const strokeColor = isSemanticPair
-                                ? "#FF6B00"
-                                : "#00E5FF";
+                              const opacity = isSemanticPair ? 0.95 : 0.2;
+                              const strokeColor = isSemanticPair ? "#FF6B4A" : "#7C5CFF";
                               const strokeW = isSemanticPair ? 2.5 : 1;
                               const arcHeight = Math.abs(j - i) * 18;
 
@@ -594,16 +554,15 @@ export function PinnedStorySection() {
                                 />
                               );
                             })}
-
-                            {/* Node anchor */}
-                            <circle cx={x1} cy={y1} r="6" fill="#FF6B00" />
+                            <circle cx={x1} cy={y1} r="6" fill="#FF6B4A" />
                             <text
                               x={x1}
                               y={y1 + 22}
                               textAnchor="middle"
-                              fill="#F5F6F8"
+                              fill="#1E1B4B"
                               fontFamily="monospace"
                               fontSize="10"
+                              fontWeight="600"
                             >
                               {t1.text.trim()}
                             </text>
@@ -614,16 +573,17 @@ export function PinnedStorySection() {
                         x="400"
                         y="35"
                         textAnchor="middle"
-                        fill="#FF6B00"
+                        fill="#FF6B4A"
                         fontFamily="monospace"
                         fontSize="12"
+                        fontWeight="bold"
                       >
                         Attention Weight Affinity: Softmax(Q · Kᵀ / √dₖ)
                       </text>
                     </g>
                   )}
 
-                  {/* STAGE 5: OUTPUT TOKENS APPEAR ONE BY ONE */}
+                  {/* STAGE 5: OUTPUT TOKENS */}
                   {currentStageIdx === 4 && (
                     <g className="transition-opacity duration-300">
                       <rect
@@ -631,35 +591,36 @@ export function PinnedStorySection() {
                         y="20"
                         width="720"
                         height="80"
-                        rx="8"
-                        fill="rgba(11,12,14,0.6)"
-                        stroke="rgba(255,255,255,0.1)"
+                        rx="10"
+                        fill="rgba(251, 246, 238, 0.9)"
+                        stroke="rgba(30, 27, 75, 0.1)"
                       />
                       <text
                         x="60"
                         y="45"
-                        fill="#A0A5B2"
+                        fill="#5B567A"
                         fontFamily="monospace"
                         fontSize="11"
+                        fontWeight="bold"
                       >
                         PROMPT CONTEXT CACHE:
                       </text>
                       <text
                         x="60"
                         y="75"
-                        fill="#A0A5B2"
+                        fill="#1E1B4B"
                         fontFamily="monospace"
                         fontSize="13"
+                        fontWeight="bold"
                       >
                         &quot;{RAW_PROMPT}&quot;
                       </text>
 
-                      {/* Output tokens generated sequentially */}
                       <g transform="translate(40, 130)">
                         <text
                           x="20"
                           y="20"
-                          fill="#00E5FF"
+                          fill="#12B5A6"
                           fontFamily="monospace"
                           fontSize="12"
                           fontWeight="bold"
@@ -669,25 +630,22 @@ export function PinnedStorySection() {
                         {OUTPUT_TOKENS.map((outTok, idx) => {
                           const posX = 20 + idx * 88;
                           return (
-                            <g
-                              key={outTok.id}
-                              transform={`translate(${posX}, 35)`}
-                            >
+                            <g key={outTok.id} transform={`translate(${posX}, 35)`}>
                               <rect
                                 x="0"
                                 y="0"
                                 width="82"
                                 height="40"
-                                rx="6"
-                                fill="rgba(0, 229, 255, 0.12)"
-                                stroke="#00E5FF"
+                                rx="8"
+                                fill="rgba(18, 181, 166, 0.12)"
+                                stroke="#12B5A6"
                                 strokeWidth="1.2"
                               />
                               <text
                                 x="41"
                                 y="22"
                                 textAnchor="middle"
-                                fill="#F5F6F8"
+                                fill="#1E1B4B"
                                 fontFamily="monospace"
                                 fontSize="11"
                                 fontWeight="600"
@@ -698,10 +656,10 @@ export function PinnedStorySection() {
                                 x="41"
                                 y="33"
                                 textAnchor="middle"
-                                fill="#00E5FF"
+                                fill="#12B5A6"
                                 fontFamily="monospace"
                                 fontSize="8"
-                                opacity="0.8"
+                                fontWeight="bold"
                               >
                                 #{outTok.id}
                               </text>
@@ -714,101 +672,64 @@ export function PinnedStorySection() {
                 </svg>
               </div>
 
-              {/* Bottom Telemetry Strip */}
-              <div className="flex flex-wrap items-center justify-between gap-2 border-t border-white/[0.06] pt-3 font-mono text-xs">
-                <span className="flex items-center gap-1.5 text-ember-400">
-                  <Braces className="h-3.5 w-3.5" /> Math Op:{" "}
-                  {activeStage.mathematicalOperation}
+              {/* Bottom strip */}
+              <div className="flex flex-wrap items-center justify-between gap-2 border-t border-indigo-950/10 pt-4 font-mono text-xs">
+                <span className="flex items-center gap-1.5 text-coral font-semibold">
+                  <Braces className="h-4 w-4" /> Math Op: {activeStage.mathematicalOperation}
                 </span>
-                <span className="text-[11px] text-zinc-500">
-                  Scroll down to scrub sequence · Zero layout reflow
+                <span className="text-indigo-900/60 font-mono text-xs">
+                  Scroll to scrub sequence · Zero reflow
                 </span>
               </div>
             </div>
 
-            {/* Side Caption Card (5 columns) */}
-            <div className="relative flex flex-col justify-between rounded-xl border border-amber-500/30 bg-gradient-to-b from-[#131722] via-[#0E1016] to-[#08090C] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.7)] sm:p-8 lg:col-span-5 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-amber-400/40 before:to-transparent">
+            {/* Side Caption Card */}
+            <div className="relative flex flex-col justify-between rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card lg:col-span-5">
               <div>
-                {/* Stage Badge & Step Indicator */}
                 <div className="flex items-center justify-between">
-                  <Badge
-                    variant="outline"
-                    className="border-ember-500/50 bg-ember-500/10 font-mono text-xs text-amber-400 shadow-[0_0_10px_rgba(255,107,0,0.2)]"
-                  >
+                  <span className="rounded-full bg-coral/10 px-3.5 py-1 font-sans text-xs font-bold text-coral border border-coral/30">
                     {activeStage.badge} · {activeStage.name}
-                  </Badge>
-                  <span className="font-mono text-xs text-cyan-400 font-bold">
+                  </span>
+                  <span className="font-mono text-xs font-bold text-teal">
                     {currentStageIdx + 1} / 5
                   </span>
                 </div>
 
-                {/* Stage Title */}
-                <h3 className="mt-4 font-mono text-2xl font-bold text-forge-text sm:text-3xl">
+                <h3 className="mt-6 font-sans text-2xl font-bold text-indigo sm:text-3xl">
                   {activeStage.title}
                 </h3>
 
-                <p className="mt-2 font-mono text-xs font-medium text-cyan-400">
+                <p className="mt-2 font-sans text-xs font-semibold uppercase tracking-wider text-violet">
                   {activeStage.tagline}
                 </p>
 
-                {/* Description */}
-                <p className="mt-4 text-sm leading-relaxed text-zinc-400 sm:text-base">
+                <p className="mt-4 text-base leading-[1.7] text-indigo-900/80">
                   {activeStage.description}
                 </p>
 
-                {/* Pedagogical Insight Callout */}
-                <div className="mt-6 rounded-lg border border-white/[0.06] bg-black/40 p-4">
-                  <div className="flex items-center gap-2 font-mono text-xs font-semibold text-ember-400">
-                    <Layers className="h-3.5 w-3.5" />
-                    <span>Architectural insight</span>
+                <div className="mt-6 rounded-xl border border-indigo-950/10 bg-butter/40 p-4">
+                  <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-indigo">
+                    Key Insight
                   </div>
-                  <p className="mt-1.5 text-xs leading-relaxed text-zinc-300">
+                  <p className="mt-1 text-sm leading-relaxed text-indigo-900/90 font-medium">
                     {activeStage.insight}
                   </p>
                 </div>
               </div>
 
-              {/* Progress Indicator dots & bar */}
-              <div className="mt-8 border-t border-white/[0.06] pt-6">
-                <div className="mb-2 flex items-center justify-between font-mono text-xs text-zinc-400">
-                  <span>Transformation pipeline</span>
-                  <span className="font-medium text-ember-400">
-                    Stage {currentStageIdx + 1}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-5 gap-2">
-                  {STAGES.map((s, idx) => (
-                    <button
-                      type="button"
-                      key={s.id}
-                      onClick={() => setCurrentStageIdx(idx)}
-                      className={`group flex flex-col items-center gap-1.5 rounded p-1 transition-all ${
-                        idx === currentStageIdx ? "opacity-100" : "opacity-60 hover:opacity-100"
-                      }`}
-                      aria-label={`Jump to stage ${idx + 1}: ${s.name}`}
-                      title={`Stage ${idx + 1}: ${s.name}`}
-                    >
-                      <div
-                        className={`h-1.5 w-full rounded-full transition-all duration-200 ${
-                          idx === currentStageIdx
-                            ? "bg-amber-400 shadow-[0_0_8px_#ff6b00]"
-                            : idx < currentStageIdx
-                              ? "bg-cyan-500/60"
-                              : "bg-white/[0.12] group-hover:bg-white/[0.25]"
-                        }`}
-                      />
-                      <span className="hidden font-mono text-[9px] text-zinc-400 group-hover:text-white sm:block">
-                        0{idx + 1}
-                      </span>
-                    </button>
-                  ))}
+              <div className="mt-8 border-t border-indigo-950/10 pt-4">
+                <div className="flex items-center justify-between text-xs font-mono text-indigo-900/60">
+                  <span>Transformation:</span>
+                  <span className="text-coral font-bold">{activeStage.mathematicalOperation}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Curved Divider into Cream Band */}
+      <CurvedDivider fillColor="text-cream" />
     </section>
   );
 }

@@ -3,17 +3,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ember-500",
+  "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-coral",
   {
     variants: {
       variant: {
-        default: "border-ember-500/30 bg-ember-500/10 text-ember-400",
-        ember: "border-ember-500/30 bg-ember-500/10 text-ember-400",
-        secondary: "border-cyan-500/30 bg-cyan-500/10 text-cyan-400",
-        cyan: "border-cyan-500/30 bg-cyan-500/10 text-cyan-400",
-        outline: "border-forge-border bg-forge-surface text-forge-muted",
-        destructive: "border-rose-500/40 bg-rose-500/10 text-rose-300",
-        success: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",
+        default: "border-coral/30 bg-coral/10 text-coral",
+        ember: "border-coral/30 bg-coral/10 text-coral",
+        secondary: "border-teal/30 bg-teal/10 text-teal",
+        cyan: "border-teal/30 bg-teal/10 text-teal",
+        outline: "border-indigo-950/15 bg-white text-indigo-900/70",
+        destructive: "border-rose-500/30 bg-rose-50 text-rose-700",
+        success: "border-emerald-500/30 bg-emerald-50 text-emerald-700",
       },
     },
     defaultVariants: {

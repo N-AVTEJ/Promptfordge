@@ -28,19 +28,19 @@ export function ProgressRing({
 
   const accentColors = {
     amber: {
-      stroke: "#FF7A1A",
-      bg: "rgba(255, 122, 26, 0.1)",
-      text: "text-amber-400",
+      stroke: "#FF6B4A",
+      bg: "rgba(255, 107, 74, 0.1)",
+      text: "text-coral",
     },
     cyan: {
-      stroke: "#00B4D8",
-      bg: "rgba(0, 180, 216, 0.1)",
-      text: "text-cyan-400",
+      stroke: "#12B5A6",
+      bg: "rgba(18, 181, 166, 0.1)",
+      text: "text-teal",
     },
     emerald: {
-      stroke: "#10B981",
-      bg: "rgba(16, 185, 129, 0.1)",
-      text: "text-emerald-400",
+      stroke: "#12B5A6",
+      bg: "rgba(18, 181, 166, 0.1)",
+      text: "text-teal",
     },
   }[accent];
 
@@ -60,17 +60,14 @@ export function ProgressRing({
         viewBox={`0 0 ${size} ${size}`}
         className="-rotate-90 transform"
       >
-        {/* Background Track */}
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="rgba(255, 255, 255, 0.08)"
+          stroke="rgba(30, 27, 75, 0.1)"
           strokeWidth={strokeWidth}
           fill="transparent"
         />
-
-        {/* Animated Active Ring */}
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -81,30 +78,23 @@ export function ProgressRing({
           strokeDashoffset={strokeDashoffset}
           strokeLinecap="round"
           fill="transparent"
-          style={{
-            transition: "stroke-dashoffset 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
-          }}
+          className="transition-all duration-500 ease-out"
         />
       </svg>
 
-      {/* Center Label */}
       {showLabel && (
-        <div className="absolute inset-0 flex items-center justify-center font-mono font-bold leading-none">
-          {normalizedPercent === 100 ? (
-            <Check
-              className={cn("h-3.5 w-3.5", accentColors.text)}
-              strokeWidth={3}
-              aria-label="Completed"
-            />
-          ) : (
-            <span
-              className={cn("tabular-nums", accentColors.text)}
-              style={{ fontSize: Math.max(9, Math.round(size * 0.22)) }}
-            >
-              {normalizedPercent}%
-            </span>
+        <span
+          className={cn(
+            "absolute font-mono font-bold leading-none select-none text-indigo",
+            size >= 64 ? "text-sm" : size >= 40 ? "text-xs" : "text-[10px]"
           )}
-        </div>
+        >
+          {normalizedPercent === 100 ? (
+            <Check className="h-3.5 w-3.5 text-teal" />
+          ) : (
+            `${normalizedPercent}%`
+          )}
+        </span>
       )}
     </div>
   );
