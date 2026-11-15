@@ -96,11 +96,9 @@ html.lenis body {
 @keyframes pageEnter {
   0% {
     opacity: 0.05;
-    transform: translateY(6px);
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -144,7 +142,6 @@ html.lenis body {
 
 .animate-page-enter {
   animation: pageEnter 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  will-change: opacity, transform;
 }
 
 .animate-glow-pulse {

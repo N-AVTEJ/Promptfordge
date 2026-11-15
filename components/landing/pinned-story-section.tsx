@@ -168,7 +168,7 @@ export function PinnedStorySection() {
   // Static Fallback for reduced motion
   if (mounted && prefersReduced) {
     return (
-      <section className="relative overflow-hidden bg-lavender py-20 lg:py-28">
+      <section id="transformer-story" className="relative overflow-hidden bg-lavender py-20 lg:py-28">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-12 text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-violet/30 bg-violet/10 px-4 py-1.5 text-xs font-bold text-violet">
@@ -257,7 +257,7 @@ export function PinnedStorySection() {
   }
 
   return (
-    <section ref={sectionRef} className="relative bg-lavender pt-0 pb-0">
+    <section ref={sectionRef} id="transformer-story" className="relative bg-lavender pt-0 pb-0">
       <div
         ref={pinTargetRef}
         className="relative flex min-h-screen flex-col justify-center py-20 lg:py-28 overflow-hidden"
@@ -358,8 +358,7 @@ export function PinnedStorySection() {
                         width="680"
                         height="70"
                         rx="12"
-                        fill="rgba(255, 107, 74, 0.08)"
-                        stroke="#FF6B4A"
+                        className="fill-coral/10 stroke-coral"
                         strokeWidth="1.5"
                         strokeDasharray="4 4"
                       />
@@ -367,7 +366,7 @@ export function PinnedStorySection() {
                         x="400"
                         y="118"
                         textAnchor="middle"
-                        fill="#1E1B4B"
+                        className="fill-indigo"
                         fontFamily="monospace"
                         fontSize="18"
                         fontWeight="bold"
@@ -378,7 +377,7 @@ export function PinnedStorySection() {
                         x="400"
                         y="180"
                         textAnchor="middle"
-                        fill="#5B567A"
+                        className="fill-indigo/60"
                         fontFamily="monospace"
                         fontSize="12"
                       >
@@ -400,15 +399,14 @@ export function PinnedStorySection() {
                               width="72"
                               height="48"
                               rx="8"
-                              fill="rgba(124, 92, 255, 0.12)"
-                              stroke="#7C5CFF"
+                              className="fill-violet/10 stroke-violet"
                               strokeWidth="1.2"
                             />
                             <text
                               x="36"
                               y="24"
                               textAnchor="middle"
-                              fill="#1E1B4B"
+                              className="fill-indigo"
                               fontFamily="monospace"
                               fontSize="12"
                               fontWeight="600"
@@ -419,7 +417,7 @@ export function PinnedStorySection() {
                               x="36"
                               y="38"
                               textAnchor="middle"
-                              fill="#7C5CFF"
+                              className="fill-violet"
                               fontFamily="monospace"
                               fontSize="9"
                               fontWeight="bold"
@@ -433,7 +431,7 @@ export function PinnedStorySection() {
                         x="400"
                         y="190"
                         textAnchor="middle"
-                        fill="#12B5A6"
+                        className="fill-teal"
                         fontFamily="monospace"
                         fontSize="12"
                         fontWeight="600"
@@ -465,7 +463,7 @@ export function PinnedStorySection() {
                       <text
                         x="730"
                         y="204"
-                        fill="#5B567A"
+                        className="fill-indigo/60"
                         fontFamily="monospace"
                         fontSize="10"
                       >
@@ -475,7 +473,7 @@ export function PinnedStorySection() {
                         x="400"
                         y="20"
                         textAnchor="middle"
-                        fill="#5B567A"
+                        className="fill-indigo/60"
                         fontFamily="monospace"
                         fontSize="10"
                       >
@@ -487,11 +485,11 @@ export function PinnedStorySection() {
                         const posY = 130 + Math.cos(i * 1.5) * 55;
                         return (
                           <g key={token.id} transform={`translate(${posX}, ${posY})`}>
-                            <circle r="4" fill="#12B5A6" />
+                            <circle r="4" className="fill-teal" />
                             <circle
                               r="10"
                               fill="none"
-                              stroke="#12B5A6"
+                              className="stroke-teal"
                               strokeWidth="1"
                               opacity="0.4"
                             />
@@ -507,7 +505,7 @@ export function PinnedStorySection() {
                               x="0"
                               y="-12"
                               textAnchor="middle"
-                              fill="#1E1B4B"
+                              className="fill-indigo"
                               fontFamily="monospace"
                               fontSize="11"
                               fontWeight="600"
@@ -539,7 +537,7 @@ export function PinnedStorySection() {
                                 (i === 0 && j === 1) ||
                                 (i === 7 && j === 8);
                               const opacity = isSemanticPair ? 0.95 : 0.2;
-                              const strokeColor = isSemanticPair ? "#FF6B4A" : "#7C5CFF";
+                              const strokeColor = isSemanticPair ? "var(--coral)" : "var(--violet)";
                               const strokeW = isSemanticPair ? 2.5 : 1;
                               const arcHeight = Math.abs(j - i) * 18;
 
@@ -554,12 +552,12 @@ export function PinnedStorySection() {
                                 />
                               );
                             })}
-                            <circle cx={x1} cy={y1} r="6" fill="#FF6B4A" />
+                            <circle cx={x1} cy={y1} r="6" className="fill-coral" />
                             <text
                               x={x1}
                               y={y1 + 22}
                               textAnchor="middle"
-                              fill="#1E1B4B"
+                              className="fill-indigo"
                               fontFamily="monospace"
                               fontSize="10"
                               fontWeight="600"
@@ -573,7 +571,7 @@ export function PinnedStorySection() {
                         x="400"
                         y="35"
                         textAnchor="middle"
-                        fill="#FF6B4A"
+                        className="fill-coral"
                         fontFamily="monospace"
                         fontSize="12"
                         fontWeight="bold"
@@ -592,13 +590,12 @@ export function PinnedStorySection() {
                         width="720"
                         height="80"
                         rx="10"
-                        fill="rgba(251, 246, 238, 0.9)"
-                        stroke="rgba(30, 27, 75, 0.1)"
+                        className="fill-cream/90 stroke-indigo-950/10"
                       />
                       <text
                         x="60"
                         y="45"
-                        fill="#5B567A"
+                        className="fill-indigo/60"
                         fontFamily="monospace"
                         fontSize="11"
                         fontWeight="bold"
@@ -608,7 +605,7 @@ export function PinnedStorySection() {
                       <text
                         x="60"
                         y="75"
-                        fill="#1E1B4B"
+                        className="fill-indigo"
                         fontFamily="monospace"
                         fontSize="13"
                         fontWeight="bold"
@@ -620,7 +617,7 @@ export function PinnedStorySection() {
                         <text
                           x="20"
                           y="20"
-                          fill="#12B5A6"
+                          className="fill-teal"
                           fontFamily="monospace"
                           fontSize="12"
                           fontWeight="bold"
@@ -637,15 +634,14 @@ export function PinnedStorySection() {
                                 width="82"
                                 height="40"
                                 rx="8"
-                                fill="rgba(18, 181, 166, 0.12)"
-                                stroke="#12B5A6"
+                                className="fill-teal/10 stroke-teal"
                                 strokeWidth="1.2"
                               />
                               <text
                                 x="41"
                                 y="22"
                                 textAnchor="middle"
-                                fill="#1E1B4B"
+                                className="fill-indigo"
                                 fontFamily="monospace"
                                 fontSize="11"
                                 fontWeight="600"
@@ -656,7 +652,7 @@ export function PinnedStorySection() {
                                 x="41"
                                 y="33"
                                 textAnchor="middle"
-                                fill="#12B5A6"
+                                className="fill-teal"
                                 fontFamily="monospace"
                                 fontSize="8"
                                 fontWeight="bold"
