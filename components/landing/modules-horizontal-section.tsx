@@ -161,36 +161,51 @@ function ModuleCard({ module }: { module: CurriculumModule }) {
 
   return (
     <div
-      className={`group relative flex h-full flex-col justify-between rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#13161F] to-[#0A0C0F] p-6 transition-all duration-200 hover:border-white/[0.2] sm:p-7 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent`}
+      className={`group relative flex h-full flex-col justify-between rounded-xl border p-6 transition-all duration-300 sm:p-7 ${
+        isAmber
+          ? "border-amber-500/30 bg-gradient-to-b from-[#181C28] via-[#10131B] to-[#08090C] hover:border-amber-400/60 hover:shadow-[0_0_35px_rgba(255,107,0,0.2)]"
+          : "border-cyan-500/30 bg-gradient-to-b from-[#101E28] via-[#0C151D] to-[#08090C] hover:border-cyan-400/60 hover:shadow-[0_0_35px_rgba(0,229,255,0.2)]"
+      }`}
     >
+      {/* Top Hairline Glow */}
+      <div
+        className={`absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent to-transparent pointer-events-none ${
+          isAmber ? "via-amber-400/50 group-hover:via-amber-400" : "via-cyan-400/50 group-hover:via-cyan-400"
+        }`}
+      />
+
       <div>
         {/* Top Header */}
         <div className="flex items-center justify-between">
           <span
-            className={`font-mono text-2xl font-bold ${
-              isAmber ? "text-ember-400" : "text-cyan-400"
+            className={`font-mono text-3xl font-black ${
+              isAmber ? "text-amber-400 drop-shadow-[0_0_12px_rgba(255,107,0,0.3)]" : "text-cyan-400 drop-shadow-[0_0_12px_rgba(0,229,255,0.3)]"
             }`}
           >
             {module.number < 10 ? `0${module.number}` : module.number}
           </span>
           <Badge
             variant="outline"
-            className="border-white/[0.1] bg-white/[0.04] font-mono text-[11px] text-zinc-300"
+            className={`font-mono text-[11px] font-semibold px-2.5 py-0.5 ${
+              isAmber
+                ? "border-amber-500/40 bg-amber-500/10 text-amber-300"
+                : "border-cyan-500/40 bg-cyan-500/10 text-cyan-300"
+            }`}
           >
             {module.level}
           </Badge>
         </div>
 
         {/* Title & Subtitle */}
-        <h3 className="mt-4 font-mono text-xl font-bold text-forge-text group-hover:text-white transition-colors">
+        <h3 className="mt-4 font-mono text-xl font-bold text-white group-hover:text-amber-300 transition-colors">
           {module.title}
         </h3>
-        <p className="mt-1 font-mono text-xs text-forge-muted">
+        <p className="mt-1 font-mono text-xs text-zinc-400">
           {module.subtitle}
         </p>
 
         {/* Description */}
-        <p className="mt-3 text-xs leading-relaxed text-zinc-400 sm:text-sm">
+        <p className="mt-3 text-xs leading-relaxed text-zinc-300 sm:text-sm">
           {module.description}
         </p>
 
@@ -199,7 +214,7 @@ function ModuleCard({ module }: { module: CurriculumModule }) {
           {module.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded border border-white/[0.06] bg-black/30 px-2 py-0.5 font-mono text-[10px] text-zinc-400"
+              className="rounded border border-white/[0.08] bg-black/40 px-2 py-0.5 font-mono text-[10px] text-zinc-300"
             >
               #{tag}
             </span>
@@ -207,8 +222,8 @@ function ModuleCard({ module }: { module: CurriculumModule }) {
         </div>
 
         {/* Takeaway Box */}
-        <div className="mt-4 rounded-lg border border-white/[0.06] bg-black/40 p-3 font-mono text-xs text-zinc-300">
-          <span className="mb-0.5 block text-[10px] uppercase tracking-wider text-ember-400 font-semibold">
+        <div className="mt-4 rounded-lg border border-amber-500/20 bg-black/60 p-3 font-mono text-xs text-zinc-200">
+          <span className="mb-0.5 block text-[10px] uppercase tracking-wider text-amber-400 font-bold">
             Core invariant:
           </span>
           &ldquo;{module.keyTakeaway}&rdquo;
@@ -216,20 +231,20 @@ function ModuleCard({ module }: { module: CurriculumModule }) {
       </div>
 
       {/* Footer Info & Action */}
-      <div className="mt-6 border-t border-white/[0.06] pt-4">
-        <div className="mb-4 flex items-center justify-between font-mono text-xs text-zinc-400">
+      <div className="mt-6 border-t border-white/[0.08] pt-4">
+        <div className="mb-4 flex items-center justify-between font-mono text-xs text-zinc-300">
           <span className="flex items-center gap-1.5">
-            <BookOpen className="h-3.5 w-3.5" /> {module.lessonCount} Lessons
+            <BookOpen className="h-3.5 w-3.5 text-amber-400" /> {module.lessonCount} Lessons
           </span>
           <span className="flex items-center gap-1.5">
-            <Clock className="h-3.5 w-3.5" /> {module.duration}
+            <Clock className="h-3.5 w-3.5 text-cyan-400" /> {module.duration}
           </span>
         </div>
 
         <Button
           asChild
           variant="outline"
-          className="w-full justify-between border-white/[0.08] bg-white/[0.03] font-mono text-xs text-zinc-200 hover:border-white/[0.2] hover:bg-white/[0.06] hover:text-white"
+          className="w-full justify-between border-amber-500/30 bg-amber-500/10 font-mono text-xs text-amber-300 hover:border-amber-400 hover:bg-amber-500/20 hover:text-white transition-all shadow-[0_0_15px_rgba(255,107,0,0.12)]"
         >
           <Link href="/academy">
             <span>Explore curriculum</span>

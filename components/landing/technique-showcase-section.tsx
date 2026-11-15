@@ -145,55 +145,73 @@ function TechniqueCard({
               transformStyle: "preserve-3d",
             }
       }
-      initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 16 }}
-      whileInView={prefersReduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
+      initial={false}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{
-        duration: prefersReduced ? 0 : 0.35,
-        delay: prefersReduced ? 0 : index * 0.06,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className="group relative flex flex-col justify-between rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#13161C] to-[#0A0C0F] p-6 transition-colors duration-200 hover:border-white/[0.18]"
+      transition={{ duration: 0.4, delay: prefersReduced ? 0 : index * 0.08 }}
+      className={`group relative flex flex-col justify-between rounded-xl border p-6 transition-all duration-300 ${
+        isAmber
+          ? "border-amber-500/30 bg-gradient-to-b from-[#161926] via-[#0F1118] to-[#08090C] hover:border-amber-400/60 hover:shadow-[0_0_30px_rgba(255,107,0,0.2)]"
+          : "border-cyan-500/30 bg-gradient-to-b from-[#101A26] via-[#0B121B] to-[#08090C] hover:border-cyan-400/60 hover:shadow-[0_0_30px_rgba(0,229,255,0.2)]"
+      }`}
     >
       {/* Top Hairline Accent on Card */}
-      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none group-hover:via-white/[0.18]" />
+      <div
+        className={`absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent to-transparent pointer-events-none ${
+          isAmber
+            ? "via-amber-400/50 group-hover:via-amber-400"
+            : "via-cyan-400/50 group-hover:via-cyan-400"
+        }`}
+      />
 
       <div>
         {/* Top Header */}
         <div className="flex items-center justify-between">
           <div
-            className={`flex h-9 w-9 items-center justify-center rounded-lg border ${
+            className={`flex h-10 w-10 items-center justify-center rounded-lg border shadow-sm ${
               isAmber
-                ? "border-ember-500/30 bg-ember-500/[0.07] text-ember-400"
-                : "border-cyan-500/30 bg-cyan-500/[0.07] text-cyan-400"
+                ? "border-amber-500/40 bg-amber-500/10 text-amber-400 shadow-[0_0_12px_rgba(255,107,0,0.25)]"
+                : "border-cyan-500/40 bg-cyan-500/10 text-cyan-400 shadow-[0_0_12px_rgba(0,229,255,0.25)]"
             }`}
           >
-            <Icon className="h-4 w-4" />
+            <Icon className="h-5 w-5" />
           </div>
-          <span className="rounded border border-white/[0.08] bg-[#0E1014] px-2 py-0.5 font-mono text-[10px] text-forge-muted">
+          <span
+            className={`rounded border px-2.5 py-0.5 font-mono text-[10px] font-semibold ${
+              isAmber
+                ? "border-amber-500/30 bg-amber-500/10 text-amber-300"
+                : "border-cyan-500/30 bg-cyan-500/10 text-cyan-300"
+            }`}
+          >
             {item.badge}
           </span>
         </div>
 
         {/* Title & Description */}
-        <h3 className="mt-4 font-mono text-base font-semibold text-forge-text group-hover:text-white">
+        <h3 className="mt-4 font-mono text-base font-bold text-white group-hover:text-amber-300 transition-colors">
           {item.name}
         </h3>
-        <p className="mt-2 text-xs leading-relaxed text-forge-muted">
+        <p className="mt-2 text-xs leading-relaxed text-zinc-400 sm:text-sm">
           {item.description}
         </p>
 
         {/* Formula Math Box */}
-        <div className="mt-4 rounded-md border border-white/[0.06] bg-[#08090C] px-3 py-2 font-mono text-xs">
-          <span className="text-[10px] uppercase text-forge-muted block mb-0.5 tracking-wider">Formalization</span>
-          <span className={isAmber ? "text-ember-400" : "text-cyan-400"}>{item.formula}</span>
+        <div className="mt-4 rounded-md border border-white/[0.08] bg-black/60 px-3 py-2 font-mono text-xs">
+          <span className="text-[10px] uppercase text-zinc-500 block mb-0.5 tracking-wider font-semibold">
+            Formalization
+          </span>
+          <span className={isAmber ? "text-amber-400 font-bold" : "text-cyan-400 font-bold"}>
+            {item.formula}
+          </span>
         </div>
       </div>
 
       {/* Code Snippet Box */}
-      <div className="mt-4 rounded-md border border-white/[0.05] bg-[#08090C] p-2.5 font-mono text-[11px] text-forge-muted">
-        <span className="text-[9px] uppercase tracking-wider text-forge-subtle block mb-1">Pattern In Action</span>
-        <code className="text-forge-text block truncate">{item.exampleSnippet}</code>
+      <div className="mt-4 rounded-md border border-white/[0.06] bg-[#07080B] p-2.5 font-mono text-[11px] text-zinc-300 shadow-inner">
+        <span className="text-[9px] uppercase tracking-wider text-zinc-500 block mb-1">
+          Pattern In Action
+        </span>
+        <code className="text-zinc-200 block truncate">{item.exampleSnippet}</code>
       </div>
     </motion.div>
   );
@@ -203,17 +221,17 @@ export function TechniqueShowcaseSection() {
   const prefersReduced = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden py-20 sm:py-28 bg-forge-950 border-t border-white/[0.06]">
+    <section className="relative overflow-hidden py-20 sm:py-28 bg-[#08090C] border-t border-white/[0.06]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-md border border-white/[0.08] bg-[#101216] px-3 py-1 font-mono text-[11px] font-medium text-cyan-400">
+          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-1 font-mono text-xs font-semibold text-cyan-300 shadow-[0_0_15px_rgba(0,229,255,0.15)]">
             <span>Foundational Heuristics</span>
           </div>
-          <h2 className="mt-4 font-mono text-2xl font-bold tracking-tight text-forge-text sm:text-4xl">
+          <h2 className="mt-4 font-mono text-2xl font-extrabold tracking-tight text-forge-text sm:text-4xl">
             Core Prompting Architectures
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-forge-muted sm:text-base">
+          <p className="mt-3 text-sm leading-relaxed text-zinc-400 sm:text-base">
             Six foundational patterns to elicit deterministic, high-reasoning completions
             without brittle ad-hoc guessing.
           </p>

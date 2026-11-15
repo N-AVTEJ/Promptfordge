@@ -133,7 +133,7 @@ export function PinnedStorySection() {
       ScrollTrigger.create({
         trigger: section,
         start: "top top",
-        end: "+=3200",
+        end: "+=2200",
         pin: pinTarget,
         pinSpacing: true,
         scrub: 0.8,
@@ -304,14 +304,14 @@ export function PinnedStorySection() {
           {/* Centerpiece Layout: Left Visualizer + Right Stage Caption Card */}
           <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
             {/* Visualizer Frame (7 columns) */}
-            <div className="relative flex min-h-[380px] flex-col justify-between overflow-hidden rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#101319] to-[#0A0C0F] p-6 sm:min-h-[440px] lg:col-span-7">
+            <div className="relative flex min-h-[380px] flex-col justify-between overflow-hidden rounded-xl border border-amber-500/30 bg-gradient-to-b from-[#131722] via-[#0E1016] to-[#08090C] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.7)] sm:min-h-[440px] lg:col-span-7 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-amber-400/40 before:to-transparent">
               {/* Top toolbar */}
-              <div className="flex items-center justify-between border-b border-white/[0.06] pb-3 font-mono text-xs">
-                <div className="flex items-center gap-2 text-forge-muted">
-                  <span className="h-1.5 w-1.5 rounded-full bg-ember-500" />
-                  <span>Pipeline state: {activeStage.name}</span>
+              <div className="flex items-center justify-between border-b border-white/[0.08] bg-[#11141B]/80 px-2 pb-3 font-mono text-xs">
+                <div className="flex items-center gap-2 text-zinc-300">
+                  <span className="h-2 w-2 rounded-full bg-ember-500 animate-pulse shadow-[0_0_8px_#ff6b00]" />
+                  <span>Pipeline state: <strong className="text-amber-400">{activeStage.name}</strong></span>
                 </div>
-                <div className="text-[11px] text-forge-muted">
+                <div className="text-[11px] font-mono text-cyan-400">
                   Scrub progress: {Math.round(scrollProgress * 100)}%
                 </div>
               </div>
@@ -700,17 +700,17 @@ export function PinnedStorySection() {
             </div>
 
             {/* Side Caption Card (5 columns) */}
-            <div className="relative flex flex-col justify-between rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#12151B] to-[#0A0C0F] p-6 sm:p-8 lg:col-span-5 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
+            <div className="relative flex flex-col justify-between rounded-xl border border-amber-500/30 bg-gradient-to-b from-[#131722] via-[#0E1016] to-[#08090C] p-6 shadow-[0_20px_50px_rgba(0,0,0,0.7)] sm:p-8 lg:col-span-5 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-amber-400/40 before:to-transparent">
               <div>
                 {/* Stage Badge & Step Indicator */}
                 <div className="flex items-center justify-between">
                   <Badge
                     variant="outline"
-                    className="border-ember-500/30 bg-ember-500/5 font-mono text-xs text-ember-400"
+                    className="border-ember-500/50 bg-ember-500/10 font-mono text-xs text-amber-400 shadow-[0_0_10px_rgba(255,107,0,0.2)]"
                   >
                     {activeStage.badge} · {activeStage.name}
                   </Badge>
-                  <span className="font-mono text-xs text-zinc-500">
+                  <span className="font-mono text-xs text-cyan-400 font-bold">
                     {currentStageIdx + 1} / 5
                   </span>
                 </div>

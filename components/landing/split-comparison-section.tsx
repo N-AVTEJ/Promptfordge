@@ -23,13 +23,14 @@ export function SplitComparisonSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-md border border-white/[0.08] bg-[#101216] px-3 py-1 font-mono text-[11px] font-medium text-ember-400">
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 font-mono text-xs font-semibold text-amber-400 shadow-[0_0_15px_rgba(255,107,0,0.15)]">
+            <FlaskConical className="h-3.5 w-3.5 text-ember-500" />
             <span>Pedagogical Methodology</span>
           </div>
-          <h2 className="mt-4 font-mono text-2xl font-bold tracking-tight text-forge-text sm:text-4xl">
+          <h2 className="mt-4 font-mono text-2xl font-extrabold tracking-tight text-forge-text sm:text-4xl">
             Experiment, Don&apos;t Watch
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-forge-muted sm:text-base">
+          <p className="mt-3 text-sm leading-relaxed text-zinc-400 sm:text-base">
             Video tutorials give an illusion of competence. Only turning knobs on
             temperature, token limits, and delimiter boundaries builds real muscle memory.
           </p>
@@ -40,28 +41,28 @@ export function SplitComparisonSection() {
           {/* LEFT: Watching a video (Passive) */}
           <motion.div
             variants={activeVariant}
-            initial="hidden"
+            initial={false}
             whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            className="relative flex flex-col justify-between rounded-xl border border-white/[0.08] bg-[#0C0E12] p-6 sm:p-7"
+            viewport={{ once: true, margin: "-60px" }}
+            className="relative flex flex-col justify-between rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#111319] to-[#08090C] p-6 sm:p-7 shadow-xl"
           >
             <div>
               {/* Header */}
-              <div className="flex items-center justify-between border-b border-white/[0.06] pb-4">
+              <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-md border border-white/[0.08] bg-[#13151A] text-forge-muted">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-md border border-white/[0.08] bg-[#13151A] text-zinc-400">
                     <Play className="h-3.5 w-3.5" />
                   </div>
                   <div>
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-forge-subtle block">
-                      Passive Spectator Mode
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 block">
+                      Passive spectator mode
                     </span>
-                    <h3 className="font-mono text-base font-semibold text-forge-text">
+                    <h3 className="font-mono text-base font-semibold text-zinc-200">
                       Watching a Video
                     </h3>
                   </div>
                 </div>
-                <span className="rounded border border-red-500/30 bg-red-500/[0.08] px-2 py-0.5 font-mono text-[10px] text-red-400">
+                <span className="rounded border border-red-500/30 bg-red-500/10 px-2 py-0.5 font-mono text-[10px] text-red-400 font-semibold">
                   Passive
                 </span>
               </div>
@@ -117,32 +118,29 @@ export function SplitComparisonSection() {
           {/* RIGHT: Running the experiment (Active Forge) */}
           <motion.div
             variants={activeVariant}
-            initial="hidden"
+            initial={false}
             whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            className="relative flex flex-col justify-between rounded-xl border border-ember-500/35 bg-gradient-to-b from-[#13161D] to-[#0A0C0F] p-6 sm:p-7 shadow-lg"
+            viewport={{ once: true, margin: "-60px" }}
+            className="relative flex flex-col justify-between rounded-xl border border-amber-500/40 bg-gradient-to-b from-[#151926] via-[#0E1119] to-[#08090C] p-6 sm:p-7 shadow-[0_0_35px_rgba(255,107,0,0.18)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-amber-400/50 before:to-transparent"
           >
-            {/* Top Hairline */}
-            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-ember-500/40 to-transparent pointer-events-none" />
-
             <div>
               {/* Header */}
-              <div className="flex items-center justify-between border-b border-white/[0.06] pb-4">
+              <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-md border border-ember-500/30 bg-ember-500/[0.08] text-ember-400">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-md border border-ember-500/40 bg-ember-500/10 text-amber-400 shadow-[0_0_12px_rgba(255,107,0,0.2)]">
                     <FlaskConical className="h-4 w-4" />
                   </div>
                   <div>
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-ember-400 block">
-                      Practitioner Sandbox Mode
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-amber-400 font-semibold block">
+                      Practitioner sandbox mode
                     </span>
-                    <h3 className="font-mono text-base font-semibold text-forge-text">
+                    <h3 className="font-mono text-base font-semibold text-white">
                       Running the Experiment
                     </h3>
                   </div>
                 </div>
-                <span className="rounded border border-cyan-500/30 bg-cyan-500/[0.08] px-2 py-0.5 font-mono text-[10px] text-cyan-400 flex items-center gap-1">
-                  <Zap className="h-2.5 w-2.5" /> Live Lab
+                <span className="rounded border border-cyan-500/40 bg-cyan-500/15 px-2.5 py-0.5 font-mono text-[10px] text-cyan-300 font-bold flex items-center gap-1 shadow-[0_0_10px_rgba(0,229,255,0.2)]">
+                  <Zap className="h-2.5 w-2.5 text-cyan-400 fill-cyan-400" /> Live Lab
                 </span>
               </div>
 

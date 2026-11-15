@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import {
   ShieldCheck,
   Skull,
@@ -11,8 +10,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
-import { fadeUpVariants, fadeUpReducedVariants } from "@/lib/motion";
 
 const RED_ATTACKS = [
   {
@@ -57,10 +54,7 @@ const BLUE_DEFENSES = [
 ];
 
 export function SecurityTeaserSection() {
-  const prefersReduced = useReducedMotion();
   const [isGlitched, setIsGlitched] = useState(false);
-
-  const activeVariant = prefersReduced ? fadeUpReducedVariants : fadeUpVariants;
 
   return (
     <section className="relative overflow-hidden py-20 sm:py-28 bg-[#08090C] border-t border-white/[0.06]">
@@ -95,34 +89,30 @@ export function SecurityTeaserSection() {
         {/* Split Grid */}
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
           {/* RED TEAM: ADVERSARY */}
-          <motion.div
-            variants={activeVariant}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            className={`relative flex flex-col justify-between rounded-xl border p-6 transition-colors duration-200 ${
+          <div
+            className={`relative flex flex-col justify-between rounded-xl border p-6 transition-all duration-300 ${
               isGlitched
-                ? "border-red-500/60 bg-[#12080A]"
-                : "border-red-500/25 bg-[#0C0E12] hover:border-red-500/40"
+                ? "border-red-500 bg-[#1A0A0E] shadow-[0_0_40px_rgba(239,68,68,0.3)]"
+                : "border-red-500/40 bg-gradient-to-b from-[#180C10] via-[#10070A] to-[#08090C] shadow-[0_0_30px_rgba(239,68,68,0.12)] hover:border-red-500/60"
             }`}
           >
             <div>
               {/* Card Header */}
-              <div className="flex items-center justify-between border-b border-red-500/15 pb-4">
+              <div className="flex items-center justify-between border-b border-red-500/20 pb-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-md border border-red-500/30 bg-red-500/[0.08] text-red-400">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-md border border-red-500/40 bg-red-500/10 text-red-400 shadow-[0_0_10px_rgba(239,68,68,0.25)]">
                     <Skull className="h-4 w-4" />
                   </div>
                   <div>
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-red-400 block">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-red-400 font-bold block">
                       Red Team · Offensive Vectors
                     </span>
-                    <h3 className="font-mono text-base font-semibold text-forge-text">
+                    <h3 className="font-mono text-base font-bold text-white">
                       Adversarial Exploitation
                     </h3>
                   </div>
                 </div>
-                <span className="rounded border border-red-500/30 bg-red-500/[0.08] px-2 py-0.5 font-mono text-[10px] text-red-400">
+                <span className="rounded border border-red-500/40 bg-red-500/15 px-2.5 py-0.5 font-mono text-[10px] text-red-300 font-bold">
                   Attack Surface
                 </span>
               </div>
@@ -162,33 +152,29 @@ export function SecurityTeaserSection() {
                 </Link>
               </Button>
             </div>
-          </motion.div>
+          </div>
 
           {/* BLUE TEAM: GUARDIAN */}
-          <motion.div
-            variants={activeVariant}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            className="relative flex flex-col justify-between rounded-xl border border-cyan-500/25 bg-[#0C0E12] p-6 hover:border-cyan-500/40 transition-colors duration-200"
+          <div
+            className="relative flex flex-col justify-between rounded-xl border border-cyan-500/40 bg-gradient-to-b from-[#0C1824] via-[#071018] to-[#08090C] p-6 shadow-[0_0_30px_rgba(0,229,255,0.12)] hover:border-cyan-500/60 transition-all duration-300"
           >
             <div>
               {/* Card Header */}
-              <div className="flex items-center justify-between border-b border-cyan-500/15 pb-4">
+              <div className="flex items-center justify-between border-b border-cyan-500/20 pb-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-md border border-cyan-500/30 bg-cyan-500/[0.08] text-cyan-400">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-md border border-cyan-500/40 bg-cyan-500/10 text-cyan-400 shadow-[0_0_10px_rgba(0,229,255,0.25)]">
                     <ShieldCheck className="h-4 w-4" />
                   </div>
                   <div>
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-cyan-400 block">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-cyan-400 font-bold block">
                       Blue Team · Defense in Depth
                     </span>
-                    <h3 className="font-mono text-base font-semibold text-forge-text">
+                    <h3 className="font-mono text-base font-bold text-white">
                       Hardened Guardrails
                     </h3>
                   </div>
                 </div>
-                <span className="rounded border border-cyan-500/30 bg-cyan-500/[0.08] px-2 py-0.5 font-mono text-[10px] text-cyan-400">
+                <span className="rounded border border-cyan-500/40 bg-cyan-500/15 px-2.5 py-0.5 font-mono text-[10px] text-cyan-300 font-bold">
                   Zero Trust
                 </span>
               </div>
@@ -228,7 +214,7 @@ export function SecurityTeaserSection() {
                 </Link>
               </Button>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
