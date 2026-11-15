@@ -1030,7 +1030,7 @@ export function LlmSimulatorLab() {
                     y1="80"
                     x2="1000"
                     y2="80"
-                    stroke="#334155"
+                    stroke="var(--forge-border)"
                     strokeWidth="1"
                     strokeDasharray="4 4"
                   />
@@ -1050,7 +1050,7 @@ export function LlmSimulatorLab() {
                       <path
                         d={pathD}
                         fill="none"
-                        stroke="#06b6d4"
+                        stroke="var(--teal)"
                         strokeWidth="2.5"
                         className="opacity-90"
                       />
@@ -1073,7 +1073,7 @@ export function LlmSimulatorLab() {
                           y1="80"
                           x2={x}
                           y2={y}
-                          stroke="#06b6d4"
+                          stroke="var(--teal)"
                           strokeWidth="1.5"
                           strokeDasharray="2 2"
                           opacity="0.6"
@@ -1082,15 +1082,15 @@ export function LlmSimulatorLab() {
                           cx={x}
                           cy={y}
                           r="5"
-                          fill="#f97316"
-                          stroke="#ffffff"
+                          fill="var(--coral)"
+                          stroke="var(--forge-surface)"
                           strokeWidth="1.5"
                         />
                         <text
                           x={x}
                           y={y > 80 ? y + 16 : y - 10}
                           textAnchor="middle"
-                          fill="#e2e8f0"
+                          fill="var(--indigo)"
                           fontSize="10"
                           fontFamily="monospace"
                         >
@@ -1254,16 +1254,16 @@ export function LlmSimulatorLab() {
                 >
                   <defs>
                     <linearGradient id="beamGradientEmber" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#f97316" stopOpacity="0.9" />
-                      <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.9" />
+                      <stop offset="0%" stopColor="var(--coral)" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="var(--teal)" stopOpacity="0.9" />
                     </linearGradient>
                     <linearGradient id="beamGradientPurple" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#a855f7" stopOpacity="0.9" />
-                      <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.9" />
+                      <stop offset="0%" stopColor="var(--violet)" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="var(--teal)" stopOpacity="0.9" />
                     </linearGradient>
                     <linearGradient id="beamGradientEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#10b981" stopOpacity="0.9" />
-                      <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.9" />
+                      <stop offset="0%" stopColor="var(--teal)" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="var(--butter)" stopOpacity="0.9" />
                     </linearGradient>
                   </defs>
 
@@ -1363,7 +1363,7 @@ export function LlmSimulatorLab() {
                             cy={y}
                             r="16"
                             fill="none"
-                            stroke="#f97316"
+                            stroke="var(--coral)"
                             strokeWidth="2"
                             strokeDasharray="4 2"
                             className="animate-spin opacity-80"
@@ -1376,7 +1376,7 @@ export function LlmSimulatorLab() {
                           cy={y}
                           r={nodeRadius}
                           fill={isQuery ? "var(--coral)" : "var(--indigo)"}
-                          stroke={isQuery ? "#ffffff" : weight > 0.15 ? "var(--teal)" : "var(--forge-border)"}
+                          stroke={isQuery ? "var(--forge-surface)" : weight > 0.15 ? "var(--teal)" : "var(--forge-border)"}
                           strokeWidth="2"
                           className="transition-all duration-300 group-hover:scale-125"
                         />
@@ -1386,7 +1386,7 @@ export function LlmSimulatorLab() {
                           x={x}
                           y={y - 20}
                           textAnchor="middle"
-                          fill={isQuery ? "#f97316" : "#f1f5f9"}
+                          fill={isQuery ? "var(--coral)" : "var(--indigo)"}
                           fontSize="11"
                           fontWeight={isQuery ? "bold" : "600"}
                           fontFamily="monospace"
@@ -1399,7 +1399,7 @@ export function LlmSimulatorLab() {
                           x={x}
                           y={y + 24}
                           textAnchor="middle"
-                          fill={isQuery ? "#f97316" : "#06b6d4"}
+                          fill={isQuery ? "var(--coral)" : "var(--teal)"}
                           fontSize="9"
                           fontFamily="monospace"
                           fontWeight="bold"
