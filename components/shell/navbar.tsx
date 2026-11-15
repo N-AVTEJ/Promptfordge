@@ -15,6 +15,7 @@ export interface NavItem {
 }
 
 export const NAV_ITEMS: NavItem[] = [
+  { label: "Dashboard", href: "/dashboard", phase: "Telemetry" },
   { label: "Academy", href: "/academy", phase: "Curriculum" },
   { label: "Labs", href: "/labs", phase: "Interactive" },
   { label: "Workflow", href: "/workflow", phase: "Studio" },
