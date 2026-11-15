@@ -871,17 +871,17 @@ export function LlmSimulatorLab() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
                 {/* Token A Selector */}
-                <div className="flex items-center gap-2 bg-forge-black/60 rounded-lg p-2 border border-forge-border">
-                  <span className="text-[10px] font-mono text-forge-muted uppercase">
+                <div className="flex items-center gap-2 bg-cream/60 rounded-xl p-2.5 border border-indigo/10">
+                  <span className="text-[10px] font-mono text-indigo/60 uppercase">
                     Token A:
                   </span>
                   <select
                     value={selectedTokenA}
                     onChange={(e) => setSelectedTokenA(parseInt(e.target.value, 10))}
-                    className="bg-transparent font-mono text-xs text-forge-text focus:outline-none flex-1"
+                    className="bg-transparent font-mono text-xs text-indigo focus:outline-none flex-1"
                   >
                     {tokens.map((t) => (
-                      <option key={t.index} value={t.index} className="bg-forge-black text-forge-text">
+                      <option key={t.index} value={t.index} className="bg-cream text-indigo">
                         #{t.index}: &quot;{t.cleanText}&quot;
                       </option>
                     ))}
@@ -889,17 +889,17 @@ export function LlmSimulatorLab() {
                 </div>
 
                 {/* Token B Selector */}
-                <div className="flex items-center gap-2 bg-forge-black/60 rounded-lg p-2 border border-forge-border">
-                  <span className="text-[10px] font-mono text-forge-muted uppercase">
+                <div className="flex items-center gap-2 bg-cream/60 rounded-xl p-2.5 border border-indigo/10">
+                  <span className="text-[10px] font-mono text-indigo/60 uppercase">
                     Token B:
                   </span>
                   <select
                     value={selectedTokenB}
                     onChange={(e) => setSelectedTokenB(parseInt(e.target.value, 10))}
-                    className="bg-transparent font-mono text-xs text-forge-text focus:outline-none flex-1"
+                    className="bg-transparent font-mono text-xs text-indigo focus:outline-none flex-1"
                   >
                     {tokens.map((t) => (
-                      <option key={t.index} value={t.index} className="bg-forge-black text-forge-text">
+                      <option key={t.index} value={t.index} className="bg-cream text-indigo">
                         #{t.index}: &quot;{t.cleanText}&quot;
                       </option>
                     ))}
@@ -907,11 +907,11 @@ export function LlmSimulatorLab() {
                 </div>
 
                 {/* Mathematical Result */}
-                <div className="flex items-center justify-between bg-forge-black/80 rounded-lg p-2.5 border border-purple-500/40">
-                  <div className="text-[11px] font-mono text-forge-muted">
-                    Dot: <span className="text-forge-text">{embeddingSimilarity.dot}</span>
+                <div className="flex items-center justify-between bg-lavender/40 rounded-xl p-3 border border-violet/20">
+                  <div className="text-[11px] font-mono text-indigo/70">
+                    Dot: <span className="text-indigo font-bold">{embeddingSimilarity.dot}</span>
                   </div>
-                  <div className="font-mono text-sm font-bold text-cyan-300">
+                  <div className="font-mono text-sm font-bold text-violet">
                     Similarity: {(embeddingSimilarity.cosine * 100).toFixed(1)}%
                   </div>
                 </div>
@@ -924,7 +924,7 @@ export function LlmSimulatorLab() {
                 {embeddings.map((emb) => (
                   <div
                     key={emb.token.index}
-                    className="flex items-center gap-3 rounded-lg border border-forge-border/60 bg-forge-black/50 p-2.5"
+                    className="flex items-center gap-3 rounded-xl border border-indigo/10 bg-cream/50 p-2.5"
                   >
                     <div className="w-24 shrink-0 font-mono text-xs">
                       <span className="font-bold text-forge-text truncate block">
