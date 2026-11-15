@@ -34,7 +34,7 @@ export default function LibraryError({
           </button>
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-[#14171E] px-4 py-2 text-xs font-medium text-white hover:bg-[#1A1E27]"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-coral px-4 py-2 text-xs font-bold text-white hover:bg-coral-600 shadow-card"
           >
             <Home className="h-4 w-4" />
             <span>Dashboard</span>

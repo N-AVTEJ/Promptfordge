@@ -47,7 +47,7 @@ export default function RootError({
         </button>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-lg border border-white/[0.1] bg-[#14171E] px-4 py-2 text-xs font-medium text-forge-text hover:text-white"
+          className="inline-flex items-center gap-2 rounded-lg bg-coral px-4 py-2 text-xs font-bold text-white hover:bg-coral-600 shadow-card"
         >
           <Home className="h-4 w-4 text-forge-muted" />
           <span>Return Home</span>

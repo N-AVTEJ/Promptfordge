@@ -1245,7 +1245,7 @@ export function LlmSimulatorLab() {
                 </span>
               </div>
 
-              <div className="relative rounded-xl border border-white/[0.08] bg-[#0A0C0F] p-4 overflow-hidden">
+              <div className="relative rounded-xl border border-indigo-950/10 bg-white p-4 shadow-card overflow-hidden">
                 {/* SVG Routing Arcs Canvas */}
                 <svg
                   viewBox="0 0 1000 280"
@@ -1375,8 +1375,8 @@ export function LlmSimulatorLab() {
                           cx={x}
                           cy={y}
                           r={nodeRadius}
-                          fill={isQuery ? "#f97316" : "#0f172a"}
-                          stroke={isQuery ? "#ffffff" : weight > 0.15 ? "#06b6d4" : "#475569"}
+                          fill={isQuery ? "var(--coral)" : "var(--indigo)"}
+                          stroke={isQuery ? "#ffffff" : weight > 0.15 ? "var(--teal)" : "var(--forge-border)"}
                           strokeWidth="2"
                           className="transition-all duration-300 group-hover:scale-125"
                         />

@@ -543,7 +543,7 @@ export function PromptPlayground({
           {/* Result Card */}
           <Card
             className={cn(
-              "relative flex flex-col border border-white/[0.08] bg-gradient-to-b from-[#11141A] to-[#0A0C0F]",
+              "relative flex flex-col border border-indigo-950/10 bg-white shadow-card",
               compact ? "min-h-[280px]" : "min-h-[460px]"
             )}
           >

@@ -816,10 +816,10 @@ export function LibraryView() {
                         type="monotone"
                         dataKey="value"
                         name={selectedMetric}
-                        stroke="#00E5FF"
+                        stroke="#12B5A6"
                         strokeWidth={2}
-                        dot={{ r: 4, fill: "#FF7A1A", stroke: "#07080B", strokeWidth: 1.5 }}
-                        activeDot={{ r: 6, fill: "#00E5FF" }}
+                        dot={{ r: 4, fill: "#FF6B4A", stroke: "#FFFFFF", strokeWidth: 1.5 }}
+                        activeDot={{ r: 6, fill: "#12B5A6" }}
                       />
                     </LineChart>
                   </ResponsiveContainer>
