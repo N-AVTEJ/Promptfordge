@@ -86,7 +86,7 @@ export interface ProgressData {
 }
 
 export interface UserSettings {
-  theme: "forge-dark";
+  theme: "forge-light" | "forge-dark";
   enableSound: boolean;
   reducedMotionManualOverride?: boolean;
 }
@@ -129,7 +129,7 @@ export const STORAGE_DEFAULTS: StorageSchema = {
     lastActiveTimestamp: 0,
   },
   [STORAGE_KEYS.SETTINGS]: {
-    theme: "forge-dark",
+    theme: "forge-light",
     enableSound: true,
   },
   [STORAGE_KEYS.LAB_DRAFTS]: {},

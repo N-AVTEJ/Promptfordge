@@ -75,50 +75,50 @@ export function RedVsBlueChallenge() {
   return (
     <div className="space-y-6">
       {/* Target Mission Briefing Banner */}
-      <div className="rounded-lg border border-cyan-500/30 bg-gradient-to-r from-[#0C1017] via-[#0E0F14] to-[#140E10] p-4 shadow-sm">
+      <div className="rounded-2xl border border-indigo/10 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-cyan-400" />
-              <span className="font-mono text-sm font-extrabold uppercase tracking-wider text-cyan-300">
+              <Shield className="h-5 w-5 text-teal" />
+              <span className="font-mono text-sm font-extrabold uppercase tracking-wider text-teal-700">
                 BLUE TEAM OBJECTIVE // FORTIFY THE SECRET TOKEN
               </span>
             </div>
-            <p className="text-xs text-forge-muted leading-relaxed">
+            <p className="text-xs text-indigo/70 leading-relaxed">
               Your mission: Author a defense system prompt that protects the secret flag below against our fixed battery of 8 adversarial prompt injection attacks.
             </p>
           </div>
 
           {bestScore && (
-            <div className="flex items-center gap-2 rounded border border-cyan-500/40 bg-cyan-950/30 px-3 py-1.5 font-mono text-xs text-cyan-300">
-              <Trophy className="h-4 w-4 text-amber-400" />
+            <div className="flex items-center gap-2 rounded-xl border border-coral/40 bg-coral/10 px-3 py-1.5 font-mono text-xs text-coral font-bold">
+              <Trophy className="h-4 w-4 text-coral" />
               <span>RECORD SCORE:</span>
-              <span className="font-bold text-sm text-cyan-200">{bestScore}</span>
+              <span className="font-bold text-sm text-coral">{bestScore}</span>
             </div>
           )}
         </div>
 
         {/* Highlighted Flag Box */}
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded border border-white/[0.08] bg-black/70 p-2.5 font-mono text-xs">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-indigo/10 bg-cream/60 p-3 font-mono text-xs">
           <div className="flex items-center gap-2">
-            <span className="text-forge-muted uppercase text-[10px]">
+            <span className="text-indigo/60 uppercase text-[10px] font-semibold">
               PROTECTED SECRET FLAG:
             </span>
-            <code className="text-cyan-300 font-bold tracking-wider">
+            <code className="text-teal-700 font-bold tracking-wider">
               {RED_VS_BLUE_TARGET_FLAG}
             </code>
           </div>
-          <span className="text-[10px] text-forge-subtle">
+          <span className="text-[10px] text-indigo/40">
             SAFE EDUCATIONAL TARGET // ZERO REAL SECRETS
           </span>
         </div>
       </div>
 
       {/* Defense Authoring Console */}
-      <div className="rounded-lg border border-cyan-500/30 bg-[#0E0F14] p-4 shadow-md space-y-4">
+      <div className="rounded-2xl border border-indigo/10 bg-white p-6 shadow-sm space-y-4">
         {/* Templates Picker */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] pb-3">
-          <span className="font-mono text-xs font-semibold text-forge-muted">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-indigo/10 pb-3">
+          <span className="font-mono text-xs font-semibold text-indigo/70">
             STARTER DEFENSE TEMPLATES:
           </span>
           <div className="flex flex-wrap gap-2">
@@ -127,7 +127,7 @@ export function RedVsBlueChallenge() {
                 key={idx}
                 type="button"
                 onClick={() => handleSelectTemplate(tmpl.prompt)}
-                className="rounded border border-white/[0.08] bg-black/40 px-2.5 py-1 font-mono text-xs text-forge-muted hover:border-cyan-500/40 hover:text-cyan-300 transition-colors"
+                className="rounded-lg border border-indigo/10 bg-cream px-2.5 py-1 font-mono text-xs text-indigo/70 hover:border-coral/40 hover:text-indigo transition-colors"
               >
                 {tmpl.name}
               </button>
@@ -139,13 +139,13 @@ export function RedVsBlueChallenge() {
         <div>
           <label
             htmlFor="defense-prompt"
-            className="mb-1.5 flex items-center justify-between font-mono text-xs text-forge-muted"
+            className="mb-1.5 flex items-center justify-between font-mono text-xs text-indigo/70"
           >
-            <span className="flex items-center gap-1.5 text-cyan-300">
+            <span className="flex items-center gap-1.5 text-teal-700">
               <Terminal className="h-3.5 w-3.5" />
               YOUR BLUE TEAM SYSTEM PROMPT DEFENSE:
             </span>
-            <span className="text-[10px] text-forge-subtle">
+            <span className="text-[10px] text-indigo/40">
               {defensePrompt.length} / 4000 chars
             </span>
           </label>
@@ -155,7 +155,7 @@ export function RedVsBlueChallenge() {
             value={defensePrompt}
             onChange={(e) => setDefensePrompt(e.target.value)}
             placeholder="Define your system directives, instruction hierarchies, delimiters, and refusal rules..."
-            className="w-full resize-none rounded-md border border-cyan-500/30 bg-black/70 p-3 font-mono text-xs text-forge-text focus:border-cyan-400 focus:outline-none leading-relaxed"
+            className="w-full resize-none rounded-xl border border-indigo/15 bg-cream/50 p-3 font-mono text-xs text-indigo focus:border-coral focus:outline-none leading-relaxed"
           />
         </div>
 
@@ -352,21 +352,21 @@ export function RedVsBlueChallenge() {
 
                   {/* Expanded Details: Payload & Output */}
                   {isExpanded && (
-                    <div className="mt-3 pt-3 border-t border-white/[0.06] space-y-2.5 font-mono text-xs">
+                    <div className="mt-3 pt-3 border-t border-indigo/10 space-y-2.5 font-mono text-xs">
                       <div>
-                        <span className="text-[10px] text-red-400 uppercase block mb-1">
+                        <span className="text-[10px] text-coral uppercase block mb-1 font-semibold">
                           Adversarial Test Payload:
                         </span>
-                        <pre className="whitespace-pre-wrap rounded bg-black/60 p-2 text-[11px] text-red-200/90 border border-white/[0.05]">
+                        <pre className="whitespace-pre-wrap rounded-xl bg-cream/70 p-2.5 text-[11px] text-coral border border-coral/20">
                           {atk.payload}
                         </pre>
                       </div>
 
                       <div>
-                        <span className="text-[10px] text-cyan-400 uppercase block mb-1">
+                        <span className="text-[10px] text-teal-700 uppercase block mb-1 font-semibold">
                           Model Output Response:
                         </span>
-                        <pre className="whitespace-pre-wrap rounded bg-black/80 p-2 text-[11px] text-forge-text border border-white/[0.05]">
+                        <pre className="whitespace-pre-wrap rounded-xl bg-cream/70 p-2.5 text-[11px] text-indigo border border-indigo/10">
                           {atk.modelOutput}
                         </pre>
                       </div>
@@ -381,24 +381,24 @@ export function RedVsBlueChallenge() {
 
       {/* Default State: Preview all 8 attack vectors if no battery has been run yet */}
       {!result && (
-        <div className="space-y-3">
-          <span className="font-mono text-xs font-bold uppercase tracking-wider text-forge-muted block">
+        <div className="space-y-4">
+          <span className="font-mono text-xs font-bold uppercase tracking-wider text-indigo block">
             PREVIEW: 8 ADVERSARIAL ATTACK VECTORS IN THE BATTERY
           </span>
-          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4 font-mono text-xs">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 font-mono text-xs">
             {STORED_ATTACKS.map((atk) => (
               <div
                 key={atk.id}
-                className="rounded border border-white/[0.06] bg-[#0C0E12] p-3 space-y-1"
+                className="rounded-xl border border-indigo/10 bg-white p-4 space-y-1.5 shadow-sm"
               >
-                <div className="flex items-center justify-between text-[10px] text-forge-muted">
+                <div className="flex items-center justify-between text-[10px] text-indigo/60">
                   <span>VECTOR #{atk.index}</span>
-                  <span className="text-red-400/80">{atk.category}</span>
+                  <span className="text-coral font-bold">{atk.category}</span>
                 </div>
-                <div className="font-bold text-forge-text text-[11px]">
+                <div className="font-bold text-indigo text-[11px]">
                   {atk.name}
                 </div>
-                <p className="text-[10px] text-forge-subtle line-clamp-2">
+                <p className="text-[10px] text-indigo/60 line-clamp-2">
                   {atk.payload}
                 </p>
               </div>

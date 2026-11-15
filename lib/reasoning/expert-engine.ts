@@ -267,10 +267,10 @@ const EXPERT_KNOWLEDGE_MATRIX: Record<
       },
     },
     "sre-lead": {
-      response: `### 1. Blast Radius & Dark Launch Strategy
-- **Strangler Fig Pattern with Canary Routing**: Route 1% of transactions through the new event-driven service while the monolith processes the remaining 99%. Compare ledger results in dark-mode shadow verification.
+      response: `### 1. Blast Radius & Canary Launch Strategy
+- **Strangler Fig Pattern with Canary Routing**: Route 1% of transactions through the new event-driven service while the monolith processes the remaining 99%. Compare ledger results in parallel shadow verification.
 - **Dead Letter Queue (DLQ) & Poison Pill Handling**: Every event consumer must route malformed or failing payloads to a dedicated DLQ after 3 retries with exponential backoff. An unhandled exception must never halt partition consumption.
-- **Instant Kill Switch / Revert Flag**: Maintain a zero-downtime feature flag in Consul/LaunchDarkly that can revert 100% of routing back to the monolith in < 5 seconds without restarting services.`,
+- **Instant Kill Switch / Revert Flag**: Maintain a zero-downtime feature flag in Consul that can revert 100% of routing back to the monolith in < 5 seconds without restarting services.`,
       keyTakeaway:
         "Execute Strangler Fig pattern with shadow canary routing; implement 5-second kill switches and non-blocking DLQs.",
       scores: {

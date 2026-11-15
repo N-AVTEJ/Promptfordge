@@ -17,7 +17,6 @@ export function ScrollTriggerTest() {
   const [isActive, setIsActive] = useState<boolean>(false);
 
   useEffect(() => {
-    // If reduced motion is preferred, initialize statically without GSAP triggers
     if (prefersReduced) {
       setFireCount(1);
       setIsActive(true);
@@ -28,18 +27,16 @@ export function ScrollTriggerTest() {
     const bar = barRef.current;
     if (!element) return;
 
-    // Use gsap.context for scoped animations and clean unmounting
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: element,
         start: "top 80%",
-        once: true, // Verification check: must fire exactly once, never double-tick
+        once: true,
         onEnter: () => {
           setFireCount((prev) => prev + 1);
           setIsActive(true);
 
           if (bar) {
-            // Animate only transform and opacity: zero layout thrashing, 60fps compliant
             gsap.fromTo(
               bar,
               { scaleX: 0, opacity: 0, transformOrigin: "left center" },
@@ -56,7 +53,6 @@ export function ScrollTriggerTest() {
     }, element);
 
     return () => {
-      // Clean up GSAP context and kill all triggers created inside
       ctx.revert();
     };
   }, [prefersReduced]);
@@ -65,32 +61,31 @@ export function ScrollTriggerTest() {
     <div
       ref={triggerRef}
       id="scroll-trigger-verifier"
-      className="relative rounded-2xl border border-forge-border bg-forge-surface p-6 shadow-forge transition-all sm:p-8"
+      className="relative rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card transition-all"
     >
-      <div className="flex flex-col justify-between gap-4 border-b border-forge-border pb-5 sm:flex-row sm:items-center">
+      <div className="flex flex-col justify-between gap-4 border-b border-indigo-950/10 pb-5 sm:flex-row sm:items-center">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-400">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-teal/30 bg-teal/10 text-teal">
             <Gauge className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="font-mono text-base font-semibold text-forge-text">
+            <h3 className="font-sans text-base font-bold text-indigo">
               GSAP ScrollTrigger Sync Telemetry
             </h3>
-            <p className="font-mono text-xs text-forge-muted">
+            <p className="font-mono text-xs text-indigo-900/60">
               Lenis Smooth Scroll + GSAP Single-RAF Integration Test
             </p>
           </div>
         </div>
 
-        {/* Verification Status Pill */}
         <div
           data-testid="scrolltrigger-status-pill"
           className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 font-mono text-xs transition-colors ${
             fireCount === 1
-              ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
+              ? "border-teal/30 bg-teal/10 text-teal"
               : fireCount > 1
-                ? "border-rose-500/30 bg-rose-500/10 text-rose-400"
-                : "border-forge-border bg-forge-elevated text-forge-muted"
+                ? "border-rose-300 bg-rose-50 text-rose-700"
+                : "border-indigo-950/10 bg-cream text-indigo-900/60"
           }`}
         >
           {fireCount === 1 ? (
@@ -107,18 +102,17 @@ export function ScrollTriggerTest() {
       </div>
 
       <div className="mt-6 space-y-4">
-        <div className="flex items-center justify-between font-mono text-xs text-forge-muted">
+        <div className="flex items-center justify-between font-mono text-xs text-indigo-900/60">
           <span>Scroll-Driven Forge Igniter</span>
-          <span className="font-semibold text-cyan-400">
+          <span className="font-semibold text-teal">
             {isActive ? "CALIBRATED & SYNCHRONIZED" : "STANDBY"}
           </span>
         </div>
 
-        {/* Visual Progress Bar animated by ScrollTrigger (transform only) */}
-        <div className="h-2 w-full overflow-hidden rounded-full border border-forge-border bg-forge-950">
+        <div className="h-2 w-full overflow-hidden rounded-full border border-indigo-950/10 bg-cream">
           <div
             ref={barRef}
-            className="h-full w-full origin-left rounded-full bg-gradient-to-r from-ember-500 via-amber-400 to-cyan-400 shadow-[0_0_12px_rgba(255,107,0,0.5)]"
+            className="h-full w-full origin-left rounded-full bg-coral"
             style={{
               transform: isActive && prefersReduced ? "scaleX(1)" : "scaleX(0)",
               opacity: isActive && prefersReduced ? 1 : 0,
@@ -127,30 +121,30 @@ export function ScrollTriggerTest() {
         </div>
 
         <div className="grid grid-cols-1 gap-3 pt-2 font-mono text-xs sm:grid-cols-3">
-          <div className="rounded-lg border border-forge-border bg-forge-elevated p-3">
-            <span className="block text-[10px] text-forge-subtle">TICKER</span>
-            <span className="font-medium text-forge-text">
+          <div className="rounded-xl border border-indigo-950/10 bg-cream p-3">
+            <span className="block text-[10px] text-indigo-900/50">TICKER</span>
+            <span className="font-bold text-indigo">
               gsap.ticker (Single RAF)
             </span>
           </div>
-          <div className="rounded-lg border border-forge-border bg-forge-elevated p-3">
-            <span className="block text-[10px] text-forge-subtle">
+          <div className="rounded-xl border border-indigo-950/10 bg-cream p-3">
+            <span className="block text-[10px] text-indigo-900/50">
               LAG SMOOTHING
             </span>
-            <span className="font-medium text-forge-text">
+            <span className="font-bold text-indigo">
               0 (Zero Stutter)
             </span>
           </div>
-          <div className="rounded-lg border border-forge-border bg-forge-elevated p-3">
-            <span className="block text-[10px] text-forge-subtle">
+          <div className="rounded-xl border border-indigo-950/10 bg-cream p-3">
+            <span className="block text-[10px] text-indigo-900/50">
               TRIGGER COUNT
             </span>
             <span
               data-testid="scrolltrigger-count"
               className={
                 fireCount === 1
-                  ? "font-bold text-emerald-400"
-                  : "font-bold text-amber-400"
+                  ? "font-bold text-teal"
+                  : "font-bold text-coral"
               }
             >
               {fireCount} / 1 required

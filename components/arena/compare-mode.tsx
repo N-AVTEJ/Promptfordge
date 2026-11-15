@@ -72,11 +72,11 @@ export function CompareMode() {
   return (
     <div className="space-y-6">
       {/* Scenario Selector & Techniques Bar */}
-      <div className="rounded-lg border border-white/[0.08] bg-[#0C0E12] p-4 shadow-sm space-y-3">
+      <div className="rounded-2xl border border-indigo/10 bg-white p-6 shadow-sm space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <Layers className="h-4 w-4 text-cyan-400" />
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-forge-text">
+            <Layers className="h-4 w-4 text-violet" />
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-indigo">
               DEFENSE TECHNIQUE COMPARISONS
             </span>
           </div>
@@ -89,10 +89,10 @@ export function CompareMode() {
                   key={sc.id}
                   type="button"
                   onClick={() => handleSelectScenario(sc)}
-                  className={`rounded px-3 py-1.5 font-mono text-xs transition-all ${
+                  className={`rounded-lg px-3 py-1.5 font-mono text-xs transition-all ${
                     isSelected
-                      ? "border border-cyan-500/60 bg-cyan-950/40 text-cyan-200 shadow-sm"
-                      : "border border-white/[0.06] bg-black/40 text-forge-muted hover:border-white/20 hover:text-white"
+                      ? "border border-coral bg-coral/10 text-coral font-bold shadow-sm"
+                      : "border border-indigo/10 bg-cream text-indigo/70 hover:border-indigo/30 hover:text-indigo"
                   }`}
                 >
                   {sc.defenseTechniqueName}
@@ -103,8 +103,8 @@ export function CompareMode() {
         </div>
 
         {/* Defense Technique Description Pill */}
-        <div className="flex items-center gap-2 rounded bg-black/50 p-2.5 font-mono text-xs text-forge-muted border border-white/[0.05]">
-          <span className="font-bold text-cyan-400">
+        <div className="flex items-center gap-2 rounded-lg bg-lavender/40 p-2.5 font-mono text-xs text-indigo/80 border border-violet/10">
+          <span className="font-bold text-violet">
             NAMED DEFENSE: {currentScenario.defenseTechniqueName}
           </span>
           <span>—</span>
@@ -113,16 +113,16 @@ export function CompareMode() {
       </div>
 
       {/* Shared Adversarial Payload Input Bar */}
-      <div className="rounded-lg border border-white/[0.08] bg-[#0E0F14] p-4 space-y-3 shadow-md">
+      <div className="rounded-2xl border border-indigo/10 bg-white p-6 space-y-3 shadow-sm">
         <label
           htmlFor="compare-attack"
-          className="flex items-center justify-between font-mono text-xs font-semibold text-forge-muted"
+          className="flex items-center justify-between font-mono text-xs font-semibold text-indigo/80"
         >
-          <span className="flex items-center gap-1.5 text-red-400">
+          <span className="flex items-center gap-1.5 text-coral">
             <Flame className="h-3.5 w-3.5" />
             ADVERSARIAL ATTACK PAYLOAD (RUN SIMULTANEOUSLY AGAINST BOTH TARGETS):
           </span>
-          <span className="text-[10px] text-forge-subtle">
+          <span className="text-[10px] text-indigo/50">
             {customAttack.length} chars
           </span>
         </label>
@@ -132,7 +132,7 @@ export function CompareMode() {
           rows={3}
           value={customAttack}
           onChange={(e) => setCustomAttack(e.target.value)}
-          className="w-full resize-none rounded-md border border-white/[0.1] bg-black/70 p-3 font-mono text-xs text-forge-text focus:border-cyan-400 focus:outline-none"
+          className="w-full resize-none rounded-xl border border-indigo/15 bg-cream/50 p-3 font-mono text-xs text-indigo focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral"
         />
 
         <div className="flex justify-end">
@@ -140,7 +140,7 @@ export function CompareMode() {
             type="button"
             onClick={handleExecuteCompare}
             disabled={isRunning || !customAttack.trim()}
-            className="flex items-center gap-2 rounded-md bg-gradient-to-r from-red-600 via-purple-600 to-cyan-500 px-5 py-2 font-mono text-xs font-bold uppercase tracking-wider text-white shadow-md hover:opacity-90 disabled:opacity-50 transition-all"
+            className="flex items-center gap-2 rounded-xl bg-coral px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white shadow hover:bg-coral-hover disabled:opacity-50 transition-all"
           >
             {isRunning ? (
               <>
@@ -168,30 +168,30 @@ export function CompareMode() {
       {/* Side-by-Side Dual Pane: Vulnerable (Red) vs Defended (Cyan) */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Left: Vulnerable Prompt */}
-        <div className="flex flex-col rounded-lg border border-red-500/40 bg-[#0E0F14] shadow-md">
-          <div className="flex items-center justify-between border-b border-red-500/20 bg-red-950/20 px-4 py-3">
+        <div className="flex flex-col rounded-2xl border border-coral/30 bg-white shadow-sm overflow-hidden">
+          <div className="flex items-center justify-between border-b border-coral/20 bg-coral/10 px-5 py-3">
             <div className="flex items-center gap-2">
-              <ShieldAlert className="h-4 w-4 text-red-400" />
-              <span className="font-mono text-xs font-bold uppercase tracking-wider text-red-400">
+              <ShieldAlert className="h-4 w-4 text-coral" />
+              <span className="font-mono text-xs font-bold uppercase tracking-wider text-coral">
                 VULNERABLE ARCHITECTURE (NO DEFENSE)
               </span>
             </div>
             {result && (
               <span
-                className={`inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[10px] font-bold ${
+                className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[10px] font-bold ${
                   result.vulnerableBreached
-                    ? "bg-red-500/20 text-red-300"
-                    : "bg-emerald-500/20 text-emerald-300"
+                    ? "bg-coral/20 text-coral"
+                    : "bg-teal/20 text-teal-700"
                 }`}
               >
                 {result.vulnerableBreached ? (
                   <>
-                    <XCircle className="h-3 w-3 text-red-400" />
+                    <XCircle className="h-3 w-3 text-coral" />
                     FLAG COMPROMISED
                   </>
                 ) : (
                   <>
-                    <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                    <CheckCircle2 className="h-3 w-3 text-teal-600" />
                     HELD
                   </>
                 )}
@@ -199,34 +199,34 @@ export function CompareMode() {
             )}
           </div>
 
-          <div className="flex-1 p-4 space-y-3 font-mono text-xs">
+          <div className="flex-1 p-5 space-y-4 font-mono text-xs">
             <div>
-              <span className="text-[10px] text-forge-muted block mb-1 uppercase">
+              <span className="text-[10px] text-indigo/60 block mb-1 uppercase font-semibold">
                 System Prompt Specification:
               </span>
-              <pre className="max-h-36 overflow-y-auto whitespace-pre-wrap rounded border border-white/[0.06] bg-black/60 p-2.5 text-[11px] text-red-200/80">
+              <pre className="max-h-36 overflow-y-auto whitespace-pre-wrap rounded-xl border border-indigo/10 bg-cream/70 p-3 text-[11px] text-coral/90">
                 {currentScenario.vulnerableSystem}
               </pre>
             </div>
 
             <div>
-              <span className="text-[10px] text-forge-muted block mb-1 uppercase">
+              <span className="text-[10px] text-indigo/60 block mb-1 uppercase font-semibold">
                 Execution Response Stream:
               </span>
-              <div className="min-h-24 rounded border border-red-500/20 bg-black/80 p-3 text-[11px] text-forge-text">
+              <div className="min-h-24 rounded-xl border border-coral/20 bg-cream/50 p-3 text-[11px] text-indigo">
                 {result ? (
                   <pre className="whitespace-pre-wrap leading-relaxed">
                     {result.vulnerableOutput}
                   </pre>
                 ) : (
-                  <span className="italic text-forge-subtle">
+                  <span className="italic text-indigo/40">
                     Run comparison to inspect vulnerable model completion...
                   </span>
                 )}
               </div>
             </div>
 
-            <div className="rounded bg-red-950/20 p-2.5 border border-red-500/20 text-[11px] text-red-300/90">
+            <div className="rounded-xl bg-coral/10 p-3 border border-coral/20 text-[11px] text-coral">
               <span className="font-bold">Vulnerability Root Cause: </span>
               {currentScenario.vulnerabilityExplanation}
             </div>
@@ -234,30 +234,30 @@ export function CompareMode() {
         </div>
 
         {/* Right: Defended Prompt */}
-        <div className="flex flex-col rounded-lg border border-cyan-500/40 bg-[#0E0F14] shadow-md">
-          <div className="flex items-center justify-between border-b border-cyan-500/20 bg-cyan-950/20 px-4 py-3">
+        <div className="flex flex-col rounded-2xl border border-teal/30 bg-white shadow-sm overflow-hidden">
+          <div className="flex items-center justify-between border-b border-teal/20 bg-teal/10 px-5 py-3">
             <div className="flex items-center gap-2">
-              <Shield className="h-4 w-4 text-cyan-400" />
-              <span className="font-mono text-xs font-bold uppercase tracking-wider text-cyan-300">
+              <Shield className="h-4 w-4 text-teal" />
+              <span className="font-mono text-xs font-bold uppercase tracking-wider text-teal-700">
                 DEFENDED ARCHITECTURE ({currentScenario.defenseTechniqueName})
               </span>
             </div>
             {result && (
               <span
-                className={`inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[10px] font-bold ${
+                className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[10px] font-bold ${
                   result.defendedBreached
-                    ? "bg-red-500/20 text-red-300"
-                    : "bg-cyan-500/20 text-cyan-300"
+                    ? "bg-coral/20 text-coral"
+                    : "bg-teal/20 text-teal-700"
                 }`}
               >
                 {result.defendedBreached ? (
                   <>
-                    <XCircle className="h-3 w-3 text-red-400" />
+                    <XCircle className="h-3 w-3 text-coral" />
                     BREACHED
                   </>
                 ) : (
                   <>
-                    <CheckCircle2 className="h-3 w-3 text-cyan-400" />
+                    <CheckCircle2 className="h-3 w-3 text-teal-600" />
                     DEFENSE HELD
                   </>
                 )}
@@ -265,34 +265,34 @@ export function CompareMode() {
             )}
           </div>
 
-          <div className="flex-1 p-4 space-y-3 font-mono text-xs">
+          <div className="flex-1 p-5 space-y-4 font-mono text-xs">
             <div>
-              <span className="text-[10px] text-forge-muted block mb-1 uppercase">
+              <span className="text-[10px] text-indigo/60 block mb-1 uppercase font-semibold">
                 Defended System Prompt Specification:
               </span>
-              <pre className="max-h-36 overflow-y-auto whitespace-pre-wrap rounded border border-white/[0.06] bg-black/60 p-2.5 text-[11px] text-cyan-200/90">
+              <pre className="max-h-36 overflow-y-auto whitespace-pre-wrap rounded-xl border border-indigo/10 bg-cream/70 p-3 text-[11px] text-teal-800">
                 {currentScenario.defendedSystem}
               </pre>
             </div>
 
             <div>
-              <span className="text-[10px] text-forge-muted block mb-1 uppercase">
+              <span className="text-[10px] text-indigo/60 block mb-1 uppercase font-semibold">
                 Execution Response Stream:
               </span>
-              <div className="min-h-24 rounded border border-cyan-500/20 bg-black/80 p-3 text-[11px] text-forge-text">
+              <div className="min-h-24 rounded-xl border border-teal/20 bg-cream/50 p-3 text-[11px] text-indigo">
                 {result ? (
                   <pre className="whitespace-pre-wrap leading-relaxed">
                     {result.defendedOutput}
                   </pre>
                 ) : (
-                  <span className="italic text-forge-subtle">
+                  <span className="italic text-indigo/40">
                     Run comparison to inspect defended model completion...
                   </span>
                 )}
               </div>
             </div>
 
-            <div className="rounded bg-cyan-950/20 p-2.5 border border-cyan-500/20 text-[11px] text-cyan-300/90">
+            <div className="rounded-xl bg-mint/50 p-3 border border-teal/20 text-[11px] text-teal-800">
               <span className="font-bold">Defense Mechanism: </span>
               {currentScenario.defenseExplanation}
             </div>
@@ -302,30 +302,30 @@ export function CompareMode() {
 
       {/* Synthesis Card if result available */}
       {result && (
-        <div className="rounded-lg border border-white/[0.08] bg-[#101217] p-4 shadow-sm">
-          <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase text-forge-text">
-            <Info className="h-4 w-4 text-cyan-400" />
+        <div className="rounded-2xl border border-violet/20 bg-lavender/30 p-5 shadow-sm">
+          <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase text-indigo">
+            <Info className="h-4 w-4 text-violet" />
             <span>COMPARATIVE SECURITY SYNTHESIS</span>
           </div>
-          <p className="mt-2 text-xs text-forge-muted leading-relaxed font-mono">
+          <p className="mt-2 text-xs text-indigo/80 leading-relaxed font-mono">
             {result.analysis}
           </p>
         </div>
       )}
 
       {/* Technique Taxonomy Reference */}
-      <div className="rounded-lg border border-white/[0.06] bg-black/40 p-4 space-y-3">
-        <span className="font-mono text-xs font-bold text-forge-muted uppercase tracking-wider block">
+      <div className="rounded-2xl border border-indigo/10 bg-white p-6 space-y-4 shadow-sm">
+        <span className="font-mono text-xs font-bold text-indigo uppercase tracking-wider block">
           THE 4 CORE LLM DEFENSE PILLARS
         </span>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 font-mono text-xs">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 font-mono text-xs">
           {DEFENSE_TECHNIQUES.map((tech) => (
             <div
               key={tech.id}
-              className="rounded border border-white/[0.06] bg-[#0E1015] p-3 space-y-1.5"
+              className="rounded-xl border border-indigo/10 bg-cream/60 p-4 space-y-2"
             >
-              <span className="font-bold text-cyan-400">{tech.name}</span>
-              <p className="text-[11px] text-forge-muted leading-normal">
+              <span className="font-bold text-violet block">{tech.name}</span>
+              <p className="text-[11px] text-indigo/70 leading-normal">
                 {tech.description}
               </p>
             </div>
