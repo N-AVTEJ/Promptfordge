@@ -230,27 +230,27 @@ export function ChallengesHub() {
           </div>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-3 gap-3 rounded-lg border border-white/[0.08] bg-[#0E1015]/80 p-3 backdrop-blur-sm sm:gap-4 sm:p-4">
+          <div className="grid grid-cols-3 gap-3 rounded-2xl border border-indigo/10 bg-white p-5 shadow-sm sm:gap-4">
             <div className="text-center">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-forge-muted">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-indigo/60">
                 Total Score
               </span>
               <div className="mt-1 flex items-center justify-center gap-1">
-                <Flame className="h-4 w-4 text-ember-400" />
-                <span className="font-mono text-xl font-bold text-white sm:text-2xl">
+                <Flame className="h-4 w-4 text-coral" />
+                <span className="font-mono text-xl font-bold text-indigo sm:text-2xl">
                   {challenges.totalPoints}
                 </span>
-                <span className="font-mono text-[11px] text-ember-400">pts</span>
+                <span className="font-mono text-[11px] text-coral font-bold">pts</span>
               </div>
             </div>
 
-            <div className="border-l border-white/[0.08] pl-3 text-center sm:pl-4">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-forge-muted">
+            <div className="border-l border-indigo/10 pl-3 text-center sm:pl-4">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-indigo/60">
                 Missions
               </span>
-              <div className="mt-1 flex items-center justify-center gap-1 font-mono text-xl font-bold text-white sm:text-2xl">
+              <div className="mt-1 flex items-center justify-center gap-1 font-mono text-xl font-bold text-indigo sm:text-2xl">
                 <span>{challenges.completedMissionIds.length}</span>
-                <span className="text-sm font-normal text-forge-muted">/{missions.length}</span>
+                <span className="text-sm font-normal text-indigo/60">/{missions.length}</span>
               </div>
             </div>
 
@@ -338,7 +338,7 @@ export function ChallengesHub() {
                   className={`mt-2 flex h-14 w-14 items-center justify-center rounded-xl border ${
                     isUnlocked
                       ? `${tierStyle.border} bg-white/[0.06] ${tierStyle.text}`
-                      : "border-white/[0.08] bg-black/40 text-forge-muted"
+                      : "border-indigo/10 bg-cream/70 text-indigo/40"
                   }`}
                 >
                   {renderBadgeIcon(badge.iconName, "h-7 w-7")}
