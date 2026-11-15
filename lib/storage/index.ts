@@ -15,6 +15,7 @@ export const STORAGE_KEYS = {
   PROGRESS: `${STORAGE_PREFIX}progress`,
   SETTINGS: `${STORAGE_PREFIX}settings`,
   LAB_DRAFTS: `${STORAGE_PREFIX}lab_drafts`,
+  COMPARE_EXPERIMENTS: `${STORAGE_PREFIX}compare_experiments`,
 } as const;
 
 export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
@@ -60,12 +61,25 @@ export interface UserSettings {
   reducedMotionManualOverride?: boolean;
 }
 
+export interface CompareExperimentRecord {
+  id: string;
+  timestamp: number;
+  task: string;
+  model: string;
+  temperature: number;
+  expectedFormat?: string;
+  referenceAnswer?: string;
+  runsPerTechnique: number;
+  results: unknown[]; // TechniqueAggregateResult[]
+}
+
 export interface StorageSchema {
   [STORAGE_KEYS.HISTORY]: StorageHistoryItem[];
   [STORAGE_KEYS.SAVED_PROMPTS]: SavedPrompt[];
   [STORAGE_KEYS.PROGRESS]: ProgressData;
   [STORAGE_KEYS.SETTINGS]: UserSettings;
   [STORAGE_KEYS.LAB_DRAFTS]: Record<string, string>;
+  [STORAGE_KEYS.COMPARE_EXPERIMENTS]: CompareExperimentRecord[];
 }
 
 export const STORAGE_DEFAULTS: StorageSchema = {
@@ -86,6 +100,7 @@ export const STORAGE_DEFAULTS: StorageSchema = {
     enableSound: true,
   },
   [STORAGE_KEYS.LAB_DRAFTS]: {},
+  [STORAGE_KEYS.COMPARE_EXPERIMENTS]: [],
 };
 
 export const STORAGE_VALIDATORS: {
@@ -108,6 +123,9 @@ export const STORAGE_VALIDATORS: {
     typeof (data as UserSettings).theme === "string",
   [STORAGE_KEYS.LAB_DRAFTS]: (data: unknown): data is Record<string, string> =>
     data !== null && typeof data === "object" && !Array.isArray(data),
+  [STORAGE_KEYS.COMPARE_EXPERIMENTS]: (
+    data: unknown
+  ): data is CompareExperimentRecord[] => Array.isArray(data),
 };
 
 // In-memory cache fallback for SSR or restricted environments
