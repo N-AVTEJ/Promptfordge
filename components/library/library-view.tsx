@@ -788,38 +788,38 @@ export function LibraryView() {
                 <div className="h-48 w-full pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={chartData} margin={{ top: 10, right: 20, left: -20, bottom: 0 }}>
-                      <CartesianGrid stroke="#E5E7EB" strokeDasharray="3 3" vertical={false} />
+                      <CartesianGrid stroke="var(--forge-border)" strokeDasharray="3 3" vertical={false} />
                       <XAxis
                         dataKey="versionLabel"
-                        stroke="#5A6272"
+                        stroke="var(--indigo)"
                         fontSize={11}
                         fontFamily="monospace"
                         tickLine={false}
                       />
                       <YAxis
-                        stroke="#5A6272"
+                        stroke="var(--indigo)"
                         fontSize={11}
                         fontFamily="monospace"
                         tickLine={false}
                       />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: "#FFFFFF",
-                          border: "1px solid #E5E7EB",
+                          backgroundColor: "var(--forge-surface)",
+                          border: "1px solid var(--forge-border)",
                           borderRadius: "8px",
                           fontFamily: "monospace",
                           fontSize: "11px",
-                          color: "#1E1B4B",
+                          color: "var(--indigo)",
                         }}
                       />
                       <Line
                         type="monotone"
                         dataKey="value"
                         name={selectedMetric}
-                        stroke="#12B5A6"
+                        stroke="var(--teal)"
                         strokeWidth={2}
-                        dot={{ r: 4, fill: "#FF6B4A", stroke: "#FFFFFF", strokeWidth: 1.5 }}
-                        activeDot={{ r: 6, fill: "#12B5A6" }}
+                        dot={{ r: 4, fill: "var(--coral)", stroke: "var(--forge-surface)", strokeWidth: 1.5 }}
+                        activeDot={{ r: 6, fill: "var(--teal)" }}
                       />
                     </LineChart>
                   </ResponsiveContainer>

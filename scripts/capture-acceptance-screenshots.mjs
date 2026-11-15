@@ -1,6 +1,7 @@
 import { chromium } from "playwright";
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 
 const OUTPUT_DIR = path.resolve(process.cwd(), "artifacts/screenshots");
 if (!fs.existsSync(OUTPUT_DIR)) {
@@ -66,34 +67,44 @@ async function run() {
     await desktopPage.goto("http://localhost:3000", { waitUntil: "networkidle" });
     await desktopPage.waitForTimeout(1500);
 
-    // Find the section with id="transformer-story" or containing "Educational simulation"
+    // Find the section with id="transformer-story"
     const sectionTop = await desktopPage.evaluate(() => {
       const el = document.querySelector("#transformer-story");
       if (el) {
         return el.getBoundingClientRect().top + window.scrollY;
       }
-      return 900;
+      return 1400;
     });
 
     console.log(`Pinned section starts around scrollY = ${sectionTop}px`);
 
-    // We want 5 stages across the 2600px scroll range (progress = 0.1, 0.3, 0.5, 0.7, 0.9)
+    // We want 5 stages across the 2600px scroll range:
+    // Stage 1 (0-20%): +150px
+    // Stage 2 (20-40%): +780px
+    // Stage 3 (40-60%): +1300px
+    // Stage 4 (60-80%): +1820px
+    // Stage 5 (80-100%): +2340px
     const stageScrollOffsets = [
-      sectionTop + 100,
-      sectionTop + 650,
-      sectionTop + 1200,
-      sectionTop + 1750,
-      sectionTop + 2300,
+      sectionTop + 150,
+      sectionTop + 780,
+      sectionTop + 1300,
+      sectionTop + 1820,
+      sectionTop + 2340,
     ];
 
     for (let i = 0; i < stageScrollOffsets.length; i++) {
       const scrollY = stageScrollOffsets[i];
-      await desktopPage.evaluate((y) => window.scrollTo({ top: y, behavior: "instant" }), scrollY);
+      await desktopPage.evaluate((y) => {
+        window.scrollTo({ top: y, behavior: "instant" });
+        window.dispatchEvent(new Event("scroll"));
+      }, scrollY);
       await desktopPage.waitForTimeout(800);
 
       const stageInfo = await desktopPage.evaluate(() => {
-        const badge = document.querySelector("#transformer-story [class*='font-mono'][class*='uppercase']");
-        return badge ? badge.textContent : "Stage";
+        const titleEl = document.querySelector("#transformer-story h3");
+        const badgeEl = document.querySelector("#transformer-story span.border-coral");
+        const stateEl = document.querySelector("#transformer-story strong.text-coral");
+        return `${badgeEl ? badgeEl.textContent : "Stage"} | ${stateEl ? stateEl.textContent : ""} | ${titleEl ? titleEl.textContent : ""}`;
       });
 
       console.log(`Capturing Pinned Story Stage ${i + 1} at scrollY ${scrollY}px (${stageInfo})...`);
@@ -144,12 +155,14 @@ async function run() {
     await reducedMotionPage.goto("http://localhost:3000", { waitUntil: "networkidle" });
     await reducedMotionPage.waitForTimeout(1000);
 
-    // Scroll to the pinned story section
+    // Scroll directly to the pinned story static section
     await reducedMotionPage.evaluate(() => {
       const el = document.querySelector("#transformer-story");
-      if (el) el.scrollIntoView();
+      if (el) {
+        el.scrollIntoView({ behavior: "instant", block: "start" });
+      }
     });
-    await reducedMotionPage.waitForTimeout(500);
+    await reducedMotionPage.waitForTimeout(800);
 
     await reducedMotionPage.screenshot({
       path: path.join(OUTPUT_DIR, "landing-reduced-motion-fallback.png"),
@@ -161,6 +174,20 @@ async function run() {
     console.log(`Screenshots generated in: ${OUTPUT_DIR}`);
     const files = fs.readdirSync(OUTPUT_DIR);
     files.forEach((f) => console.log(`  - ${f}`));
+
+    // Cryptographic hash diversity verification
+    const stageHashes = [];
+    for (let s = 1; s <= 5; s++) {
+      const buf = fs.readFileSync(path.join(OUTPUT_DIR, `pinned-story-stage-${s}.png`));
+      const hash = crypto.createHash("sha256").update(buf).digest("hex");
+      stageHashes.push(hash);
+    }
+    const uniqueHashes = new Set(stageHashes);
+    console.log(`Unique hashes across 5 pinned story stages: ${uniqueHashes.size} / 5`);
+    if (uniqueHashes.size < 5) {
+      throw new Error(`Regression: Pinned story stages must produce 5 unique screenshots! Got only ${uniqueHashes.size}`);
+    }
+
     console.log(`Total console errors: ${errors.length}`);
     if (errors.length > 0) {
       console.warn("Errors caught:", errors);

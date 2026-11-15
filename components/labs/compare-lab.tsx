@@ -1471,21 +1471,21 @@ export function CompareLab() {
                 <div className="h-64 w-full pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={latencyChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                      <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
-                      <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} unit="ms" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--forge-border)" />
+                      <XAxis dataKey="name" stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} />
+                      <YAxis stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} unit="ms" />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: "#FFFFFF",
-                          border: "1px solid #E5E7EB",
+                          backgroundColor: "var(--forge-surface)",
+                          border: "1px solid var(--forge-border)",
                           borderRadius: "8px",
                           fontFamily: "monospace",
                           fontSize: "12px",
-                          color: "#1E1B4B",
+                          color: "var(--indigo)",
                         }}
                         formatter={(val: unknown) => [`${val} ms`, "Mean Latency"]}
                       />
-                      <Bar dataKey="mean" fill="#00E5FF" name="Mean Latency (ms)" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="mean" fill="var(--teal)" name="Mean Latency (ms)" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -1510,21 +1510,21 @@ export function CompareLab() {
                 <div className="h-64 w-full pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={outputTokensChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                      <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
-                      <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--forge-border)" />
+                      <XAxis dataKey="name" stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} />
+                      <YAxis stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: "#FFFFFF",
-                          border: "1px solid #E5E7EB",
+                          backgroundColor: "var(--forge-surface)",
+                          border: "1px solid var(--forge-border)",
                           borderRadius: "8px",
                           fontFamily: "monospace",
                           fontSize: "12px",
-                          color: "#1E1B4B",
+                          color: "var(--indigo)",
                         }}
                         formatter={(val: unknown) => [`${val} tokens`, "Mean Output Tokens"]}
                       />
-                      <Bar dataKey="mean" fill="#FF7A1A" name="Mean Output Tokens" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="mean" fill="var(--coral)" name="Mean Output Tokens" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -1549,21 +1549,21 @@ export function CompareLab() {
                 <div className="h-64 w-full pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={inputTokensChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                      <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
-                      <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--forge-border)" />
+                      <XAxis dataKey="name" stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} />
+                      <YAxis stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: "#FFFFFF",
-                          border: "1px solid #E5E7EB",
+                          backgroundColor: "var(--forge-surface)",
+                          border: "1px solid var(--forge-border)",
                           borderRadius: "8px",
                           fontFamily: "monospace",
                           fontSize: "12px",
-                          color: "#1E1B4B",
+                          color: "var(--indigo)",
                         }}
                         formatter={(val: unknown) => [`${val} tokens`, "Prompt Input Tokens"]}
                       />
-                      <Bar dataKey="promptTokens" fill="#38BDF8" name="Input Tokens" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="promptTokens" fill="var(--teal)" name="Input Tokens" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -1588,21 +1588,21 @@ export function CompareLab() {
                 <div className="h-64 w-full pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={costChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                      <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
-                      <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--forge-border)" />
+                      <XAxis dataKey="name" stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} />
+                      <YAxis stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: "#FFFFFF",
-                          border: "1px solid #E5E7EB",
+                          backgroundColor: "var(--forge-surface)",
+                          border: "1px solid var(--forge-border)",
                           borderRadius: "8px",
                           fontFamily: "monospace",
                           fontSize: "12px",
-                          color: "#1E1B4B",
+                          color: "var(--indigo)",
                         }}
                         formatter={(val: unknown) => [`$${Number(val).toFixed(6)}`, "Estimated Cost"]}
                       />
-                      <Bar dataKey="costUsd" fill="#F59E0B" name="Cost (USD)" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="costUsd" fill="var(--coral)" name="Cost (USD)" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -1628,21 +1628,21 @@ export function CompareLab() {
                   <div className="h-64 w-full pt-2">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={formatComplianceChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                        <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
-                        <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} unit="%" domain={[0, 100]} />
+                        <CartesianGrid strokeDasharray="3 3" stroke="var(--forge-border)" />
+                        <XAxis dataKey="name" stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} />
+                        <YAxis stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} unit="%" domain={[0, 100]} />
                         <Tooltip
                           contentStyle={{
-                            backgroundColor: "#FFFFFF",
-                            border: "1px solid #E5E7EB",
+                            backgroundColor: "var(--forge-surface)",
+                            border: "1px solid var(--forge-border)",
                             borderRadius: "8px",
                             fontFamily: "monospace",
                             fontSize: "12px",
-                            color: "#1E1B4B",
+                            color: "var(--indigo)",
                           }}
                           formatter={(val: unknown) => [`${val}%`, "Compliance Rate"]}
                         />
-                        <Bar dataKey="compliancePct" fill="#10B981" name="Compliance %" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="compliancePct" fill="var(--teal)" name="Compliance %" radius={[4, 4, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -1669,25 +1669,25 @@ export function CompareLab() {
                   <div className="h-72 w-full pt-2">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={judgeRubricChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                        <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
-                        <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} domain={[0, 5]} />
+                        <CartesianGrid strokeDasharray="3 3" stroke="var(--forge-border)" />
+                        <XAxis dataKey="name" stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} />
+                        <YAxis stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} domain={[0, 5]} />
                         <Tooltip
                           contentStyle={{
-                            backgroundColor: "#FFFFFF",
-                            border: "1px solid #E5E7EB",
+                            backgroundColor: "var(--forge-surface)",
+                            border: "1px solid var(--forge-border)",
                             borderRadius: "8px",
                             fontFamily: "monospace",
                             fontSize: "12px",
-                            color: "#1E1B4B",
+                            color: "var(--indigo)",
                           }}
                           formatter={(val: unknown, name: unknown) => [`${val} / 5.0`, String(name)]}
                         />
                         <Legend wrapperStyle={{ fontFamily: "monospace", fontSize: "11px" }} />
-                        <Bar dataKey="Relevance" fill="#00E5FF" radius={[3, 3, 0, 0]} />
-                        <Bar dataKey="Correctness" fill="#38BDF8" radius={[3, 3, 0, 0]} />
-                        <Bar dataKey="Clarity" fill="#818CF8" radius={[3, 3, 0, 0]} />
-                        <Bar dataKey="Constraints" fill="#FF7A1A" radius={[3, 3, 0, 0]} />
+                        <Bar dataKey="Relevance" fill="var(--teal)" radius={[3, 3, 0, 0]} />
+                        <Bar dataKey="Correctness" fill="var(--violet)" radius={[3, 3, 0, 0]} />
+                        <Bar dataKey="Clarity" fill="var(--coral)" radius={[3, 3, 0, 0]} />
+                        <Bar dataKey="Constraints" fill="var(--butter)" radius={[3, 3, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -1712,11 +1712,11 @@ export function CompareLab() {
 
                 {/* What it does / does not tell you educational callout */}
                 <div className="rounded-xl border border-indigo/10 bg-cream/60 p-3 text-xs font-mono space-y-1.5">
-                  <div className="text-cyan-300">
+                  <div className="text-cyan-700">
                     <span className="font-bold">What ROUGE-L tells you: </span>
                     Measures exact phrase recall and longest contiguous/subsequence word order overlap against your ground truth.
                   </div>
-                  <div className="text-amber-300">
+                  <div className="text-amber-700">
                     <span className="font-bold">What ROUGE-L does NOT tell you: </span>
                     It does not evaluate semantic validity or logical soundness. A completely hallucinated answer with high word overlap scores high, while a concise correct alternative scores low.
                   </div>
@@ -1726,24 +1726,24 @@ export function CompareLab() {
                   <div className="h-64 w-full pt-2">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={rougeChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                        <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
-                        <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} unit="%" domain={[0, 100]} />
+                        <CartesianGrid strokeDasharray="3 3" stroke="var(--forge-border)" />
+                        <XAxis dataKey="name" stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} />
+                        <YAxis stroke="var(--indigo)" tick={{ fontSize: 11, fontFamily: "monospace" }} unit="%" domain={[0, 100]} />
                         <Tooltip
                           contentStyle={{
-                            backgroundColor: "#FFFFFF",
-                            border: "1px solid #E5E7EB",
+                            backgroundColor: "var(--forge-surface)",
+                            border: "1px solid var(--forge-border)",
                             borderRadius: "8px",
                             fontFamily: "monospace",
                             fontSize: "12px",
-                            color: "#1E1B4B",
+                            color: "var(--indigo)",
                           }}
                           formatter={(val: unknown, name: unknown) => [`${val}%`, String(name).toUpperCase()]}
                         />
                         <Legend wrapperStyle={{ fontFamily: "monospace", fontSize: "11px" }} />
-                        <Bar dataKey="f1" fill="#FF7A1A" name="F1 Score %" radius={[4, 4, 0, 0]} />
-                        <Bar dataKey="recall" fill="#00E5FF" name="Recall %" radius={[4, 4, 0, 0]} />
-                        <Bar dataKey="precision" fill="#A855F7" name="Precision %" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="f1" fill="var(--coral)" name="F1 Score %" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="recall" fill="var(--teal)" name="Recall %" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="precision" fill="var(--violet)" name="Precision %" radius={[4, 4, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>

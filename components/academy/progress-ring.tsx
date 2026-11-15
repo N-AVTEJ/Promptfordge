@@ -28,17 +28,17 @@ export function ProgressRing({
 
   const accentColors = {
     amber: {
-      stroke: "#FF6B4A",
+      stroke: "var(--coral)",
       bg: "rgba(255, 107, 74, 0.1)",
       text: "text-coral",
     },
     cyan: {
-      stroke: "#12B5A6",
+      stroke: "var(--teal)",
       bg: "rgba(18, 181, 166, 0.1)",
       text: "text-teal",
     },
     emerald: {
-      stroke: "#12B5A6",
+      stroke: "var(--teal)",
       bg: "rgba(18, 181, 166, 0.1)",
       text: "text-teal",
     },
@@ -64,7 +64,7 @@ export function ProgressRing({
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="rgba(30, 27, 75, 0.1)"
+          stroke="var(--forge-border)"
           strokeWidth={strokeWidth}
           fill="transparent"
         />
