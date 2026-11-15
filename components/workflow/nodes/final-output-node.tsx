@@ -41,6 +41,8 @@ export const FinalOutputNode = memo(function FinalOutputNode({
         position={Position.Left}
         id="text-in"
         isConnectable={isConnectable}
+        data-datatype="any"
+        title="Input: pipeline result"
         className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-emerald-400 hover:!scale-125 transition-transform"
       />
 

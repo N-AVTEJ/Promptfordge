@@ -9,6 +9,29 @@ export const LlmRunNode = memo(function LlmRunNode({
   data,
   isConnectable,
 }: NodeProps<LlmRunData>) {
+  const [model, setModel] = React.useState(data.model || "gemini-1.5-flash");
+  const [temperature, setTemperature] = React.useState(data.temperature ?? 0.7);
+
+  React.useEffect(() => {
+    setModel(data.model || "gemini-1.5-flash");
+  }, [data.model]);
+
+  React.useEffect(() => {
+    setTemperature(data.temperature ?? 0.7);
+  }, [data.temperature]);
+
+  const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    setModel(val);
+    data.model = val;
+  };
+
+  const handleTempChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseFloat(e.target.value);
+    setTemperature(val);
+    data.temperature = val;
+  };
+
   const statusColors = {
     idle: "border-forge-border bg-[#0A0D14]",
     running: "border-cyan-400 bg-cyan-950/20 ring-1 ring-cyan-400 animate-pulse",
@@ -28,6 +51,8 @@ export const LlmRunNode = memo(function LlmRunNode({
         position={Position.Left}
         id="text-in"
         isConnectable={isConnectable}
+        data-datatype="template"
+        title="Input: prompt template or text"
         className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-ember-400 hover:!scale-125 transition-transform"
       />
 
@@ -67,10 +92,8 @@ export const LlmRunNode = memo(function LlmRunNode({
               Model
             </label>
             <select
-              value={data.model}
-              onChange={(e) => {
-                data.model = e.target.value;
-              }}
+              value={model}
+              onChange={handleModelChange}
               className="mt-0.5 w-full rounded border border-white/[0.08] bg-[#0E121B] px-2 py-1 font-mono text-[11px] text-forge-text focus:border-cyan-500 focus:outline-none"
             >
               <option value="gemini-1.5-flash">gemini-1.5-flash</option>
@@ -85,7 +108,7 @@ export const LlmRunNode = memo(function LlmRunNode({
                 Temp
               </label>
               <span className="font-mono text-[10px] text-cyan-400">
-                {data.temperature ?? 0.7}
+                {temperature}
               </span>
             </div>
             <input
@@ -93,10 +116,8 @@ export const LlmRunNode = memo(function LlmRunNode({
               min="0"
               max="1.5"
               step="0.1"
-              value={data.temperature ?? 0.7}
-              onChange={(e) => {
-                data.temperature = parseFloat(e.target.value);
-              }}
+              value={temperature}
+              onChange={handleTempChange}
               className="mt-1 w-full accent-cyan-400"
             />
           </div>
@@ -150,6 +171,8 @@ export const LlmRunNode = memo(function LlmRunNode({
         position={Position.Right}
         id="text-out"
         isConnectable={isConnectable}
+        data-datatype="text"
+        title="Output: generated text"
         className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-purple-400 hover:!scale-125 transition-transform"
       />
     </div>

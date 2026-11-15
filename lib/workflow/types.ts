@@ -16,6 +16,24 @@ export type NodeExecutionStatus = "idle" | "running" | "done" | "failed";
 
 export type HandleDataType = "text" | "template" | "evaluation" | "any";
 
+/**
+ * Handle data type mapping per node role.
+ * Defines input and output contracts for typed handle connections.
+ */
+export const NODE_HANDLE_TYPES: Record<
+  WorkflowNodeType,
+  {
+    inputs: HandleDataType[];
+    outputs: HandleDataType[];
+  }
+> = {
+  userInput: { inputs: [], outputs: ["text"] },
+  promptTemplate: { inputs: ["text"], outputs: ["template"] },
+  llmRun: { inputs: ["text", "template"], outputs: ["text"] },
+  evaluate: { inputs: ["text"], outputs: ["evaluation"] },
+  finalOutput: { inputs: ["text", "template", "evaluation", "any"], outputs: [] },
+};
+
 export interface NodeMetrics {
   latencyMs?: number;
   tokensIn?: number;

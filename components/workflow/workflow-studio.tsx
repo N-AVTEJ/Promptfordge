@@ -618,7 +618,11 @@ export function WorkflowStudio() {
           <AlertTriangle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
           <div className="flex-1">
             <span className="font-bold text-rose-300">
-              Graph Topology Error:{" "}
+              {cycleError.toLowerCase().includes("cyclic") ||
+              cycleError.toLowerCase().includes("cycle") ||
+              cycleError.toLowerCase().includes("dag")
+                ? "Graph Topology Error: "
+                : "Execution Error: "}
             </span>
             <span>{cycleError}</span>
           </div>

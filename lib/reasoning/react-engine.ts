@@ -14,16 +14,20 @@ export const REACT_EDUCATIONAL_DISCLOSURE =
 /**
  * Sandboxed safe arithmetic evaluator.
  * Evaluates math expressions without using eval() or Function().
+ * Supports binary operators (+, -, *, /, %, ^), unary signs (+, -),
+ * parentheses, and verified safe math functions (sqrt, abs, round, floor, ceil).
  */
 export function safeCalculate(expression: string): { result: number; error?: string } {
   // Strip whitespace
   const sanitized = expression.replace(/\s+/g, "");
 
-  // Only allow numbers, decimals, parentheses, and +, -, *, /, %, ^
-  if (!/^[\d+\-*/%^().]+$/.test(sanitized)) {
+  const SAFE_FUNCS = ["sqrt", "abs", "round", "floor", "ceil"] as const;
+
+  // Only allow numbers, decimals, parentheses, +, -, *, /, %, ^, and alpha characters for safe functions
+  if (!/^[\d+\-*/%^().a-zA-Z]+$/.test(sanitized)) {
     return {
       result: 0,
-      error: `Invalid expression characters. Only arithmetic operators allowed: ${expression}`,
+      error: `Invalid expression characters. Only arithmetic operators and safe functions allowed: ${expression}`,
     };
   }
 
@@ -33,10 +37,55 @@ export function safeCalculate(expression: string): { result: number; error?: str
     let i = 0;
     while (i < sanitized.length) {
       const ch = sanitized[i];
-      if ("+-*/%^()".includes(ch)) {
+
+      if (/[a-zA-Z]/.test(ch)) {
+        let fnName = "";
+        while (i < sanitized.length && /[a-zA-Z]/.test(sanitized[i])) {
+          fnName += sanitized[i];
+          i++;
+        }
+        const lowerFn = fnName.toLowerCase();
+        if (!SAFE_FUNCS.includes(lowerFn as (typeof SAFE_FUNCS)[number])) {
+          return {
+            result: 0,
+            error: `Forbidden function or identifier: ${fnName}`,
+          };
+        }
+        tokens.push(lowerFn);
+      } else if (ch === "+" || ch === "-") {
+        const isUnary =
+          tokens.length === 0 ||
+          (typeof tokens[tokens.length - 1] === "string" &&
+            tokens[tokens.length - 1] !== ")");
+
+        if (isUnary) {
+          if (ch === "+") {
+            // Unary plus: no-op
+            i++;
+            continue;
+          }
+          // Unary minus
+          i++;
+          if (i < sanitized.length && /[\d.]/.test(sanitized[i])) {
+            let numStr = "-";
+            while (i < sanitized.length && /[\d.]/.test(sanitized[i])) {
+              numStr += sanitized[i];
+              i++;
+            }
+            tokens.push(parseFloat(numStr));
+          } else {
+            // Unary minus preceding a parenthesis or function: -(expr) -> (-1) * (expr)
+            tokens.push(-1);
+            tokens.push("*");
+          }
+        } else {
+          tokens.push(ch);
+          i++;
+        }
+      } else if ("*/%^()".includes(ch)) {
         tokens.push(ch);
         i++;
-      } else if (/\d|\./.test(ch)) {
+      } else if (/[\d.]/.test(ch)) {
         let numStr = "";
         while (i < sanitized.length && /[\d.]/.test(sanitized[i])) {
           numStr += sanitized[i];
@@ -58,11 +107,21 @@ export function safeCalculate(expression: string): { result: number; error?: str
       "/": 2,
       "%": 2,
       "^": 3,
+      sqrt: 4,
+      abs: 4,
+      round: 4,
+      floor: 4,
+      ceil: 4,
     };
 
     for (const token of tokens) {
       if (typeof token === "number") {
         outputQueue.push(token);
+      } else if (
+        typeof token === "string" &&
+        SAFE_FUNCS.includes(token as (typeof SAFE_FUNCS)[number])
+      ) {
+        opStack.push(token);
       } else if (token in precedence) {
         while (
           opStack.length > 0 &&
@@ -81,6 +140,14 @@ export function safeCalculate(expression: string): { result: number; error?: str
         if (opStack[opStack.length - 1] === "(") {
           opStack.pop();
         }
+        if (
+          opStack.length > 0 &&
+          SAFE_FUNCS.includes(
+            opStack[opStack.length - 1] as (typeof SAFE_FUNCS)[number]
+          )
+        ) {
+          outputQueue.push(opStack.pop()!);
+        }
       }
     }
 
@@ -93,6 +160,29 @@ export function safeCalculate(expression: string): { result: number; error?: str
     for (const item of outputQueue) {
       if (typeof item === "number") {
         evalStack.push(item);
+      } else if (
+        typeof item === "string" &&
+        SAFE_FUNCS.includes(item as (typeof SAFE_FUNCS)[number])
+      ) {
+        const val = evalStack.pop() ?? 0;
+        switch (item) {
+          case "sqrt":
+            if (val < 0) throw new Error("Cannot take square root of negative number");
+            evalStack.push(Math.sqrt(val));
+            break;
+          case "abs":
+            evalStack.push(Math.abs(val));
+            break;
+          case "round":
+            evalStack.push(Math.round(val));
+            break;
+          case "floor":
+            evalStack.push(Math.floor(val));
+            break;
+          case "ceil":
+            evalStack.push(Math.ceil(val));
+            break;
+        }
       } else {
         const b = evalStack.pop() ?? 0;
         const a = evalStack.pop() ?? 0;

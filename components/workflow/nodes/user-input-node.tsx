@@ -9,6 +9,18 @@ export const UserInputNode = memo(function UserInputNode({
   data,
   isConnectable,
 }: NodeProps<UserInputData>) {
+  const [inputVal, setInputVal] = React.useState(data.inputPrompt || "");
+
+  React.useEffect(() => {
+    setInputVal(data.inputPrompt || "");
+  }, [data.inputPrompt]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const val = e.target.value;
+    setInputVal(val);
+    data.inputPrompt = val;
+  };
+
   const statusColors = {
     idle: "border-forge-border bg-[#0A0D14]",
     running: "border-cyan-500 bg-cyan-950/20 ring-1 ring-cyan-500 animate-pulse",
@@ -57,10 +69,8 @@ export const UserInputNode = memo(function UserInputNode({
         </label>
         <textarea
           rows={3}
-          value={data.inputPrompt}
-          onChange={(e) => {
-            data.inputPrompt = e.target.value;
-          }}
+          value={inputVal}
+          onChange={handleChange}
           placeholder="Enter prompt input or parameters..."
           className="w-full resize-none rounded-md border border-white/[0.08] bg-[#0E121B] px-2.5 py-1.5 font-mono text-xs text-forge-text placeholder:text-forge-muted/50 focus:border-cyan-500 focus:outline-none"
         />
@@ -100,6 +110,8 @@ export const UserInputNode = memo(function UserInputNode({
         position={Position.Right}
         id="text-out"
         isConnectable={isConnectable}
+        data-datatype="text"
+        title="Output: text"
         className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-cyan-400 hover:!scale-125 transition-transform"
       />
     </div>

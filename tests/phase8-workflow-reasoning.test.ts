@@ -230,6 +230,12 @@ describe("Phase 8: Workflow Builder Acceptance Tests", () => {
         data: { label: "Input", status: "idle", inputPrompt: "" },
       },
       {
+        id: "tpl",
+        type: "promptTemplate",
+        position: { x: 100, y: 0 },
+        data: { label: "Template", status: "idle", template: "{{input}}" },
+      },
+      {
         id: "out",
         type: "finalOutput",
         position: { x: 300, y: 0 },
@@ -240,6 +246,18 @@ describe("Phase 8: Workflow Builder Acceptance Tests", () => {
         type: "llmRun",
         position: { x: 150, y: 0 },
         data: { label: "LLM", status: "idle", model: "m" },
+      },
+      {
+        id: "eval1",
+        type: "evaluate",
+        position: { x: 200, y: 0 },
+        data: { label: "Eval 1", status: "idle" },
+      },
+      {
+        id: "eval2",
+        type: "evaluate",
+        position: { x: 250, y: 0 },
+        data: { label: "Eval 2", status: "idle" },
       },
     ];
 
@@ -261,6 +279,18 @@ describe("Phase 8: Workflow Builder Acceptance Tests", () => {
       false
     );
 
+    // Typed Handle rule: Evaluate cannot be connected to Evaluate (rubrics evaluate text, not rubrics)
+    assert.strictEqual(
+      isValidWorkflowConnection({ source: "eval1", target: "eval2" }, nodes),
+      false
+    );
+
+    // Typed Handle rule: Evaluate cannot be connected directly to PromptTemplate
+    assert.strictEqual(
+      isValidWorkflowConnection({ source: "eval1", target: "tpl" }, nodes),
+      false
+    );
+
     // Valid forward connection: UserInput -> LLM
     assert.strictEqual(
       isValidWorkflowConnection({ source: "inp", target: "llm" }, nodes),
@@ -270,6 +300,18 @@ describe("Phase 8: Workflow Builder Acceptance Tests", () => {
     // Valid forward connection: LLM -> FinalOutput
     assert.strictEqual(
       isValidWorkflowConnection({ source: "llm", target: "out" }, nodes),
+      true
+    );
+
+    // Valid forward connection: LLM -> Evaluate
+    assert.strictEqual(
+      isValidWorkflowConnection({ source: "llm", target: "eval1" }, nodes),
+      true
+    );
+
+    // Valid forward connection: Evaluate -> FinalOutput
+    assert.strictEqual(
+      isValidWorkflowConnection({ source: "eval1", target: "out" }, nodes),
       true
     );
   });
@@ -435,7 +477,7 @@ describe("Phase 8: Reasoning Playground Acceptance Tests", () => {
     assert.ok(finalStep.content.includes("15,360"));
   });
 
-  it("ReAct tools execute securely: safeCalculate handles math without eval and rejects dangerous input", () => {
+  it("ReAct tools execute securely: safeCalculate handles math without eval, supports unary signs and safe math functions, and rejects dangerous input", () => {
     // Safe standard arithmetic
     assert.strictEqual(safeCalculate("25 * 1024 * 0.05 * 12").result, 15360);
     assert.strictEqual(safeCalculate("(450 * 12) + 300").result, 5700);
@@ -445,9 +487,23 @@ describe("Phase 8: Reasoning Playground Acceptance Tests", () => {
     // Float arithmetic
     assert.strictEqual(safeCalculate("0.1 + 0.2").result, 0.3);
 
+    // Unary negative signs and expressions
+    assert.strictEqual(safeCalculate("5 * -2").result, -10);
+    assert.strictEqual(safeCalculate("10 - -5").result, 15);
+    assert.strictEqual(safeCalculate("-(3 + 4)").result, -7);
+    assert.strictEqual(safeCalculate("5 * -(3 + 4)").result, -35);
+    assert.strictEqual(safeCalculate("-5 + 10").result, 5);
+
+    // Safe mathematical functions
+    assert.strictEqual(safeCalculate("sqrt(16)").result, 4);
+    assert.strictEqual(safeCalculate("abs(-42)").result, 42);
+    assert.strictEqual(safeCalculate("round(4.6)").result, 5);
+    assert.strictEqual(safeCalculate("floor(4.9)").result, 4);
+    assert.strictEqual(safeCalculate("ceil(4.1)").result, 5);
+
     // Rejection of dangerous code / injections (never evaluates JS!)
     const injection = safeCalculate("process.exit(1)");
-    assert.ok(injection.error, "Must reject non-arithmetic characters");
+    assert.ok(injection.error, "Must reject non-arithmetic characters or forbidden identifiers");
 
     const functionInjection = safeCalculate("console.log('pwned')");
     assert.ok(functionInjection.error, "Must reject function calls");

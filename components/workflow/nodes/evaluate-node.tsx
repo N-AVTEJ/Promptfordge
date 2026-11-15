@@ -30,6 +30,8 @@ export const EvaluateNode = memo(function EvaluateNode({
         position={Position.Left}
         id="text-in"
         isConnectable={isConnectable}
+        data-datatype="text"
+        title="Input: candidate text"
         className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-purple-400 hover:!scale-125 transition-transform"
       />
 
@@ -172,6 +174,8 @@ export const EvaluateNode = memo(function EvaluateNode({
         position={Position.Right}
         id="text-out"
         isConnectable={isConnectable}
+        data-datatype="evaluation"
+        title="Output: rubric evaluation scores"
         className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-pink-400 hover:!scale-125 transition-transform"
       />
     </div>

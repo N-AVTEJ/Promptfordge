@@ -10,16 +10,29 @@ export const PromptTemplateNode = memo(function PromptTemplateNode({
   data,
   isConnectable,
 }: NodeProps<PromptTemplateData>) {
+  const [templateVal, setTemplateVal] = React.useState(data.template || "");
+
+  React.useEffect(() => {
+    setTemplateVal(data.template || "");
+  }, [data.template]);
+
+  const detectedVars = useMemo(() => {
+    return extractTemplateVariables(templateVal);
+  }, [templateVal]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const val = e.target.value;
+    setTemplateVal(val);
+    data.template = val;
+    data.variables = extractTemplateVariables(val);
+  };
+
   const statusColors = {
     idle: "border-forge-border bg-[#0A0D14]",
     running: "border-ember-500 bg-ember-950/20 ring-1 ring-ember-500 animate-pulse",
     done: "border-emerald-500/70 bg-emerald-950/20",
     failed: "border-rose-500 bg-rose-950/20 ring-1 ring-rose-500",
   };
-
-  const detectedVars = useMemo(() => {
-    return extractTemplateVariables(data.template || "");
-  }, [data.template]);
 
   return (
     <div
@@ -33,6 +46,8 @@ export const PromptTemplateNode = memo(function PromptTemplateNode({
         position={Position.Left}
         id="text-in"
         isConnectable={isConnectable}
+        data-datatype="text"
+        title="Input: text"
         className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-cyan-400 hover:!scale-125 transition-transform"
       />
 
@@ -73,10 +88,8 @@ export const PromptTemplateNode = memo(function PromptTemplateNode({
         </div>
         <textarea
           rows={3}
-          value={data.template}
-          onChange={(e) => {
-            data.template = e.target.value;
-          }}
+          value={templateVal}
+          onChange={handleChange}
           placeholder="System role... {{input}} ...constraints"
           className="w-full resize-none rounded-md border border-white/[0.08] bg-[#0E121B] px-2.5 py-1.5 font-mono text-xs text-forge-text placeholder:text-forge-muted/50 focus:border-ember-500 focus:outline-none"
         />
@@ -134,6 +147,8 @@ export const PromptTemplateNode = memo(function PromptTemplateNode({
         position={Position.Right}
         id="text-out"
         isConnectable={isConnectable}
+        data-datatype="template"
+        title="Output: prompt template"
         className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-ember-400 hover:!scale-125 transition-transform"
       />
     </div>

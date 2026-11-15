@@ -145,6 +145,8 @@ export function detectWorkflowCycle(
 
 /**
  * Validates whether a proposed edge connection is valid according to handle types and node roles.
+ * Enforces typed handles to prevent invalid linkages (e.g. self-loops, evaluate->evaluate,
+ * evaluate->promptTemplate, output to userInput, input from finalOutput).
  */
 export function isValidWorkflowConnection(
   connection: {
@@ -174,9 +176,18 @@ export function isValidWorkflowConnection(
     return false;
   }
 
-  // Rule 4: Typed handles
-  if (targetNode.type === "llmRun") {
-    if (sourceNode.type === "finalOutput") return false;
+  // Rule 4: Typed handle rules
+  // Evaluate node produces evaluation rubric markdown, which cannot be fed into an Evaluate node
+  if (sourceNode.type === "evaluate" && targetNode.type === "evaluate") {
+    return false;
+  }
+
+  // Evaluate output cannot be connected directly to a promptTemplate or llmRun (which require prompt/text)
+  if (
+    sourceNode.type === "evaluate" &&
+    (targetNode.type === "promptTemplate" || targetNode.type === "llmRun")
+  ) {
+    return false;
   }
 
   return true;
