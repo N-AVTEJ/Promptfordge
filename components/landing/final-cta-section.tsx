@@ -56,16 +56,27 @@ export function FinalCtaSection() {
             Real evaluation assertions that protect your production pipelines.
           </p>
 
-          {/* Action CTAs */}
+          {/* Action CTAs: Landing Page -> Dashboard priority */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Button
               asChild
               size="lg"
-              className="h-12 rounded-lg border border-amber-400/50 bg-gradient-to-r from-[#FF7A1A] via-[#FF8F33] to-[#E65100] px-7 font-mono text-sm font-bold text-white shadow-[0_0_25px_rgba(255,107,0,0.35),inset_0_1px_0_rgba(255,255,255,0.35)] transition-all hover:scale-[1.02] hover:shadow-[0_0_35px_rgba(255,107,0,0.55)] active:scale-[0.99]"
+              className="group h-12 rounded-lg border border-amber-400/50 bg-gradient-to-r from-[#FF7A1A] via-[#FF8F33] to-[#E65100] px-7 font-mono text-sm font-bold text-white shadow-[0_0_25px_rgba(255,107,0,0.35),inset_0_1px_0_rgba(255,255,255,0.35)] transition-all hover:scale-[1.02] hover:shadow-[0_0_35px_rgba(255,107,0,0.55)] active:scale-[0.99]"
             >
-              <Link href="/academy" className="inline-flex items-center gap-2.5">
-                <span>Enter the Academy</span>
-                <ArrowRight className="h-4 w-4" />
+              <Link href="/dashboard" className="inline-flex items-center gap-2.5">
+                <span>Launch Dashboard</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </Button>
+
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="h-12 rounded-lg border border-amber-500/30 bg-[#16120E] px-7 font-mono text-sm font-semibold text-amber-300 shadow-[0_0_15px_rgba(255,107,0,0.08)] transition-all hover:border-amber-400/60 hover:bg-[#201812] hover:text-amber-200"
+            >
+              <Link href="/academy" className="inline-flex items-center gap-2">
+                <span>Enter Academy</span>
               </Link>
             </Button>
 

@@ -31,8 +31,8 @@ const STREAM_TOKENS = [
 
 export function HeroSection() {
   const prefersReduced = useReducedMotion();
-  const [typedChars, setTypedChars] = useState(prefersReduced ? STREAM_PROMPT.length : 0);
-  const [isTokenized, setIsTokenized] = useState(Boolean(prefersReduced));
+  const [typedChars, setTypedChars] = useState(0);
+  const [isTokenized, setIsTokenized] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // Typing stream simulation
@@ -145,19 +145,19 @@ export function HeroSection() {
 
       {/* Ambient glowing forge backdrop */}
       <div
-        className="pointer-events-none absolute top-0 left-1/2 -z-10 h-96 w-[900px] -translate-x-1/2 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(255,107,0,0.22),transparent_70%)]"
+        className="pointer-events-none absolute top-0 left-1/2 -z-10 h-96 w-[900px] -translate-x-1/2 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(255,107,0,0.22),transparent_70%)] animate-glow-pulse"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute top-48 left-1/2 -z-10 h-64 w-[600px] -translate-x-1/2 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(0,229,255,0.08),transparent_70%)]"
+        className="pointer-events-none absolute top-48 left-1/2 -z-10 h-64 w-[600px] -translate-x-1/2 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(0,229,255,0.08),transparent_70%)] animate-glow-pulse"
         aria-hidden="true"
       />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center">
           {/* Technical Tag Eyebrow */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 font-mono text-xs font-semibold text-amber-400 shadow-[0_0_15px_rgba(255,107,0,0.15)]">
-            <Flame className="h-3.5 w-3.5 text-ember-500" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 font-mono text-xs font-semibold text-amber-400 shadow-[0_0_15px_rgba(255,107,0,0.15)] animate-float">
+            <Flame className="h-3.5 w-3.5 text-ember-500 animate-pulse" />
             <span>Interactive Prompt Engineering Academy</span>
           </div>
 
@@ -177,16 +177,27 @@ export function HeroSection() {
             Move from intuition to deterministic execution inside live browser laboratories.
           </p>
 
-          {/* Primary CTA "Enter the Academy", secondary "Try a live lab" */}
+          {/* User Journey: Landing Page -> Dashboard */}
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3.5">
             <Button
               asChild
               size="lg"
-              className="h-11 rounded-lg border border-amber-400/40 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 px-7 font-mono text-xs font-bold text-black shadow-[0_0_25px_rgba(255,107,0,0.35)] hover:from-amber-400 hover:to-orange-500 hover:shadow-[0_0_35px_rgba(255,107,0,0.5)] transition-all active:scale-[0.99]"
+              className="group h-11 rounded-lg border border-amber-400/40 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 px-7 font-mono text-xs font-bold text-black shadow-[0_0_25px_rgba(255,107,0,0.35)] hover:from-amber-400 hover:to-orange-500 hover:shadow-[0_0_35px_rgba(255,107,0,0.5)] transition-all active:scale-[0.99]"
+            >
+              <Link href="/dashboard" className="inline-flex items-center gap-2">
+                <span>Launch Dashboard</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </Button>
+
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="h-11 rounded-lg border border-amber-500/30 bg-amber-950/20 px-6 font-mono text-xs font-semibold text-amber-300 shadow-[0_0_15px_rgba(255,107,0,0.1)] hover:border-amber-400 hover:bg-amber-900/30 hover:text-white transition-all"
             >
               <Link href="/academy" className="inline-flex items-center gap-2">
-                <span>Enter the Academy</span>
-                <ArrowRight className="h-4 w-4" />
+                <span>Enter Academy</span>
               </Link>
             </Button>
 

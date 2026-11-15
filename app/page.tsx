@@ -9,7 +9,7 @@ import { FinalCtaSection } from "@/components/landing/final-cta-section";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen overflow-x-clip bg-forge-950">
+    <div className="relative min-h-screen overflow-x-clip bg-forge-950">
       {/* 1. Hero Section */}
       <HeroSection />
 
@@ -30,6 +30,6 @@ export default function HomePage() {
 
       {/* 7. Final CTA Section */}
       <FinalCtaSection />
-    </main>
+    </div>
   );
 }

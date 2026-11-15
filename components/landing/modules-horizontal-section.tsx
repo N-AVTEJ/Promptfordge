@@ -14,10 +14,15 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function ModulesHorizontalSection() {
   const prefersReduced = useReducedMotion();
+  const [mounted, setMounted] = useState<boolean>(false);
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const cardsRef = useRef<HTMLDivElement | null>(null);
   const [activeModuleIdx, setActiveModuleIdx] = useState<number>(0);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (prefersReduced) return;
@@ -72,7 +77,7 @@ export function ModulesHorizontalSection() {
   }, [prefersReduced]);
 
   // Reduced motion fallback: responsive standard grid
-  if (prefersReduced) {
+  if (mounted && prefersReduced) {
     return (
       <section className="relative mx-auto max-w-7xl bg-forge-950 px-4 py-24 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">

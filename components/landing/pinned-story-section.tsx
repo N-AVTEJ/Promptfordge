@@ -117,10 +117,15 @@ const OUTPUT_TOKENS = [
 
 export function PinnedStorySection() {
   const prefersReduced = useReducedMotion();
+  const [mounted, setMounted] = useState<boolean>(false);
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const pinTargetRef = useRef<HTMLDivElement | null>(null);
   const [currentStageIdx, setCurrentStageIdx] = useState<number>(0);
   const [scrollProgress, setScrollProgress] = useState<number>(0);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (prefersReduced) return;
@@ -163,7 +168,7 @@ export function PinnedStorySection() {
   const activeStage = STAGES[currentStageIdx];
 
   // Static Fallback for reduced motion: render all 5 stages in vertical layout
-  if (prefersReduced) {
+  if (mounted && prefersReduced) {
     return (
       <section className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
