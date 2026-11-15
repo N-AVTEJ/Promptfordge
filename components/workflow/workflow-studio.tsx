@@ -713,12 +713,12 @@ export function WorkflowStudio() {
 
       {/* Save Workflow Modal */}
       {showSaveAsModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md rounded-xl border border-white/[0.1] bg-[#0E121B] p-5 shadow-2xl">
-            <h3 className="font-mono text-sm font-bold text-forge-text mb-2">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-indigo/60 backdrop-blur-sm p-4">
+          <div className="w-full max-w-md rounded-2xl border border-indigo/10 bg-white p-6 shadow-2xl">
+            <h3 className="font-mono text-sm font-bold text-indigo mb-2">
               Save Workflow to LocalStorage
             </h3>
-            <p className="text-xs text-forge-muted mb-4">
+            <p className="text-xs text-indigo/70 mb-4">
               Enter a name to persist this {nodes.length}-node pipeline in your browser.
             </p>
             <input
@@ -726,14 +726,14 @@ export function WorkflowStudio() {
               value={newWorkflowName}
               onChange={(e) => setNewWorkflowName(e.target.value)}
               placeholder="e.g. My Multi-Agent Security Audit Pipeline"
-              className="w-full rounded-md border border-white/[0.08] bg-[#08090C] px-3 py-2 font-mono text-xs text-forge-text focus:border-ember-500 focus:outline-none mb-4"
+              className="w-full rounded-xl border border-indigo/15 bg-cream px-3 py-2 font-mono text-xs text-indigo focus:border-coral focus:outline-none mb-4"
               autoFocus
             />
             <div className="flex items-center justify-end gap-2">
               <button
                 type="button"
                 onClick={() => setShowSaveAsModal(false)}
-                className="rounded-lg px-3 py-1.5 font-mono text-xs text-forge-muted hover:text-forge-text"
+                className="rounded-lg px-3 py-1.5 font-mono text-xs text-indigo/60 hover:text-indigo"
               >
                 Cancel
               </button>
@@ -741,7 +741,7 @@ export function WorkflowStudio() {
                 type="button"
                 onClick={handleSaveCurrentWorkflow}
                 disabled={!newWorkflowName.trim()}
-                className="rounded-lg bg-ember-500 px-4 py-1.5 font-mono text-xs font-bold text-black hover:bg-ember-400 disabled:opacity-50"
+                className="rounded-xl bg-coral px-4 py-1.5 font-mono text-xs font-bold text-white hover:bg-coral-hover disabled:opacity-50"
               >
                 Save Workflow
               </button>
@@ -752,17 +752,17 @@ export function WorkflowStudio() {
 
       {/* Manage Workflows Modal */}
       {showSavedModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="w-full max-w-lg rounded-xl border border-white/[0.1] bg-[#0E121B] p-5 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-3">
-              <h3 className="font-mono text-sm font-bold text-forge-text flex items-center gap-2">
-                <FolderOpen className="h-4 w-4 text-cyan-400" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-indigo/60 backdrop-blur-sm p-4">
+          <div className="w-full max-w-lg rounded-2xl border border-indigo/10 bg-white p-6 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-indigo/10 pb-3 mb-3">
+              <h3 className="font-mono text-sm font-bold text-indigo flex items-center gap-2">
+                <FolderOpen className="h-4 w-4 text-violet" />
                 <span>Saved Workflows</span>
               </h3>
               <button
                 type="button"
                 onClick={() => setShowSavedModal(false)}
-                className="text-xs font-mono text-forge-muted hover:text-forge-text"
+                className="text-xs font-mono text-indigo/60 hover:text-indigo"
               >
                 Close
               </button>
@@ -772,7 +772,7 @@ export function WorkflowStudio() {
               {savedWorkflows.map((w) => (
                 <div
                   key={w.id}
-                  className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-[#08090C] p-3 hover:border-white/[0.12] transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-indigo/10 bg-cream p-3 hover:border-indigo/20 transition-colors"
                 >
                   <div className="flex-1 mr-3">
                     <div className="flex items-center gap-2">

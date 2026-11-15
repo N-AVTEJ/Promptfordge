@@ -11,9 +11,6 @@ import {
   BookOpen,
   FlaskConical,
   X,
-  RotateCcw,
-  CheckCircle2,
-  Clock,
   ExternalLink,
 } from "lucide-react";
 import { useProgress } from "@/lib/storage/progress";
@@ -23,6 +20,13 @@ import { getStorageItem, STORAGE_KEYS, CompareExperimentRecord } from "@/lib/sto
 import { getSuggestedNextLesson, getCurriculumStats } from "@/lib/dashboard/recommend";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { CURRICULUM_MODULES } from "@/content/modules";
+
+interface ExperimentTelemetryItem {
+  techniqueId?: string;
+  formatComplianceSpread?: { mean?: number };
+  latencySpread?: { mean?: number };
+  outputTokensSpread?: { mean?: number };
+}
 
 interface ProgressRingProps {
   percentage: number;
@@ -551,29 +555,32 @@ export function DashboardView() {
                     Technique Benchmark Results
                   </h4>
 
-                  {selectedExperiment.results?.map((res, i) => (
-                    <div key={i} className="rounded-xl border border-indigo-950/10 bg-white p-5 space-y-3">
-                      <div className="flex items-center justify-between border-b border-indigo-950/10 pb-2">
-                        <span className="font-mono text-xs font-bold text-indigo uppercase">
-                          {res.techniqueId}
-                        </span>
-                        <span className="font-mono text-xs font-bold text-teal">
-                          {Math.round((res.formatComplianceSpread?.mean ?? 1) * 100)}% Compliance
-                        </span>
-                      </div>
+                  {selectedExperiment.results?.map((rawItem, i: number) => {
+                    const res = rawItem as ExperimentTelemetryItem;
+                    return (
+                      <div key={i} className="rounded-xl border border-indigo-950/10 bg-white p-5 space-y-3">
+                        <div className="flex items-center justify-between border-b border-indigo-950/10 pb-2">
+                          <span className="font-mono text-xs font-bold text-indigo uppercase">
+                            {res.techniqueId}
+                          </span>
+                          <span className="font-mono text-xs font-bold text-teal">
+                            {Math.round((res.formatComplianceSpread?.mean ?? 1) * 100)}% Compliance
+                          </span>
+                        </div>
 
-                      <div className="grid grid-cols-2 gap-3 text-xs font-mono text-indigo-900/80">
-                        <div>
-                          <span className="text-indigo-900/50 block">Mean Latency</span>
-                          <span>{Math.round(res.latencySpread?.mean ?? 0)} ms</span>
-                        </div>
-                        <div>
-                          <span className="text-indigo-900/50 block">Tokens</span>
-                          <span>{Math.round(res.outputTokensSpread?.mean ?? 0)} toks</span>
+                        <div className="grid grid-cols-2 gap-3 text-xs font-mono text-indigo-900/80">
+                          <div>
+                            <span className="text-indigo-900/50 block">Mean Latency</span>
+                            <span>{Math.round(res.latencySpread?.mean ?? 0)} ms</span>
+                          </div>
+                          <div>
+                            <span className="text-indigo-900/50 block">Tokens</span>
+                            <span>{Math.round(res.outputTokensSpread?.mean ?? 0)} toks</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
 
                 <div className="pt-4 border-t border-indigo-950/10">

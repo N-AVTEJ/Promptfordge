@@ -1471,15 +1471,17 @@ export function CompareLab() {
                 <div className="h-64 w-full pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={latencyChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#232832" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                       <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
                       <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} unit="ms" />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: "#121417",
-                          border: "1px solid #373F4E",
+                          backgroundColor: "#FFFFFF",
+                          border: "1px solid #E5E7EB",
+                          borderRadius: "8px",
                           fontFamily: "monospace",
                           fontSize: "12px",
+                          color: "#1E1B4B",
                         }}
                         formatter={(val: unknown) => [`${val} ms`, "Mean Latency"]}
                       />
@@ -1508,15 +1510,17 @@ export function CompareLab() {
                 <div className="h-64 w-full pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={outputTokensChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#232832" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                       <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
                       <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: "#121417",
-                          border: "1px solid #373F4E",
+                          backgroundColor: "#FFFFFF",
+                          border: "1px solid #E5E7EB",
+                          borderRadius: "8px",
                           fontFamily: "monospace",
                           fontSize: "12px",
+                          color: "#1E1B4B",
                         }}
                         formatter={(val: unknown) => [`${val} tokens`, "Mean Output Tokens"]}
                       />
@@ -1545,15 +1549,17 @@ export function CompareLab() {
                 <div className="h-64 w-full pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={inputTokensChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#232832" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                       <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
                       <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: "#121417",
-                          border: "1px solid #373F4E",
+                          backgroundColor: "#FFFFFF",
+                          border: "1px solid #E5E7EB",
+                          borderRadius: "8px",
                           fontFamily: "monospace",
                           fontSize: "12px",
+                          color: "#1E1B4B",
                         }}
                         formatter={(val: unknown) => [`${val} tokens`, "Prompt Input Tokens"]}
                       />
@@ -1582,15 +1588,17 @@ export function CompareLab() {
                 <div className="h-64 w-full pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={costChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#232832" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                       <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
                       <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: "#121417",
-                          border: "1px solid #373F4E",
+                          backgroundColor: "#FFFFFF",
+                          border: "1px solid #E5E7EB",
+                          borderRadius: "8px",
                           fontFamily: "monospace",
                           fontSize: "12px",
+                          color: "#1E1B4B",
                         }}
                         formatter={(val: unknown) => [`$${Number(val).toFixed(6)}`, "Estimated Cost"]}
                       />
@@ -1620,15 +1628,17 @@ export function CompareLab() {
                   <div className="h-64 w-full pt-2">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={formatComplianceChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#232832" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                         <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
                         <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} unit="%" domain={[0, 100]} />
                         <Tooltip
                           contentStyle={{
-                            backgroundColor: "#121417",
-                            border: "1px solid #373F4E",
+                            backgroundColor: "#FFFFFF",
+                            border: "1px solid #E5E7EB",
+                            borderRadius: "8px",
                             fontFamily: "monospace",
                             fontSize: "12px",
+                            color: "#1E1B4B",
                           }}
                           formatter={(val: unknown) => [`${val}%`, "Compliance Rate"]}
                         />
@@ -1659,15 +1669,17 @@ export function CompareLab() {
                   <div className="h-72 w-full pt-2">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={judgeRubricChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#232832" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                         <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
                         <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} domain={[0, 5]} />
                         <Tooltip
                           contentStyle={{
-                            backgroundColor: "#121417",
-                            border: "1px solid #373F4E",
+                            backgroundColor: "#FFFFFF",
+                            border: "1px solid #E5E7EB",
+                            borderRadius: "8px",
                             fontFamily: "monospace",
                             fontSize: "12px",
+                            color: "#1E1B4B",
                           }}
                           formatter={(val: unknown, name: unknown) => [`${val} / 5.0`, String(name)]}
                         />
@@ -1714,15 +1726,17 @@ export function CompareLab() {
                   <div className="h-64 w-full pt-2">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={rougeChartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#232832" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                         <XAxis dataKey="name" stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} />
                         <YAxis stroke="#9BA1AD" tick={{ fontSize: 11, fontFamily: "monospace" }} unit="%" domain={[0, 100]} />
                         <Tooltip
                           contentStyle={{
-                            backgroundColor: "#121417",
-                            border: "1px solid #373F4E",
+                            backgroundColor: "#FFFFFF",
+                            border: "1px solid #E5E7EB",
+                            borderRadius: "8px",
                             fontFamily: "monospace",
                             fontSize: "12px",
+                            color: "#1E1B4B",
                           }}
                           formatter={(val: unknown, name: unknown) => [`${val}%`, String(name).toUpperCase()]}
                         />

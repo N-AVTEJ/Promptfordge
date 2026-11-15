@@ -11,8 +11,8 @@ import {
   Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { useProgress } from "@/lib/storage/progress";
+import { cn } from "@/lib/utils";
 import { ProgressRing } from "@/components/academy/progress-ring";
 import { ProgressModal } from "@/components/academy/progress-modal";
 import { CURRICULUM_MODULES } from "@/content/modules";

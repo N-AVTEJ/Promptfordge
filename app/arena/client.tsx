@@ -51,7 +51,7 @@ export function SecurityArenaClient() {
                 </div>
                 <div>
                   <h1 className="font-sans text-2xl sm:text-3xl font-black tracking-tight text-indigo">
-                    Security Arena <span className="text-coral">// Red vs Blue</span>
+                    Security Arena <span className="text-coral">{"//"} Red vs Blue</span>
                   </h1>
                   <p className="font-mono text-xs text-indigo-900/60 mt-0.5">
                     Safe adversarial laboratory for prompt injection defense &amp; boundary auditing

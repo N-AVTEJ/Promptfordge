@@ -217,7 +217,7 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
               <div className="rounded-xl bg-cream p-4 font-mono text-[11px] text-indigo border border-indigo-950/10 space-y-1">
                 <div>Completed lessons: {progress.completedLessonIds.length}</div>
                 <div>Quiz results recorded: {Object.keys(progress.quizScores || {}).length}</div>
-                <div>Last updated: {new Date(progress.updatedAt || Date.now()).toLocaleString()}</div>
+                <div>Last updated: {new Date(progress.lastActiveTimestamp || Date.now()).toLocaleString()}</div>
               </div>
 
               <div className="flex flex-wrap items-center gap-3 pt-2">
