@@ -676,11 +676,11 @@ export function LlmSimulatorLab() {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 rows={5}
-                className="w-full rounded-xl border border-forge-border bg-forge-black/90 p-4 font-mono text-sm leading-relaxed text-forge-text focus:border-cyan-500 focus:outline-none"
+                className="w-full rounded-xl border border-indigo/15 bg-cream/60 p-4 font-mono text-sm leading-relaxed text-indigo focus:border-coral focus:outline-none"
                 placeholder="Enter prompt text to simulate..."
               />
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-mono text-forge-muted">Quick Inputs:</span>
+                <span className="text-xs font-mono text-indigo/60">Quick Inputs:</span>
                 {[
                   "You are a friendly Python teacher. Explain loops to high school students.",
                   "Summarize quantum computing in three clear bullet points.",
@@ -689,7 +689,7 @@ export function LlmSimulatorLab() {
                   <button
                     key={idx}
                     onClick={() => setInputText(sample)}
-                    className="rounded border border-forge-border bg-forge-black/60 px-2 py-1 text-[11px] font-mono text-forge-muted hover:text-forge-text"
+                    className="rounded-lg border border-indigo/10 bg-cream px-2 py-1 text-[11px] font-mono text-indigo/70 hover:border-coral/40 hover:text-indigo"
                   >
                     Sample {idx + 1}
                   </button>
@@ -697,8 +697,8 @@ export function LlmSimulatorLab() {
               </div>
             </Card>
 
-            <Card className="lg:col-span-5 border-forge-border bg-forge-surface p-5 space-y-3">
-              <span className="font-mono text-xs uppercase tracking-wider text-forge-muted block border-b border-forge-border/60 pb-3">
+            <Card className="lg:col-span-5 border-indigo/10 bg-white p-5 space-y-3 shadow-sm">
+              <span className="font-mono text-xs uppercase tracking-wider text-indigo/60 block border-b border-indigo/10 pb-3">
                 Byte Stream Inspection (Unicode Points & Hex)
               </span>
               <div className="max-h-[220px] overflow-y-auto space-y-1 font-mono text-xs pr-2">
@@ -708,7 +708,7 @@ export function LlmSimulatorLab() {
                   return (
                     <div
                       key={idx}
-                      className="flex items-center justify-between rounded border border-forge-border/40 bg-forge-black/40 px-2.5 py-1 text-forge-muted"
+                      className="flex items-center justify-between rounded-lg border border-indigo/10 bg-cream/50 px-2.5 py-1 text-indigo/70"
                     >
                       <span className="text-forge-text font-bold">
                         {char === " " ? "[SPACE]" : char === "\n" ? "[NEWLINE]" : char}
