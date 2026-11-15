@@ -413,10 +413,10 @@ export function ChallengesHub() {
             return (
               <div
                 key={mission.id}
-                className={`relative flex flex-col justify-between rounded-xl border p-5 transition-all ${
+                className={`relative flex flex-col justify-between rounded-2xl border p-6 transition-all ${
                   isCompleted
-                    ? "border-emerald-500/30 bg-[#0A120E]/40"
-                    : "border-white/[0.08] bg-[#0E1015]/90 hover:border-white/[0.15]"
+                    ? "border-teal/30 bg-mint/30"
+                    : "border-indigo/10 bg-white hover:border-coral/40 shadow-sm"
                 }`}
               >
                 <div>
@@ -428,19 +428,19 @@ export function ChallengesHub() {
                       >
                         {diffStyle.label}
                       </span>
-                      <span className="font-mono text-xs font-semibold text-ember-400">
+                      <span className="font-mono text-xs font-semibold text-coral">
                         +{mission.points} pts
                       </span>
                     </div>
 
                     {isCompleted ? (
-                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400">
-                        <CheckCircle2 className="h-4 w-4" />
+                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-teal-700">
+                        <CheckCircle2 className="h-4 w-4 text-teal" />
                         Completed
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 text-xs text-forge-muted">
-                        <Target className="h-3.5 w-3.5 text-amber-500" />
+                      <span className="inline-flex items-center gap-1 text-xs text-indigo/60">
+                        <Target className="h-3.5 w-3.5 text-coral" />
                         Available
                       </span>
                     )}
@@ -448,17 +448,17 @@ export function ChallengesHub() {
 
                   {/* Title & Description */}
                   <div className="mt-3 space-y-1">
-                    <h3 className="text-base font-semibold text-white">{mission.title}</h3>
-                    <p className="text-xs text-forge-muted">{mission.tagline}</p>
+                    <h3 className="text-base font-semibold text-indigo">{mission.title}</h3>
+                    <p className="text-xs text-indigo/70">{mission.tagline}</p>
                   </div>
 
-                  <p className="mt-2 text-xs leading-relaxed text-forge-text/80">
+                  <p className="mt-2 text-xs leading-relaxed text-indigo/80">
                     {mission.description}
                   </p>
 
                   {/* Target Requirement Badge */}
-                  <div className="mt-3 rounded-lg border border-white/[0.06] bg-black/40 p-2.5 text-xs text-forge-muted">
-                    <span className="font-mono text-[10px] uppercase text-cyan-400">
+                  <div className="mt-3 rounded-xl border border-indigo/10 bg-cream/70 p-3 text-xs text-indigo/80">
+                    <span className="font-mono text-[10px] uppercase text-teal-700 font-bold">
                       Criteria:
                     </span>{" "}
                     {mission.targetRequirement}
@@ -538,10 +538,10 @@ export function ChallengesHub() {
 
         {/* Empty State */}
         {filteredMissions.length === 0 && (
-          <div className="rounded-xl border border-white/[0.06] bg-[#0E1015] p-12 text-center">
-            <Trophy className="mx-auto h-8 w-8 text-forge-muted opacity-50" />
-            <h3 className="mt-3 text-sm font-semibold text-white">No missions found</h3>
-            <p className="mt-1 text-xs text-forge-muted">
+          <div className="rounded-2xl border border-indigo/10 bg-white p-12 text-center shadow-sm">
+            <Trophy className="mx-auto h-8 w-8 text-indigo/30" />
+            <h3 className="mt-3 text-sm font-semibold text-indigo">No missions found</h3>
+            <p className="mt-1 text-xs text-indigo/60">
               Adjust your filters or reset to view all available engineering challenges.
             </p>
           </div>
@@ -549,7 +549,7 @@ export function ChallengesHub() {
       </section>
 
       {/* Reset State Option */}
-      <div className="flex items-center justify-between border-t border-white/[0.08] pt-6 text-xs text-forge-muted">
+      <div className="flex items-center justify-between border-t border-indigo/10 pt-6 text-xs text-indigo/60">
         <span>PromptForge local storage engine • Safe sandbox execution</span>
         <button
           type="button"
@@ -559,7 +559,7 @@ export function ChallengesHub() {
               setVerificationFeedback({});
             }
           }}
-          className="inline-flex items-center gap-1 hover:text-rose-400 focus-visible:outline-none"
+          className="inline-flex items-center gap-1 hover:text-coral focus-visible:outline-none"
         >
           <RotateCcw className="h-3 w-3" />
           <span>Reset Challenge Data</span>
@@ -572,7 +572,7 @@ export function ChallengesHub() {
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             {/* Backdrop */}
             <motion.div
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+              className="fixed inset-0 bg-indigo/60 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
