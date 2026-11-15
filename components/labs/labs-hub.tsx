@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import {
   Layers,
   Cpu,
@@ -10,12 +11,44 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { PromptPlayground } from "./playground";
-import { PromptAnatomyLab } from "./prompt-anatomy";
-import { LlmSimulatorLab } from "./llm-simulator";
-import { CompareLab } from "./compare-lab";
-import { OptimizeLab } from "./optimize-lab";
-import { ReasoningLab } from "./reasoning/reasoning-lab";
+
+const LabLoadingSkeleton = () => (
+  <div className="min-h-[500px] w-full rounded-2xl border border-white/[0.06] bg-[#0E1015]/60 p-8 flex flex-col items-center justify-center space-y-4 animate-pulse">
+    <div className="h-8 w-48 rounded bg-white/[0.08]" />
+    <div className="h-4 w-96 rounded bg-white/[0.04]" />
+    <div className="h-64 w-full rounded-xl bg-white/[0.02] mt-6" />
+  </div>
+);
+
+const PromptPlayground = dynamic(
+  () => import("./playground").then((m) => m.PromptPlayground),
+  { ssr: false, loading: LabLoadingSkeleton }
+);
+
+const PromptAnatomyLab = dynamic(
+  () => import("./prompt-anatomy").then((m) => m.PromptAnatomyLab),
+  { ssr: false, loading: LabLoadingSkeleton }
+);
+
+const LlmSimulatorLab = dynamic(
+  () => import("./llm-simulator").then((m) => m.LlmSimulatorLab),
+  { ssr: false, loading: LabLoadingSkeleton }
+);
+
+const CompareLab = dynamic(
+  () => import("./compare-lab").then((m) => m.CompareLab),
+  { ssr: false, loading: LabLoadingSkeleton }
+);
+
+const OptimizeLab = dynamic(
+  () => import("./optimize-lab").then((m) => m.OptimizeLab),
+  { ssr: false, loading: LabLoadingSkeleton }
+);
+
+const ReasoningLab = dynamic(
+  () => import("./reasoning/reasoning-lab").then((m) => m.ReasoningLab),
+  { ssr: false, loading: LabLoadingSkeleton }
+);
 
 export type LabTab =
   | "anatomy"

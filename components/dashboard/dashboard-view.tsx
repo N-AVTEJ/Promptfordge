@@ -381,7 +381,7 @@ export function DashboardView() {
                     </div>
                     {clarity !== undefined && (
                       <span className="font-mono text-emerald-400">
-                        Clarity: {Math.round(clarity)}%
+                        Clarity: {Math.round(clarity <= 5 ? clarity * 20 : clarity)}%
                       </span>
                     )}
                   </div>

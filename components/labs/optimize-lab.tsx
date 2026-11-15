@@ -28,6 +28,8 @@ import {
 } from "@/lib/engine/optimize";
 import { RunEvaluation, JudgeEvaluation } from "@/lib/engine/evaluate";
 import { OptimizedCandidateResponse } from "@/app/api/optimize/route";
+import { getDemoOptimizeResults } from "@/lib/engine/demo-data";
+import { useProgress } from "@/lib/storage/progress";
 
 const PRESET_PROMPTS = [
   {
@@ -53,11 +55,17 @@ const PRESET_PROMPTS = [
 ];
 
 export function OptimizeLab() {
+  const { completeLab } = useProgress();
   const [promptText, setPromptText] = useState("write about dogs");
   const [contextText, setContextText] = useState("");
   const [selectedModel, setSelectedModel] = useState("gemini-1.5-flash");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isDemoData, setIsDemoData] = useState(false);
+
+  React.useEffect(() => {
+    completeLab("optimize");
+  }, [completeLab]);
 
   // Result state
   const [analysis, setAnalysis] = useState<PromptAnalysis | null>(null);
@@ -78,6 +86,23 @@ export function OptimizeLab() {
   const [saveSuccessMsg, setSaveSuccessMsg] = useState<string | null>(null);
 
   const activeCandidate = candidates[activeCandidateIdx];
+
+  const handleLoadDemoData = () => {
+    const textToRun = promptText.trim() || "write about dogs";
+    const demo = getDemoOptimizeResults(textToRun, selectedModel);
+    setIsDemoData(true);
+    setErrorMessage(null);
+    setSaveSuccessMsg(null);
+    setAnalysis(demo.original.analysis);
+    setOriginalRun(demo.original.run);
+    setOriginalJudge(demo.original.judge);
+    setCandidates(demo.improvements as unknown as OptimizedCandidateResponse[]);
+    setActiveCandidateIdx(0);
+    if (demo.improvements?.[0]) {
+      setSaveTitle(`Optimized: ${textToRun.slice(0, 32)}...`);
+      setSaveNotes(`Refined using strategy "${demo.improvements[0].title}". Addressed ${demo.improvements[0].diagnosesAddressed?.length || 0} weaknesses.`);
+    }
+  };
 
   const handleRunOptimize = async (customPrompt?: string, customContext?: string) => {
     const textToRun = (customPrompt ?? promptText).trim();
@@ -106,6 +131,7 @@ export function OptimizeLab() {
         throw new Error(data.error?.message || "Optimization failed.");
       }
 
+      setIsDemoData(Boolean(data.demoData));
       setAnalysis(data.original.analysis);
       setOriginalRun(data.original.run);
       setOriginalJudge(data.original.judge);
@@ -374,9 +400,23 @@ export function OptimizeLab() {
           )}
 
           {errorMessage && (
-            <div className="rounded-lg border border-rose-500/40 bg-rose-950/20 p-3.5 text-xs font-mono text-rose-300 flex items-start gap-2">
-              <AlertTriangle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
-              <span>{errorMessage}</span>
+            <div className="rounded-lg border border-rose-500/40 bg-rose-950/20 p-3.5 text-xs font-mono text-rose-300 space-y-2.5">
+              <div className="flex items-start gap-2">
+                <AlertTriangle className="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
+                <span>{errorMessage}</span>
+              </div>
+              <div className="pt-1">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleLoadDemoData}
+                  className="border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 text-xs h-7"
+                >
+                  <Sparkles className="mr-1.5 h-3 w-3 text-amber-400" />
+                  Load Cached Demo Data
+                </Button>
+              </div>
             </div>
           )}
         </div>
@@ -385,6 +425,16 @@ export function OptimizeLab() {
       {/* Optimization Results Section */}
       {analysis && (
         <div className="space-y-8 pt-4">
+          {/* Demo Data Notice */}
+          {isDemoData && (
+            <div className="flex items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-2 text-xs font-mono text-amber-300">
+              <Sparkles className="h-4 w-4 text-amber-400 shrink-0" />
+              <span>
+                <span className="font-bold">DEMO DATA:</span> Serving pre-recorded optimization benchmark. Live AI calls disabled.
+              </span>
+            </div>
+          )}
+
           {/* 1. Weakness Diagnosis Panel */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">

@@ -12,7 +12,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { executePrompt, RunResult } from "@/lib/engine/execute";
-import { isKillSwitchActive } from "@/lib/engine/demo-data";
+import { isKillSwitchActive, getDemoOptimizeResults } from "@/lib/engine/demo-data";
 import {
   BudgetExhaustedError,
   GuardValidationError,
@@ -151,6 +151,15 @@ export async function POST(req: NextRequest) {
     parseResult.data;
   const ip = extractClientIp(req);
   const byokKey = extractByokKey(req);
+
+  // Global Kill Switch Check: return cached demo optimization data immediately
+  if (isKillSwitchActive()) {
+    const demo = getDemoOptimizeResults(prompt, model);
+    return NextResponse.json({
+      ...demo,
+      killSwitch: true,
+    });
+  }
 
   // 1. Guardrail validation
   try {

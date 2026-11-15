@@ -10,7 +10,8 @@
  */
 
 import type { RunResult } from "./execute";
-import type { TechniqueAggregateResult } from "./evaluate";
+import type { TechniqueAggregateResult, JudgeEvaluation, RunEvaluation } from "./evaluate";
+import type { PromptAnalysis, ImprovedPromptVersion } from "./optimize";
 
 let testKillSwitchOverride: boolean | null = null;
 
@@ -216,5 +217,266 @@ export function getDemoCompareResults(
     demoData: true,
     demoNotice:
       "Demo data: Comparison results populated from pre-recorded benchmark runs. Live AI calls disabled.",
+  };
+}
+
+export interface DemoOptimizeResult {
+  success: true;
+  demoData: true;
+  demoNotice: string;
+  original: {
+    prompt: string;
+    analysis: PromptAnalysis;
+    run: RunEvaluation;
+    judge: JudgeEvaluation;
+  };
+  improvements: Array<
+    ImprovedPromptVersion & {
+      run: RunEvaluation;
+      judge: JudgeEvaluation;
+      metricsComparison: Record<
+        string,
+        {
+          original: number;
+          improved: number;
+          delta: number;
+          explanation: string;
+        }
+      >;
+    }
+  >;
+}
+
+/**
+ * Pre-recorded optimization diagnostic results for /labs/optimize.
+ */
+export function getDemoOptimizeResults(
+  prompt = "Write about dogs",
+  model = "gemini-1.5-flash"
+): DemoOptimizeResult {
+  const originalPrompt = prompt.trim() || "Write about dogs";
+
+  const analysis: PromptAnalysis = {
+    prompt: originalPrompt,
+    wordCount: originalPrompt.split(/\s+/).length,
+    charCount: originalPrompt.length,
+    score: 35,
+    qualityTier: "weak",
+    diagnoses: [
+      {
+        id: "diag_1",
+        category: "vague_verbs",
+        severity: "critical",
+        title: "Vague Directive Verb",
+        description: 'The verb "Write" is underspecified and gives no directional guidance on format, depth, or tone.',
+        suggestion: 'Replace "Write" with actionable verbs like "Compose", "Analyze", or "Catalog".',
+      },
+      {
+        id: "diag_2",
+        category: "no_constraints",
+        severity: "warning",
+        title: "Missing Negative & Operational Constraints",
+        description: "No length boundaries, audience framing, or style constraints specified.",
+        suggestion: "Add word count limits and target audience specifications.",
+      },
+      {
+        id: "diag_3",
+        category: "no_format",
+        severity: "warning",
+        title: "Unstructured Output Schema",
+        description: "No clear sections or output format specified; model will emit unstructured free-text prose.",
+        suggestion: "Specify bullet points, markdown headings, or JSON schema.",
+      },
+    ],
+  };
+
+  const originalRun: RunEvaluation = {
+    runIndex: 0,
+    text: "Dogs are domesticated mammals, not natural wild animals. They were originally bred from wolves. Dogs have been bred by humans for a long time, and were probably the first animals ever to be domesticated. Today, some dogs are used as pets, others are used to help humans do their work.",
+    responseLength: {
+      characters: 285,
+      words: 49,
+      explanation: "285 characters, 49 words.",
+    },
+    latency: {
+      latencyMs: 240,
+      explanation: "Latency of 240ms.",
+    },
+    tokenUsage: {
+      inputTokens: 12,
+      outputTokens: 62,
+      totalTokens: 74,
+      explanation: "74 total tokens (12 in, 62 out).",
+    },
+    cost: {
+      costUsd: 0.000019,
+      model,
+      explanation: "Cost estimated at $0.000019.",
+    },
+    formatCompliance: {
+      requestedFormat: "freeform",
+      isCompliant: true,
+      score: 0.6,
+      explanation: "Free-form prose without structured sections.",
+    },
+  };
+
+  const originalJudge: JudgeEvaluation = {
+    relevance: { score: 3, reason: "Broadly related to the generic prompt." },
+    correctness: { score: 4, reason: "Factual basic statements regarding dogs." },
+    clarity: { score: 3, reason: "Simple prose lacking depth or focus." },
+    constraintFollowing: { score: 2, reason: "No constraints were provided to follow." },
+    explanation: "Baseline run produced generic unstructured prose with minimal pedagogical depth.",
+  };
+
+  const candidate1Prompt = `You are a certified veterinary behaviorist. Compose a structured guide for first-time dog adopters covering:
+1. Behavioral Transition Phases (Rule of 3s: 3 days, 3 weeks, 3 months)
+2. Essential Nutritional & Health Checklist
+3. Core Positive-Reinforcement Training Protocols
+
+Constraints: Keep under 350 words, use clear markdown subheadings, and omit conversational filler.`;
+
+  const candidate1Run: RunEvaluation = {
+    runIndex: 1,
+    text: `### 1. Behavioral Transition (The Rule of 3s)
+- **First 3 Days**: Expect decompression. Keep environment quiet and routines predictable.
+- **First 3 Weeks**: Routine established; genuine personality traits emerge.
+- **First 3 Months**: Full acclimation and secure bond established.
+
+### 2. Essential Health & Nutrition
+- High-quality life-stage-specific protein diet.
+- Vet check within 72 hours for vaccinations and parasite screening.
+
+### 3. Positive Reinforcement Protocols
+- Reward desired behaviors instantly with high-value treats.
+- Ignore or redirect attention-seeking minor misbehaviors.`,
+    responseLength: {
+      characters: 615,
+      words: 98,
+      explanation: "615 characters, 98 words.",
+    },
+    latency: {
+      latencyMs: 310,
+      explanation: "Latency of 310ms.",
+    },
+    tokenUsage: {
+      inputTokens: 85,
+      outputTokens: 140,
+      totalTokens: 225,
+      explanation: "225 total tokens (85 in, 140 out).",
+    },
+    cost: {
+      costUsd: 0.000048,
+      model,
+      explanation: "Cost estimated at $0.000048.",
+    },
+    formatCompliance: {
+      requestedFormat: "markdown",
+      isCompliant: true,
+      score: 1.0,
+      explanation: "Adhered strictly to requested 3-part markdown schema.",
+    },
+  };
+
+  const candidate1Judge: JudgeEvaluation = {
+    relevance: { score: 5, reason: "Directly addresses canine adoption fundamentals." },
+    correctness: { score: 5, reason: "Accurate veterinary behavioral protocols (Rule of 3s)." },
+    clarity: { score: 5, reason: "Crystal clear bullet points and structural subheadings." },
+    constraintFollowing: { score: 5, reason: "Remained under word ceiling with zero conversational fluff." },
+    explanation: "High-clarity expert output with modular markdown formatting and operational constraints.",
+  };
+
+  return {
+    success: true,
+    demoData: true,
+    demoNotice:
+      "Demo data: Optimization benchmark served from pre-recorded results. Live AI calls disabled.",
+    original: {
+      prompt: originalPrompt,
+      analysis,
+      run: originalRun,
+      judge: originalJudge,
+    },
+    improvements: [
+      {
+        id: "cand_clarity_1",
+        title: "Role & Constraint Precision",
+        strategy: "constrained",
+        description: "Adds expert role, clear constraints, and markdown schema.",
+        prompt: candidate1Prompt,
+        diagnosesAddressed: ["diag_1", "diag_2", "diag_3"],
+        diff: {
+          lines: [],
+          summary: {
+            added: 3,
+            removed: 1,
+            modified: 0,
+            unchanged: 0,
+            totalLinesOriginal: 1,
+            totalLinesImproved: 8,
+          },
+        },
+        changes: [
+          {
+            id: "c1",
+            type: "addition",
+            description: "Added certified veterinary behaviorist expert persona.",
+            reason: "Anchors persona for domain expertise.",
+          },
+          {
+            id: "c2",
+            type: "addition",
+            description: "Specified 3 explicit thematic topics.",
+            reason: "Removes ambiguity on content scope.",
+          },
+          {
+            id: "c3",
+            type: "constraint",
+            description: "Added word ceiling (< 350 words) and markdown formatting constraint.",
+            reason: "Guarantees concise structured output.",
+          },
+        ],
+        run: candidate1Run,
+        judge: candidate1Judge,
+        metricsComparison: {
+          clarity: {
+            original: 3,
+            improved: 5,
+            delta: 2,
+            explanation: "Clarity increased from 3/5 (60%) to 5/5 (100%).",
+          },
+          constraints: {
+            original: 2,
+            improved: 5,
+            delta: 3,
+            explanation: "Constraint following improved from 2/5 to 5/5.",
+          },
+          latency: {
+            original: 240,
+            improved: 310,
+            delta: 70,
+            explanation: "Slight latency increase (+70ms) due to richer structured completion.",
+          },
+          totalTokens: {
+            original: 74,
+            improved: 225,
+            delta: 151,
+            explanation: "Higher token count reflecting detailed veterinary guidelines.",
+          },
+          costUsd: {
+            original: 0.000019,
+            improved: 0.000048,
+            delta: 0.000029,
+            explanation: "Minor cost increment for production-grade output.",
+          },
+          words: {
+            original: 49,
+            improved: 98,
+            delta: 49,
+            explanation: "Comprehensive 98-word structured guide.",
+          },
+        },
+      },
+    ],
   };
 }

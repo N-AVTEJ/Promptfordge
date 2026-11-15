@@ -344,9 +344,10 @@ export function checkMissionRequirement(mission: ChallengeMission): {
           const zeroScore = zero.formatComplianceSpread?.mean ?? 0;
           const fewScore = few.formatComplianceSpread?.mean ?? 0;
           if (fewScore > zeroScore) {
+            const taskLabel = (exp.task || "Experiment").slice(0, 30);
             return {
               passed: true,
-              message: `Few-Shot (${Math.round(fewScore * 100)}%) successfully beat Zero-Shot (${Math.round(zeroScore * 100)}%) on format compliance in experiment "${exp.task.slice(0, 30)}...".`,
+              message: `Few-Shot (${Math.round(fewScore * 100)}%) successfully beat Zero-Shot (${Math.round(zeroScore * 100)}%) on format compliance in experiment "${taskLabel}...".`,
             };
           }
         }
@@ -380,11 +381,15 @@ export function checkMissionRequirement(mission: ChallengeMission): {
       for (const p of prompts) {
         if (Array.isArray(p.versions)) {
           for (const v of p.versions) {
-            if (v.metrics?.clarity && v.metrics.clarity >= 80) {
-              return {
-                passed: true,
-                message: `Prompt "${p.title}" achieved ${Math.round(v.metrics.clarity)}% clarity score.`,
-              };
+            const clarity = v.metrics?.clarity;
+            if (clarity !== undefined) {
+              const normalizedClarity = clarity <= 5 ? clarity * 20 : clarity;
+              if (normalizedClarity >= 80) {
+                return {
+                  passed: true,
+                  message: `Prompt "${p.title}" achieved ${Math.round(normalizedClarity)}% clarity score.`,
+                };
+              }
             }
           }
         }
@@ -442,7 +447,9 @@ export function checkMissionRequirement(mission: ChallengeMission): {
     case "reasoning_depth": {
       // Check if user visited or interacted with reasoning lab
       const progress = getStoredProgress();
-      if (progress.completedLabIds?.includes("reasoning")) {
+      const drafts = getStorageItem(STORAGE_KEYS.LAB_DRAFTS);
+      const explored = drafts && (drafts["reasoning"] || drafts["tot"]);
+      if (progress.completedLabIds?.includes("reasoning") || explored) {
         return {
           passed: true,
           message: "Reasoning Playground exploration verified.",

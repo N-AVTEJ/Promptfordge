@@ -114,6 +114,19 @@ export async function POST(req: NextRequest) {
 
   try {
     const promptStr = typeof payload.prompt === "string" ? payload.prompt : "";
+    if (!promptStr || promptStr.trim().length === 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: "INVALID_INPUT",
+            message: "Prompt cannot be empty.",
+          },
+        },
+        { status: 400 }
+      );
+    }
+
     const maxOutputTokens =
       typeof payload.maxOutputTokens === "number"
         ? payload.maxOutputTokens

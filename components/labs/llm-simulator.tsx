@@ -31,15 +31,21 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { useProgress } from "@/lib/storage/progress";
 
 const DEFAULT_SIMULATOR_PROMPT =
   "You are a friendly Python teacher. Explain loops to high school students.";
 
 export function LlmSimulatorLab() {
+  const { completeLab } = useProgress();
   const [inputText, setInputText] = useState(DEFAULT_SIMULATOR_PROMPT);
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1.0);
+
+  useEffect(() => {
+    completeLab("simulator");
+  }, [completeLab]);
 
   // Stage 2 Tokenization hover state
   const [hoveredTokenIndex, setHoveredTokenIndex] = useState<number | null>(null);
@@ -465,7 +471,11 @@ export function LlmSimulatorLab() {
       </AnimatePresence>
 
       {/* 4. SIX-STAGE STEPPER NAVIGATION BAR */}
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+      <div
+        className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6"
+        role="tablist"
+        aria-label="Transformer Pipeline Stages"
+      >
         {STAGES.map((stage, idx) => {
           const isActive = currentStageIndex === idx;
           const isPassed = currentStageIndex > idx;
@@ -473,6 +483,9 @@ export function LlmSimulatorLab() {
           return (
             <button
               key={stage.id}
+              role="tab"
+              aria-selected={isActive}
+              aria-label={`Stage ${stage.number}: ${stage.title}`}
               onClick={() => jumpToStage(idx)}
               className={`flex flex-col text-left rounded-xl border p-3.5 transition-all duration-200 ${
                 isActive
@@ -522,6 +535,7 @@ export function LlmSimulatorLab() {
             disabled={currentStageIndex === 0 && activeGenStep === 0}
             className="border-forge-border text-forge-text hover:bg-forge-surface"
             title="Step Backward (ArrowLeft)"
+            aria-label="Step Backward"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
@@ -536,6 +550,7 @@ export function LlmSimulatorLab() {
                 : "bg-ember-500 text-forge-black hover:bg-ember-400"
             }`}
             title="Play / Pause (Spacebar)"
+            aria-label={isPlaying ? "Pause simulation" : "Play simulation"}
           >
             {isPlaying ? (
               <>
@@ -560,6 +575,7 @@ export function LlmSimulatorLab() {
             }
             className="border-forge-border text-forge-text hover:bg-forge-surface"
             title="Step Forward (ArrowRight)"
+            aria-label="Step Forward"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>

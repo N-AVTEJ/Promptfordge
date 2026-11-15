@@ -81,6 +81,29 @@ export function markLessonComplete(
 }
 
 /**
+ * Mark an interactive lab complete / explored.
+ */
+export function markLabComplete(labId: string): ProgressData {
+  const current = getStoredProgress();
+  const set = new Set(current.completedLabIds || []);
+
+  if (set.has(labId)) {
+    return current;
+  }
+
+  set.add(labId);
+  const updated: ProgressData = {
+    ...current,
+    completedLabIds: Array.from(set),
+    lastActiveTimestamp: Date.now(),
+  };
+
+  setStorageItem(STORAGE_KEYS.PROGRESS, updated);
+  emitProgressChange(updated);
+  return updated;
+}
+
+/**
  * Save the best quiz score for a lesson.
  */
 export function saveQuizScore(
@@ -375,6 +398,12 @@ export function useProgress() {
     setProgress(updated);
   }, []);
 
+  const completeLab = useCallback((labId: string) => {
+    const updated = markLabComplete(labId);
+    setProgress(updated);
+    return updated;
+  }, []);
+
   const reset = useCallback(() => {
     const fresh = resetAllProgress();
     setProgress(fresh);
@@ -394,6 +423,7 @@ export function useProgress() {
     toggleLesson,
     saveQuiz,
     visitLesson,
+    completeLab,
     reset,
     importJson,
     exportJson: exportProgressToJson,

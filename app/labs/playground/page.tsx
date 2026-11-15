@@ -1,11 +1,25 @@
 import { Metadata } from "next";
-import { PromptPlayground } from "@/components/labs/playground";
+import dynamic from "next/dynamic";
 
 export const metadata: Metadata = {
   title: "Playground | PromptForge Live Labs",
   description:
     "Interactive live prompt engineering playground with multi-model adapters, token telemetry, LRU caching, and cost estimation.",
 };
+
+const PromptPlayground = dynamic(
+  () => import("@/components/labs/playground").then((m) => m.PromptPlayground),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-4 animate-pulse">
+        <div className="h-10 w-64 rounded-lg bg-white/[0.05]" />
+        <div className="h-4 w-96 rounded bg-white/[0.03]" />
+        <div className="h-96 w-full max-w-5xl rounded-xl border border-white/[0.06] bg-[#0E1015]/60 mt-8" />
+      </div>
+    ),
+  }
+);
 
 export default function PlaygroundPage() {
   return (

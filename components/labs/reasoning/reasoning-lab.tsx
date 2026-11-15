@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GitBranch, Terminal, Users, Sparkles } from "lucide-react";
+import { useProgress } from "@/lib/storage/progress";
 import { TotVisualizer } from "./tot-visualizer";
 import { ReactVisualizer } from "./react-visualizer";
 import { ExpertVisualizer } from "./expert-visualizer";
@@ -10,6 +11,11 @@ export type ReasoningStrategyTab = "tot" | "react" | "expert";
 
 export function ReasoningLab() {
   const [activeTab, setActiveTab] = useState<ReasoningStrategyTab>("tot");
+  const { completeLab } = useProgress();
+
+  useEffect(() => {
+    completeLab("reasoning");
+  }, [completeLab]);
 
   return (
     <div className="space-y-6">

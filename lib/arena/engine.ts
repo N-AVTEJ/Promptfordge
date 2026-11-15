@@ -9,6 +9,7 @@
  */
 
 import { executePrompt, RunResult } from "@/lib/engine/execute";
+import { isKillSwitchActive } from "@/lib/engine/demo-data";
 import { getArenaLevel } from "./levels";
 import {
   RED_VS_BLUE_TARGET_FLAG,
@@ -66,8 +67,11 @@ export async function executeLevelAttack(
   let rawOutput = "";
   let isSimulated = false;
 
-  // If real API key is supplied, attempt live LLM run
-  if (options.apiKey || (typeof process !== "undefined" && process.env.GEMINI_API_KEY)) {
+  // If real API key is supplied and kill switch is not active, attempt live LLM run
+  if (
+    !isKillSwitchActive() &&
+    (options.apiKey || (typeof process !== "undefined" && process.env.GEMINI_API_KEY))
+  ) {
     try {
       const runRes: RunResult = await executePrompt({
         prompt: cleanedAttack,

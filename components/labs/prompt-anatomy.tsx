@@ -33,6 +33,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { useProgress } from "@/lib/storage/progress";
 
 interface ComparisonRunResult {
   text: string;
@@ -136,9 +137,14 @@ export function PromptAnatomyLab() {
   const [selectedSpanId, setSelectedSpanId] = useState<string | null>(null);
   const [isAiAnalyzing, setIsAiAnalyzing] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
+  const { completeLab } = useProgress();
   const [aiSuccessNote, setAiSuccessNote] = useState<string | null>(null);
   const [aiAnalysisOverride, setAiAnalysisOverride] =
     useState<AnatomyAnalysis | null>(null);
+
+  React.useEffect(() => {
+    completeLab("anatomy");
+  }, [completeLab]);
 
   // A/B Comparison Mode State
   const [compareMode, setCompareMode] = useState(false);
@@ -224,11 +230,14 @@ Return strictly valid JSON with no markdown fences or preambles:
       }
 
       const data = await response.json();
-      if (data && data.text) {
-        const aiAnalysis = parseAiAnalysisResponse(data.text, promptText);
+      const rawText = data?.data?.text || data?.text;
+      const totalTokens = (data?.data?.tokensIn ?? data?.tokensIn ?? 0) + (data?.data?.tokensOut ?? data?.tokensOut ?? 0);
+      const latencyMs = data?.data?.latencyMs ?? data?.latencyMs ?? 0;
+      if (rawText) {
+        const aiAnalysis = parseAiAnalysisResponse(rawText, promptText);
         setAiAnalysisOverride(aiAnalysis);
         setAiSuccessNote(
-          `AI Analysis Verified (${data.tokensIn + data.tokensOut} tokens in ${data.latencyMs}ms). ${aiAnalysis.detectedSpans.length} structural components verified by model.`
+          `AI Analysis Verified (${totalTokens} tokens in ${latencyMs}ms). ${aiAnalysis.detectedSpans.length} structural components verified by model.`
         );
       } else {
         const simulated = simulateDeepAnalysis(promptText);
@@ -345,11 +354,11 @@ Return strictly valid JSON with no markdown fences or preambles:
       const dataB = await resB.json();
 
       if (!resA.ok || !resB.ok) {
-        throw new Error(dataA.message || dataB.message || "Failed to execute");
+        throw new Error(dataA.error?.message || dataA.message || dataB.error?.message || dataB.message || "Failed to execute");
       }
 
-      setVariantAResult(dataA);
-      setVariantBResult(dataB);
+      setVariantAResult(dataA.data || dataA);
+      setVariantBResult(dataB.data || dataB);
     } catch {
       // Intelligent realistic simulation fallback tailored to the mutated component
       const mutatedType = selectedComponentToMutate;

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   CheckCircle,
   Circle,
@@ -41,6 +42,7 @@ export function LessonStudio({
   prevLesson,
 }: LessonStudioProps) {
   const { progress, toggleLesson, visitLesson } = useProgress();
+  const router = useRouter();
 
   // YouTube player imperative seek ref
   const playerRef = React.useRef<YouTubePlayerRef>(null);
@@ -59,6 +61,54 @@ export function LessonStudio({
 
   // Custom prompt sent from practice challenge to lab
   const [customLabPrompt, setCustomLabPrompt] = React.useState<string | undefined>(undefined);
+
+  // Full keyboard navigation pass
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+
+      if (
+        (e.key === "[" || (e.altKey && e.key === "ArrowLeft")) &&
+        prevLesson
+      ) {
+        e.preventDefault();
+        router.push(`/academy/${prevLesson.moduleId}/${prevLesson.lessonId}`);
+      } else if (
+        (e.key === "]" || (e.altKey && e.key === "ArrowRight")) &&
+        nextLesson
+      ) {
+        e.preventDefault();
+        router.push(`/academy/${nextLesson.moduleId}/${nextLesson.lessonId}`);
+      } else if (e.key === "1" || (e.altKey && e.key === "1")) {
+        e.preventDefault();
+        setRightTab("notes");
+        setMobileTab("right");
+      } else if (e.key === "2" || (e.altKey && e.key === "2")) {
+        e.preventDefault();
+        setRightTab("lab");
+        setMobileTab("right");
+      } else if (e.key === "3" || (e.altKey && e.key === "3")) {
+        e.preventDefault();
+        setRightTab("quiz");
+        setMobileTab("right");
+      } else if (e.key === "m" || (e.altKey && e.key === "m")) {
+        e.preventDefault();
+        toggleLesson(lesson.id);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [router, prevLesson, nextLesson, lesson.id, toggleLesson]);
 
   // Register last visited and reset transient state on lesson change
   React.useEffect(() => {
@@ -523,9 +573,18 @@ export function LessonStudio({
             )}
           >
             {/* Panel Tabs Header */}
-            <div className="flex border border-white/[0.06] bg-black/40 rounded-lg p-1">
+            <div
+              className="flex border border-white/[0.06] bg-black/40 rounded-lg p-1"
+              role="tablist"
+              aria-label="Lesson workspace panels"
+            >
               <button
                 type="button"
+                role="tab"
+                id="tab-notes"
+                aria-selected={rightTab === "notes"}
+                aria-controls="panel-notes"
+                aria-label="Notes panel (Shortcut: 1)"
                 onClick={() => setRightTab("notes")}
                 className={cn(
                   "flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded transition-all font-mono",
@@ -540,6 +599,11 @@ export function LessonStudio({
 
               <button
                 type="button"
+                role="tab"
+                id="tab-lab"
+                aria-selected={rightTab === "lab"}
+                aria-controls="panel-lab"
+                aria-label="Lab playground panel (Shortcut: 2)"
                 onClick={() => setRightTab("lab")}
                 className={cn(
                   "flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded transition-all font-mono",
@@ -554,6 +618,11 @@ export function LessonStudio({
 
               <button
                 type="button"
+                role="tab"
+                id="tab-quiz"
+                aria-selected={rightTab === "quiz"}
+                aria-controls="panel-quiz"
+                aria-label="Quiz comprehension panel (Shortcut: 3)"
                 onClick={() => setRightTab("quiz")}
                 className={cn(
                   "flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded transition-all font-mono",
