@@ -13,8 +13,9 @@ import { Badge } from "@/components/ui/badge";
 import { PromptPlayground } from "./playground";
 import { PromptAnatomyLab } from "./prompt-anatomy";
 import { LlmSimulatorLab } from "./llm-simulator";
+import { CompareLab } from "./compare-lab";
 
-export type LabTab = "anatomy" | "simulator" | "playground";
+export type LabTab = "anatomy" | "simulator" | "playground" | "compare";
 
 export function LabsHub() {
   const [activeTab, setActiveTab] = useState<LabTab>("anatomy");
@@ -37,8 +38,8 @@ export function LabsHub() {
           </p>
         </div>
 
-        {/* 3 Interactive Lab Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+        {/* 4 Interactive Lab Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
           {/* Card 1: Prompt Anatomy */}
           <div
             onClick={() => setActiveTab("anatomy")}
@@ -149,6 +150,42 @@ export function LabsHub() {
               <span className="text-emerald-400 font-bold">Open Workbench →</span>
             </div>
           </div>
+          {/* Card 4: Technique Comparison Lab */}
+          <div
+            onClick={() => setActiveTab("compare")}
+            className={`group cursor-pointer rounded-xl border p-5 transition-all flex flex-col justify-between ${
+              activeTab === "compare"
+                ? "border-ember-500 bg-ember-950/20 shadow-lg ring-1 ring-ember-500/50"
+                : "border-forge-border bg-forge-surface hover:border-ember-500/40 hover:bg-forge-surface/80"
+            }`}
+          >
+            <div>
+              <div className="flex items-center justify-between">
+                <Badge variant="outline" className="border-ember-500/40 text-ember-400 font-mono text-[10px]">
+                  Module 4 · Comparison
+                </Badge>
+                <Link
+                  href="/labs/compare"
+                  className="text-xs text-forge-muted hover:text-ember-400 flex items-center gap-0.5"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <span>Standalone</span>
+                  <ArrowRight className="h-3 w-3" />
+                </Link>
+              </div>
+              <h3 className="mt-3 text-lg font-bold text-forge-text group-hover:text-ember-400 transition-colors flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-ember-400" />
+                <span>Technique Compare</span>
+              </h3>
+              <p className="mt-1.5 text-xs text-forge-muted leading-relaxed">
+                Empirical multi-technique benchmarking. Run zero-shot to structured prompts with N-run spreads and independent metrics.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-forge-border/60 flex items-center justify-between text-xs font-mono">
+              <span className="text-forge-muted">6 Techniques · Multi-Run</span>
+              <span className="text-ember-400 font-bold">Open Compare →</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -157,6 +194,7 @@ export function LabsHub() {
         {activeTab === "anatomy" && <PromptAnatomyLab />}
         {activeTab === "simulator" && <LlmSimulatorLab />}
         {activeTab === "playground" && <PromptPlayground />}
+        {activeTab === "compare" && <CompareLab />}
       </div>
     </div>
   );
