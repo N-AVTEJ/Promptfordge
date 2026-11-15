@@ -593,15 +593,15 @@ export function LlmSimulatorLab() {
           <span className="text-xs font-mono text-forge-muted uppercase tracking-wider">
             Speed:
           </span>
-          <div className="flex items-center rounded-lg border border-forge-border bg-forge-black p-0.5">
+          <div className="flex items-center rounded-lg border border-indigo/10 bg-cream p-0.5">
             {[0.5, 1.0, 2.0, 4.0].map((speed) => (
               <button
                 key={speed}
                 onClick={() => setPlaybackSpeed(speed)}
                 className={`rounded px-2.5 py-1 text-xs font-mono transition-colors ${
                   playbackSpeed === speed
-                    ? "bg-forge-surface text-forge-text font-bold"
-                    : "text-forge-muted hover:text-forge-text"
+                    ? "bg-coral text-white font-bold"
+                    : "text-indigo/70 hover:text-indigo"
                 }`}
               >
                 {speed}x
@@ -611,21 +611,21 @@ export function LlmSimulatorLab() {
         </div>
 
         {/* Keyboard Shortcuts Hint */}
-        <div className="hidden lg:flex items-center gap-3 text-xs font-mono text-forge-muted">
+        <div className="hidden lg:flex items-center gap-3 text-xs font-mono text-indigo/60">
           <span className="flex items-center gap-1">
-            <kbd className="rounded border border-forge-border bg-forge-black px-1.5 py-0.5 text-[10px]">
+            <kbd className="rounded border border-indigo/10 bg-cream px-1.5 py-0.5 text-[10px]">
               Space
             </kbd>
             <span>Play/Pause</span>
           </span>
           <span className="flex items-center gap-1">
-            <kbd className="rounded border border-forge-border bg-forge-black px-1.5 py-0.5 text-[10px]">
+            <kbd className="rounded border border-indigo/10 bg-cream px-1.5 py-0.5 text-[10px]">
               ←/→
             </kbd>
             <span>Step</span>
           </span>
           <span className="flex items-center gap-1">
-            <kbd className="rounded border border-forge-border bg-forge-black px-1.5 py-0.5 text-[10px]">
+            <kbd className="rounded border border-indigo/10 bg-cream px-1.5 py-0.5 text-[10px]">
               1-6
             </kbd>
             <span>Jump</span>
