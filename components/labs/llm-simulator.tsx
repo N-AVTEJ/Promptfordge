@@ -299,8 +299,8 @@ export function LlmSimulatorLab() {
           onClick={() => setShowCostLens((prev) => !prev)}
           className={`gap-2 ${
             showCostLens
-              ? "bg-ember-500 text-forge-black font-semibold"
-              : "border-forge-border hover:border-ember-500/50 text-ember-400"
+              ? "bg-coral text-white font-semibold"
+              : "border-indigo/15 hover:border-coral/50 text-coral"
           }`}
         >
           <DollarSign className="h-4 w-4" />
@@ -317,17 +317,17 @@ export function LlmSimulatorLab() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <Card className="border border-white/[0.08] bg-gradient-to-b from-[#11141A] to-[#0A0C0F] p-6 space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-white/[0.06] pb-4">
+            <Card className="border border-indigo/10 bg-white p-6 space-y-6 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-indigo/10 pb-4">
                 <div className="flex items-center gap-2">
-                  <div className="rounded-lg bg-white/[0.04] border border-white/[0.08] p-2 text-ember-400">
+                  <div className="rounded-lg bg-coral/10 border border-coral/20 p-2 text-coral">
                     <Globe2 className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-forge-text font-mono">
+                    <h3 className="text-base font-bold text-indigo font-mono">
                       Tokenizer Cost Lens: The Multilingual Token Tax
                     </h3>
-                    <p className="text-xs text-zinc-400">
+                    <p className="text-xs text-indigo/70">
                       Compare how the exact same text is tokenized across 3 different generations of LLM vocabularies.
                     </p>
                   </div>
@@ -335,7 +335,7 @@ export function LlmSimulatorLab() {
 
                 <Badge
                   variant="outline"
-                  className="border-white/[0.1] bg-white/[0.04] text-zinc-300 self-start sm:self-center font-mono text-xs"
+                  className="border-indigo/15 bg-cream text-indigo self-start sm:self-center font-mono text-xs"
                 >
                   Real in-browser BPE
                 </Badge>
@@ -343,7 +343,7 @@ export function LlmSimulatorLab() {
 
               {/* Multilingual Presets Toolbar */}
               <div className="space-y-2">
-                <span className="text-xs font-mono uppercase tracking-wider text-zinc-400">
+                <span className="text-xs font-mono uppercase tracking-wider text-indigo/60">
                   Multilingual benchmark presets:
                 </span>
                 <div className="flex flex-wrap gap-2">
@@ -356,8 +356,8 @@ export function LlmSimulatorLab() {
                       }}
                       className={`rounded-lg px-3 py-1.5 text-xs font-mono transition-all ${
                         selectedMultilingualPreset === idx
-                          ? "border border-ember-500/40 bg-ember-500/10 text-amber-300 font-medium"
-                          : "border border-white/[0.06] bg-black/40 text-zinc-400 hover:text-white"
+                          ? "border border-coral bg-coral/10 text-coral font-bold"
+                          : "border border-indigo/10 bg-cream text-indigo/70 hover:border-coral/40 hover:text-indigo"
                       }`}
                     >
                       {preset.label}
@@ -372,7 +372,7 @@ export function LlmSimulatorLab() {
                   value={costLensText}
                   onChange={(e) => setCostLensText(e.target.value)}
                   rows={2}
-                  className="w-full rounded-lg border border-white/[0.08] bg-black/60 p-3 font-mono text-xs leading-relaxed text-zinc-200 focus:border-ember-500 focus:outline-none"
+                  className="w-full rounded-xl border border-indigo/15 bg-cream/60 p-3 font-mono text-xs leading-relaxed text-indigo focus:border-coral focus:outline-none"
                   placeholder="Type any multilingual sentence to inspect its tokenization tax..."
                 />
               </div>
