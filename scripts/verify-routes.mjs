@@ -6,6 +6,7 @@ const routes = [
   "/labs/llm-simulator",
   "/labs/playground",
   "/labs/compare",
+  "/labs/optimize",
   "/workflow",
   "/evaluate",
   "/arena",
