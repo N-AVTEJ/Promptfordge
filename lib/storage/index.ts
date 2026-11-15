@@ -29,13 +29,36 @@ export interface StorageHistoryItem {
   metrics?: Record<string, number>;
 }
 
+export interface PromptVersionMetrics {
+  relevance?: number;
+  clarity?: number;
+  correctness?: number;
+  constraintFollowing?: number;
+  tokens?: number;
+  latencyMs?: number;
+  costUsd?: number;
+  wordCount?: number;
+}
+
+export interface PromptVersion {
+  id: string;
+  versionNumber: number;
+  content: string;
+  notes?: string;
+  timestamp: number;
+  metrics?: PromptVersionMetrics;
+}
+
 export interface SavedPrompt {
   id: string;
   title: string;
   content: string;
   tags: string[];
+  notes?: string;
   createdAt: number;
   updatedAt: number;
+  versions?: PromptVersion[];
+  currentVersionId?: string;
 }
 
 export interface LastVisitedLesson {
@@ -303,3 +326,17 @@ export function clearPromptForgeStorage(): void {
 
   memoryFallback.clear();
 }
+
+// Re-export library management operations
+export {
+  getSavedPrompts,
+  getSavedPromptById,
+  savePrompt,
+  restorePromptVersion,
+  deleteSavedPrompt,
+  exportLibraryJson,
+  importLibraryJson,
+  type SavePromptInput,
+  type ImportResult,
+} from "./library";
+
