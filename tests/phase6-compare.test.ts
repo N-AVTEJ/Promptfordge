@@ -532,5 +532,144 @@ describe("Phase 6: Empirical Technique Comparison Lab Acceptance Tests", () => {
       const res = evaluateFormatCompliance(xml, "xml");
       assert.strictEqual(res.isCompliant, true);
     });
+
+    it("extracts embedded JSON from conversational responses without markdown fences", () => {
+      const conversational = 'Here is the requested output object:\n{"userId": 101, "role": "admin"}\nHope this helps!';
+      const res = evaluateFormatCompliance(conversational, "json");
+      assert.strictEqual(res.isCompliant, true);
+      assert.strictEqual(res.score, 1.0);
+    });
+  });
+
+  // -------------------------------------------------------------------------
+  // ACCEPTANCE 7: Edge Cases & Robustness
+  // -------------------------------------------------------------------------
+  describe("Acceptance 7: Edge cases, empty outputs & de-anonymization resilience", () => {
+    it("handles empty candidate text safely in simulateRubricJudge without 1-word hallucination", () => {
+      const res = simulateRubricJudge("Perform task", "", "zero-shot");
+      assert.strictEqual(res.relevance.score, 1);
+      assert.strictEqual(res.correctness.score, 1);
+      assert.strictEqual(res.clarity.score, 1);
+      assert.strictEqual(res.constraintFollowing.score, 1);
+      assert.ok(res.explanation.includes("Empty response"));
+    });
+
+    it("de-anonymizes diverse candidate label keys (lowercase, colons, brackets, bare letters)", () => {
+      const anonymousLabelToId = {
+        "Candidate A": "few-shot",
+        "Candidate B": "structured",
+      };
+
+      const mockJudge = JSON.stringify({
+        evaluations: {
+          "candidate a": {
+            relevance: { score: 5 },
+            correctness: { score: 5 },
+            clarity: { score: 5 },
+            constraintFollowing: { score: 5 },
+          },
+          "[Candidate B]": {
+            relevance: { score: 4 },
+            correctness: { score: 4 },
+            clarity: { score: 4 },
+            constraintFollowing: { score: 4 },
+          },
+        },
+      });
+
+      const parsed = parseJudgeResponse(mockJudge, anonymousLabelToId);
+      assert.ok(parsed["few-shot"], "Should resolve 'candidate a' to few-shot");
+      assert.ok(parsed["structured"], "Should resolve '[Candidate B]' to structured");
+      assert.strictEqual(parsed["few-shot"].relevance.score, 5);
+      assert.strictEqual(parsed["structured"].relevance.score, 4);
+    });
+
+    it("parses raw JSON judge output without markdown code fences", () => {
+      const rawText = 'Evaluation results:\n{"evaluations": {"Candidate A": {"relevance": {"score": 5}, "correctness": {"score": 5}, "clarity": {"score": 5}, "constraintFollowing": {"score": 5}}}}';
+      const parsed = parseJudgeResponse(rawText, { "Candidate A": "zero-shot" });
+      assert.ok(parsed["zero-shot"]);
+      assert.strictEqual(parsed["zero-shot"].relevance.score, 5);
+    });
+
+    it("formats currency and percentage spreads cleanly in calculateSpread", () => {
+      const costSpread = calculateSpread([0.00002, 0.00004], "Cost", "$");
+      assert.ok(costSpread.explanation.includes("Mean $0.000030"));
+
+      const pctSpread = calculateSpread([80, 100], "Compliance", "%");
+      assert.ok(pctSpread.explanation.includes("Mean 90%"));
+    });
+
+    it("rejects duplicate technique IDs in POST /api/compare with 400", async () => {
+      const req = new NextRequest("http://localhost:3000/api/compare", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          task: "Summarize data",
+          techniques: [
+            { id: "zero-shot", prompt: "Prompt A" },
+            { id: "zero-shot", prompt: "Prompt B" },
+          ],
+        }),
+      });
+
+      const res = await compareHandler(req);
+      assert.strictEqual(res.status, 400);
+      const data = await res.json();
+      assert.strictEqual(data.success, false);
+      assert.ok(data.error.message.includes("Duplicate technique IDs"));
+    });
+
+    it("returns partial results with BUDGET_EXHAUSTED when daily budget is exhausted mid-compare", async () => {
+      let callCount = 0;
+      global.fetch = async () => {
+        callCount++;
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            candidates: [
+              {
+                content: { parts: [{ text: `Response #${callCount}` }] },
+                finishReason: "STOP",
+              },
+            ],
+            usageMetadata: {
+              promptTokenCount: 100,
+              candidatesTokenCount: 100,
+            },
+          }),
+        } as Response;
+      };
+
+      // Set budget so call 1 succeeds (200 tokens) but call 2 exceeds (budget 300)
+      setTestDailyTokenBudget(300);
+
+      const req = new NextRequest("http://localhost:3000/api/compare", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-real-ip": "198.51.100.88",
+        },
+        body: JSON.stringify({
+          task: "Summarize budget behavior.",
+          techniques: [
+            { id: "zero-shot", prompt: "Prompt 1" },
+            { id: "one-shot", prompt: "Prompt 2" },
+          ],
+          runsPerTechnique: 2, // Total 4 runs
+          skipCache: true,
+        }),
+      });
+
+      const res = await compareHandler(req);
+      assert.strictEqual(res.status, 200);
+      const body = await res.json();
+      assert.strictEqual(body.success, true);
+      assert.strictEqual(body.status, "partial");
+      assert.ok(body.warning);
+      assert.strictEqual(body.warning.code, "BUDGET_EXHAUSTED");
+      assert.strictEqual(body.data.isPartial, true);
+      assert.ok(body.data.totalCompletedRuns > 0);
+    });
   });
 });

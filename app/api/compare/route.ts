@@ -33,7 +33,7 @@ import {
   parseJudgeResponse,
   simulateRubricJudge,
 } from "@/lib/engine/evaluate";
-import { MissingApiKeyError } from "@/lib/providers/types";
+import { MissingApiKeyError, ProviderError } from "@/lib/providers/types";
 
 export const runtime = "nodejs";
 
@@ -49,7 +49,11 @@ const CompareRequestSchema = z.object({
   techniques: z
     .array(CompareItemSchema)
     .min(1, "At least one technique must be selected")
-    .max(8, "Cannot compare more than 8 techniques simultaneously"),
+    .max(8, "Cannot compare more than 8 techniques simultaneously")
+    .refine(
+      (arr) => new Set(arr.map((t) => t.id)).size === arr.length,
+      "Duplicate technique IDs are not permitted in comparison"
+    ),
   runsPerTechnique: z.number().int().min(1).max(5).default(3),
   model: z.string().trim().default("gemini-1.5-flash"),
   temperature: z.number().min(0).max(2).default(0.7),
@@ -277,7 +281,8 @@ export async function POST(req: NextRequest) {
       message: string;
       retryAfterSeconds?: number;
     } | null;
-  } = { warning: null };
+    lastProviderError: ProviderError | null;
+  } = { warning: null, lastProviderError: null };
 
   let totalCompletedRuns = 0;
 
@@ -345,6 +350,16 @@ export async function POST(req: NextRequest) {
         if (err instanceof MissingApiKeyError) {
           throw err;
         }
+        if (err instanceof ProviderError) {
+          haltState.lastProviderError = err;
+          if (err.statusCode === 401 || err.statusCode === 403) {
+            haltState.warning = {
+              code: "PROVIDER_AUTH_ERROR",
+              message: `Comparison halted: Upstream provider [${err.provider}] rejected authorization (${err.message}).`,
+            };
+            return;
+          }
+        }
         // For other individual run errors, log and continue or halt if needed
         console.warn(`[PromptForge Compare] Run failed for ${job.techniqueId}:`, err);
       }
@@ -383,6 +398,29 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // If no runs completed at all due to provider failure
+  if (totalCompletedRuns === 0 && haltState.lastProviderError) {
+    const providerErr = haltState.lastProviderError;
+    const status =
+      providerErr.statusCode &&
+      providerErr.statusCode >= 400 &&
+      providerErr.statusCode < 500
+        ? providerErr.statusCode
+        : 502;
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: "PROVIDER_ERROR",
+          provider: providerErr.provider,
+          message: providerErr.message,
+          statusCode: providerErr.statusCode,
+        },
+      },
+      { status }
+    );
+  }
+
   // If no runs completed at all (e.g. unknown failure)
   if (totalCompletedRuns === 0) {
     return NextResponse.json(
@@ -412,13 +450,16 @@ export async function POST(req: NextRequest) {
 
   if (candidatesForJudge.length > 0) {
     const shuffledJudge = buildShuffledJudgePrompt(task, candidatesForJudge);
+    const judgeModel = model.startsWith("gpt")
+      ? "gpt-4o-mini"
+      : "gemini-1.5-flash";
 
     try {
       // Execute judge prompt with Execution Engine
       const judgeRun = await executePrompt({
         prompt: shuffledJudge.prompt,
         system: shuffledJudge.system,
-        model: "gemini-1.5-flash",
+        model: judgeModel,
         temperature: 0.1, // Low temperature for deterministic scoring
         apiKey: byokKey,
         skipRateLimit: true, // Internal judge run

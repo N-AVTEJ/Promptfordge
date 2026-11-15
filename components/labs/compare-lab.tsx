@@ -31,6 +31,7 @@ import {
   HelpCircle,
   History,
   Info,
+  Key,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -117,6 +118,9 @@ export function CompareLab() {
     [...TECHNIQUE_IDS]
   );
   const [customPrompts, setCustomPrompts] = useState<Record<string, string>>({});
+  const [userEditedPrompts, setUserEditedPrompts] = useState<Record<string, boolean>>({});
+  const [byokKey, setByokKey] = useState<string>("");
+  const [showByok, setShowByok] = useState<boolean>(false);
   const [expandedPromptTech, setExpandedPromptTech] = useState<string | null>(null);
 
   // Execution & Progress State
@@ -151,14 +155,18 @@ export function CompareLab() {
     }
   }, []);
 
-  // Update prompt templates whenever task changes unless user manually edited
+  // Update prompt templates whenever task changes unless user manually edited that technique
   useEffect(() => {
-    const newPrompts: Record<string, string> = {};
-    for (const t of TECHNIQUES) {
-      newPrompts[t.id] = generatePromptForTechnique(t.id, task);
-    }
-    setCustomPrompts(newPrompts);
-  }, [task]);
+    setCustomPrompts((prev) => {
+      const next: Record<string, string> = { ...prev };
+      for (const t of TECHNIQUES) {
+        if (!userEditedPrompts[t.id]) {
+          next[t.id] = generatePromptForTechnique(t.id, task);
+        }
+      }
+      return next;
+    });
+  }, [task, userEditedPrompts]);
 
   const toggleTechnique = (id: TechniqueId) => {
     if (selectedTechniqueIds.includes(id)) {
@@ -174,10 +182,16 @@ export function CompareLab() {
   };
 
   const handleCustomPromptChange = (id: string, value: string) => {
+    setUserEditedPrompts((prev) => ({ ...prev, [id]: true }));
     setCustomPrompts((prev) => ({ ...prev, [id]: value }));
   };
 
   const resetPromptToTemplate = (id: TechniqueId) => {
+    setUserEditedPrompts((prev) => {
+      const copy = { ...prev };
+      delete copy[id];
+      return copy;
+    });
     setCustomPrompts((prev) => ({
       ...prev,
       [id]: generatePromptForTechnique(id, task),
@@ -230,9 +244,16 @@ export function CompareLab() {
         };
       });
 
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (byokKey.trim()) {
+        headers["x-provider-key"] = byokKey.trim();
+      }
+
       const response = await fetch("/api/compare", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({
           task,
           techniques: techniquesPayload,
@@ -481,12 +502,14 @@ export function CompareLab() {
     const hasData = results.some((r) => r.formatComplianceSpread !== undefined);
     if (!hasData) return null;
 
-    return results.map((r) => ({
-      name: r.techniqueName,
-      compliancePct: Math.round(
-        (r.formatComplianceSpread?.mean ?? 0) * 100
-      ),
-    }));
+    return results.map((r) => {
+      const meanVal = r.formatComplianceSpread?.mean ?? 0;
+      const compliancePct = meanVal <= 1 ? Math.round(meanVal * 100) : Math.round(meanVal);
+      return {
+        name: r.techniqueName,
+        compliancePct,
+      };
+    });
   }, [results]);
 
   const judgeRubricChartData = useMemo(() => {
@@ -798,6 +821,44 @@ export function CompareLab() {
                 </p>
               </div>
             </div>
+
+            {/* Optional BYOK API Key Input */}
+            <div className="mt-4 pt-3 border-t border-forge-border/60">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-mono text-forge-muted flex items-center gap-1.5">
+                  <Key className="h-3 w-3 text-cyan-400" />
+                  <span>Custom Provider Key (BYOK)</span>
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setShowByok(!showByok)}
+                  className="text-[11px] font-mono text-cyan-400 hover:underline"
+                >
+                  {showByok ? "Hide" : byokKey.trim() ? "Key Configured ✓" : "+ Add Key"}
+                </button>
+              </div>
+              {showByok && (
+                <div className="mt-2 flex gap-2">
+                  <input
+                    type="password"
+                    placeholder="Enter OpenAI (sk-...) or Gemini API key..."
+                    value={byokKey}
+                    onChange={(e) => setByokKey(e.target.value)}
+                    className="flex-1 rounded-md border border-forge-border bg-forge-950 px-2.5 py-1.5 font-mono text-xs text-forge-text focus:border-cyan-500 focus:outline-none"
+                  />
+                  {byokKey.trim() && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setByokKey("")}
+                      className="h-8 text-xs font-mono text-forge-muted hover:text-ember-400"
+                    >
+                      Clear
+                    </Button>
+                  )}
+                </div>
+              )}
+            </div>
           </Card>
         </div>
 
@@ -1053,7 +1114,9 @@ export function CompareLab() {
                   </p>
                   <p className="mt-1 text-xs text-forge-muted leading-relaxed font-mono">
                     Rubric score:{" "}
-                    {analysisWinners.bestConstraint.judgeConstraintFollowingSpread?.mean || 5.0} / 5.0
+                    {analysisWinners.bestConstraint.judgeConstraintFollowingSpread?.mean !== undefined
+                      ? `${analysisWinners.bestConstraint.judgeConstraintFollowingSpread.mean} / 5.0`
+                      : "Pending Rubric"}
                   </p>
                 </div>
 
@@ -1195,12 +1258,16 @@ export function CompareLab() {
                             <Badge
                               variant="outline"
                               className={
-                                result.formatComplianceSpread.mean >= 0.8
+                                (result.formatComplianceSpread.mean <= 1
+                                  ? result.formatComplianceSpread.mean >= 0.8
+                                  : result.formatComplianceSpread.mean >= 80)
                                   ? "border-emerald-500/40 text-emerald-300"
                                   : "border-red-500/40 text-red-300"
                               }
                             >
-                              {Math.round(result.formatComplianceSpread.mean * 100)}%
+                              {result.formatComplianceSpread.mean <= 1
+                                ? Math.round(result.formatComplianceSpread.mean * 100)
+                                : Math.round(result.formatComplianceSpread.mean)}%
                             </Badge>
                           </div>
                         )}
@@ -1368,6 +1435,7 @@ export function CompareLab() {
                           fontFamily: "monospace",
                           fontSize: "12px",
                         }}
+                        formatter={(val: unknown) => [`${val} ms`, "Mean Latency"]}
                       />
                       <Bar dataKey="mean" fill="#00E5FF" name="Mean Latency (ms)" radius={[4, 4, 0, 0]} />
                     </BarChart>
@@ -1404,6 +1472,7 @@ export function CompareLab() {
                           fontFamily: "monospace",
                           fontSize: "12px",
                         }}
+                        formatter={(val: unknown) => [`${val} tokens`, "Mean Output Tokens"]}
                       />
                       <Bar dataKey="mean" fill="#FF7A1A" name="Mean Output Tokens" radius={[4, 4, 0, 0]} />
                     </BarChart>
@@ -1440,6 +1509,7 @@ export function CompareLab() {
                           fontFamily: "monospace",
                           fontSize: "12px",
                         }}
+                        formatter={(val: unknown) => [`${val} tokens`, "Prompt Input Tokens"]}
                       />
                       <Bar dataKey="promptTokens" fill="#38BDF8" name="Input Tokens" radius={[4, 4, 0, 0]} />
                     </BarChart>
@@ -1476,6 +1546,7 @@ export function CompareLab() {
                           fontFamily: "monospace",
                           fontSize: "12px",
                         }}
+                        formatter={(val: unknown) => [`$${Number(val).toFixed(6)}`, "Estimated Cost"]}
                       />
                       <Bar dataKey="costUsd" fill="#F59E0B" name="Cost (USD)" radius={[4, 4, 0, 0]} />
                     </BarChart>
@@ -1513,6 +1584,7 @@ export function CompareLab() {
                             fontFamily: "monospace",
                             fontSize: "12px",
                           }}
+                          formatter={(val: unknown) => [`${val}%`, "Compliance Rate"]}
                         />
                         <Bar dataKey="compliancePct" fill="#10B981" name="Compliance %" radius={[4, 4, 0, 0]} />
                       </BarChart>
@@ -1551,6 +1623,7 @@ export function CompareLab() {
                             fontFamily: "monospace",
                             fontSize: "12px",
                           }}
+                          formatter={(val: unknown, name: unknown) => [`${val} / 5.0`, String(name)]}
                         />
                         <Legend wrapperStyle={{ fontFamily: "monospace", fontSize: "11px" }} />
                         <Bar dataKey="Relevance" fill="#00E5FF" radius={[3, 3, 0, 0]} />
@@ -1605,6 +1678,7 @@ export function CompareLab() {
                             fontFamily: "monospace",
                             fontSize: "12px",
                           }}
+                          formatter={(val: unknown, name: unknown) => [`${val}%`, String(name).toUpperCase()]}
                         />
                         <Legend wrapperStyle={{ fontFamily: "monospace", fontSize: "11px" }} />
                         <Bar dataKey="f1" fill="#FF7A1A" name="F1 Score %" radius={[4, 4, 0, 0]} />

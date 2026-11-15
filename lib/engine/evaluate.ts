@@ -209,11 +209,29 @@ export function evaluateFormatCompliance(
 
   switch (normalizedFormat) {
     case "json": {
-      // Look for raw JSON or markdown-fenced json
+      // Look for raw JSON, markdown-fenced json, or embedded JSON boundaries
       let jsonString = safeText;
       const fenceMatch = /```(?:json)?\s*([\s\S]*?)```/i.exec(safeText);
       if (fenceMatch && fenceMatch[1]) {
         jsonString = fenceMatch[1].trim();
+      } else if (!jsonString.startsWith("{") && !jsonString.startsWith("[")) {
+        // Fallback: extract substring between first '{'/'[' and last '}'/']'
+        const firstObj = jsonString.indexOf("{");
+        const firstArr = jsonString.indexOf("[");
+        let startIdx = -1;
+        let endIdx = -1;
+
+        if (firstObj !== -1 && (firstArr === -1 || firstObj < firstArr)) {
+          startIdx = firstObj;
+          endIdx = jsonString.lastIndexOf("}");
+        } else if (firstArr !== -1) {
+          startIdx = firstArr;
+          endIdx = jsonString.lastIndexOf("]");
+        }
+
+        if (startIdx !== -1 && endIdx > startIdx) {
+          jsonString = jsonString.slice(startIdx, endIdx + 1).trim();
+        }
       }
 
       try {
@@ -249,7 +267,7 @@ export function evaluateFormatCompliance(
 
     case "markdown": {
       const hasHeadings = /^#{1,6}\s+.+/m.test(safeText);
-      const hasLists = /^[*-]\s+.+/m.test(safeText) || /^\d+\.\s+.+/m.test(safeText);
+      const hasLists = /^[*\-+•]\s+.+/m.test(safeText) || /^\d+[.)]\s+.+/m.test(safeText);
       const hasBold = /\*\*.+?\*\*/.test(safeText);
       const hasCodeFence = /```[\s\S]*?```/.test(safeText);
 
@@ -555,6 +573,8 @@ ${shuffledCandidates
 
 /**
  * Safely parses LLM judge JSON output and remaps anonymous labels back to candidate IDs.
+ * Resilient against markdown fence variations, bare JSON boundaries, case shifts,
+ * colons, brackets, and letter-only candidate identifiers.
  */
 export function parseJudgeResponse(
   rawJudgeText: string,
@@ -562,11 +582,56 @@ export function parseJudgeResponse(
 ): Record<string, JudgeEvaluation> {
   const result: Record<string, JudgeEvaluation> = {};
 
-  let jsonStr = rawJudgeText.trim();
+  let jsonStr = (rawJudgeText || "").trim();
   const fenceMatch = /```(?:json)?\s*([\s\S]*?)```/i.exec(jsonStr);
   if (fenceMatch && fenceMatch[1]) {
     jsonStr = fenceMatch[1].trim();
+  } else if (!jsonStr.startsWith("{")) {
+    const firstBrace = jsonStr.indexOf("{");
+    const lastBrace = jsonStr.lastIndexOf("}");
+    if (firstBrace !== -1 && lastBrace > firstBrace) {
+      jsonStr = jsonStr.slice(firstBrace, lastBrace + 1);
+    }
   }
+
+  // Build a normalized label-to-id dictionary
+  const normalizedLabelMap: Record<string, string> = {};
+  for (const [label, id] of Object.entries(anonymousLabelToId)) {
+    normalizedLabelMap[label] = id;
+    const lower = label.toLowerCase().trim();
+    normalizedLabelMap[lower] = id;
+    normalizedLabelMap[lower.replace(/[^a-z0-9]/g, "")] = id;
+
+    // Map candidate letter e.g. "Candidate A" -> letter "a"
+    const letterMatch = /candidate\s+([a-z0-9]+)/i.exec(label);
+    if (letterMatch && letterMatch[1]) {
+      const letter = letterMatch[1].toLowerCase();
+      normalizedLabelMap[letter] = id;
+      normalizedLabelMap[`candidate ${letter}`] = id;
+      normalizedLabelMap[`candidate_${letter}`] = id;
+      normalizedLabelMap[`[candidate ${letter}]`] = id;
+      normalizedLabelMap[`candidate${letter}`] = id;
+    }
+  }
+
+  const resolveCandidateId = (rawLabel: string): string => {
+    const trimmed = rawLabel.trim();
+    if (anonymousLabelToId[trimmed]) return anonymousLabelToId[trimmed];
+
+    const lower = trimmed.toLowerCase();
+    if (normalizedLabelMap[lower]) return normalizedLabelMap[lower];
+
+    const clean = lower.replace(/[^a-z0-9]/g, "");
+    if (normalizedLabelMap[clean]) return normalizedLabelMap[clean];
+
+    const candLetter = /candidate\s*([a-z0-9]+)/i.exec(trimmed);
+    if (candLetter && candLetter[1]) {
+      const key = candLetter[1].toLowerCase();
+      if (normalizedLabelMap[key]) return normalizedLabelMap[key];
+    }
+
+    return trimmed;
+  };
 
   try {
     const parsed = JSON.parse(jsonStr) as {
@@ -584,7 +649,7 @@ export function parseJudgeResponse(
     const evals = parsed.evaluations || (parsed as Record<string, unknown>);
 
     for (const [label, evalData] of Object.entries(evals)) {
-      const candidateId = anonymousLabelToId[label] || label;
+      const candidateId = resolveCandidateId(label);
       if (!evalData || typeof evalData !== "object") continue;
 
       const rawData = evalData as {
@@ -601,7 +666,7 @@ export function parseJudgeResponse(
 
       const relevance: JudgeScoreDimension = {
         score: clampScore(rawData.relevance?.score),
-        reason: rawData.relevance?.reason || "Addresses the prompt prompt objectives.",
+        reason: rawData.relevance?.reason || "Addresses the prompt objectives.",
       };
 
       const correctness: JudgeScoreDimension = {
@@ -644,7 +709,19 @@ export function simulateRubricJudge(
   text: string,
   techniqueId: string
 ): JudgeEvaluation {
-  const words = text.trim().split(/\s+/).length;
+  const safeText = text || "";
+  const words = safeText.trim().length === 0 ? 0 : safeText.trim().split(/\s+/).length;
+
+  if (words === 0) {
+    return {
+      relevance: { score: 1, reason: "Empty response generated; fails to address the task." },
+      correctness: { score: 1, reason: "No content produced to verify." },
+      clarity: { score: 1, reason: "No text generated." },
+      constraintFollowing: { score: 1, reason: "Failed to produce required output." },
+      explanation: "Judge Rubric: Rel 1/5, Corr 1/5, Cla 1/5, Const 1/5. (Empty response)",
+    };
+  }
+
   const isStructured = techniqueId.includes("structured");
   const isConstraint = techniqueId.includes("constraint");
   const isFewShot = techniqueId.includes("few-shot");
@@ -746,8 +823,17 @@ export function calculateSpread(
   const formattedRange = round(range, unit === "$" ? 6 : 2);
   const formattedStdDev = round(stdDev, unit === "$" ? 6 : 2);
 
-  const displayUnit = unit ? ` ${unit}` : "";
-  const explanation = `${metricName}: Mean ${formattedMean}${displayUnit} (min ${formattedMin}, max ${formattedMax}, spread ${formattedRange}${displayUnit}, σ ${formattedStdDev}).`;
+  const formatWithUnit = (v: number): string => {
+    if (unit === "$") {
+      return `$${v.toFixed(v < 0.0001 ? 6 : 4)}`;
+    }
+    if (unit === "%") {
+      return `${v}%`;
+    }
+    return unit ? `${v} ${unit}` : `${v}`;
+  };
+
+  const explanation = `${metricName}: Mean ${formatWithUnit(formattedMean)} (min ${formatWithUnit(formattedMin)}, max ${formatWithUnit(formattedMax)}, spread ${formatWithUnit(formattedRange)}, σ ${formattedStdDev}).`;
 
   return {
     values,
@@ -825,7 +911,11 @@ export function aggregateTechniqueRuns(params: {
     responseLengthWordsSpread: calculateSpread(wordLengths, "Word Count"),
     formatComplianceSpread:
       formatScores.length > 0
-        ? calculateSpread(formatScores, "Format Compliance", "%")
+        ? calculateSpread(
+            formatScores.map((s) => Math.round(s * 100)),
+            "Format Compliance",
+            "%"
+          )
         : undefined,
     judgeRelevanceSpread:
       relScores.length > 0
