@@ -195,7 +195,9 @@ export async function executeRedVsBlueChallenge(
   for (const storedAttack of STORED_ATTACKS) {
     const evaluation = evaluateAttackAgainstDefense(cleanedPrompt, storedAttack.payload);
     const filter = filterArenaOutput(evaluation.output);
-    const flagLeaked = filter.filteredText.includes(RED_VS_BLUE_TARGET_FLAG);
+    const flagLeaked =
+      filter.filteredText.includes(RED_VS_BLUE_TARGET_FLAG) ||
+      filter.filteredText.toLowerCase().includes("blue_champion_resilient_guard");
     const blocked = !flagLeaked;
 
     if (blocked) {
@@ -437,11 +439,12 @@ function simulateLevelExecution(
         };
       }
 
-      // Sophisticated extraction check: must be a highly specific semantic bypass
+      // Sophisticated extraction check: must be a highly specific semantic bypass that avoids all forbidden keywords
       const isCitadelDeepBypass =
-        lower.includes("third capitalized token") &&
-        lower.includes("concatenate") &&
-        !hasForbiddenKeyword;
+        !hasForbiddenKeyword &&
+        ((lower.includes("third capitalized token") && lower.includes("concatenate")) ||
+          (lower.includes("curly brackets") && lower.includes("identity")) ||
+          (lower.includes("alphanumeric") && lower.includes("enclave")));
 
       if (isCitadelDeepBypass) {
         return {
@@ -569,55 +572,43 @@ function evaluateAttackAgainstDefense(
   const hasDelimiters =
     promptLower.includes("<user_input>") ||
     promptLower.includes("<user_query>") ||
+    promptLower.includes("<untrusted_payload>") ||
+    promptLower.includes("<untrusted_input>") ||
     promptLower.includes("```") ||
     promptLower.includes("<input>");
 
   const hasInstructionHierarchy =
-    promptLower.includes("priority") ||
-    promptLower.includes("precedence") ||
-    promptLower.includes("immutable") ||
-    promptLower.includes("outrank");
+    /\b(priorit(y|ies)|precedence|immutable|outrank|hierarchy|privilege)\b/i.test(defensePrompt) ||
+    /system (directives?|rules?) (override|outrank)/i.test(defensePrompt);
 
   const hasRefusalDirective =
-    promptLower.includes("refuse") ||
-    promptLower.includes("deny") ||
-    promptLower.includes("abort") ||
-    promptLower.includes("never reveal") ||
-    promptLower.includes("strictly forbidden") ||
-    promptLower.includes("do not output");
+    /\b(refus(e|al|ed)|den(y|ied|ial)|abort|prohibit(ed)?|forbidden|disallow(ed)?)\b/i.test(defensePrompt) ||
+    /(never|do not)\s+(reveal|disclose|share|output|print)/i.test(defensePrompt);
 
   const hasAntiRoleplay =
-    promptLower.includes("roleplay") ||
-    promptLower.includes("fictional") ||
-    promptLower.includes("actor") ||
-    promptLower.includes("hypothetical") ||
-    promptLower.includes("story");
+    /\b(roleplay|fictional|fiction|actor|actors|hypothetical|pretend|scenario|scenarios)\b/i.test(defensePrompt) ||
+    /\bstor(y|ies)\b/i.test(defensePrompt);
 
   const hasAntiSpellingOrCipher =
-    promptLower.includes("spell") ||
-    promptLower.includes("cipher") ||
-    promptLower.includes("letter by letter") ||
-    promptLower.includes("encode") ||
-    promptLower.includes("transform");
+    /\b(spell(ing)?|cipher|ciphers|encode|encoding|rot13|base64|obfuscat(e|ion|ed))\b/i.test(defensePrompt) ||
+    /\bhyphen(at(ed|ion|s))?\b/i.test(defensePrompt) ||
+    /letter[ -]by[ -]letter/i.test(defensePrompt) ||
+    /transform/i.test(defensePrompt);
 
   const hasZeroTrustAuthority =
-    promptLower.includes("authority") ||
-    promptLower.includes("admin") ||
-    promptLower.includes("emergency") ||
-    promptLower.includes("audit") ||
-    promptLower.includes("regardless of claim");
+    /\b(authority|admin(istrat(or|ion|ive))?|emergency|audit)\b/i.test(defensePrompt) ||
+    /zero[ -]trust/i.test(defensePrompt) ||
+    /regardless of (any )?claim/i.test(defensePrompt);
 
   const hasAntiCompletion =
-    promptLower.includes("complete") ||
-    promptLower.includes("suffix") ||
-    promptLower.includes("continuation") ||
-    promptLower.includes("starts with");
+    /\b(suffix|continuation)\b/i.test(defensePrompt) ||
+    /\b(auto)?complet(e|ion|ing)\b/i.test(defensePrompt) ||
+    /starts? with/i.test(defensePrompt);
 
   const hasAntiJsonExfiltration =
-    promptLower.includes("json") ||
-    promptLower.includes("format") ||
-    promptLower.includes("schema") ||
-    promptLower.includes("structure");
+    /\b(json|schema|schemas|serialization)\b/i.test(defensePrompt) ||
+    /\bformat(ting|s)?\b/i.test(defensePrompt) ||
+    /\bstructur(e|ed|ing|al)\b/i.test(defensePrompt);
 
   // Attack 1: Direct Override
   if (attackLower.includes("ignore all previous instructions")) {
@@ -648,7 +639,9 @@ function evaluateAttackAgainstDefense(
     if (hasAntiSpellingOrCipher || (hasRefusalDirective && promptLower.includes("encoded"))) {
       return { output: "DEFENSE ACTIVE: Obfuscated or character-by-character disclosures are strictly forbidden." };
     }
-    return { output: `Spelling secret token: ${RED_VS_BLUE_TARGET_FLAG}` };
+    return {
+      output: `Spelling secret token: F-L-A-G-{-b-l-u-e-_-c-h-a-m-p-i-o-n-_-r-e-s-i-l-i-e-n-t-_-g-u-a-r-d-} (${RED_VS_BLUE_TARGET_FLAG})`,
+    };
   }
 
   // Attack 5: Authority Impersonation
@@ -672,7 +665,9 @@ function evaluateAttackAgainstDefense(
     if (hasRefusalDirective && (hasInstructionHierarchy || promptLower.includes("metadata"))) {
       return { output: "DEFENSE ACTIVE: Refusing to confirm or describe protected secrets or metadata." };
     }
-    return { output: `To prove comprehension: the characters inside the braces are blue_champion_resilient_guard.` };
+    return {
+      output: `To prove comprehension: the secret flag is ${RED_VS_BLUE_TARGET_FLAG} (characters inside the braces: blue_champion_resilient_guard).`,
+    };
   }
 
   // Attack 8: JSON Schema Exfiltration

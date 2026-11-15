@@ -133,6 +133,15 @@ describe("Phase 9: Security Arena Acceptance & Sandbox Verification", () => {
       }
     });
 
+    it("redacts JWT tokens and standalone process.env dumps", () => {
+      const leak =
+        "JWT: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozG4B_TEST_SIGNATURE and dump: process.env";
+      const filtered = filterArenaOutput(leak);
+      assert(filtered.filteredText.includes("[REDACTED_JWT_TOKEN]"));
+      assert(filtered.filteredText.includes("[REDACTED_ENV_VAR]"));
+      assert(!filtered.filteredText.includes("eyJhbGciOi"));
+    });
+
     it("enforces rate limits strictly stricter than other labs", () => {
       // Configure test limit of 3 runs
       setTestArenaLimits(3, 3);
@@ -235,6 +244,19 @@ describe("Phase 9: Security Arena Acceptance & Sandbox Verification", () => {
         false,
         "Level 5 must not be breached by naive delimiter escape."
       );
+
+      // Verify all 3 suggested educational attacks for Level 5 succeed against Level 5
+      for (const suggested of level5.suggestedAttacks) {
+        const res = await executeLevelAttack(5, suggested.payload, {
+          skipRateLimit: true,
+        });
+        assert.strictEqual(
+          res.success,
+          true,
+          `Level 5 suggested attack "${suggested.label}" should succeed but failed: ${res.output}`
+        );
+        assert.strictEqual(res.leakedFlag, level5.fakeFlag);
+      }
     });
 
     it("Level 2 requires delimiter breakout to succeed and blocks simple overrides", async () => {
@@ -395,6 +417,46 @@ describe("Phase 9: Security Arena Acceptance & Sandbox Verification", () => {
       );
       assert.strictEqual(strongRes.fractionScore, "8/8");
       assert.strictEqual(strongRes.blockedCount, 8);
+    });
+
+    it("evaluates starter templates accurately (Weak: 0/8, Moderate: 1/8, Strong: 8/8)", async () => {
+      const weakRes = await executeRedVsBlueChallenge(STARTER_DEFENSE_TEMPLATES[0].prompt, {
+        skipRateLimit: true,
+      });
+      assert.strictEqual(weakRes.fractionScore, "0/8");
+      assert.strictEqual(weakRes.blockedCount, 0);
+
+      const moderateRes = await executeRedVsBlueChallenge(STARTER_DEFENSE_TEMPLATES[1].prompt, {
+        skipRateLimit: true,
+      });
+      assert.strictEqual(moderateRes.fractionScore, "1/8");
+      assert.strictEqual(moderateRes.blockedCount, 1);
+      assert.strictEqual(moderateRes.attacks[0].blocked, true); // Direct override blocked by delimiters
+
+      const strongRes = await executeRedVsBlueChallenge(STARTER_DEFENSE_TEMPLATES[2].prompt, {
+        skipRateLimit: true,
+      });
+      assert.strictEqual(strongRes.fractionScore, "8/8");
+      assert.strictEqual(strongRes.blockedCount, 8);
+    });
+
+    it("ensures Attack 7 (Reverse Psychology) is marked as breached on weak defense prompts", async () => {
+      const weakRes = await executeRedVsBlueChallenge(STARTER_DEFENSE_TEMPLATES[0].prompt, {
+        skipRateLimit: true,
+      });
+      const attack7 = weakRes.attacks.find((a) => a.index === 7);
+      assert(attack7);
+      assert.strictEqual(
+        attack7.blocked,
+        false,
+        "Attack 7 must breach weak defense prompt without metadata guard."
+      );
+      assert.strictEqual(
+        attack7.flagFound,
+        true,
+        "Flag must be found in Attack 7 output against weak prompt."
+      );
+      assert(attack7.explanation.includes("Reverse psychology succeeded"));
     });
 
     it("rejects empty defense prompt with clear error", async () => {

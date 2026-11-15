@@ -35,6 +35,7 @@ export function RedVsBlueChallenge() {
   const [result, setResult] = useState<RedVsBlueRunResult | null>(null);
   const [expandedAttackId, setExpandedAttackId] = useState<string | null>(null);
   const [bestScore, setBestScore] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const progress = getArenaProgress();
@@ -44,12 +45,14 @@ export function RedVsBlueChallenge() {
   const handleSelectTemplate = (templatePrompt: string) => {
     setDefensePrompt(templatePrompt);
     setResult(null);
+    setError(null);
   };
 
   const handleRunBattery = async () => {
     if (isRunning) return;
     setIsRunning(true);
     setResult(null);
+    setError(null);
 
     try {
       const res = await runClientRedVsBlueChallenge(defensePrompt);
@@ -59,7 +62,7 @@ export function RedVsBlueChallenge() {
       setBestScore(updated.bestRedVsBlueFraction);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Battery run failed.";
-      alert(`Error running Red vs Blue battery: ${msg}`);
+      setError(msg);
     } finally {
       setIsRunning(false);
     }
@@ -155,6 +158,23 @@ export function RedVsBlueChallenge() {
             className="w-full resize-none rounded-md border border-cyan-500/30 bg-black/70 p-3 font-mono text-xs text-forge-text focus:border-cyan-400 focus:outline-none leading-relaxed"
           />
         </div>
+
+        {/* Error Notification Banner */}
+        {error && (
+          <div className="flex items-center justify-between rounded-md border border-red-500/50 bg-red-950/30 p-3 font-mono text-xs text-red-300 shadow-inner">
+            <div className="flex items-center gap-2">
+              <ShieldAlert className="h-4 w-4 shrink-0 text-red-400" />
+              <span>{error}</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setError(null)}
+              className="ml-3 rounded px-1.5 py-0.5 text-forge-muted hover:text-white"
+            >
+              ✕
+            </button>
+          </div>
+        )}
 
         {/* Actions Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 pt-1">

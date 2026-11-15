@@ -33,15 +33,20 @@ const SENSITIVE_PATTERNS: Array<{ pattern: RegExp; replacement: string }> = [
     pattern: /Bearer\s+[A-Za-z0-9_.\-~+/]{20,}=*/gi,
     replacement: "Bearer [REDACTED_BEARER_TOKEN]",
   },
+  // JWT tokens (3 base64url segments)
+  {
+    pattern: /eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_.\-~+/]{10,}/gi,
+    replacement: "[REDACTED_JWT_TOKEN]",
+  },
   // Generic key assignments: API_KEY=..., SECRET=..., PASSWORD=...
   {
     pattern:
       /(?:api[-_]?key|secret[-_]?key|auth[-_]?token|access[-_]?token|password|client[-_]?secret)\s*[:=]\s*['"]?([a-zA-Z0-9_\-.~]{8,})['"]?/gi,
     replacement: "[REDACTED_SENSITIVE_CREDENTIAL]",
   },
-  // process.env literal dumps
+  // process.env literal dumps (property access, index access, or standalone)
   {
-    pattern: /process\.env(?:\.[A-Z0-9_]+|\[['"][A-Z0-9_]+['"]\])/gi,
+    pattern: /process\.env(?:\.[A-Za-z0-9_]+|\[['"][A-Za-z0-9_]+['"]\])?/gi,
     replacement: "[REDACTED_ENV_VAR]",
   },
   // Private key headers
@@ -116,7 +121,10 @@ export function filterArenaOutput(rawText: string): FilterResult {
         upper.includes("TOKEN") ||
         upper.includes("PASSWORD") ||
         upper.includes("CREDENTIAL") ||
-        upper.includes("AUTH")
+        upper.includes("AUTH") ||
+        upper.includes("PRIVATE") ||
+        upper.includes("DATABASE") ||
+        upper.includes("SIGNING")
       );
     });
 
