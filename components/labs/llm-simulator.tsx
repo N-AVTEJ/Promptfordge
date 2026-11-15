@@ -441,7 +441,7 @@ export function LlmSimulatorLab() {
                         {item.tokens.map((chunk, idx) => (
                           <span
                             key={idx}
-                            className="rounded border border-forge-border bg-forge-black/60 px-1.5 py-0.5 font-mono text-[10px] text-forge-text"
+                            className="rounded border border-indigo/10 bg-cream/70 px-1.5 py-0.5 font-mono text-[10px] text-indigo"
                           >
                             {chunk.replace(/\n/g, "\\n")}
                           </span>
@@ -453,10 +453,10 @@ export function LlmSimulatorLab() {
               </div>
 
               {/* Multilingual Insight Callout */}
-              <div className="flex items-start gap-3 rounded-lg border border-ember-500/20 bg-ember-500/5 p-4 text-xs text-forge-muted">
-                <Info className="h-5 w-5 text-ember-400 shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 rounded-lg border border-coral/20 bg-coral/5 p-4 text-xs text-indigo/80">
+                <Info className="h-5 w-5 text-coral shrink-0 mt-0.5" />
                 <div className="space-y-1">
-                  <span className="font-semibold text-forge-text">
+                  <span className="font-semibold text-indigo">
                     Why does non-English text cost more?
                   </span>
                   <p className="leading-relaxed">
@@ -489,33 +489,33 @@ export function LlmSimulatorLab() {
               onClick={() => jumpToStage(idx)}
               className={`flex flex-col text-left rounded-xl border p-3.5 transition-all duration-200 ${
                 isActive
-                  ? "border-ember-500 bg-ember-500/15 shadow-md shadow-ember-500/10 scale-[1.02]"
+                  ? "border-coral bg-coral/15 shadow-md shadow-coral/10 scale-[1.02]"
                   : isPassed
-                  ? "border-forge-border bg-forge-surface/60 hover:bg-forge-surface text-forge-muted hover:text-forge-text"
-                  : "border-forge-border/60 bg-forge-black/40 hover:bg-forge-surface/40 text-forge-muted/70"
+                  ? "border-indigo/10 bg-white hover:bg-cream text-indigo/70 hover:text-indigo"
+                  : "border-indigo/10 bg-cream/40 hover:bg-white text-indigo/60"
               }`}
             >
               <div className="flex items-center justify-between">
                 <span
                   className={`font-mono text-[11px] font-bold ${
-                    isActive ? "text-ember-400" : isPassed ? "text-cyan-400" : "text-forge-muted"
+                    isActive ? "text-coral" : isPassed ? "text-teal-700" : "text-indigo/50"
                   }`}
                 >
                   0{stage.number}
                 </span>
-                {isPassed && <Check className="h-3.5 w-3.5 text-cyan-400" />}
+                {isPassed && <Check className="h-3.5 w-3.5 text-teal" />}
                 {isActive && (
-                  <div className="h-2 w-2 rounded-full bg-ember-500 animate-pulse" />
+                  <div className="h-2 w-2 rounded-full bg-coral animate-pulse" />
                 )}
               </div>
               <span
                 className={`mt-1 font-semibold text-xs truncate ${
-                  isActive ? "text-forge-text font-bold" : "text-forge-muted"
+                  isActive ? "text-indigo font-bold" : "text-indigo/70"
                 }`}
               >
                 {stage.shortTitle}
               </span>
-              <span className="text-[10px] text-forge-muted line-clamp-1 mt-0.5">
+              <span className="text-[10px] text-indigo/50 line-clamp-1 mt-0.5">
                 {stage.badgeLabel.split("·")[1]?.trim() || stage.title}
               </span>
             </button>
@@ -524,7 +524,7 @@ export function LlmSimulatorLab() {
       </div>
 
       {/* 5. INTERACTIVE PLAYBACK & STEPPER CONTROLS */}
-      <Card className="flex flex-wrap items-center justify-between gap-4 border-forge-border bg-forge-surface/90 p-4 shadow-md">
+      <Card className="flex flex-wrap items-center justify-between gap-4 border-indigo/10 bg-white p-4 shadow-sm">
         {/* Playback Button Group */}
         <div className="flex items-center gap-2">
           {/* Step Back */}
@@ -533,7 +533,7 @@ export function LlmSimulatorLab() {
             size="sm"
             onClick={stepBackward}
             disabled={currentStageIndex === 0 && activeGenStep === 0}
-            className="border-forge-border text-forge-text hover:bg-forge-surface"
+            className="border-indigo/15 text-indigo hover:bg-cream"
             title="Step Backward (ArrowLeft)"
             aria-label="Step Backward"
           >
@@ -544,11 +544,7 @@ export function LlmSimulatorLab() {
           <Button
             onClick={togglePlay}
             size="sm"
-            className={`gap-2 font-semibold shadow-sm ${
-              isPlaying
-                ? "bg-amber-500 text-forge-black hover:bg-amber-400"
-                : "bg-ember-500 text-forge-black hover:bg-ember-400"
-            }`}
+            className="gap-2 font-semibold shadow-sm bg-coral text-white hover:bg-coral-hover"
             title="Play / Pause (Spacebar)"
             aria-label={isPlaying ? "Pause simulation" : "Play simulation"}
           >
