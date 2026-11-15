@@ -19,7 +19,7 @@ export default function EvaluatePage() {
         "Assertion test suites with custom evaluation predicates",
         "Exportable benchmark test reports",
       ]}
-      nextRoute={{ label: "Model Arena", href: "/arena" }}
+      nextRoute={{ label: "Security Arena", href: "/arena" }}
     />
   );
 }

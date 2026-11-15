@@ -8,6 +8,7 @@
  */
 
 import type { WorkflowDefinition } from "@/lib/workflow/types";
+import type { ArenaProgress } from "@/lib/arena/types";
 
 export const STORAGE_PREFIX = "pf_v1_";
 
@@ -19,6 +20,7 @@ export const STORAGE_KEYS = {
   LAB_DRAFTS: `${STORAGE_PREFIX}lab_drafts`,
   COMPARE_EXPERIMENTS: `${STORAGE_PREFIX}compare_experiments`,
   WORKFLOWS: `${STORAGE_PREFIX}workflows`,
+  ARENA_PROGRESS: `${STORAGE_PREFIX}arena_progress`,
 } as const;
 
 export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
@@ -107,6 +109,7 @@ export interface StorageSchema {
   [STORAGE_KEYS.LAB_DRAFTS]: Record<string, string>;
   [STORAGE_KEYS.COMPARE_EXPERIMENTS]: CompareExperimentRecord[];
   [STORAGE_KEYS.WORKFLOWS]: WorkflowDefinition[];
+  [STORAGE_KEYS.ARENA_PROGRESS]: ArenaProgress;
 }
 
 export const STORAGE_DEFAULTS: StorageSchema = {
@@ -129,6 +132,14 @@ export const STORAGE_DEFAULTS: StorageSchema = {
   [STORAGE_KEYS.LAB_DRAFTS]: {},
   [STORAGE_KEYS.COMPARE_EXPERIMENTS]: [],
   [STORAGE_KEYS.WORKFLOWS]: [],
+  [STORAGE_KEYS.ARENA_PROGRESS]: {
+    completedLevels: [],
+    levelAttempts: {},
+    bestRedVsBlueFraction: null,
+    totalRedVsBlueRuns: 0,
+    lastActiveTab: "levels",
+    updatedAt: 0,
+  },
 };
 
 export const STORAGE_VALIDATORS: {
@@ -156,6 +167,11 @@ export const STORAGE_VALIDATORS: {
   ): data is CompareExperimentRecord[] => Array.isArray(data),
   [STORAGE_KEYS.WORKFLOWS]: (data: unknown): data is WorkflowDefinition[] =>
     Array.isArray(data),
+  [STORAGE_KEYS.ARENA_PROGRESS]: (data: unknown): data is ArenaProgress =>
+    data !== null &&
+    typeof data === "object" &&
+    !Array.isArray(data) &&
+    Array.isArray((data as ArenaProgress).completedLevels),
 };
 
 // In-memory cache fallback for SSR or restricted environments

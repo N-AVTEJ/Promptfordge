@@ -19,7 +19,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Labs", href: "/labs", phase: "Interactive" },
   { label: "Workflow", href: "/workflow", phase: "Studio" },
   { label: "Evaluate", href: "/evaluate", phase: "Evals" },
-  { label: "Arena", href: "/arena", phase: "Benchmark" },
+  { label: "Arena", href: "/arena", phase: "Security" },
   { label: "Library", href: "/library", phase: "Blueprints" },
   { label: "Challenges", href: "/challenges", phase: "Sandbox" },
 ];
