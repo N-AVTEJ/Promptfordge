@@ -99,33 +99,33 @@ export function ExpertVisualizer() {
               onClick={() => handleSelectPreset(p.id)}
               className={`text-left rounded-lg border p-3 transition-all ${
                 selectedPresetId === p.id
-                  ? "border-ember-500 bg-ember-950/20 ring-1 ring-ember-500/50"
-                  : "border-forge-border bg-[#0E121B] hover:border-white/[0.15]"
+                  ? "border-coral bg-coral/10 ring-1 ring-coral/50"
+                  : "border-indigo-950/10 bg-white hover:border-coral/30"
               }`}
             >
-              <div className="font-mono text-xs font-bold text-forge-text mb-1">
+              <div className="font-mono text-xs font-bold text-indigo mb-1">
                 {p.title}
               </div>
-              <div className="text-[10px] text-forge-muted">
+              <div className="text-[10px] text-indigo-900/60">
                 {p.domain}
               </div>
             </button>
           ))}
         </div>
 
-        <div className="pt-3 border-t border-forge-border flex items-center gap-2">
+        <div className="pt-3 border-t border-indigo-950/10 flex items-center gap-2">
           <input
             type="text"
             value={customQuery}
             onChange={(e) => setCustomQuery(e.target.value)}
             placeholder="Or submit a custom technical question to all 4 specialist personas..."
-            className="flex-1 rounded-md border border-white/[0.08] bg-[#0E121B] px-3 py-1.5 font-mono text-xs text-forge-text focus:border-cyan-500 focus:outline-none"
+            className="flex-1 rounded-md border border-indigo-950/10 bg-cream/70 px-3 py-1.5 font-mono text-xs text-indigo focus:border-coral focus:outline-none"
           />
           <button
             type="button"
             onClick={handleRunCustom}
             disabled={!customQuery.trim()}
-            className="rounded-md bg-purple-500 px-3 py-1.5 font-mono text-xs font-bold text-white hover:bg-purple-400 disabled:opacity-50"
+            className="rounded-md bg-coral px-3 py-1.5 font-mono text-xs font-bold text-white hover:bg-coral-600 disabled:opacity-50"
           >
             Run Council
           </button>
@@ -133,11 +133,11 @@ export function ExpertVisualizer() {
       </div>
 
       {/* Active Question Banner */}
-      <div className="rounded-xl border border-forge-border bg-[#0A0D14] p-4 font-mono text-xs">
-        <span className="text-[10px] uppercase tracking-wider text-purple-400 font-bold block mb-1">
+      <div className="rounded-xl border border-indigo-950/10 bg-white p-4 font-mono text-xs shadow-card">
+        <span className="text-[10px] uppercase tracking-wider text-violet font-bold block mb-1">
           Council Target Query
         </span>
-        <p className="text-forge-text leading-relaxed">
+        <p className="text-indigo leading-relaxed">
           {customQuery.trim() || preset.query}
         </p>
       </div>
@@ -152,19 +152,19 @@ export function ExpertVisualizer() {
           return (
             <div
               key={role.id}
-              className={`rounded-xl border bg-[#0A0D14] p-4 shadow-xl flex flex-col justify-between transition-all ${borderCls}`}
+              className={`rounded-xl border bg-white p-4 shadow-card flex flex-col justify-between transition-all ${borderCls}`}
             >
               {/* Card Header */}
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/[0.05] border border-white/[0.08]">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-cream border border-indigo-950/10">
                     {icon}
                   </div>
                   <div>
-                    <h3 className="font-mono text-xs font-bold text-forge-text leading-tight">
+                    <h3 className="font-mono text-xs font-bold text-indigo leading-tight">
                       {role.title}
                     </h3>
-                    <span className="text-[10px] text-forge-muted block">
+                    <span className="text-[10px] text-indigo-900/60 block">
                       {role.persona}
                     </span>
                   </div>
@@ -172,18 +172,18 @@ export function ExpertVisualizer() {
 
                 {/* Key Takeaway Pill */}
                 {resp && (
-                  <div className="mt-3 rounded border border-white/[0.06] bg-[#0E121B] p-2.5">
-                    <span className="text-[10px] font-mono text-cyan-400 font-bold block mb-0.5">
+                  <div className="mt-3 rounded border border-indigo-950/10 bg-cream/70 p-2.5">
+                    <span className="text-[10px] font-mono text-teal font-bold block mb-0.5">
                       Core Perspective Highlight:
                     </span>
-                    <p className="text-[11px] font-mono text-forge-text leading-snug">
+                    <p className="text-[11px] font-mono text-indigo leading-snug">
                       &ldquo;{resp.keyTakeaway}&rdquo;
                     </p>
                   </div>
                 )}
 
                 {/* Full Specialist Response */}
-                <div className="mt-3 max-h-72 overflow-y-auto rounded border border-white/[0.06] bg-[#0E121B] p-3 font-mono text-xs text-forge-text leading-relaxed whitespace-pre-wrap">
+                <div className="mt-3 max-h-72 overflow-y-auto rounded border border-indigo-950/10 bg-cream/70 p-3 font-mono text-xs text-indigo leading-relaxed whitespace-pre-wrap">
                   {resp?.response || "Evaluating query under specialist frame..."}
                 </div>
               </div>

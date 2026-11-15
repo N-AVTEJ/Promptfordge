@@ -22,10 +22,10 @@ export const UserInputNode = memo(function UserInputNode({
   };
 
   const statusColors = {
-    idle: "border-forge-border bg-[#0A0D14]",
-    running: "border-cyan-500 bg-cyan-950/20 ring-1 ring-cyan-500 animate-pulse",
-    done: "border-emerald-500/70 bg-emerald-950/20",
-    failed: "border-rose-500 bg-rose-950/20 ring-1 ring-rose-500",
+    idle: "border-indigo-950/10 bg-white shadow-card",
+    running: "border-teal bg-teal/10 ring-1 ring-teal animate-pulse",
+    done: "border-teal/70 bg-teal/10",
+    failed: "border-coral bg-coral/10 ring-1 ring-coral",
   };
 
   return (
@@ -72,10 +72,10 @@ export const UserInputNode = memo(function UserInputNode({
           value={inputVal}
           onChange={handleChange}
           placeholder="Enter prompt input or parameters..."
-          className="w-full resize-none rounded-md border border-white/[0.08] bg-[#0E121B] px-2.5 py-1.5 font-mono text-xs text-forge-text placeholder:text-forge-muted/50 focus:border-cyan-500 focus:outline-none"
+          className="w-full resize-none rounded-md border border-indigo-950/10 bg-cream/70 px-2.5 py-1.5 font-mono text-xs text-indigo placeholder:text-indigo-900/40 focus:border-teal focus:outline-none"
         />
         {data.educationalNote && (
-          <p className="text-[10px] text-forge-muted italic leading-tight">
+          <p className="text-[10px] text-indigo-900/60 italic leading-tight">
             {data.educationalNote}
           </p>
         )}
@@ -83,8 +83,8 @@ export const UserInputNode = memo(function UserInputNode({
 
       {/* Output preview when done */}
       {data.output && (
-        <div className="mt-2.5 rounded border border-emerald-500/30 bg-emerald-950/30 p-2 font-mono text-[11px] text-emerald-300">
-          <div className="flex items-center justify-between text-[10px] text-emerald-400/80 mb-1">
+        <div className="mt-2.5 rounded border border-teal/30 bg-teal/10 p-2 font-mono text-[11px] text-teal">
+          <div className="flex items-center justify-between text-[10px] text-teal/80 mb-1">
             <span>Payload Emitted</span>
             {data.metrics?.latencyMs !== undefined && (
               <span className="flex items-center gap-1">
@@ -99,7 +99,7 @@ export const UserInputNode = memo(function UserInputNode({
 
       {/* Error message */}
       {data.error && (
-        <div className="mt-2 rounded border border-rose-500/30 bg-rose-950/30 p-2 text-[10px] text-rose-300 font-mono">
+        <div className="mt-2 rounded border border-coral/30 bg-coral/10 p-2 text-[10px] text-coral font-mono">
           {data.error}
         </div>
       )}
@@ -112,7 +112,7 @@ export const UserInputNode = memo(function UserInputNode({
         isConnectable={isConnectable}
         data-datatype="text"
         title="Output: text"
-        className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-cyan-400 hover:!scale-125 transition-transform"
+        className="!h-3 !w-3 !rounded-full !border-2 !border-white !bg-teal hover:!scale-125 transition-transform"
       />
     </div>
   );

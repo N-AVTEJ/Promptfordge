@@ -33,10 +33,10 @@ export const LlmRunNode = memo(function LlmRunNode({
   };
 
   const statusColors = {
-    idle: "border-forge-border bg-[#0A0D14]",
-    running: "border-cyan-400 bg-cyan-950/20 ring-1 ring-cyan-400 animate-pulse",
-    done: "border-emerald-500/70 bg-emerald-950/20",
-    failed: "border-rose-500 bg-rose-950/20 ring-1 ring-rose-500",
+    idle: "border-indigo-950/10 bg-white shadow-card",
+    running: "border-coral bg-coral/10 ring-1 ring-coral animate-pulse",
+    done: "border-teal/70 bg-teal/10",
+    failed: "border-coral bg-coral/10 ring-1 ring-coral",
   };
 
   return (
@@ -53,7 +53,7 @@ export const LlmRunNode = memo(function LlmRunNode({
         isConnectable={isConnectable}
         data-datatype="template"
         title="Input: prompt template or text"
-        className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-ember-400 hover:!scale-125 transition-transform"
+        className="!h-3 !w-3 !rounded-full !border-2 !border-white !bg-coral hover:!scale-125 transition-transform"
       />
 
       {/* Node Header */}
@@ -94,7 +94,7 @@ export const LlmRunNode = memo(function LlmRunNode({
             <select
               value={model}
               onChange={handleModelChange}
-              className="mt-0.5 w-full rounded border border-white/[0.08] bg-[#0E121B] px-2 py-1 font-mono text-[11px] text-forge-text focus:border-cyan-500 focus:outline-none"
+              className="mt-0.5 w-full rounded border border-indigo-950/10 bg-cream/70 px-2 py-1 font-mono text-[11px] text-indigo focus:border-teal focus:outline-none"
             >
               <option value="gemini-1.5-flash">gemini-1.5-flash</option>
               <option value="gemini-1.5-pro">gemini-1.5-pro</option>
@@ -132,7 +132,7 @@ export const LlmRunNode = memo(function LlmRunNode({
 
       {/* Telemetry bar when done */}
       {data.metrics && data.status === "done" && (
-        <div className="mt-2.5 flex items-center justify-between rounded border border-white/[0.06] bg-[#0E121B] px-2 py-1 text-[10px] font-mono text-forge-muted">
+        <div className="mt-2.5 flex items-center justify-between rounded border border-indigo-950/10 bg-cream/70 px-2 py-1 text-[10px] font-mono text-indigo-900/60">
           <span className="flex items-center gap-1 text-cyan-400">
             <Clock className="h-2.5 w-2.5" />
             {data.metrics.latencyMs || 0}ms
@@ -173,7 +173,7 @@ export const LlmRunNode = memo(function LlmRunNode({
         isConnectable={isConnectable}
         data-datatype="text"
         title="Output: generated text"
-        className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-purple-400 hover:!scale-125 transition-transform"
+        className="!h-3 !w-3 !rounded-full !border-2 !border-white !bg-violet hover:!scale-125 transition-transform"
       />
     </div>
   );

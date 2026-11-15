@@ -28,10 +28,10 @@ export const PromptTemplateNode = memo(function PromptTemplateNode({
   };
 
   const statusColors = {
-    idle: "border-forge-border bg-[#0A0D14]",
-    running: "border-ember-500 bg-ember-950/20 ring-1 ring-ember-500 animate-pulse",
-    done: "border-emerald-500/70 bg-emerald-950/20",
-    failed: "border-rose-500 bg-rose-950/20 ring-1 ring-rose-500",
+    idle: "border-indigo-950/10 bg-white shadow-card",
+    running: "border-coral bg-coral/10 ring-1 ring-coral animate-pulse",
+    done: "border-teal/70 bg-teal/10",
+    failed: "border-coral bg-coral/10 ring-1 ring-coral",
   };
 
   return (
@@ -48,7 +48,7 @@ export const PromptTemplateNode = memo(function PromptTemplateNode({
         isConnectable={isConnectable}
         data-datatype="text"
         title="Input: text"
-        className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-cyan-400 hover:!scale-125 transition-transform"
+        className="!h-3 !w-3 !rounded-full !border-2 !border-white !bg-teal hover:!scale-125 transition-transform"
       />
 
       {/* Node Header */}
@@ -91,7 +91,7 @@ export const PromptTemplateNode = memo(function PromptTemplateNode({
           value={templateVal}
           onChange={handleChange}
           placeholder="System role... {{input}} ...constraints"
-          className="w-full resize-none rounded-md border border-white/[0.08] bg-[#0E121B] px-2.5 py-1.5 font-mono text-xs text-forge-text placeholder:text-forge-muted/50 focus:border-ember-500 focus:outline-none"
+          className="w-full resize-none rounded-md border border-indigo-950/10 bg-cream/70 px-2.5 py-1.5 font-mono text-xs text-indigo placeholder:text-indigo-900/40 focus:border-coral focus:outline-none"
         />
 
         {/* Detected Variables Chips */}
@@ -149,7 +149,7 @@ export const PromptTemplateNode = memo(function PromptTemplateNode({
         isConnectable={isConnectable}
         data-datatype="template"
         title="Output: prompt template"
-        className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-ember-400 hover:!scale-125 transition-transform"
+        className="!h-3 !w-3 !rounded-full !border-2 !border-white !bg-coral hover:!scale-125 transition-transform"
       />
     </div>
   );

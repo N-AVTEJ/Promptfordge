@@ -12,10 +12,10 @@ export const FinalOutputNode = memo(function FinalOutputNode({
   const [copied, setCopied] = useState(false);
 
   const statusColors = {
-    idle: "border-forge-border bg-[#0A0D14]",
-    running: "border-emerald-400 bg-emerald-950/20 ring-1 ring-emerald-400 animate-pulse",
-    done: "border-emerald-500 bg-emerald-950/20 ring-1 ring-emerald-500/50 shadow-emerald-950/30",
-    failed: "border-rose-500 bg-rose-950/20 ring-1 ring-rose-500",
+    idle: "border-indigo-950/10 bg-white shadow-card",
+    running: "border-teal bg-teal/10 ring-1 ring-teal animate-pulse",
+    done: "border-teal bg-teal/10 ring-1 ring-teal/50 shadow-card",
+    failed: "border-coral bg-coral/10 ring-1 ring-coral",
   };
 
   const handleCopy = () => {
@@ -43,7 +43,7 @@ export const FinalOutputNode = memo(function FinalOutputNode({
         isConnectable={isConnectable}
         data-datatype="any"
         title="Input: pipeline result"
-        className="!h-3 !w-3 !rounded-full !border-2 !border-[#0A0D14] !bg-emerald-400 hover:!scale-125 transition-transform"
+        className="!h-3 !w-3 !rounded-full !border-2 !border-white !bg-teal hover:!scale-125 transition-transform"
       />
 
       {/* Node Header */}
@@ -98,12 +98,12 @@ export const FinalOutputNode = memo(function FinalOutputNode({
                 )}
               </button>
             </div>
-            <div className="max-h-48 overflow-y-auto rounded border border-white/[0.08] bg-[#0E121B] p-2.5 font-mono text-xs text-forge-text leading-relaxed whitespace-pre-wrap">
+            <div className="max-h-48 overflow-y-auto rounded border border-indigo-950/10 bg-cream/70 p-2.5 font-mono text-xs text-indigo leading-relaxed whitespace-pre-wrap">
               {data.output}
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center rounded border border-dashed border-white/[0.1] bg-[#0E121B]/50 p-6 text-center">
+          <div className="flex flex-col items-center justify-center rounded border border-dashed border-indigo-950/10 bg-cream/40 p-6 text-center">
             <FileText className="h-6 w-6 text-forge-muted/40 mb-1.5" />
             <p className="font-mono text-[11px] text-forge-muted">
               Awaiting pipeline execution...

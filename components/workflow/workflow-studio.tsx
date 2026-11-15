@@ -154,7 +154,7 @@ export function WorkflowStudio() {
         ...connection,
         id: `e-${connection.source}-${connection.target}-${Date.now()}`,
         animated: false,
-        style: { stroke: "#00E5FF", strokeWidth: 2 },
+        style: { stroke: "var(--teal)", strokeWidth: 2 },
       } as Edge;
       setEdges((eds) => addEdge(newEdge, eds));
     },
@@ -256,7 +256,7 @@ export function WorkflowStudio() {
       eds.map((e) => ({
         ...e,
         animated: true,
-        style: { stroke: "#00E5FF", strokeWidth: 2.5 },
+        style: { stroke: "var(--coral)", strokeWidth: 2.5 },
       }))
     );
 
@@ -341,7 +341,7 @@ export function WorkflowStudio() {
         eds.map((e) => ({
           ...e,
           animated: false,
-          style: { stroke: "#10B981", strokeWidth: 2 },
+          style: { stroke: "var(--teal)", strokeWidth: 2 },
         }))
       );
     }
@@ -424,12 +424,12 @@ export function WorkflowStudio() {
   );
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] flex-col bg-[#07080B] text-forge-text">
+    <div className="flex h-[calc(100vh-4rem)] flex-col bg-cream text-indigo">
       {/* Top Toolbar */}
-      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] bg-[#0A0D14]/90 px-4 py-2.5 backdrop-blur-md">
+      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-indigo-950/10 bg-white/95 px-4 py-2.5 backdrop-blur-md">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-ember-500/10 text-ember-400 border border-ember-500/30">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-coral/10 text-coral border border-coral/30">
               <Layers className="h-4 w-4" />
             </div>
             <div>
@@ -454,18 +454,18 @@ export function WorkflowStudio() {
         {/* Center: Template Switcher & Add Node Dropdown */}
         <div className="flex items-center gap-2">
           {/* Starter Template Selector */}
-          <div className="flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-[#0E121B] px-2.5 py-1">
-            <span className="text-[10px] font-mono text-forge-muted uppercase">
+          <div className="flex items-center gap-1.5 rounded-lg border border-indigo-950/10 bg-white px-2.5 py-1">
+            <span className="text-[10px] font-mono text-indigo-900/60 uppercase">
               Template:
             </span>
             <select
               value={currentTemplateId}
               onChange={(e) => handleSelectTemplate(e.target.value)}
-              className="bg-transparent font-mono text-xs text-forge-text focus:outline-none cursor-pointer"
+              className="bg-transparent font-mono text-xs text-indigo focus:outline-none cursor-pointer"
             >
               <optgroup label="Starter DAG Templates">
                 {STARTER_TEMPLATES.map((t) => (
-                  <option key={t.id} value={t.id} className="bg-[#0E121B]">
+                  <option key={t.id} value={t.id} className="bg-white text-indigo">
                     {t.name}
                   </option>
                 ))}
@@ -475,7 +475,7 @@ export function WorkflowStudio() {
                   {savedWorkflows
                     .filter((w) => !w.isTemplate)
                     .map((w) => (
-                      <option key={w.id} value={w.id} className="bg-[#0E121B]">
+                      <option key={w.id} value={w.id} className="bg-white text-indigo">
                         {w.name}
                       </option>
                     ))}
@@ -488,44 +488,44 @@ export function WorkflowStudio() {
           <div className="relative group">
             <button
               type="button"
-              className="flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-[#0E121B] px-3 py-1.5 text-xs font-mono text-forge-text hover:bg-white/[0.05] transition-colors"
+              className="flex items-center gap-1.5 rounded-lg border border-indigo-950/10 bg-white px-3 py-1.5 text-xs font-mono text-indigo hover:bg-cream transition-colors"
             >
-              <Plus className="h-3.5 w-3.5 text-cyan-400" />
+              <Plus className="h-3.5 w-3.5 text-teal" />
               <span>Add Node</span>
             </button>
-            <div className="absolute left-0 top-full z-50 mt-1 hidden w-44 rounded-lg border border-white/[0.1] bg-[#0E121B] p-1 shadow-2xl group-hover:block">
+            <div className="absolute left-0 top-full z-50 mt-1 hidden w-44 rounded-lg border border-indigo-950/10 bg-white p-1 shadow-card group-hover:block">
               <button
                 type="button"
                 onClick={() => handleAddNode("userInput")}
-                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-cyan-300 hover:bg-white/[0.06] rounded"
+                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-teal hover:bg-cream rounded"
               >
                 + User Input
               </button>
               <button
                 type="button"
                 onClick={() => handleAddNode("promptTemplate")}
-                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-ember-300 hover:bg-white/[0.06] rounded"
+                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-coral hover:bg-cream rounded"
               >
                 + Prompt Template
               </button>
               <button
                 type="button"
                 onClick={() => handleAddNode("llmRun")}
-                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-purple-300 hover:bg-white/[0.06] rounded"
+                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-violet hover:bg-cream rounded"
               >
                 + LLM Run
               </button>
               <button
                 type="button"
                 onClick={() => handleAddNode("evaluate")}
-                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-pink-300 hover:bg-white/[0.06] rounded"
+                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-coral hover:bg-cream rounded"
               >
                 + Evaluate
               </button>
               <button
                 type="button"
                 onClick={() => handleAddNode("finalOutput")}
-                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-emerald-300 hover:bg-white/[0.06] rounded"
+                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-teal hover:bg-cream rounded"
               >
                 + Final Output
               </button>
@@ -539,10 +539,10 @@ export function WorkflowStudio() {
           <button
             type="button"
             onClick={() => setShowSaveAsModal(true)}
-            className="flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-[#0E121B] px-2.5 py-1.5 text-xs font-mono text-forge-text hover:bg-white/[0.05] transition-colors"
+            className="flex items-center gap-1.5 rounded-lg border border-indigo-950/10 bg-white px-2.5 py-1.5 text-xs font-mono text-indigo hover:bg-cream transition-colors"
             title="Save workflow to localStorage"
           >
-            <Save className="h-3.5 w-3.5 text-ember-400" />
+            <Save className="h-3.5 w-3.5 text-coral" />
             <span className="hidden md:inline">Save</span>
           </button>
 
@@ -550,10 +550,10 @@ export function WorkflowStudio() {
           <button
             type="button"
             onClick={() => setShowSavedModal(true)}
-            className="flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-[#0E121B] px-2.5 py-1.5 text-xs font-mono text-forge-text hover:bg-white/[0.05] transition-colors"
+            className="flex items-center gap-1.5 rounded-lg border border-indigo-950/10 bg-white px-2.5 py-1.5 text-xs font-mono text-indigo hover:bg-cream transition-colors"
             title="Manage saved workflows"
           >
-            <FolderOpen className="h-3.5 w-3.5 text-cyan-400" />
+            <FolderOpen className="h-3.5 w-3.5 text-teal" />
             <span className="hidden md:inline">Manage</span>
           </button>
 
@@ -561,7 +561,7 @@ export function WorkflowStudio() {
           <button
             type="button"
             onClick={handleExportJson}
-            className="flex items-center gap-1 rounded-lg border border-white/[0.08] bg-[#0E121B] px-2 py-1.5 text-xs font-mono text-forge-muted hover:text-forge-text transition-colors"
+            className="flex items-center gap-1 rounded-lg border border-indigo-950/10 bg-white px-2 py-1.5 text-xs font-mono text-indigo-900/60 hover:text-indigo transition-colors"
             title="Export workflow JSON"
           >
             <Download className="h-3.5 w-3.5" />
@@ -571,7 +571,7 @@ export function WorkflowStudio() {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center gap-1 rounded-lg border border-white/[0.08] bg-[#0E121B] px-2 py-1.5 text-xs font-mono text-forge-muted hover:text-forge-text transition-colors"
+            className="flex items-center gap-1 rounded-lg border border-indigo-950/10 bg-white px-2 py-1.5 text-xs font-mono text-indigo-900/60 hover:text-indigo transition-colors"
             title="Import workflow JSON"
           >
             <Upload className="h-3.5 w-3.5" />
@@ -588,7 +588,7 @@ export function WorkflowStudio() {
           <button
             type="button"
             onClick={() => handleSelectTemplate(currentTemplateId)}
-            className="flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-[#0E121B] px-2.5 py-1.5 text-xs font-mono text-forge-muted hover:text-forge-text transition-colors"
+            className="flex items-center gap-1.5 rounded-lg border border-indigo-950/10 bg-white px-2.5 py-1.5 text-xs font-mono text-indigo-900/60 hover:text-indigo transition-colors"
             title="Reset workflow to template defaults"
           >
             <RotateCcw className="h-3.5 w-3.5" />
@@ -600,10 +600,10 @@ export function WorkflowStudio() {
             type="button"
             onClick={handleRunWorkflow}
             disabled={isRunning}
-            className={`flex items-center gap-2 rounded-lg px-4 py-1.5 font-mono text-xs font-bold text-black shadow-lg transition-all ${
+            className={`flex items-center gap-2 rounded-lg px-4 py-1.5 font-mono text-xs font-bold text-white shadow-card transition-all ${
               isRunning
-                ? "bg-cyan-400/50 cursor-not-allowed"
-                : "bg-gradient-to-r from-ember-500 to-amber-400 hover:from-ember-400 hover:to-amber-300"
+                ? "bg-teal/50 cursor-not-allowed"
+                : "bg-coral hover:bg-coral-600"
             }`}
           >
             <Play className={`h-3.5 w-3.5 ${isRunning ? "animate-spin" : ""}`} />
@@ -664,7 +664,7 @@ export function WorkflowStudio() {
       )}
 
       {/* React Flow Canvas */}
-      <div className="relative flex-1 w-full h-full bg-[#07080B]">
+      <div className="relative flex-1 w-full h-full bg-cream">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -677,35 +677,35 @@ export function WorkflowStudio() {
           fitView
           fitViewOptions={{ padding: 0.2 }}
           attributionPosition="bottom-left"
-          className="bg-[#07080B]"
+          className="bg-cream"
         >
-          <Background color="#1F2937" gap={20} size={1} />
-          <Controls className="!bg-[#0E121B] !border !border-white/[0.08] !rounded-lg !text-forge-text" />
+          <Background color="var(--forge-border)" gap={20} size={1} />
+          <Controls className="!bg-white !border !border-indigo-950/10 !rounded-lg !text-indigo" />
           <MiniMap
-            className="!bg-[#0A0D14] !border !border-white/[0.08] !rounded-lg"
+            className="!bg-white !border !border-indigo-950/10 !rounded-lg"
             nodeColor={(node) => {
               switch (node.type) {
                 case "userInput":
-                  return "#00E5FF";
+                  return "var(--teal)";
                 case "promptTemplate":
-                  return "#FF7A1A";
+                  return "var(--coral)";
                 case "llmRun":
-                  return "#A855F7";
+                  return "var(--violet)";
                 case "evaluate":
-                  return "#EC4899";
+                  return "var(--coral)";
                 case "finalOutput":
-                  return "#10B981";
+                  return "var(--teal)";
                 default:
-                  return "#6B7280";
+                  return "var(--indigo)";
               }
             }}
           />
         </ReactFlow>
 
         {/* Floating Educational Disclosure */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border border-white/[0.08] bg-[#0A0D14]/90 px-4 py-1.5 shadow-xl backdrop-blur-md flex items-center gap-2 pointer-events-none">
-          <Info className="h-3 w-3 text-cyan-400" />
-          <span className="font-mono text-[10px] text-forge-muted">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border border-indigo-950/10 bg-white/95 px-4 py-1.5 shadow-card backdrop-blur-md flex items-center gap-2 pointer-events-none">
+          <Info className="h-3 w-3 text-teal" />
+          <span className="font-mono text-[10px] text-indigo-900/60">
             Educational simulation: Typed handles enforce valid pipeline flow. Cycles are rejected before execution.
           </span>
         </div>
