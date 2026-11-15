@@ -1007,8 +1007,8 @@ export function LlmSimulatorLab() {
                       onClick={() => setHarmonicIndex(h)}
                       className={`px-2 py-0.5 rounded text-[10px] ${
                         harmonicIndex === h
-                          ? "bg-cyan-500 text-forge-black font-bold"
-                          : "border border-forge-border hover:bg-forge-surface"
+                          ? "bg-teal text-white font-bold"
+                          : "border border-indigo/10 hover:bg-cream text-indigo/70"
                       }`}
                     >
                       i={h}
@@ -1018,7 +1018,7 @@ export function LlmSimulatorLab() {
               </div>
 
               {/* SVG Waveform Rendering */}
-              <div className="relative rounded-xl border border-cyan-500/30 bg-forge-black/80 p-4 overflow-hidden">
+              <div className="relative rounded-xl border border-teal/20 bg-mint/20 p-4 overflow-hidden">
                 <svg
                   viewBox="0 0 1000 160"
                   className="w-full h-40 overflow-visible"
@@ -1108,7 +1108,7 @@ export function LlmSimulatorLab() {
               {positional.map((pos) => (
                 <div
                   key={pos.positionIndex}
-                  className="flex items-center gap-4 rounded-xl border border-forge-border/60 bg-forge-black/50 p-3"
+                  className="flex items-center gap-4 rounded-xl border border-indigo/10 bg-cream/50 p-3"
                 >
                   <div className="w-28 shrink-0 font-mono text-xs">
                     <span className="text-[10px] text-cyan-400 block font-bold">
@@ -1169,15 +1169,15 @@ export function LlmSimulatorLab() {
               </div>
 
               {/* Head Selector Tabs */}
-              <div className="flex items-center rounded-lg border border-forge-border bg-forge-black p-0.5 self-start sm:self-center">
+              <div className="flex items-center rounded-lg border border-indigo/10 bg-cream p-0.5 self-start sm:self-center">
                 {attentionHeads.map((head, idx) => (
                   <button
                     key={head.id}
                     onClick={() => setActiveHeadIndex(idx)}
                     className={`rounded px-3 py-1 text-xs font-mono transition-colors ${
                       activeHeadIndex === idx
-                        ? "bg-ember-500 text-forge-black font-bold shadow-sm"
-                        : "text-forge-muted hover:text-forge-text"
+                        ? "bg-coral text-white font-bold shadow-sm"
+                        : "text-indigo/70 hover:text-indigo"
                     }`}
                   >
                     Head {idx + 1}
@@ -1186,7 +1186,7 @@ export function LlmSimulatorLab() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-ember-500/20 bg-ember-500/5 p-3 text-xs text-ember-300">
+            <div className="rounded-lg border border-coral/20 bg-coral/5 p-3 text-xs text-coral">
               <span className="font-bold">
                 {attentionHeads[activeHeadIndex]?.name}:
               </span>{" "}
@@ -1195,7 +1195,7 @@ export function LlmSimulatorLab() {
 
             {/* Interactive Token Strip: Click to set Query Token */}
             <div>
-              <span className="text-[11px] font-mono uppercase tracking-wider text-forge-muted block mb-2">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-indigo/60 block mb-2">
                 Tokens (Click any token to set as Active Query $q_i$):
               </span>
               <div className="flex flex-wrap gap-2">
@@ -1210,14 +1210,14 @@ export function LlmSimulatorLab() {
                       onClick={() => setSelectedQueryTokenIndex(idx)}
                       className={`relative flex flex-col rounded-lg border px-3 py-2 text-left font-mono transition-all ${
                         isQuery
-                          ? "border-ember-500 bg-ember-500/20 text-ember-300 ring-2 ring-ember-500/50 scale-105 shadow-lg"
-                          : "border-forge-border bg-forge-black/60 text-forge-text hover:border-forge-text/50"
+                          ? "border-coral bg-coral/20 text-coral ring-2 ring-coral/50 scale-105 shadow-md"
+                          : "border-indigo/10 bg-cream/60 text-indigo hover:border-coral/40"
                       }`}
                     >
-                      <div className="flex items-center justify-between text-[10px] text-forge-muted">
+                      <div className="flex items-center justify-between text-[10px] text-indigo/60">
                         <span>#{idx}</span>
                         {isQuery && (
-                          <span className="rounded bg-ember-500 text-forge-black px-1 font-bold text-[9px]">
+                          <span className="rounded bg-coral text-white px-1 font-bold text-[9px]">
                             QUERY
                           </span>
                         )}
