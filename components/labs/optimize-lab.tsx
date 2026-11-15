@@ -6,30 +6,22 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Sparkles,
   Play,
-  RotateCcw,
   BookmarkPlus,
   CheckCircle2,
   AlertTriangle,
   Info,
-  Clock,
-  Coins,
   Cpu,
   ArrowRight,
   Split,
   Eye,
   Layers,
-  Check,
-  ExternalLink,
-  ChevronRight,
   ShieldAlert,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { savePrompt } from "@/lib/storage/library";
-import { DiffLine, DiffResult } from "@/lib/engine/diff";
 import {
-  DiagnosisItem,
   DiagnosisCategory,
   DiagnosisSeverity,
   PromptAnalysis,
@@ -550,7 +542,6 @@ export function OptimizeLab() {
                           const isAdded = line.type === "added";
                           const isRemoved = line.type === "removed";
                           const isModified = line.type === "modified";
-                          const isUnchanged = line.type === "unchanged";
 
                           let bgClass = "bg-transparent";
                           let textClass = "text-forge-muted";

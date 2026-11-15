@@ -83,7 +83,7 @@ const VAGUE_VERBS = [
   "say something",
 ];
 
-const PRECISE_ACTION_VERBS = [
+export const PRECISE_ACTION_VERBS = [
   "synthesize",
   "analyze",
   "categorize",

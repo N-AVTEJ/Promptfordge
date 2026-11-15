@@ -16,6 +16,9 @@ import {
   setStorageItem,
 } from "./index";
 
+export type { SavedPrompt, PromptVersion, PromptVersionMetrics };
+
+
 /**
  * Normalizes a prompt to ensure its `versions` array is never undefined or empty.
  */
@@ -95,7 +98,7 @@ export function savePrompt(input: SavePromptInput): SavedPrompt {
       const latestVersion = prevVersions[prevVersions.length - 1];
       const isContentChanged = !latestVersion || latestVersion.content !== input.content;
 
-      let updatedVersions = [...prevVersions];
+      const updatedVersions = [...prevVersions];
       let newCurrentVersionId = existing.currentVersionId;
 
       if (isContentChanged) {
