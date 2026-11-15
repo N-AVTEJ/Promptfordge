@@ -100,7 +100,7 @@ html.lenis body {
     transform: scale(1);
   }
   50% {
-    opacity: 0.7;
+    opacity: 0.75;
     transform: scale(1.03);
   }
 }
@@ -114,17 +114,53 @@ html.lenis body {
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 107, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 107, 0, 0.35);
+  }
+}
+
 .animate-page-enter {
-  animation: pageEnter 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: pageEnter 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: opacity, transform;
 }
 
 .animate-glow-pulse {
-  animation: forgeGlowPulse 4s ease-in-out infinite;
+  animation: forgeGlowPulse 3s ease-in-out infinite;
 }
 
 .animate-float {
-  animation: floatSlow 3s ease-in-out infinite;
+  animation: floatSlow 2.5s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.5s infinite;
+}
+
+/* Card hover lift effect */
+.hover-lift {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
 }
 
 /* Accessibility: respect user prefers-reduced-motion in CSS animations */
@@ -139,7 +175,11 @@ html.lenis body {
   }
   .animate-page-enter,
   .animate-glow-pulse,
-  .animate-float {
+  .animate-float,
+  .animate-shimmer,
+  .animate-pulse-glow,
+  .hover-lift {
     animation: none !important;
+    transform: none !important;
   }
 }

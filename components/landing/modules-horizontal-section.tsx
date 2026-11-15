@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Clock, BookOpen, Flame, ChevronRight } from "lucide-react";
+import { Clock, BookOpen, Flame, ChevronRight, ChevronLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CURRICULUM_MODULES, CurriculumModule } from "@/content/modules";
@@ -49,10 +49,10 @@ export function ModulesHorizontalSection() {
         trigger: section,
         start: "top top",
         end: () =>
-          `+=${Math.max(2400, cards.scrollWidth - window.innerWidth + 800)}`,
+          `+=${Math.max(1600, cards.scrollWidth - window.innerWidth + 400)}`,
         pin: track,
         pinSpacing: true,
-        scrub: 0.8,
+        scrub: 0.25,
         animation: horizontalTween,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
@@ -130,13 +130,53 @@ export function ModulesHorizontalSection() {
                 of {CURRICULUM_MODULES.length}
               </span>
               {/* Progress mini indicator */}
-              <div className="flex h-1.5 w-32 overflow-hidden rounded-full bg-white/[0.08]">
+              <div className="flex h-1.5 w-24 sm:w-32 overflow-hidden rounded-full bg-white/[0.08]">
                 <div
                   className="bg-ember-500 transition-all duration-150"
                   style={{
                     width: `${((activeModuleIdx + 1) / CURRICULUM_MODULES.length) * 100}%`,
                   }}
                 />
+              </div>
+
+              {/* Prev / Next Carousel Controls */}
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const nextIdx = Math.max(0, activeModuleIdx - 1);
+                    setActiveModuleIdx(nextIdx);
+                    if (cardsRef.current) {
+                      const cardEl = cardsRef.current.children[nextIdx] as HTMLElement;
+                      if (cardEl) {
+                        cardEl.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+                      }
+                    }
+                  }}
+                  disabled={activeModuleIdx === 0}
+                  className="flex h-7 w-7 items-center justify-center rounded border border-white/[0.1] bg-[#12151C] text-zinc-300 transition-colors hover:border-white/[0.25] hover:text-white disabled:opacity-30 disabled:pointer-events-none"
+                  aria-label="Previous module"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const nextIdx = Math.min(CURRICULUM_MODULES.length - 1, activeModuleIdx + 1);
+                    setActiveModuleIdx(nextIdx);
+                    if (cardsRef.current) {
+                      const cardEl = cardsRef.current.children[nextIdx] as HTMLElement;
+                      if (cardEl) {
+                        cardEl.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+                      }
+                    }
+                  }}
+                  disabled={activeModuleIdx === CURRICULUM_MODULES.length - 1}
+                  className="flex h-7 w-7 items-center justify-center rounded border border-amber-500/40 bg-amber-500/10 text-amber-300 transition-colors hover:bg-amber-500/20 hover:text-white disabled:opacity-30 disabled:pointer-events-none"
+                  aria-label="Next module"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
               </div>
             </div>
           </div>

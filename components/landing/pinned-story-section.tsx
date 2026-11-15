@@ -138,10 +138,10 @@ export function PinnedStorySection() {
       ScrollTrigger.create({
         trigger: section,
         start: "top top",
-        end: "+=2200",
+        end: "+=1200",
         pin: pinTarget,
         pinSpacing: true,
-        scrub: 0.8,
+        scrub: 0.25,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           const progress = self.progress;
@@ -316,8 +316,30 @@ export function PinnedStorySection() {
                   <span className="h-2 w-2 rounded-full bg-ember-500 animate-pulse shadow-[0_0_8px_#ff6b00]" />
                   <span>Pipeline state: <strong className="text-amber-400">{activeStage.name}</strong></span>
                 </div>
-                <div className="text-[11px] font-mono text-cyan-400">
-                  Scrub progress: {Math.round(scrollProgress * 100)}%
+                <div className="flex items-center gap-2.5">
+                  <span className="hidden font-mono text-[11px] text-cyan-400 sm:inline-block">
+                    Scrub: {Math.round(scrollProgress * 100)}%
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setCurrentStageIdx((p) => Math.max(0, p - 1))}
+                      disabled={currentStageIdx === 0}
+                      className="rounded border border-white/[0.1] bg-white/[0.04] px-2 py-0.5 font-mono text-[10px] text-zinc-300 transition-colors hover:bg-white/[0.1] hover:text-white disabled:opacity-30 disabled:pointer-events-none"
+                      aria-label="Previous transformer stage"
+                    >
+                      Prev
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCurrentStageIdx((p) => Math.min(STAGES.length - 1, p + 1))}
+                      disabled={currentStageIdx === STAGES.length - 1}
+                      className="rounded border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 font-mono text-[10px] text-amber-300 transition-colors hover:bg-amber-500/20 hover:text-white disabled:opacity-30 disabled:pointer-events-none"
+                      aria-label="Next transformer stage"
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -755,18 +777,31 @@ export function PinnedStorySection() {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-5 gap-1.5">
+                <div className="grid grid-cols-5 gap-2">
                   {STAGES.map((s, idx) => (
-                    <div
+                    <button
+                      type="button"
                       key={s.id}
-                      className={`h-1 rounded-full transition-all duration-300 ${
-                        idx === currentStageIdx
-                          ? "bg-ember-500"
-                          : idx < currentStageIdx
-                            ? "bg-cyan-500/60"
-                            : "bg-white/[0.08]"
+                      onClick={() => setCurrentStageIdx(idx)}
+                      className={`group flex flex-col items-center gap-1.5 rounded p-1 transition-all ${
+                        idx === currentStageIdx ? "opacity-100" : "opacity-60 hover:opacity-100"
                       }`}
-                    />
+                      aria-label={`Jump to stage ${idx + 1}: ${s.name}`}
+                      title={`Stage ${idx + 1}: ${s.name}`}
+                    >
+                      <div
+                        className={`h-1.5 w-full rounded-full transition-all duration-200 ${
+                          idx === currentStageIdx
+                            ? "bg-amber-400 shadow-[0_0_8px_#ff6b00]"
+                            : idx < currentStageIdx
+                              ? "bg-cyan-500/60"
+                              : "bg-white/[0.12] group-hover:bg-white/[0.25]"
+                        }`}
+                      />
+                      <span className="hidden font-mono text-[9px] text-zinc-400 group-hover:text-white sm:block">
+                        0{idx + 1}
+                      </span>
+                    </button>
                   ))}
                 </div>
               </div>
