@@ -14,8 +14,9 @@ import { PromptPlayground } from "./playground";
 import { PromptAnatomyLab } from "./prompt-anatomy";
 import { LlmSimulatorLab } from "./llm-simulator";
 import { CompareLab } from "./compare-lab";
+import { OptimizeLab } from "./optimize-lab";
 
-export type LabTab = "anatomy" | "simulator" | "playground" | "compare";
+export type LabTab = "anatomy" | "simulator" | "playground" | "compare" | "optimize";
 
 export function LabsHub() {
   const [activeTab, setActiveTab] = useState<LabTab>("anatomy");
@@ -38,8 +39,8 @@ export function LabsHub() {
           </p>
         </div>
 
-        {/* 4 Interactive Lab Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+        {/* 5 Interactive Lab Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 pt-2">
           {/* Card 1: Prompt Anatomy */}
           <div
             onClick={() => setActiveTab("anatomy")}
@@ -186,6 +187,42 @@ export function LabsHub() {
               <span className="text-ember-400 font-bold">Open Compare →</span>
             </div>
           </div>
+          {/* Card 5: Prompt Optimizer */}
+          <div
+            onClick={() => setActiveTab("optimize")}
+            className={`group cursor-pointer rounded-xl border p-5 transition-all flex flex-col justify-between ${
+              activeTab === "optimize"
+                ? "border-amber-500 bg-amber-950/20 shadow-lg ring-1 ring-amber-500/50"
+                : "border-forge-border bg-forge-surface hover:border-amber-500/40 hover:bg-forge-surface/80"
+            }`}
+          >
+            <div>
+              <div className="flex items-center justify-between">
+                <Badge variant="outline" className="border-amber-500/40 text-amber-300 font-mono text-[10px]">
+                  Module 5 · Optimize
+                </Badge>
+                <Link
+                  href="/labs/optimize"
+                  className="text-xs text-forge-muted hover:text-amber-400 flex items-center gap-0.5"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <span>Standalone</span>
+                  <ArrowRight className="h-3 w-3" />
+                </Link>
+              </div>
+              <h3 className="mt-3 text-lg font-bold text-forge-text group-hover:text-amber-400 transition-colors flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-amber-400" />
+                <span>Prompt Optimizer</span>
+              </h3>
+              <p className="mt-1.5 text-xs text-forge-muted leading-relaxed">
+                Diagnose weak prompts, inspect line diffs with pedagogical rationale, compare per-metric results, and save to library.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-forge-border/60 flex items-center justify-between text-xs font-mono">
+              <span className="text-forge-muted">Diff & Versioning</span>
+              <span className="text-amber-400 font-bold">Open Optimizer →</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -195,6 +232,7 @@ export function LabsHub() {
         {activeTab === "simulator" && <LlmSimulatorLab />}
         {activeTab === "playground" && <PromptPlayground />}
         {activeTab === "compare" && <CompareLab />}
+        {activeTab === "optimize" && <OptimizeLab />}
       </div>
     </div>
   );
