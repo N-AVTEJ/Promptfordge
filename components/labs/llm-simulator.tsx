@@ -750,10 +750,10 @@ export function LlmSimulatorLab() {
 
             {/* Interactive Bidirectional Highlight Area */}
             <div className="space-y-2">
-              <span className="text-[11px] font-mono uppercase tracking-wider text-forge-muted block">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-indigo/60 block">
                 Bidirectional Text Mapping (Hover tokens below to inspect exact character boundaries):
               </span>
-              <div className="rounded-xl border border-forge-border bg-forge-black/80 p-4 font-mono text-xs leading-relaxed">
+              <div className="rounded-xl border border-indigo/10 bg-cream/60 p-4 font-mono text-xs leading-relaxed">
                 {tokens.map((t) => {
                   const isHovered = hoveredTokenIndex === t.index;
                   return (
@@ -775,7 +775,7 @@ export function LlmSimulatorLab() {
             </div>
 
             {/* Token Chips Array */}
-            <div className="flex flex-wrap gap-2 p-4 rounded-xl border border-forge-border/80 bg-forge-black/70 min-h-[120px]">
+            <div className="flex flex-wrap gap-2 p-4 rounded-xl border border-indigo/10 bg-cream/40 min-h-[120px]">
               {tokens.map((token) => {
                 const isHovered = hoveredTokenIndex === token.index;
                 return (
@@ -784,7 +784,7 @@ export function LlmSimulatorLab() {
                     onMouseEnter={() => setHoveredTokenIndex(token.index)}
                     onMouseLeave={() => setHoveredTokenIndex(null)}
                     className={`group relative flex flex-col rounded-lg border px-3 py-1.5 transition-all cursor-pointer ${
-                      isHovered ? "ring-2 ring-forge-text scale-105 shadow-md" : ""
+                      isHovered ? "ring-2 ring-indigo scale-105 shadow-md" : ""
                     } ${token.colorClass}`}
                   >
                     <div className="flex items-center justify-between gap-3 text-[10px] font-mono opacity-80">
@@ -805,35 +805,35 @@ export function LlmSimulatorLab() {
 
             {/* Token Statistics Readout */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
-              <div className="rounded-lg border border-forge-border bg-forge-black/50 p-3">
-                <span className="text-[10px] font-mono uppercase text-forge-muted block">
+              <div className="rounded-xl border border-indigo/10 bg-cream/50 p-3">
+                <span className="text-[10px] font-mono uppercase text-indigo/60 block">
                   Total Tokens
                 </span>
-                <span className="text-xl font-bold font-mono text-cyan-400">
+                <span className="text-xl font-bold font-mono text-coral">
                   {tokens.length}
                 </span>
               </div>
-              <div className="rounded-lg border border-forge-border bg-forge-black/50 p-3">
-                <span className="text-[10px] font-mono uppercase text-forge-muted block">
+              <div className="rounded-xl border border-indigo/10 bg-cream/50 p-3">
+                <span className="text-[10px] font-mono uppercase text-indigo/60 block">
                   Character Length
                 </span>
-                <span className="text-xl font-bold font-mono text-forge-text">
+                <span className="text-xl font-bold font-mono text-indigo">
                   {inputText.length}
                 </span>
               </div>
-              <div className="rounded-lg border border-forge-border bg-forge-black/50 p-3">
-                <span className="text-[10px] font-mono uppercase text-forge-muted block">
+              <div className="rounded-xl border border-indigo/10 bg-cream/50 p-3">
+                <span className="text-[10px] font-mono uppercase text-indigo/60 block">
                   Compression Ratio
                 </span>
-                <span className="text-xl font-bold font-mono text-emerald-400">
+                <span className="text-xl font-bold font-mono text-teal-700">
                   {(inputText.length / Math.max(1, tokens.length)).toFixed(2)} c/t
                 </span>
               </div>
-              <div className="rounded-lg border border-forge-border bg-forge-black/50 p-3">
-                <span className="text-[10px] font-mono uppercase text-forge-muted block">
+              <div className="rounded-xl border border-indigo/10 bg-cream/50 p-3">
+                <span className="text-[10px] font-mono uppercase text-indigo/60 block">
                   Vocabulary Ceiling
                 </span>
-                <span className="text-xl font-bold font-mono text-amber-400">100k IDs</span>
+                <span className="text-xl font-bold font-mono text-indigo">100k IDs</span>
               </div>
             </div>
           </Card>
