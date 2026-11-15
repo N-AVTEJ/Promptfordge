@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
-  Sparkles,
+  BookOpen,
   FileJson,
   PlayCircle,
 } from "lucide-react";
@@ -53,24 +53,24 @@ export function AcademyGrid() {
   return (
     <div className="space-y-10">
       {/* Top Banner & Telemetry Header */}
-      <div className="relative overflow-hidden rounded-forge-2xl border border-forge-border bg-gradient-to-br from-forge-surface via-forge-black to-forge-950 p-6 sm:p-8 shadow-forge">
+      <div className="relative overflow-hidden rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#12151B] to-[#0A0C0F] p-6 sm:p-8 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-forge bg-ember-500/10 px-3 py-1 text-xs font-mono font-semibold text-ember-400 border border-ember-500/20">
-              <Sparkles className="h-3.5 w-3.5" />
+            <div className="inline-flex items-center gap-2 rounded-md bg-ember-500/10 px-2.5 py-1 text-xs font-mono font-medium text-ember-400 border border-ember-500/20">
+              <BookOpen className="h-3.5 w-3.5" />
               <span>PromptForge Curriculum · 10 Modules</span>
             </div>
-            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-forge-text">
+            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-forge-text font-mono">
               The Engineering Curriculum
             </h1>
-            <p className="text-xs sm:text-sm text-forge-muted leading-relaxed">
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
               From subword token matrices to autonomous multi-agent swarms and CI/CD evaluation gates.
               Every module couples architectural mental models with side-by-side interactive lab experiments.
             </p>
           </div>
 
           {/* Quick Metrics & Overall Ring */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 rounded-forge-xl border border-forge-border bg-forge-elevated/70 p-4 sm:p-5 backdrop-blur-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 rounded-xl border border-white/[0.08] bg-[#0E1015] p-4 sm:p-5">
             <ProgressRing
               percent={overallPercent}
               size={64}
@@ -78,12 +78,12 @@ export function AcademyGrid() {
               accent="amber"
             />
             <div className="space-y-1">
-              <div className="flex items-center gap-2 text-xs font-semibold text-forge-muted uppercase tracking-wider">
-                <span>Curriculum Progress</span>
+              <div className="flex items-center gap-2 text-xs font-mono text-zinc-400 uppercase tracking-wider">
+                <span>Curriculum progress</span>
               </div>
               <div className="font-mono text-lg font-bold text-forge-text">
                 {totalCompleted} / {totalLessons}{" "}
-                <span className="text-xs font-normal text-forge-subtle">
+                <span className="text-xs font-normal text-zinc-500">
                   ({overallPercent}%)
                 </span>
               </div>
@@ -95,7 +95,7 @@ export function AcademyGrid() {
         </div>
 
         {/* Global Curriculum Controls & Last Visited Resume */}
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-forge-border/60 pt-4">
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.06] pt-4">
           <div className="flex items-center gap-2">
             {progress.lastVisited && (
               <Link
@@ -103,7 +103,7 @@ export function AcademyGrid() {
               >
                 <Button
                   size="sm"
-                  className="bg-ember-500 hover:bg-ember-600 text-white text-xs flex items-center gap-2 shadow-ember-sm"
+                  className="bg-ember-500 hover:bg-ember-600 text-black font-semibold text-xs flex items-center gap-2"
                 >
                   <PlayCircle className="h-4 w-4" />
                   <span>Resume Last Lesson</span>
@@ -115,14 +115,14 @@ export function AcademyGrid() {
               variant="outline"
               size="sm"
               onClick={() => setIsModalOpen(true)}
-              className="text-xs flex items-center gap-1.5 border-forge-border hover:bg-forge-elevated"
+              className="text-xs flex items-center gap-1.5 border-white/[0.08] bg-white/[0.03] text-zinc-300 hover:bg-white/[0.08]"
             >
               <FileJson className="h-3.5 w-3.5 text-ember-400" />
-              <span>Export / Import Progress</span>
+              <span>Export / Import progress</span>
             </Button>
           </div>
 
-          <div className="text-[11px] font-mono text-forge-subtle">
+          <div className="text-[11px] font-mono text-zinc-500">
             All progress saved locally · Privacy-first
           </div>
         </div>
@@ -164,10 +164,10 @@ export function AcademyGrid() {
             >
               <Card
                 className={cn(
-                  "group relative flex w-full flex-col justify-between overflow-hidden rounded-forge-xl border bg-forge-surface p-5 sm:p-6 transition-all shadow-forge hover:border-ember-500/50 hover:shadow-ember-glow",
+                  "group relative flex w-full flex-col justify-between overflow-hidden rounded-xl border bg-gradient-to-b from-[#11141A] to-[#0A0C0F] p-5 sm:p-6 transition-all before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent hover:border-white/[0.2]",
                   isComplete
                     ? "border-emerald-500/30"
-                    : "border-forge-border"
+                    : "border-white/[0.08]"
                 )}
               >
                 {/* Top Badge & Progress Ring Row */}
@@ -175,16 +175,16 @@ export function AcademyGrid() {
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <Badge
-                        variant={mod.accent === "cyan" ? "cyan" : "ember"}
-                        className="font-mono text-[10px] uppercase"
+                        variant="outline"
+                        className="font-mono text-[10px] uppercase border-white/[0.1] bg-white/[0.04] text-zinc-300"
                       >
                         Module {mod.number.toString().padStart(2, "0")}
                       </Badge>
-                      <Badge variant="outline" className="text-[10px]">
+                      <Badge variant="outline" className="text-[10px] border-white/[0.08] text-zinc-400">
                         {mod.level}
                       </Badge>
                     </div>
-                    <span className="font-mono text-[11px] text-forge-subtle block">
+                    <span className="font-mono text-[11px] text-zinc-400 block">
                       {mod.duration} · {mod.lessons.length} Lessons
                     </span>
                   </div>
@@ -199,34 +199,34 @@ export function AcademyGrid() {
 
                 {/* Module Title & Subtitle */}
                 <div className="my-4 space-y-2">
-                  <h3 className="text-lg font-bold text-forge-text group-hover:text-ember-400 transition-colors leading-snug">
+                  <h3 className="text-lg font-bold text-forge-text group-hover:text-white transition-colors leading-snug">
                     {mod.title}
                   </h3>
-                  <p className="text-xs text-forge-muted font-medium">
+                  <p className="text-xs text-zinc-400 font-medium">
                     {mod.subtitle}
                   </p>
-                  <p className="text-xs text-forge-subtle line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-zinc-500 line-clamp-2 leading-relaxed">
                     {mod.description}
                   </p>
                 </div>
 
                 {/* Key Outcome */}
-                <div className="mb-4 rounded-forge bg-forge-elevated/70 p-2.5 text-xs text-forge-muted border border-forge-border">
-                  <span className="font-semibold text-forge-text block mb-0.5 text-[11px] uppercase tracking-wide text-cyan-400">
-                    Target Outcome:
+                <div className="mb-4 rounded-lg bg-black/40 p-2.5 text-xs text-zinc-300 border border-white/[0.06]">
+                  <span className="font-medium text-cyan-400 block mb-0.5 text-[11px] uppercase tracking-wide">
+                    Target outcome:
                   </span>
-                  <span className="line-clamp-2 leading-relaxed text-[11px]">
+                  <span className="line-clamp-2 leading-relaxed text-[11px] text-zinc-300">
                     {mod.outcome}
                   </span>
                 </div>
 
                 {/* Tags & Action Button */}
-                <div className="space-y-4 pt-2 border-t border-forge-border/60">
+                <div className="space-y-4 pt-2 border-t border-white/[0.06]">
                   <div className="flex flex-wrap gap-1.5">
                     {mod.tags.slice(0, 3).map((tag, tIdx) => (
                       <span
                         key={tIdx}
-                        className="rounded bg-forge-elevated px-2 py-0.5 font-mono text-[10px] text-forge-subtle"
+                        className="rounded border border-white/[0.06] bg-black/30 px-2 py-0.5 font-mono text-[10px] text-zinc-400"
                       >
                         #{tag}
                       </span>
@@ -238,13 +238,11 @@ export function AcademyGrid() {
                     className="block w-full"
                   >
                     <Button
-                      variant={isComplete ? "outline" : "default"}
+                      variant="outline"
                       size="sm"
                       className={cn(
-                        "w-full text-xs font-semibold flex items-center justify-between group-hover:bg-ember-500 group-hover:text-white transition-all min-h-[38px]",
-                        isComplete
-                          ? "border-emerald-500/40 text-emerald-400 hover:bg-emerald-950/30"
-                          : "bg-forge-elevated text-forge-text border border-forge-border"
+                        "w-full text-xs font-mono flex items-center justify-between border-white/[0.08] bg-white/[0.03] text-zinc-200 hover:border-white/[0.2] hover:bg-white/[0.06] hover:text-white min-h-[38px] transition-all",
+                        isComplete && "border-emerald-500/30 text-emerald-400 hover:border-emerald-500/50"
                       )}
                     >
                       <span>

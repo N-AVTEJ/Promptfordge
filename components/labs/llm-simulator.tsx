@@ -311,17 +311,17 @@ export function LlmSimulatorLab() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <Card className="border-ember-500/40 bg-forge-surface/95 p-6 shadow-xl space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-forge-border pb-4">
+            <Card className="border border-white/[0.08] bg-gradient-to-b from-[#11141A] to-[#0A0C0F] p-6 space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-white/[0.06] pb-4">
                 <div className="flex items-center gap-2">
-                  <div className="rounded-lg bg-ember-500/20 p-2 text-ember-400">
+                  <div className="rounded-lg bg-white/[0.04] border border-white/[0.08] p-2 text-ember-400">
                     <Globe2 className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-forge-text">
+                    <h3 className="text-base font-bold text-forge-text font-mono">
                       Tokenizer Cost Lens: The Multilingual Token Tax
                     </h3>
-                    <p className="text-xs text-forge-muted">
+                    <p className="text-xs text-zinc-400">
                       Compare how the exact same text is tokenized across 3 different generations of LLM vocabularies.
                     </p>
                   </div>
@@ -329,16 +329,16 @@ export function LlmSimulatorLab() {
 
                 <Badge
                   variant="outline"
-                  className="border-ember-500/40 text-ember-400 self-start sm:self-center font-mono text-xs"
+                  className="border-white/[0.1] bg-white/[0.04] text-zinc-300 self-start sm:self-center font-mono text-xs"
                 >
-                  Real In-Browser BPE
+                  Real in-browser BPE
                 </Badge>
               </div>
 
               {/* Multilingual Presets Toolbar */}
               <div className="space-y-2">
-                <span className="text-xs font-mono uppercase tracking-wider text-forge-muted">
-                  Multilingual Benchmark Presets:
+                <span className="text-xs font-mono uppercase tracking-wider text-zinc-400">
+                  Multilingual benchmark presets:
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {MULTILINGUAL_PRESETS.map((preset, idx) => (
@@ -350,8 +350,8 @@ export function LlmSimulatorLab() {
                       }}
                       className={`rounded-lg px-3 py-1.5 text-xs font-mono transition-all ${
                         selectedMultilingualPreset === idx
-                          ? "border border-ember-500 bg-ember-500/20 text-ember-300 font-bold shadow-sm"
-                          : "border border-forge-border bg-forge-black/60 text-forge-muted hover:text-forge-text hover:bg-forge-surface"
+                          ? "border border-ember-500/40 bg-ember-500/10 text-amber-300 font-medium"
+                          : "border border-white/[0.06] bg-black/40 text-zinc-400 hover:text-white"
                       }`}
                     >
                       {preset.label}
@@ -366,7 +366,7 @@ export function LlmSimulatorLab() {
                   value={costLensText}
                   onChange={(e) => setCostLensText(e.target.value)}
                   rows={2}
-                  className="w-full rounded-lg border border-forge-border bg-forge-black/80 p-3 font-mono text-xs leading-relaxed text-forge-text focus:border-ember-500 focus:outline-none"
+                  className="w-full rounded-lg border border-white/[0.08] bg-black/60 p-3 font-mono text-xs leading-relaxed text-zinc-200 focus:border-ember-500 focus:outline-none"
                   placeholder="Type any multilingual sentence to inspect its tokenization tax..."
                 />
               </div>
@@ -378,10 +378,10 @@ export function LlmSimulatorLab() {
                     key={item.id}
                     className={`flex flex-col rounded-xl border p-4 transition-all ${
                       item.id === "o200k_base"
-                        ? "border-emerald-500/40 bg-emerald-950/10"
+                        ? "border-emerald-500/30 bg-emerald-950/20"
                         : item.id === "cl100k_base"
-                        ? "border-cyan-500/40 bg-cyan-950/10"
-                        : "border-amber-500/40 bg-amber-950/10"
+                        ? "border-cyan-500/30 bg-cyan-950/20"
+                        : "border-amber-500/30 bg-amber-950/20"
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -1233,7 +1233,7 @@ export function LlmSimulatorLab() {
                 </span>
               </div>
 
-              <div className="relative rounded-2xl border border-forge-border/90 bg-forge-black p-4 overflow-hidden shadow-2xl">
+              <div className="relative rounded-xl border border-white/[0.08] bg-[#0A0C0F] p-4 overflow-hidden">
                 {/* SVG Routing Arcs Canvas */}
                 <svg
                   viewBox="0 0 1000 280"
@@ -1253,13 +1253,6 @@ export function LlmSimulatorLab() {
                       <stop offset="0%" stopColor="#10b981" stopOpacity="0.9" />
                       <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.9" />
                     </linearGradient>
-                    <filter id="beamGlow" x="-20%" y="-20%" width="140%" height="140%">
-                      <feGaussianBlur stdDeviation="3" result="blur" />
-                      <feMerge>
-                        <feMergeNode in="blur" />
-                        <feMergeNode in="SourceGraphic" />
-                      </feMerge>
-                    </filter>
                   </defs>
 
                   {/* Draw Attention Curved Beams from Query token to all Key tokens */}
@@ -1311,7 +1304,7 @@ export function LlmSimulatorLab() {
                           stroke="transparent"
                           strokeWidth="20"
                         />
-                        {/* Visible Glowing Energy Beam */}
+                        {/* Visible Energy Beam */}
                         <path
                           d={arcPathD}
                           fill="none"
@@ -1319,7 +1312,6 @@ export function LlmSimulatorLab() {
                           strokeWidth={isHovered ? strokeWidth + 2 : strokeWidth}
                           strokeOpacity={isHovered ? 1.0 : strokeOpacity}
                           strokeDasharray="6 4"
-                          filter={weight > 0.15 || isHovered ? "url(#beamGlow)" : undefined}
                           className="transition-all duration-300"
                         >
                           <animate

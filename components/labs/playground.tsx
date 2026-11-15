@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-  Sparkles,
   Zap,
   Play,
   Copy,
@@ -14,6 +13,7 @@ import {
   Coins,
   Cpu,
   Layers,
+  Sliders,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -325,7 +325,7 @@ export function PromptPlayground({
                     htmlFor="temperature-slider"
                     className="flex items-center gap-1.5 font-mono text-xs font-semibold text-forge-muted"
                   >
-                    <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
+                    <Sliders className="h-3.5 w-3.5 text-cyan-400" />
                     Temperature
                   </label>
                   <span className="font-mono text-xs text-ember-400">
@@ -464,16 +464,16 @@ export function PromptPlayground({
             <Button
               onClick={handleRun}
               disabled={isLoading || !prompt.trim()}
-              className="min-w-[140px] gap-2 font-mono"
+              className="min-w-[140px] gap-2 font-mono bg-ember-500 hover:bg-ember-600 text-black font-semibold"
             >
               {isLoading ? (
                 <>
-                  <RotateCcw className="h-4 w-4 animate-spin" />
+                  <RotateCcw className="h-4 w-4 animate-spin text-black" />
                   Synthesizing...
                 </>
               ) : (
                 <>
-                  <Play className="h-4 w-4 fill-forge-950" />
+                  <Play className="h-4 w-4 fill-black text-black" />
                   Run Prompt
                 </>
               )}
@@ -525,21 +525,21 @@ export function PromptPlayground({
           {/* Result Card */}
           <Card
             className={cn(
-              "relative flex flex-col border-forge-border bg-forge-surface/90",
+              "relative flex flex-col border border-white/[0.08] bg-gradient-to-b from-[#11141A] to-[#0A0C0F]",
               compact ? "min-h-[280px]" : "min-h-[460px]"
             )}
           >
             {/* Card Header & Metrics */}
-            <CardHeader className="border-b border-forge-border/80 pb-3">
+            <CardHeader className="border-b border-white/[0.06] pb-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <CardTitle className="text-sm font-semibold text-forge-text">
+                  <CardTitle className="text-sm font-semibold text-forge-text font-mono">
                     Engine Output
                   </CardTitle>
                   {result?.cached && (
                     <Badge
-                      variant="secondary"
-                      className="animate-pulse border-cyan-500/40 bg-cyan-500/15 text-cyan-300 shadow-cyan-sm"
+                      variant="outline"
+                      className="border-cyan-500/30 bg-cyan-500/10 text-cyan-300 font-mono text-[11px]"
                     >
                       <Zap className="mr-1 h-3 w-3 fill-cyan-300" />
                       Cached

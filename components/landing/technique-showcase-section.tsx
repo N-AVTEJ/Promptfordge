@@ -9,9 +9,7 @@ import {
   UserCheck,
   ShieldAlert,
   Code2,
-  Sparkles,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 
 interface TechniqueItem {
@@ -31,11 +29,10 @@ const TECHNIQUES: TechniqueItem[] = [
     name: "Zero-Shot Direct Execution",
     badge: "Baseline",
     description:
-      "Direct task instruction with zero exemplars. Requires ultra-precise intent framing and unambiguous verbs to avoid distribution drift.",
+      "Direct task instruction without exemplars. Requires unambiguous imperative verbs and explicit constraints to avoid distribution drift.",
     icon: Zap,
     formula: "Output = P(Task | Instruction)",
-    exampleSnippet:
-      "Classify triage severity of kernel trace. Return [P0, P1, P2].",
+    exampleSnippet: "Classify triage severity of kernel trace. Return [P0, P1, P2].",
     accent: "amber",
   },
   {
@@ -43,11 +40,10 @@ const TECHNIQUES: TechniqueItem[] = [
     name: "One-Shot Calibration",
     badge: "Format Anchor",
     description:
-      "A single canonical example calibrates the output schema, stylistic tone, and conciseness ceiling with minimal token overhead.",
+      "A single canonical example calibrates the output schema, stylistic tone, and brevity ceiling with minimal token overhead.",
     icon: Target,
     formula: "Output = P(Task | Exemplar_1, Instruction)",
-    exampleSnippet:
-      "Input: 'Out of memory at 0x4f'. Output: {err: 'OOM', fatal: true}",
+    exampleSnippet: "Input: 'Out of memory at 0x4f'. Output: {err: 'OOM', fatal: true}",
     accent: "cyan",
   },
   {
@@ -55,11 +51,10 @@ const TECHNIQUES: TechniqueItem[] = [
     name: "Few-Shot In-Context Steering",
     badge: "High Precision",
     description:
-      "3 to 5 contrasting positive and negative examples anchor latent distributions, dramatically reducing edge-case hallucination.",
+      "3 to 5 contrasting positive and negative examples anchor latent distributions, eliminating edge-case formatting failures.",
     icon: Copy,
     formula: "Output = P(Task | {E_1, E_2, E_3}, Instruction)",
-    exampleSnippet:
-      "Provide boundary condition exemplars (null, max_int, malformed).",
+    exampleSnippet: "Provide boundary condition exemplars (null, max_int, malformed).",
     accent: "amber",
   },
   {
@@ -67,23 +62,21 @@ const TECHNIQUES: TechniqueItem[] = [
     name: "Role & Epistemic Framing",
     badge: "Prior Activation",
     description:
-      "Declaring high-leverage personas ('Principal Cryptographic Engineer') primes specialized sub-networks and elevates reasoning rigor.",
+      "Declaring specialized personas primes targeted sub-networks and elevates reasoning rigor for specialized domains.",
     icon: UserCheck,
     formula: "Prior = P(Specialized Latents | Persona)",
-    exampleSnippet:
-      "You are a Rust borrow-checker auditor reviewing unwrap() calls.",
+    exampleSnippet: "You are a Rust borrow-checker auditor reviewing unsafe blocks.",
     accent: "cyan",
   },
   {
     id: "constraint-specification",
     name: "Negative & Boundary Constraints",
-    badge: "Safety Gates",
+    badge: "Boundary Gate",
     description:
       "Enforcing strict negative boundaries, output limits, and forbidden token sequences eliminates conversational filler.",
     icon: ShieldAlert,
     formula: "Constraint: ∀t ∈ Output, t ∉ ForbiddenSet",
-    exampleSnippet:
-      "Hard rule: Output raw JSON only. Zero prose. Zero markdown quotes.",
+    exampleSnippet: "Hard rule: Output raw JSON only. Zero prose. Zero markdown fences.",
     accent: "amber",
   },
   {
@@ -91,7 +84,7 @@ const TECHNIQUES: TechniqueItem[] = [
     name: "Structured Output Contracts",
     badge: "Grammar Enforced",
     description:
-      "Schema-guided generation guarantees machine-readable JSON or XML payloads that never break downstream production parsers.",
+      "Schema-guided generation guarantees machine-readable JSON payloads that never break downstream production parsers.",
     icon: Code2,
     formula: "Output ∈ ValidGrammar(JSON_Schema)",
     exampleSnippet: "type Response = z.infer<typeof ProductionTriageSchema>;",
@@ -110,19 +103,13 @@ function TechniqueCard({
 }) {
   const cardRef = useRef<HTMLDivElement | null>(null);
 
-  // Magnetic hover physics
+  // Restrained subtle magnetic hover physics
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const springConfig = { damping: 20, stiffness: 200 };
-  const rotateX = useSpring(
-    useTransform(mouseY, [-0.5, 0.5], [6, -6]),
-    springConfig
-  );
-  const rotateY = useSpring(
-    useTransform(mouseX, [-0.5, 0.5], [-6, 6]),
-    springConfig
-  );
+  const springConfig = { damping: 25, stiffness: 220 };
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [3, -3]), springConfig);
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-3, 3]), springConfig);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (prefersReduced) return;
@@ -158,71 +145,55 @@ function TechniqueCard({
               transformStyle: "preserve-3d",
             }
       }
-      initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 24 }}
+      initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 16 }}
       whileInView={prefersReduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
+      viewport={{ once: true, margin: "-40px" }}
       transition={{
-        duration: prefersReduced ? 0 : 0.45,
-        delay: prefersReduced ? 0 : index * 0.08,
+        duration: prefersReduced ? 0 : 0.35,
+        delay: prefersReduced ? 0 : index * 0.06,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`group relative flex flex-col justify-between rounded-2xl border p-6 transition-all duration-300 sm:p-7 ${
-        isAmber
-          ? "bg-forge-900/70 border-ember-500/30 hover:border-ember-500/70 hover:shadow-[0_0_30px_rgba(255,107,0,0.15)]"
-          : "bg-forge-900/70 border-cyan-500/30 hover:border-cyan-500/70 hover:shadow-[0_0_30px_rgba(0,229,255,0.15)]"
-      }`}
+      className="group relative flex flex-col justify-between rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#13161C] to-[#0A0C0F] p-6 transition-colors duration-200 hover:border-white/[0.18]"
     >
+      {/* Top Hairline Accent on Card */}
+      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none group-hover:via-white/[0.18]" />
+
       <div>
         {/* Top Header */}
         <div className="flex items-center justify-between">
           <div
-            className={`flex h-10 w-10 items-center justify-center rounded-xl border ${
+            className={`flex h-9 w-9 items-center justify-center rounded-lg border ${
               isAmber
-                ? "border-ember-500/40 bg-ember-500/10 text-ember-400"
-                : "border-cyan-500/40 bg-cyan-500/10 text-cyan-400"
+                ? "border-ember-500/30 bg-ember-500/[0.07] text-ember-400"
+                : "border-cyan-500/30 bg-cyan-500/[0.07] text-cyan-400"
             }`}
           >
-            <Icon className="h-5 w-5" />
+            <Icon className="h-4 w-4" />
           </div>
-          <Badge
-            variant="outline"
-            className={`font-mono text-xs ${
-              isAmber
-                ? "border-ember-500/40 text-ember-400"
-                : "border-cyan-500/40 text-cyan-400"
-            }`}
-          >
+          <span className="rounded border border-white/[0.08] bg-[#0E1014] px-2 py-0.5 font-mono text-[10px] text-forge-muted">
             {item.badge}
-          </Badge>
+          </span>
         </div>
 
         {/* Title & Description */}
-        <h3 className="group-hover:text-forge-50 mt-5 font-mono text-lg font-bold text-forge-text sm:text-xl">
+        <h3 className="mt-4 font-mono text-base font-semibold text-forge-text group-hover:text-white">
           {item.name}
         </h3>
-        <p className="mt-2 text-xs leading-relaxed text-forge-muted sm:text-sm">
+        <p className="mt-2 text-xs leading-relaxed text-forge-muted">
           {item.description}
         </p>
 
         {/* Formula Math Box */}
-        <div className="mt-4 rounded-lg border border-forge-border/60 bg-forge-surface/80 px-3 py-2 font-mono text-xs text-forge-muted">
-          <span className="mb-0.5 block text-[10px] uppercase text-forge-muted">
-            Formalization
-          </span>
-          <span className={isAmber ? "text-ember-400" : "text-cyan-400"}>
-            {item.formula}
-          </span>
+        <div className="mt-4 rounded-md border border-white/[0.06] bg-[#08090C] px-3 py-2 font-mono text-xs">
+          <span className="text-[10px] uppercase text-forge-muted block mb-0.5 tracking-wider">Formalization</span>
+          <span className={isAmber ? "text-ember-400" : "text-cyan-400"}>{item.formula}</span>
         </div>
       </div>
 
       {/* Code Snippet Box */}
-      <div className="mt-5 rounded-lg border border-forge-border/40 bg-forge-950 p-3 font-mono text-[11px] text-forge-text/90">
-        <span className="mb-1 block text-[9px] uppercase tracking-wider text-forge-muted">
-          Pattern In Action
-        </span>
-        <code className="block truncate text-forge-text">
-          {item.exampleSnippet}
-        </code>
+      <div className="mt-4 rounded-md border border-white/[0.05] bg-[#08090C] p-2.5 font-mono text-[11px] text-forge-muted">
+        <span className="text-[9px] uppercase tracking-wider text-forge-subtle block mb-1">Pattern In Action</span>
+        <code className="text-forge-text block truncate">{item.exampleSnippet}</code>
       </div>
     </motion.div>
   );
@@ -232,25 +203,24 @@ export function TechniqueShowcaseSection() {
   const prefersReduced = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-forge-950 py-24 sm:py-32">
+    <section className="relative overflow-hidden py-20 sm:py-28 bg-forge-950 border-t border-white/[0.06]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 font-mono text-xs font-semibold text-cyan-400">
-            <Sparkles className="h-4 w-4" />
-            <span>FOUNDATIONAL HEURISTICS</span>
+          <div className="inline-flex items-center gap-2 rounded-md border border-white/[0.08] bg-[#101216] px-3 py-1 font-mono text-[11px] font-medium text-cyan-400">
+            <span>Foundational Heuristics</span>
           </div>
-          <h2 className="mt-4 font-mono text-3xl font-extrabold tracking-tight text-forge-text sm:text-5xl">
-            Core Prompting Techniques
+          <h2 className="mt-4 font-mono text-2xl font-bold tracking-tight text-forge-text sm:text-4xl">
+            Core Prompting Architectures
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-forge-muted sm:text-lg">
-            Master the six non-negotiable prompt architectures used by senior AI
-            engineers to elicit deterministic, high-reasoning completions.
+          <p className="mt-3 text-sm leading-relaxed text-forge-muted sm:text-base">
+            Six foundational patterns to elicit deterministic, high-reasoning completions
+            without brittle ad-hoc guessing.
           </p>
         </div>
 
         {/* 6 Technique Cards Grid */}
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {TECHNIQUES.map((tech, index) => (
             <TechniqueCard
               key={tech.id}

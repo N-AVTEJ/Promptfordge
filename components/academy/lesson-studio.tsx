@@ -10,7 +10,6 @@ import {
   HelpCircle,
   ArrowLeft,
   ArrowRight,
-  Sparkles,
   ChevronRight,
   FileJson,
 } from "lucide-react";
@@ -92,21 +91,21 @@ export function LessonStudio({
   return (
     <div className="flex min-h-screen flex-col bg-forge-950 text-forge-text">
       {/* Studio Top Navigation Bar */}
-      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-forge-border bg-forge-black/90 px-4 sm:px-6 backdrop-blur-md">
+      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-white/[0.08] bg-[#0A0C0F]/95 px-4 sm:px-6 backdrop-blur-md">
         {/* Breadcrumb / Back to Academy */}
         <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm min-w-0 flex-1 mr-2">
           <Link
             href="/academy"
-            className="flex items-center gap-1 sm:gap-1.5 text-forge-muted hover:text-ember-400 transition-colors shrink-0"
+            className="flex items-center gap-1 sm:gap-1.5 text-zinc-400 hover:text-white transition-colors shrink-0"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span className="font-semibold hidden xs:inline">Academy</span>
+            <span className="font-medium hidden xs:inline">Academy</span>
           </Link>
-          <span className="text-forge-subtle shrink-0">/</span>
-          <span className="font-mono text-xs text-forge-muted hidden md:inline shrink-0">
+          <span className="text-zinc-600 shrink-0">/</span>
+          <span className="font-mono text-xs text-zinc-400 hidden md:inline shrink-0">
             Mod {module.number.toString().padStart(2, "0")}
           </span>
-          <span className="text-forge-subtle hidden md:inline shrink-0">/</span>
+          <span className="text-zinc-600 hidden md:inline shrink-0">/</span>
           <span className="font-medium text-forge-text truncate max-w-[90px] xs:max-w-[140px] sm:max-w-[280px]">
             {lesson.title}
           </span>
@@ -122,7 +121,7 @@ export function LessonStudio({
               strokeWidth={3}
               accent={module.accent === "cyan" ? "cyan" : "amber"}
             />
-            <span className="text-xs font-mono text-forge-muted hidden md:inline">
+            <span className="text-xs font-mono text-zinc-400 hidden md:inline">
               {completedInModule}/{module.lessons.length} done
             </span>
           </div>
@@ -132,11 +131,11 @@ export function LessonStudio({
             variant="outline"
             size="sm"
             onClick={() => setIsModalOpen(true)}
-            className="h-8 px-2 sm:px-3 text-xs flex items-center gap-1.5 border-forge-border hover:bg-forge-elevated"
+            className="h-8 px-2 sm:px-3 text-xs flex items-center gap-1.5 border-white/[0.08] bg-white/[0.03] text-zinc-300 hover:bg-white/[0.08]"
             title="Export or Import Progress"
           >
             <FileJson className="h-3.5 w-3.5 text-ember-400" />
-            <span className="hidden sm:inline">Progress Sync</span>
+            <span className="hidden sm:inline">Progress sync</span>
           </Button>
 
           {/* Mark Complete Quick Toggle */}
@@ -148,12 +147,12 @@ export function LessonStudio({
               "h-8 px-2 sm:px-3 text-xs flex items-center gap-1.5 font-medium transition-all",
               isCurrentLessonComplete
                 ? "border-emerald-500/40 text-emerald-400 bg-emerald-950/20 hover:bg-emerald-950/40"
-                : "bg-ember-500 hover:bg-ember-600 text-white"
+                : "bg-ember-500 hover:bg-ember-600 text-black font-semibold"
             )}
           >
             <CheckCircle className="h-3.5 w-3.5 shrink-0" />
             <span className="hidden xs:inline">
-              {isCurrentLessonComplete ? "Completed" : "Mark Complete"}
+              {isCurrentLessonComplete ? "Completed" : "Mark complete"}
             </span>
             <span className="xs:hidden">
               {isCurrentLessonComplete ? "Done" : "Mark"}
@@ -212,20 +211,20 @@ export function LessonStudio({
           {/* ============================================================== */}
           <aside
             className={cn(
-              "lg:col-span-3 rounded-forge-xl border border-forge-border bg-forge-surface p-4 space-y-5 lg:sticky lg:top-20",
+              "lg:col-span-3 rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#11141A] to-[#0A0C0F] p-4 space-y-5 lg:sticky lg:top-20",
               mobileTab !== "outline" && "hidden lg:block"
             )}
           >
             {/* Module Card Mini-Header */}
-            <div className="space-y-2 border-b border-forge-border pb-4">
+            <div className="space-y-2 border-b border-white/[0.06] pb-4">
               <div className="flex items-center justify-between">
                 <Badge
-                  variant={module.accent === "cyan" ? "cyan" : "ember"}
-                  className="text-[10px] font-mono uppercase"
+                  variant="outline"
+                  className="text-[10px] font-mono uppercase border-white/[0.1] bg-white/[0.04] text-zinc-300"
                 >
                   Module {module.number}
                 </Badge>
-                <span className="text-[11px] font-mono text-forge-muted">
+                <span className="text-[11px] font-mono text-zinc-400">
                   {module.duration}
                 </span>
               </div>
@@ -233,13 +232,13 @@ export function LessonStudio({
                 {module.title}
               </h2>
               <div className="flex items-center gap-2 pt-1">
-                <div className="flex-1 h-1.5 bg-forge-border rounded-full overflow-hidden">
+                <div className="flex-1 h-1.5 bg-white/[0.08] rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-ember-500 to-cyan-400 transition-all duration-500"
                     style={{ width: `${modulePercent}%` }}
                   />
                 </div>
-                <span className="text-[11px] font-mono text-forge-muted">
+                <span className="text-[11px] font-mono text-zinc-400">
                   {modulePercent}%
                 </span>
               </div>
@@ -247,8 +246,8 @@ export function LessonStudio({
 
             {/* Lessons List in this Module */}
             <div className="space-y-1.5">
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-forge-muted px-1">
-                Lessons in this Module
+              <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 px-1">
+                Lessons in this module
               </div>
 
               {module.lessons.map((les, idx) => {
@@ -260,10 +259,10 @@ export function LessonStudio({
                   <div key={les.id} className="space-y-1">
                     <div
                       className={cn(
-                        "group flex items-center justify-between rounded-forge p-2.5 transition-all border",
+                        "group flex items-center justify-between rounded-lg p-2 transition-all border",
                         isActive
-                          ? "bg-forge-elevated border-ember-500/50 shadow-ember-sm"
-                          : "bg-forge-surface/60 border-forge-border hover:bg-forge-elevated hover:border-forge-border-bright"
+                          ? "bg-white/[0.06] border-ember-500/40 text-amber-300"
+                          : "bg-transparent border-transparent hover:bg-white/[0.03] hover:border-white/[0.06]"
                       )}
                     >
                       <button
@@ -272,7 +271,7 @@ export function LessonStudio({
                           e.stopPropagation();
                           toggleLesson(les.id);
                         }}
-                        className="shrink-0 p-1 text-forge-muted hover:text-emerald-400 transition-colors"
+                        className="shrink-0 p-1 text-zinc-500 hover:text-emerald-400 transition-colors"
                         title={isComplete ? "Mark incomplete" : "Mark complete"}
                         aria-label={
                           isComplete
@@ -283,7 +282,7 @@ export function LessonStudio({
                         {isComplete ? (
                           <CheckCircle className="h-4 w-4 text-emerald-400" />
                         ) : (
-                          <Circle className="h-4 w-4 text-forge-subtle" />
+                          <Circle className="h-4 w-4 text-zinc-600" />
                         )}
                       </button>
 
@@ -294,15 +293,15 @@ export function LessonStudio({
                         <div className="min-w-0 flex-1">
                           <div
                             className={cn(
-                              "text-xs font-medium truncate leading-tight",
+                              "text-xs truncate leading-tight font-mono",
                               isActive
-                                ? "text-ember-300 font-semibold"
-                                : "text-forge-text group-hover/link:text-ember-400"
+                                ? "text-amber-300 font-semibold"
+                                : "text-zinc-300 group-hover/link:text-white"
                             )}
                           >
                             {idx + 1}. {les.title}
                           </div>
-                          <div className="flex items-center gap-2 text-[10px] text-forge-subtle mt-0.5">
+                          <div className="flex items-center gap-2 text-[10px] text-zinc-500 mt-0.5">
                             <span>{les.chapters.length} chapters</span>
                             {score !== undefined && (
                               <span className="text-cyan-400 font-mono">
@@ -316,8 +315,8 @@ export function LessonStudio({
                           className={cn(
                             "h-3.5 w-3.5 shrink-0 transition-transform ml-1",
                             isActive
-                              ? "text-ember-400 translate-x-0.5"
-                              : "text-forge-subtle opacity-40 group-hover/link:opacity-100"
+                              ? "text-amber-400 translate-x-0.5"
+                              : "text-zinc-600 opacity-40 group-hover/link:opacity-100"
                           )}
                         />
                       </Link>
@@ -325,18 +324,18 @@ export function LessonStudio({
 
                     {/* Expandable Chapters under Active Lesson */}
                     {isActive && (
-                      <div className="ml-6 border-l border-forge-border pl-3 py-1 space-y-1">
+                      <div className="ml-6 border-l border-white/[0.08] pl-3 py-1 space-y-1">
                         {les.chapters.map((chap, cIdx) => (
                           <button
                             key={cIdx}
                             type="button"
                             onClick={() => handleSeek(chap.time)}
-                            className="flex w-full items-center justify-between text-left text-[11px] text-forge-muted hover:text-ember-400 py-1 transition-colors group"
+                            className="flex w-full items-center justify-between text-left text-[11px] text-zinc-400 hover:text-amber-400 py-1 transition-colors group"
                           >
                             <span className="truncate pr-1 group-hover:underline">
                               {chap.label}
                             </span>
-                            <span className="font-mono text-[10px] text-forge-subtle shrink-0">
+                            <span className="font-mono text-[10px] text-zinc-500 shrink-0">
                               {Math.floor(chap.time / 60)}:
                               {(chap.time % 60).toString().padStart(2, "0")}
                             </span>
@@ -475,37 +474,37 @@ export function LessonStudio({
             </div>
 
             {/* Practice Challenge Card with "Send to Lab" */}
-            <div className="rounded-forge-lg border border-ember-500/30 bg-forge-surface p-4 sm:p-5 space-y-3 shadow-ember-sm">
+            <div className="rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#12151C] to-[#0A0C0F] p-4 sm:p-5 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-ember-400" />
-                  <h3 className="text-sm font-bold text-forge-text">
-                    Practice Challenge: {lesson.practiceChallenge.title}
+                  <Terminal className="h-4 w-4 text-ember-400" />
+                  <h3 className="text-sm font-bold text-forge-text font-mono">
+                    Practice challenge: {lesson.practiceChallenge.title}
                   </h3>
                 </div>
-                <Badge variant="ember" className="text-[10px]">
-                  Hands-On
+                <Badge variant="outline" className="border-white/[0.1] bg-white/[0.04] text-[10px] font-mono text-zinc-300">
+                  Hands-on
                 </Badge>
               </div>
 
-              <p className="text-xs text-forge-muted leading-relaxed">
+              <p className="text-xs text-zinc-400 leading-relaxed">
                 {lesson.practiceChallenge.instructions}
               </p>
 
               {lesson.practiceChallenge.starterPrompt && (
-                <div className="rounded-forge bg-forge-black p-3 font-mono text-[11px] text-forge-text border border-forge-border overflow-x-auto">
+                <div className="rounded-lg bg-black/60 p-3 font-mono text-[11px] text-zinc-200 border border-white/[0.06] overflow-x-auto">
                   {lesson.practiceChallenge.starterPrompt}
                 </div>
               )}
 
               <div className="flex items-center justify-between pt-1">
-                <span className="text-[11px] text-forge-subtle italic">
+                <span className="text-[11px] text-zinc-500 italic">
                   Run in the right panel playground
                 </span>
                 <Button
                   size="sm"
                   onClick={handleSendToLab}
-                  className="bg-ember-500 hover:bg-ember-600 text-white text-xs flex items-center gap-1.5"
+                  className="bg-ember-500 hover:bg-ember-600 text-black font-semibold text-xs flex items-center gap-1.5"
                 >
                   <Terminal className="h-3.5 w-3.5" />
                   <span>Open in Lab Studio</span>
@@ -519,20 +518,20 @@ export function LessonStudio({
           {/* ============================================================== */}
           <aside
             className={cn(
-              "lg:col-span-4 rounded-forge-xl border border-forge-border bg-forge-surface p-4 space-y-4 lg:sticky lg:top-20",
+              "lg:col-span-4 rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#11141A] to-[#0A0C0F] p-4 space-y-4 lg:sticky lg:top-20",
               mobileTab !== "right" && "hidden lg:block"
             )}
           >
             {/* Panel Tabs Header */}
-            <div className="flex border-b border-forge-border bg-forge-elevated/40 rounded-forge p-1">
+            <div className="flex border border-white/[0.06] bg-black/40 rounded-lg p-1">
               <button
                 type="button"
                 onClick={() => setRightTab("notes")}
                 className={cn(
-                  "flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-semibold rounded transition-all",
+                  "flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded transition-all font-mono",
                   rightTab === "notes"
-                    ? "bg-forge-surface text-ember-400 shadow-sm"
-                    : "text-forge-muted hover:text-forge-text"
+                    ? "bg-white/[0.08] text-white"
+                    : "text-zinc-400 hover:text-white"
                 )}
               >
                 <BookOpen className="h-3.5 w-3.5" />
@@ -543,10 +542,10 @@ export function LessonStudio({
                 type="button"
                 onClick={() => setRightTab("lab")}
                 className={cn(
-                  "flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-semibold rounded transition-all",
+                  "flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded transition-all font-mono",
                   rightTab === "lab"
-                    ? "bg-forge-surface text-cyan-400 shadow-sm"
-                    : "text-forge-muted hover:text-forge-text"
+                    ? "bg-white/[0.08] text-cyan-300"
+                    : "text-zinc-400 hover:text-white"
                 )}
               >
                 <Terminal className="h-3.5 w-3.5" />
@@ -557,10 +556,10 @@ export function LessonStudio({
                 type="button"
                 onClick={() => setRightTab("quiz")}
                 className={cn(
-                  "flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-semibold rounded transition-all",
+                  "flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded transition-all font-mono",
                   rightTab === "quiz"
-                    ? "bg-forge-surface text-ember-400 shadow-sm"
-                    : "text-forge-muted hover:text-forge-text"
+                    ? "bg-white/[0.08] text-amber-300"
+                    : "text-zinc-400 hover:text-white"
                 )}
               >
                 <HelpCircle className="h-3.5 w-3.5" />

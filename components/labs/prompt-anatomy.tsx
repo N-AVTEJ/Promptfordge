@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo } from "react";
 import {
-  Sparkles,
   Layers,
   CheckCircle2,
   AlertTriangle,
@@ -490,16 +489,12 @@ Return strictly valid JSON with no markdown fences or preambles:
             backgroundColor: isFilteredOut
               ? "transparent"
               : isHovered || isSelected
-              ? `${config.colorHex}44`
-              : `${config.colorHex}22`,
-            borderColor: config.colorHex,
+              ? `${config.colorHex}22`
+              : `${config.colorHex}10`,
+            borderColor: isHovered || isSelected ? config.colorHex : `${config.colorHex}40`,
           }}
-          className={`relative cursor-pointer rounded px-1.5 py-0.5 font-mono text-sm font-medium transition-all duration-150 ${
+          className={`relative cursor-pointer rounded border px-1.5 py-0.5 font-mono text-sm transition-all duration-150 ${
             isFilteredOut ? "opacity-30" : "opacity-100"
-          } ${
-            isHovered || isSelected
-              ? "ring-2 ring-forge-text/50 shadow-md scale-[1.01]"
-              : ""
           }`}
           title={`${config.label}: ${span.rationale}`}
         >
@@ -534,44 +529,44 @@ Return strictly valid JSON with no markdown fences or preambles:
   return (
     <div className="space-y-8">
       {/* Top Header & Mode Selector */}
-      <div className="flex flex-col gap-4 border-b border-forge-border pb-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 border-b border-white/[0.08] pb-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-cyan-400">
             <Layers className="h-4 w-4" />
             <span>Interactive Visualizer · Module 2</span>
           </div>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-forge-text sm:text-3xl">
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-forge-text font-mono sm:text-3xl">
             Prompt Anatomy Visualizer
           </h1>
-          <p className="mt-1 text-sm text-forge-muted max-w-2xl">
+          <p className="mt-1 text-sm text-zinc-400 max-w-2xl">
             Deconstruct prompts into their 6 core architectural components:
             Role, Task, Context, Examples, Constraints, and Output Format.
           </p>
         </div>
 
         {/* Mode Switch: Standard Lab vs A/B Change One Component */}
-        <div className="flex items-center gap-2 self-start rounded-xl border border-forge-border bg-forge-surface p-1.5 sm:self-center">
+        <div className="flex items-center gap-1.5 self-start rounded-lg border border-white/[0.08] bg-black/40 p-1 sm:self-center font-mono">
           <button
             onClick={() => setCompareMode(false)}
-            className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-medium transition-colors ${
+            className={`flex items-center gap-2 rounded-md px-3.5 py-1.5 text-xs font-medium transition-colors ${
               !compareMode
-                ? "bg-ember-500 text-forge-black font-semibold shadow-sm"
-                : "text-forge-muted hover:text-forge-text"
+                ? "bg-white/[0.08] text-white"
+                : "text-zinc-400 hover:text-white"
             }`}
           >
             <Layers className="h-3.5 w-3.5" />
-            <span>Anatomy Inspector</span>
+            <span>Anatomy inspector</span>
           </button>
           <button
             onClick={() => setCompareMode(true)}
-            className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-medium transition-colors ${
+            className={`flex items-center gap-2 rounded-md px-3.5 py-1.5 text-xs font-medium transition-colors ${
               compareMode
-                ? "bg-cyan-500 text-forge-black font-semibold shadow-sm"
-                : "text-forge-muted hover:text-forge-text"
+                ? "bg-white/[0.08] text-cyan-300"
+                : "text-zinc-400 hover:text-white"
             }`}
           >
             <GitCompare className="h-3.5 w-3.5" />
-            <span>Change One Component</span>
+            <span>Change one component</span>
           </button>
         </div>
       </div>
@@ -584,7 +579,7 @@ Return strictly valid JSON with no markdown fences or preambles:
             {/* Presets & Actions Toolbar */}
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex flex-wrap items-center gap-1.5">
-                <span className="text-xs font-mono text-forge-muted uppercase tracking-wider mr-1">
+                <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider mr-1">
                   Presets:
                 </span>
                 {ANATOMY_PRESETS.map((preset) => {
@@ -595,8 +590,8 @@ Return strictly valid JSON with no markdown fences or preambles:
                       onClick={() => handleSelectPreset(preset.id)}
                       className={`rounded-md px-2.5 py-1 text-xs font-mono transition-colors ${
                         isActive
-                          ? "border border-ember-500/50 bg-ember-500/10 text-ember-400 font-semibold"
-                          : "border border-forge-border bg-forge-surface/60 text-forge-muted hover:text-forge-text hover:bg-forge-surface"
+                          ? "border border-ember-500/40 bg-ember-500/10 text-amber-300 font-medium"
+                          : "border border-white/[0.06] bg-black/30 text-zinc-400 hover:text-white"
                       }`}
                     >
                       {preset.name}
@@ -611,9 +606,9 @@ Return strictly valid JSON with no markdown fences or preambles:
                   size="sm"
                   onClick={handleAnalyzeWithAi}
                   disabled={isAiAnalyzing || !promptText.trim()}
-                  className="gap-1.5 border-forge-border hover:border-cyan-500/40 text-cyan-400"
+                  className="gap-1.5 border-white/[0.08] bg-white/[0.03] text-cyan-300 hover:bg-white/[0.06] font-mono text-xs"
                 >
-                  <Sparkles
+                  <Zap
                     className={`h-3.5 w-3.5 ${
                       isAiAnalyzing ? "animate-spin text-cyan-400" : ""
                     }`}

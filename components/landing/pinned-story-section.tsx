@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Sparkles, Cpu, Braces, Info } from "lucide-react";
+import { Cpu, Braces, Info, Layers } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 
@@ -167,30 +167,30 @@ export function PinnedStorySection() {
     return (
       <section className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 font-mono text-xs font-semibold text-cyan-400">
-            <Info className="h-4 w-4" />
-            <span>Educational simulation · Complete 5-Stage Architecture</span>
+          <div className="inline-flex items-center gap-2 rounded-md border border-cyan-500/20 bg-cyan-500/5 px-3 py-1 font-mono text-xs font-medium text-cyan-400">
+            <Info className="h-3.5 w-3.5" />
+            <span>Educational simulation · Complete 5-stage architecture</span>
           </div>
           <h2 className="mt-4 font-mono text-3xl font-extrabold text-forge-text sm:text-4xl">
             Inside the LLM Attention Lifecycle
           </h2>
-          <p className="mt-2 text-forge-muted">
+          <p className="mt-2 text-sm text-forge-muted">
             Static step-by-step deconstruction of how neural transformers parse
             prompts into completions.
           </p>
         </div>
 
-        <div className="space-y-12">
+        <div className="space-y-8">
           {STAGES.map((stage) => (
             <div
               key={stage.id}
-              className="bg-forge-900/80 rounded-2xl border border-forge-border p-6 sm:p-8"
+              className="rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#11141A] to-[#0A0C0F] p-6 sm:p-8"
             >
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-forge-border pb-4">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.06] pb-4">
                 <div className="flex items-center gap-3">
                   <Badge
                     variant="outline"
-                    className="border-ember-500/40 font-mono text-ember-400"
+                    className="border-ember-500/30 bg-ember-500/5 font-mono text-xs text-ember-400"
                   >
                     {stage.badge}
                   </Badge>
@@ -207,12 +207,12 @@ export function PinnedStorySection() {
                   <p className="text-sm leading-relaxed text-forge-muted">
                     {stage.description}
                   </p>
-                  <p className="mt-3 text-xs italic text-forge-text/80">
-                    <strong className="text-ember-400">Key Insight:</strong>{" "}
+                  <p className="mt-3 text-xs text-zinc-400">
+                    <strong className="text-ember-400 font-medium">Key insight:</strong>{" "}
                     {stage.insight}
                   </p>
                 </div>
-                <div className="flex items-center justify-center rounded-xl border border-forge-border/60 bg-forge-surface p-4 font-mono text-xs text-forge-text">
+                <div className="flex items-center justify-center rounded-lg border border-white/[0.06] bg-[#08090C] p-4 font-mono text-xs text-forge-text">
                   {stage.number === 1 && (
                     <div className="text-center font-mono text-ember-400">
                       {RAW_PROMPT}
@@ -223,7 +223,7 @@ export function PinnedStorySection() {
                       {INPUT_TOKENS.map((t) => (
                         <span
                           key={t.id}
-                          className="rounded border border-ember-500/40 bg-ember-500/10 px-2 py-1"
+                          className="rounded border border-ember-500/30 bg-ember-500/10 px-2 py-1"
                         >
                           {t.text} <span className="opacity-40">#{t.id}</span>
                         </span>
@@ -232,14 +232,14 @@ export function PinnedStorySection() {
                   )}
                   {stage.number === 3 && (
                     <div className="text-center text-cyan-400">
-                      Embedding Vectors: [0.142, -0.984, 0.412, ..., 0.051] ∈
+                      Embedding vectors: [0.142, -0.984, 0.412, ..., 0.051] ∈
                       ℝ⁴⁰⁹⁶
                     </div>
                   )}
                   {stage.number === 4 && (
                     <div className="text-center text-ember-400">
-                      Self-Attention Matrix: softmax(QKᵀ / √64) V → 12 Heads ×
-                      48 Layers
+                      Self-attention matrix: softmax(QKᵀ / √64) V → 12 heads ×
+                      48 layers
                     </div>
                   )}
                   {stage.number === 5 && (
@@ -247,7 +247,7 @@ export function PinnedStorySection() {
                       {OUTPUT_TOKENS.map((t) => (
                         <span
                           key={t.id}
-                          className="rounded border border-cyan-500/40 bg-cyan-500/10 px-2 py-1 text-cyan-300"
+                          className="rounded border border-cyan-500/30 bg-cyan-500/10 px-2 py-1 text-cyan-300"
                         >
                           {t.text}
                         </span>
@@ -264,21 +264,21 @@ export function PinnedStorySection() {
   }
 
   return (
-    <section ref={sectionRef} className="relative z-20 bg-forge-950">
+    <section ref={sectionRef} className="relative z-20 bg-[#08090C]">
       <div
         ref={pinTargetRef}
         className="flex min-h-screen w-full flex-col justify-center px-4 py-8 sm:px-6 lg:px-8"
       >
         <div className="mx-auto w-full max-w-7xl">
           {/* Header & Simulation Notice */}
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-forge-border/80 pb-4">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.08] pb-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-ember-500/30 bg-ember-500/10">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.03]">
                 <Cpu className="h-4 w-4 text-ember-400" />
               </div>
               <div>
                 <span className="font-mono text-xs uppercase tracking-wider text-forge-muted">
-                  Interactive Transformer Internals
+                  Transformer internals
                 </span>
                 <h2 className="font-mono text-lg font-bold text-forge-text sm:text-2xl">
                   How an LLM Reads Your Prompt
@@ -290,9 +290,9 @@ export function PinnedStorySection() {
             <div className="flex items-center gap-3">
               <Badge
                 variant="outline"
-                className="border-cyan-500/40 bg-cyan-500/10 font-mono text-xs font-semibold text-cyan-400"
+                className="border-cyan-500/30 bg-cyan-500/5 font-mono text-xs font-semibold text-cyan-400"
               >
-                <Sparkles className="mr-1.5 h-3.5 w-3.5" />
+                <Layers className="mr-1.5 h-3.5 w-3.5" />
                 Educational simulation
               </Badge>
               <div className="hidden font-mono text-xs text-forge-muted sm:block">
@@ -304,15 +304,15 @@ export function PinnedStorySection() {
           {/* Centerpiece Layout: Left Visualizer + Right Stage Caption Card */}
           <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
             {/* Visualizer Frame (7 columns) */}
-            <div className="bg-forge-900/90 relative flex min-h-[380px] flex-col justify-between overflow-hidden rounded-2xl border border-forge-border p-6 shadow-2xl backdrop-blur-md sm:min-h-[440px] lg:col-span-7">
+            <div className="relative flex min-h-[380px] flex-col justify-between overflow-hidden rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#101319] to-[#0A0C0F] p-6 sm:min-h-[440px] lg:col-span-7">
               {/* Top toolbar */}
-              <div className="flex items-center justify-between border-b border-forge-border/60 pb-3 font-mono text-xs">
+              <div className="flex items-center justify-between border-b border-white/[0.06] pb-3 font-mono text-xs">
                 <div className="flex items-center gap-2 text-forge-muted">
-                  <span className="h-2 w-2 animate-pulse rounded-full bg-ember-500" />
-                  <span>Pipeline State: {activeStage.name}</span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-ember-500" />
+                  <span>Pipeline state: {activeStage.name}</span>
                 </div>
                 <div className="text-[11px] text-forge-muted">
-                  Scrub Progress: {Math.round(scrollProgress * 100)}%
+                  Scrub progress: {Math.round(scrollProgress * 100)}%
                 </div>
               </div>
 
@@ -493,13 +493,14 @@ export function PinnedStorySection() {
                             key={token.id}
                             transform={`translate(${posX}, ${posY})`}
                           >
-                            {/* Glowing vector point */}
-                            <circle r="7" fill="#00E5FF" opacity="0.9" />
+                            {/* Precision coordinate dot */}
+                            <circle r="4" fill="#00E5FF" opacity="0.9" />
                             <circle
-                              r="14"
-                              fill="#00E5FF"
-                              opacity="0.2"
-                              className="animate-ping"
+                              r="10"
+                              fill="none"
+                              stroke="#00E5FF"
+                              strokeWidth="1"
+                              opacity="0.3"
                             />
                             {/* Vector line to axis */}
                             <line
@@ -507,7 +508,7 @@ export function PinnedStorySection() {
                               y1="0"
                               x2="0"
                               y2={200 - posY}
-                              stroke="rgba(0, 229, 255, 0.3)"
+                              stroke="rgba(0, 229, 255, 0.25)"
                               strokeDasharray="2 2"
                             />
                             <text
@@ -687,29 +688,29 @@ export function PinnedStorySection() {
               </div>
 
               {/* Bottom Telemetry Strip */}
-              <div className="flex flex-wrap items-center justify-between gap-2 border-t border-forge-border/60 pt-3 font-mono text-xs">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-t border-white/[0.06] pt-3 font-mono text-xs">
                 <span className="flex items-center gap-1.5 text-ember-400">
                   <Braces className="h-3.5 w-3.5" /> Math Op:{" "}
                   {activeStage.mathematicalOperation}
                 </span>
-                <span className="text-[11px] text-forge-muted">
+                <span className="text-[11px] text-zinc-500">
                   Scroll down to scrub sequence · Zero layout reflow
                 </span>
               </div>
             </div>
 
             {/* Side Caption Card (5 columns) */}
-            <div className="flex flex-col justify-between rounded-2xl border border-forge-border bg-forge-surface/90 p-6 shadow-xl sm:p-8 lg:col-span-5">
+            <div className="relative flex flex-col justify-between rounded-xl border border-white/[0.08] bg-gradient-to-b from-[#12151B] to-[#0A0C0F] p-6 sm:p-8 lg:col-span-5 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
               <div>
                 {/* Stage Badge & Step Indicator */}
                 <div className="flex items-center justify-between">
                   <Badge
                     variant="outline"
-                    className="border-ember-500/40 font-mono text-xs text-ember-400"
+                    className="border-ember-500/30 bg-ember-500/5 font-mono text-xs text-ember-400"
                   >
                     {activeStage.badge} · {activeStage.name}
                   </Badge>
-                  <span className="font-mono text-xs text-forge-muted">
+                  <span className="font-mono text-xs text-zinc-500">
                     {currentStageIdx + 1} / 5
                   </span>
                 </div>
@@ -724,27 +725,27 @@ export function PinnedStorySection() {
                 </p>
 
                 {/* Description */}
-                <p className="mt-4 text-sm leading-relaxed text-forge-muted sm:text-base">
+                <p className="mt-4 text-sm leading-relaxed text-zinc-400 sm:text-base">
                   {activeStage.description}
                 </p>
 
                 {/* Pedagogical Insight Callout */}
-                <div className="mt-6 rounded-xl border border-ember-500/20 bg-ember-500/5 p-4">
-                  <div className="flex items-center gap-2 font-mono text-xs font-bold text-ember-400">
-                    <Sparkles className="h-3.5 w-3.5" />
-                    <span>Architectural Insight</span>
+                <div className="mt-6 rounded-lg border border-white/[0.06] bg-black/40 p-4">
+                  <div className="flex items-center gap-2 font-mono text-xs font-semibold text-ember-400">
+                    <Layers className="h-3.5 w-3.5" />
+                    <span>Architectural insight</span>
                   </div>
-                  <p className="mt-1.5 text-xs leading-relaxed text-forge-text/90">
+                  <p className="mt-1.5 text-xs leading-relaxed text-zinc-300">
                     {activeStage.insight}
                   </p>
                 </div>
               </div>
 
               {/* Progress Indicator dots & bar */}
-              <div className="mt-8 border-t border-forge-border/60 pt-6">
-                <div className="mb-2 flex items-center justify-between font-mono text-xs text-forge-muted">
-                  <span>Transformation Pipeline</span>
-                  <span className="font-bold text-ember-400">
+              <div className="mt-8 border-t border-white/[0.06] pt-6">
+                <div className="mb-2 flex items-center justify-between font-mono text-xs text-zinc-400">
+                  <span>Transformation pipeline</span>
+                  <span className="font-medium text-ember-400">
                     Stage {currentStageIdx + 1}
                   </span>
                 </div>
@@ -753,12 +754,12 @@ export function PinnedStorySection() {
                   {STAGES.map((s, idx) => (
                     <div
                       key={s.id}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                      className={`h-1 rounded-full transition-all duration-300 ${
                         idx === currentStageIdx
-                          ? "bg-ember-500 shadow-ember-glow"
+                          ? "bg-ember-500"
                           : idx < currentStageIdx
                             ? "bg-cyan-500/60"
-                            : "bg-forge-border"
+                            : "bg-white/[0.08]"
                       }`}
                     />
                   ))}

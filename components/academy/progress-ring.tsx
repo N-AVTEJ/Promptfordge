@@ -28,21 +28,18 @@ export function ProgressRing({
 
   const accentColors = {
     amber: {
-      stroke: "#FF6B00",
-      glow: "rgba(255, 107, 0, 0.4)",
-      bg: "rgba(255, 107, 0, 0.12)",
-      text: "text-ember-400",
+      stroke: "#FF7A1A",
+      bg: "rgba(255, 122, 26, 0.1)",
+      text: "text-amber-400",
     },
     cyan: {
-      stroke: "#00E5FF",
-      glow: "rgba(0, 229, 255, 0.4)",
-      bg: "rgba(0, 229, 255, 0.12)",
+      stroke: "#00B4D8",
+      bg: "rgba(0, 180, 216, 0.1)",
       text: "text-cyan-400",
     },
     emerald: {
       stroke: "#10B981",
-      glow: "rgba(16, 185, 129, 0.4)",
-      bg: "rgba(16, 185, 129, 0.12)",
+      bg: "rgba(16, 185, 129, 0.1)",
       text: "text-emerald-400",
     },
   }[accent];
@@ -68,10 +65,9 @@ export function ProgressRing({
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="currentColor"
+          stroke="rgba(255, 255, 255, 0.08)"
           strokeWidth={strokeWidth}
           fill="transparent"
-          className="text-forge-border"
         />
 
         {/* Animated Active Ring */}
@@ -87,7 +83,6 @@ export function ProgressRing({
           fill="transparent"
           style={{
             transition: "stroke-dashoffset 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
-            filter: normalizedPercent > 0 ? `drop-shadow(0 0 4px ${accentColors.glow})` : "none",
           }}
         />
       </svg>
