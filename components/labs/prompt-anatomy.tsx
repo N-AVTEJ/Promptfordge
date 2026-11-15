@@ -554,13 +554,13 @@ Return strictly valid JSON with no markdown fences or preambles:
         </div>
 
         {/* Mode Switch: Standard Lab vs A/B Change One Component */}
-        <div className="flex items-center gap-1.5 self-start rounded-lg border border-white/[0.08] bg-black/40 p-1 sm:self-center font-mono">
+        <div className="flex items-center gap-1.5 self-start rounded-xl border border-indigo/10 bg-white p-1 sm:self-center font-mono shadow-sm">
           <button
             onClick={() => setCompareMode(false)}
-            className={`flex items-center gap-2 rounded-md px-3.5 py-1.5 text-xs font-medium transition-colors ${
+            className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-medium transition-colors ${
               !compareMode
-                ? "bg-white/[0.08] text-white"
-                : "text-zinc-400 hover:text-white"
+                ? "bg-coral text-white font-bold"
+                : "text-indigo/70 hover:text-indigo"
             }`}
           >
             <Layers className="h-3.5 w-3.5" />
@@ -568,10 +568,10 @@ Return strictly valid JSON with no markdown fences or preambles:
           </button>
           <button
             onClick={() => setCompareMode(true)}
-            className={`flex items-center gap-2 rounded-md px-3.5 py-1.5 text-xs font-medium transition-colors ${
+            className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-medium transition-colors ${
               compareMode
-                ? "bg-white/[0.08] text-cyan-300"
-                : "text-zinc-400 hover:text-white"
+                ? "bg-coral text-white font-bold"
+                : "text-indigo/70 hover:text-indigo"
             }`}
           >
             <GitCompare className="h-3.5 w-3.5" />
@@ -588,7 +588,7 @@ Return strictly valid JSON with no markdown fences or preambles:
             {/* Presets & Actions Toolbar */}
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex flex-wrap items-center gap-1.5">
-                <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider mr-1">
+                <span className="text-xs font-mono text-indigo/60 uppercase tracking-wider mr-1">
                   Presets:
                 </span>
                 {ANATOMY_PRESETS.map((preset) => {
@@ -597,10 +597,10 @@ Return strictly valid JSON with no markdown fences or preambles:
                     <button
                       key={preset.id}
                       onClick={() => handleSelectPreset(preset.id)}
-                      className={`rounded-md px-2.5 py-1 text-xs font-mono transition-colors ${
+                      className={`rounded-lg px-2.5 py-1 text-xs font-mono transition-colors ${
                         isActive
-                          ? "border border-ember-500/40 bg-ember-500/10 text-amber-300 font-medium"
-                          : "border border-white/[0.06] bg-black/30 text-zinc-400 hover:text-white"
+                          ? "border border-coral bg-coral/10 text-coral font-bold"
+                          : "border border-indigo/10 bg-cream text-indigo/70 hover:border-coral/40 hover:text-indigo"
                       }`}
                     >
                       {preset.name}
@@ -685,8 +685,8 @@ Return strictly valid JSON with no markdown fences or preambles:
                 onClick={() => setActiveTypeFilter("all")}
                 className={`rounded px-2.5 py-0.5 text-xs font-mono transition-colors ${
                   activeTypeFilter === "all"
-                    ? "bg-forge-text text-forge-black font-semibold"
-                    : "text-forge-muted hover:text-forge-text"
+                    ? "bg-indigo text-white font-semibold"
+                    : "text-indigo/70 hover:text-indigo"
                 }`}
               >
                 All Components ({analysis.detectedSpans.length})
@@ -792,7 +792,7 @@ Return strictly valid JSON with no markdown fences or preambles:
                     }
                   }}
                   rows={6}
-                  className="w-full rounded-xl border border-forge-border bg-forge-black/90 p-4 font-mono text-sm leading-relaxed text-forge-text placeholder:text-forge-muted focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-colors"
+                  className="w-full rounded-xl border border-indigo/15 bg-cream/60 p-4 font-mono text-sm leading-relaxed text-indigo placeholder:text-indigo/40 focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral transition-colors"
                   placeholder="Paste or write your prompt here to decompose its anatomy..."
                 />
               </div>
@@ -802,16 +802,16 @@ Return strictly valid JSON with no markdown fences or preambles:
           {/* Side Panel: Detected & Missing Components (4 cols) */}
           <div className="space-y-6 lg:col-span-4">
             {/* Completeness Card */}
-            <Card className="border-forge-border bg-forge-surface p-5">
+            <Card className="border-indigo/10 bg-white p-5 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono uppercase tracking-wider text-forge-muted">
+                <span className="text-xs font-mono uppercase tracking-wider text-indigo/60">
                   Structural Score
                 </span>
-                <span className="font-mono text-base font-bold text-forge-text">
+                <span className="font-mono text-base font-bold text-indigo">
                   {analysis.presentTypes.length} / 6 Parts
                 </span>
               </div>
-              <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-forge-black">
+              <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-indigo/10">
                 <div
                   className="h-full bg-gradient-to-r from-ember-500 via-cyan-400 to-emerald-400 transition-all duration-500"
                   style={{ width: `${analysis.completenessScore}%` }}
@@ -959,7 +959,7 @@ Return strictly valid JSON with no markdown fences or preambles:
               <Button
                 onClick={handleRunComparison}
                 disabled={isComparing}
-                className="gap-2 bg-gradient-to-r from-ember-500 to-cyan-500 font-semibold text-forge-black hover:opacity-90 shadow-md shrink-0"
+                className="gap-2 bg-coral font-semibold text-white hover:bg-coral-hover shadow-sm shrink-0"
               >
                 <Zap className={`h-4 w-4 ${isComparing ? "animate-spin" : ""}`} />
                 <span>
@@ -970,7 +970,7 @@ Return strictly valid JSON with no markdown fences or preambles:
           </div>
 
           {/* Component Selection & Mutation Toolbar */}
-          <Card className="border-forge-border bg-forge-black/60 p-5 space-y-4">
+          <Card className="border-indigo/10 bg-white p-5 space-y-4 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-forge-border/60 pb-3">
               <div className="flex items-center gap-2">
                 <Sliders className="h-4 w-4 text-cyan-400" />
@@ -1128,20 +1128,20 @@ Return strictly valid JSON with no markdown fences or preambles:
                   value={variantAPrompt}
                   onChange={(e) => setVariantAPrompt(e.target.value)}
                   rows={4}
-                  className="mt-1 w-full rounded-lg border border-forge-border bg-forge-black/80 p-3 font-mono text-xs leading-relaxed text-forge-text focus:border-forge-text focus:outline-none"
+                  className="mt-1 w-full rounded-xl border border-indigo/15 bg-cream/60 p-3 font-mono text-xs leading-relaxed text-indigo focus:border-coral focus:outline-none"
                 />
               </div>
 
               {/* Execution Result A */}
               <div className="flex-1 space-y-2 pt-2">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-forge-muted">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-indigo/60">
                   Model Output (Baseline)
                 </span>
-                <div className="min-h-[140px] rounded-lg border border-forge-border/60 bg-forge-black/50 p-4 font-mono text-xs leading-relaxed text-forge-text whitespace-pre-wrap">
+                <div className="min-h-[140px] rounded-xl border border-indigo/10 bg-cream/40 p-4 font-mono text-xs leading-relaxed text-indigo whitespace-pre-wrap">
                   {variantAResult ? (
                     variantAResult.text
                   ) : (
-                    <span className="italic text-forge-muted">
+                    <span className="italic text-indigo/40">
                       Click &quot;Re-run Both Versions&quot; to observe baseline model completion...
                     </span>
                   )}
@@ -1201,20 +1201,20 @@ Return strictly valid JSON with no markdown fences or preambles:
                   value={variantBPrompt}
                   onChange={(e) => setVariantBPrompt(e.target.value)}
                   rows={4}
-                  className="mt-1 w-full rounded-lg border border-cyan-500/40 bg-forge-black/80 p-3 font-mono text-xs leading-relaxed text-forge-text focus:border-cyan-400 focus:outline-none"
+                  className="mt-1 w-full rounded-xl border border-teal/30 bg-mint/20 p-3 font-mono text-xs leading-relaxed text-indigo focus:border-teal focus:outline-none"
                 />
               </div>
 
               {/* Execution Result B */}
               <div className="flex-1 space-y-2 pt-2">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-cyan-400">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-teal-700 font-semibold">
                   Model Output (Modified)
                 </span>
-                <div className="min-h-[140px] rounded-lg border border-cyan-500/30 bg-forge-black/50 p-4 font-mono text-xs leading-relaxed text-forge-text whitespace-pre-wrap">
+                <div className="min-h-[140px] rounded-xl border border-teal/20 bg-mint/10 p-4 font-mono text-xs leading-relaxed text-indigo whitespace-pre-wrap">
                   {variantBResult ? (
                     variantBResult.text
                   ) : (
-                    <span className="italic text-forge-muted">
+                    <span className="italic text-indigo/40">
                       Click &quot;Re-run Both Versions&quot; to observe modified model completion...
                     </span>
                   )}

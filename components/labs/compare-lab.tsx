@@ -723,7 +723,7 @@ export function CompareLab() {
                 onChange={(e) => setTask(e.target.value)}
                 placeholder="Enter the task you want the LLM to perform..."
                 rows={4}
-                className="mt-2 w-full rounded-md border border-forge-border bg-forge-950 p-3 font-sans text-sm text-forge-text placeholder-forge-muted/50 focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 leading-relaxed"
+                className="mt-2 w-full rounded-md border border-forge-border bg-cream/60 p-3 font-sans text-sm text-forge-text placeholder-forge-muted/50 focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 leading-relaxed"
               />
             </div>
 
@@ -736,7 +736,7 @@ export function CompareLab() {
                 <select
                   value={format}
                   onChange={(e) => setFormat(e.target.value)}
-                  className="mt-1.5 w-full rounded-md border border-forge-border bg-forge-950 px-3 py-2 text-xs font-mono text-forge-text focus:border-cyan-500 focus:outline-none"
+                  className="mt-1.5 w-full rounded-md border border-forge-border bg-cream/60 px-3 py-2 text-xs font-mono text-forge-text focus:border-cyan-500 focus:outline-none"
                 >
                   <option value="none">None (Freeform text)</option>
                   <option value="json">JSON Object/Array</option>
@@ -781,7 +781,7 @@ export function CompareLab() {
                   onChange={(e) => setReferenceAnswer(e.target.value)}
                   placeholder="Paste exemplary ground truth answer here..."
                   rows={2}
-                  className="mt-1.5 w-full rounded-md border border-forge-border bg-forge-950 p-2.5 font-sans text-xs text-forge-text placeholder-forge-muted/50 focus:border-ember-500 focus:outline-none"
+                  className="mt-1.5 w-full rounded-md border border-forge-border bg-cream/60 p-2.5 font-sans text-xs text-forge-text placeholder-forge-muted/50 focus:border-ember-500 focus:outline-none"
                 />
               </div>
             )}
@@ -799,7 +799,7 @@ export function CompareLab() {
                 <select
                   value={model}
                   onChange={(e) => setModel(e.target.value)}
-                  className="mt-1.5 w-full rounded-md border border-forge-border bg-forge-950 px-2.5 py-1.5 text-xs font-mono text-forge-text focus:border-cyan-500 focus:outline-none"
+                  className="mt-1.5 w-full rounded-md border border-forge-border bg-cream/60 px-2.5 py-1.5 text-xs font-mono text-forge-text focus:border-cyan-500 focus:outline-none"
                 >
                   <option value="gemini-1.5-flash">Gemini 1.5 Flash (Fast)</option>
                   <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
@@ -870,7 +870,7 @@ export function CompareLab() {
                     placeholder="Enter OpenAI (sk-...) or Gemini API key..."
                     value={byokKey}
                     onChange={(e) => setByokKey(e.target.value)}
-                    className="flex-1 rounded-md border border-forge-border bg-forge-950 px-2.5 py-1.5 font-mono text-xs text-forge-text focus:border-cyan-500 focus:outline-none"
+                    className="flex-1 rounded-md border border-forge-border bg-cream/60 px-2.5 py-1.5 font-mono text-xs text-forge-text focus:border-cyan-500 focus:outline-none"
                   />
                   {byokKey.trim() && (
                     <Button
@@ -922,7 +922,7 @@ export function CompareLab() {
                       <span className="font-mono text-xs font-bold" style={{ color: isSelected ? tech.color : undefined }}>
                         {tech.name}
                       </span>
-                      <span className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-white/10 bg-forge-950">
+                      <span className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-indigo/10 bg-cream">
                         {tech.tag}
                       </span>
                     </div>
@@ -948,7 +948,7 @@ export function CompareLab() {
                   return (
                     <div
                       key={id}
-                      className="rounded border border-forge-border bg-forge-950 p-2 text-xs"
+                      className="rounded border border-forge-border bg-cream/70 p-2 text-xs"
                     >
                       <div
                         onClick={() =>
@@ -1006,16 +1006,16 @@ export function CompareLab() {
           size="lg"
           onClick={runComparison}
           disabled={isRunning}
-          className="h-12 px-8 bg-gradient-to-r from-ember-500 to-amber-500 font-mono text-sm font-bold text-forge-black shadow-lg hover:from-ember-400 hover:to-amber-400 disabled:opacity-50"
+          className="h-12 px-8 bg-coral font-mono text-sm font-bold text-white shadow-lg hover:bg-coral-hover disabled:opacity-50"
         >
           {isRunning ? (
             <div className="flex items-center gap-2">
-              <RotateCcw className="h-4 w-4 animate-spin text-forge-black" />
+              <RotateCcw className="h-4 w-4 animate-spin text-white" />
               <span>Executing {totalRunsCount} Runs...</span>
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <Play className="h-4 w-4 fill-forge-black text-forge-black" />
+              <Play className="h-4 w-4 fill-white text-white" />
               <span>Run Fair Comparison ({totalRunsCount} runs)</span>
             </div>
           )}
@@ -1034,7 +1034,7 @@ export function CompareLab() {
                 <span>Stage {progressStage} of 4</span>
                 <span className="animate-pulse">Engine Active</span>
               </div>
-              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-forge-950">
+              <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-indigo/10">
                 <motion.div
                   className="h-full bg-gradient-to-r from-cyan-400 to-ember-500"
                   initial={{ width: "10%" }}
@@ -1114,7 +1114,7 @@ export function CompareLab() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-1">
                 {/* Latency Winner */}
-                <div className="rounded-lg border border-forge-border bg-forge-950/60 p-3.5">
+                <div className="rounded-xl border border-indigo/10 bg-cream/60 p-3.5">
                   <div className="flex items-center gap-1.5 text-xs font-mono text-cyan-400">
                     <Clock className="h-3.5 w-3.5" />
                     <span>Fastest Execution</span>
@@ -1135,7 +1135,7 @@ export function CompareLab() {
                 </div>
 
                 {/* Token Efficiency Winner */}
-                <div className="rounded-lg border border-forge-border bg-forge-950/60 p-3.5">
+                <div className="rounded-xl border border-indigo/10 bg-cream/60 p-3.5">
                   <div className="flex items-center gap-1.5 text-xs font-mono text-ember-400">
                     <Coins className="h-3.5 w-3.5" />
                     <span>Most Token-Efficient</span>
@@ -1150,7 +1150,7 @@ export function CompareLab() {
                 </div>
 
                 {/* Constraint Following Winner */}
-                <div className="rounded-lg border border-forge-border bg-forge-950/60 p-3.5">
+                <div className="rounded-xl border border-indigo/10 bg-cream/60 p-3.5">
                   <div className="flex items-center gap-1.5 text-xs font-mono text-emerald-400">
                     <CheckCircle2 className="h-3.5 w-3.5" />
                     <span>Best Constraint Adherence</span>
@@ -1167,7 +1167,7 @@ export function CompareLab() {
                 </div>
 
                 {/* Consistency Winner */}
-                <div className="rounded-lg border border-forge-border bg-forge-950/60 p-3.5">
+                <div className="rounded-xl border border-indigo/10 bg-cream/60 p-3.5">
                   <div className="flex items-center gap-1.5 text-xs font-mono text-sky-400">
                     <Layers className="h-3.5 w-3.5" />
                     <span>Tightest Spread (Lowest Variance)</span>
@@ -1238,7 +1238,7 @@ export function CompareLab() {
                         </div>
                         <Badge
                           variant="outline"
-                          className="border-white/10 font-mono text-[10px] text-cyan-400 bg-forge-950"
+                          className="border-indigo/10 font-mono text-[10px] text-teal-700 bg-cream"
                         >
                           {result.techniqueId}
                         </Badge>
@@ -1247,7 +1247,7 @@ export function CompareLab() {
                       {/* Disaggregated Metrics Grid */}
                       <div className="space-y-2.5 font-mono text-xs">
                         {/* Latency */}
-                        <div className="flex items-center justify-between rounded bg-forge-950/70 p-2">
+                        <div className="flex items-center justify-between rounded-xl bg-cream/70 p-2.5">
                           <span className="text-forge-muted flex items-center gap-1.5">
                             <Clock className="h-3.5 w-3.5 text-cyan-400" />
                             <span>Latency:</span>
@@ -1263,7 +1263,7 @@ export function CompareLab() {
                         </div>
 
                         {/* Output Tokens */}
-                        <div className="flex items-center justify-between rounded bg-forge-950/70 p-2">
+                        <div className="flex items-center justify-between rounded-xl bg-cream/70 p-2.5">
                           <span className="text-forge-muted flex items-center gap-1.5">
                             <Cpu className="h-3.5 w-3.5 text-ember-400" />
                             <span>Output Tokens:</span>
@@ -1279,7 +1279,7 @@ export function CompareLab() {
                         </div>
 
                         {/* Input Tokens */}
-                        <div className="flex items-center justify-between rounded bg-forge-950/70 p-2">
+                        <div className="flex items-center justify-between rounded-xl bg-cream/70 p-2.5">
                           <span className="text-forge-muted">Prompt Input:</span>
                           <span className="font-bold text-forge-text">
                             {result.inputTokensSpread.mean} tokens
@@ -1287,19 +1287,19 @@ export function CompareLab() {
                         </div>
 
                         {/* Estimated Cost */}
-                        <div className="flex items-center justify-between rounded bg-forge-950/70 p-2">
+                        <div className="flex items-center justify-between rounded-xl bg-cream/70 p-2.5">
                           <span className="text-forge-muted flex items-center gap-1.5">
                             <Coins className="h-3.5 w-3.5 text-amber-400" />
                             <span>Cost:</span>
                           </span>
-                          <span className="font-bold text-amber-300">
+                          <span className="font-bold text-amber-500">
                             ${result.costSpread.mean.toFixed(6)}
                           </span>
                         </div>
 
                         {/* Format Compliance (if requested) */}
                         {result.formatComplianceSpread && (
-                          <div className="flex items-center justify-between rounded bg-forge-950/70 p-2">
+                          <div className="flex items-center justify-between rounded-xl bg-cream/70 p-2.5">
                             <span className="text-forge-muted">Format Compliance:</span>
                             <Badge
                               variant="outline"
@@ -1320,7 +1320,7 @@ export function CompareLab() {
 
                         {/* LLM Judge Rubric Breakdown (Each 1 to 5) */}
                         {result.judgeRelevanceSpread && (
-                          <div className="rounded border border-forge-border/80 bg-forge-950/80 p-2.5 space-y-1.5">
+                          <div className="rounded-xl border border-indigo/10 bg-cream/70 p-2.5 space-y-1.5">
                             <div className="flex items-center justify-between text-[11px] font-bold text-cyan-300">
                               <span>LLM Judge Rubric</span>
                               <span className="text-[10px] font-normal text-forge-muted">
@@ -1373,7 +1373,7 @@ export function CompareLab() {
                     </div>
 
                     {/* Expandable Run Inspector */}
-                    <div className="border-t border-forge-border/80 bg-forge-950/40 p-3">
+                    <div className="border-t border-indigo/10 bg-cream/40 p-3">
                       <Button
                         variant="ghost"
                         size="sm"
@@ -1407,8 +1407,8 @@ export function CompareLab() {
                                   }
                                   className={`px-2 py-0.5 rounded text-[10px] font-mono ${
                                     activeRunIdx === idx
-                                      ? "bg-cyan-500 text-forge-black font-bold"
-                                      : "bg-forge-elevated text-forge-muted hover:text-forge-text"
+                                      ? "bg-coral text-white font-bold"
+                                      : "bg-cream text-indigo/70 hover:text-indigo"
                                   }`}
                                 >
                                   Run #{r.runIndex}
@@ -1426,7 +1426,7 @@ export function CompareLab() {
                                   {currentRun.responseLength.characters} chars, {currentRun.responseLength.words} words
                                 </span>
                               </div>
-                              <div className="max-h-48 overflow-y-auto rounded border border-forge-border bg-forge-950 p-2.5 font-sans text-xs text-forge-text leading-relaxed whitespace-pre-wrap">
+                              <div className="max-h-48 overflow-y-auto rounded-xl border border-indigo/10 bg-cream/60 p-2.5 font-sans text-xs text-forge-text leading-relaxed whitespace-pre-wrap">
                                 {currentRun.text}
                               </div>
                             </div>
@@ -1699,7 +1699,7 @@ export function CompareLab() {
                 </div>
 
                 {/* What it does / does not tell you educational callout */}
-                <div className="rounded border border-forge-border bg-forge-950 p-3 text-xs font-mono space-y-1.5">
+                <div className="rounded-xl border border-indigo/10 bg-cream/60 p-3 text-xs font-mono space-y-1.5">
                   <div className="text-cyan-300">
                     <span className="font-bold">What ROUGE-L tells you: </span>
                     Measures exact phrase recall and longest contiguous/subsequence word order overlap against your ground truth.
