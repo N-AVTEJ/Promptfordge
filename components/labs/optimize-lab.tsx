@@ -79,9 +79,10 @@ export function OptimizeLab() {
 
   const activeCandidate = candidates[activeCandidateIdx];
 
-  const handleRunOptimize = async (customPrompt?: string) => {
+  const handleRunOptimize = async (customPrompt?: string, customContext?: string) => {
     const textToRun = (customPrompt ?? promptText).trim();
     if (!textToRun) return;
+    const contextToRun = (customContext ?? contextText).trim();
 
     setIsLoading(true);
     setErrorMessage(null);
@@ -93,7 +94,7 @@ export function OptimizeLab() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           prompt: textToRun,
-          context: contextText.trim() || undefined,
+          context: contextToRun || undefined,
           model: selectedModel,
           temperature: 0.7,
         }),
@@ -132,11 +133,34 @@ export function OptimizeLab() {
         .map((t) => t.trim().toLowerCase())
         .filter((t) => t.length > 0);
 
-      const saved = savePrompt({
-        title: saveTitle.trim() || activeCandidate.title,
+      const now = Date.now();
+
+      // Version 1: Original Prompt with weak baseline metrics
+      const originalVersion = {
+        id: `ver_${now}_v1_orig`,
+        versionNumber: 1,
+        content: promptText,
+        notes: `Original prompt: ${analysis?.diagnoses.length || 0} weaknesses diagnosed`,
+        timestamp: now - 30000,
+        metrics: {
+          relevance: originalJudge?.relevance.score,
+          clarity: originalJudge?.clarity.score,
+          correctness: originalJudge?.correctness.score,
+          constraintFollowing: originalJudge?.constraintFollowing.score,
+          tokens: originalRun?.tokenUsage.totalTokens,
+          latencyMs: originalRun?.latency.latencyMs,
+          costUsd: originalRun?.cost.costUsd,
+          wordCount: originalRun?.responseLength.words,
+        },
+      };
+
+      // Version 2: Improved Candidate with optimized metrics
+      const improvedVersion = {
+        id: `ver_${now}_v2_opt`,
+        versionNumber: 2,
         content: activeCandidate.prompt,
-        tags,
-        notes: saveNotes.trim() || `Generated via PromptForge Optimizer (${activeCandidate.strategy})`,
+        notes: saveNotes.trim() || `Optimized via ${activeCandidate.title}: ${activeCandidate.changes.length} pedagogical improvements`,
+        timestamp: now,
         metrics: {
           relevance: activeCandidate.judge?.relevance.score,
           clarity: activeCandidate.judge?.clarity.score,
@@ -147,9 +171,17 @@ export function OptimizeLab() {
           costUsd: activeCandidate.run.cost.costUsd,
           wordCount: activeCandidate.run.responseLength.words,
         },
+      };
+
+      const saved = savePrompt({
+        title: saveTitle.trim() || activeCandidate.title,
+        content: activeCandidate.prompt,
+        tags,
+        notes: saveNotes.trim() || `Optimized via ${activeCandidate.title}`,
+        versions: [originalVersion, improvedVersion],
       });
 
-      setSaveSuccessMsg(`Prompt saved to library with ID: ${saved.id.slice(0, 14)}...`);
+      setSaveSuccessMsg(`Prompt saved to library with 2 versions (v1 original → v2 optimized). ID: ${saved.id.slice(0, 14)}...`);
       setIsSaving(false);
     } catch (err) {
       setErrorMessage(err instanceof Error ? err.message : "Failed to save prompt to library.");
@@ -259,7 +291,7 @@ export function OptimizeLab() {
                     onClick={() => {
                       setPromptText(preset.prompt);
                       setContextText(preset.context);
-                      handleRunOptimize(preset.prompt);
+                      handleRunOptimize(preset.prompt, preset.context);
                     }}
                     className={`text-xs px-2.5 py-1 rounded border font-mono transition-colors ${
                       promptText === preset.prompt

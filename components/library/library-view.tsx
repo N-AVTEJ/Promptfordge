@@ -230,7 +230,7 @@ export function LibraryView() {
   useEffect(() => {
     const loaded = getSavedPrompts();
     if (loaded.length === 0) {
-      // Seed initial data
+      // Seed initial data with full version histories
       INITIAL_SEED_PROMPTS.forEach((p) => {
         savePrompt({
           id: p.id,
@@ -238,6 +238,7 @@ export function LibraryView() {
           content: p.content,
           tags: p.tags,
           notes: p.notes,
+          versions: p.versions,
         });
       });
       const reloaded = getSavedPrompts();
@@ -257,19 +258,25 @@ export function LibraryView() {
     return prompts.find((p) => p.id === selectedPromptId);
   }, [prompts, selectedPromptId]);
 
-  // Sync Diff version selectors whenever selectedPrompt changes
+  // Sync Diff version selectors whenever selectedPrompt changes, preserving valid user choices
   useEffect(() => {
     if (selectedPrompt && selectedPrompt.versions && selectedPrompt.versions.length > 0) {
       const vers = selectedPrompt.versions;
-      if (vers.length >= 2) {
-        setDiffVersionAId(vers[0].id);
-        setDiffVersionBId(vers[vers.length - 1].id);
-      } else {
-        setDiffVersionAId(vers[0].id);
-        setDiffVersionBId(vers[0].id);
+      const verIds = new Set(vers.map((v) => v.id));
+      const hasValidA = diffVersionAId && verIds.has(diffVersionAId);
+      const hasValidB = diffVersionBId && verIds.has(diffVersionBId);
+
+      if (!hasValidA || !hasValidB) {
+        if (vers.length >= 2) {
+          setDiffVersionAId(vers[0].id);
+          setDiffVersionBId(vers[vers.length - 1].id);
+        } else {
+          setDiffVersionAId(vers[0].id);
+          setDiffVersionBId(vers[0].id);
+        }
       }
     }
-  }, [selectedPrompt]);
+  }, [selectedPrompt, diffVersionAId, diffVersionBId]);
 
   // Filtered prompt list
   const allTags = useMemo(() => {

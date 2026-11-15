@@ -74,11 +74,12 @@ export interface SavePromptInput {
   tags?: string[];
   notes?: string;
   metrics?: PromptVersionMetrics;
+  versions?: PromptVersion[];
 }
 
 /**
  * Saves a new prompt or creates a new version for an existing prompt.
- * If modifying an existing prompt's content, a new version is created.
+ * Invariant: Every save on an existing prompt creates a new version.
  */
 export function savePrompt(input: SavePromptInput): SavedPrompt {
   const existingList = getSavedPrompts();
@@ -94,27 +95,20 @@ export function savePrompt(input: SavePromptInput): SavedPrompt {
         0
       );
 
-      // Check if content or notes changed to justify a new version
-      const latestVersion = prevVersions[prevVersions.length - 1];
-      const isContentChanged = !latestVersion || latestVersion.content !== input.content;
+      // Invariant: Every save creates a new version
+      const newVersionNumber = highestVerNum + 1;
+      const newVersionId = `ver_${now}_${Math.random().toString(36).slice(2, 7)}`;
+      const newVersion: PromptVersion = {
+        id: newVersionId,
+        versionNumber: newVersionNumber,
+        content: input.content,
+        notes: input.notes || `Version ${newVersionNumber}`,
+        timestamp: now,
+        metrics: input.metrics,
+      };
 
-      const updatedVersions = [...prevVersions];
-      let newCurrentVersionId = existing.currentVersionId;
-
-      if (isContentChanged) {
-        const newVersionNumber = highestVerNum + 1;
-        const newVersionId = `ver_${now}_${Math.random().toString(36).slice(2, 7)}`;
-        const newVersion: PromptVersion = {
-          id: newVersionId,
-          versionNumber: newVersionNumber,
-          content: input.content,
-          notes: input.notes || `Version ${newVersionNumber}`,
-          timestamp: now,
-          metrics: input.metrics,
-        };
-        updatedVersions.push(newVersion);
-        newCurrentVersionId = newVersionId;
-      }
+      const updatedVersions = [...prevVersions, newVersion];
+      const newCurrentVersionId = newVersionId;
 
       const updatedPrompt: SavedPrompt = {
         ...existing,
@@ -133,18 +127,30 @@ export function savePrompt(input: SavePromptInput): SavedPrompt {
     }
   }
 
-  // Create brand new prompt with Version 1
+  // Create brand new prompt
   const promptId = input.id || `prompt_${now}_${Math.random().toString(36).slice(2, 7)}`;
   const initialVersionId = `ver_${now}_v1`;
 
-  const initialVersion: PromptVersion = {
-    id: initialVersionId,
-    versionNumber: 1,
-    content: input.content,
-    notes: input.notes || "Initial draft",
-    timestamp: now,
-    metrics: input.metrics,
-  };
+  let promptVersions: PromptVersion[];
+  let activeVersionId: string;
+
+  if (input.versions && input.versions.length > 0) {
+    // Preserve supplied initial versions (e.g. from optimizer or seed)
+    promptVersions = [...input.versions].sort((a, b) => a.versionNumber - b.versionNumber);
+    activeVersionId = promptVersions[promptVersions.length - 1].id;
+  } else {
+    // Single initial version
+    const initialVersion: PromptVersion = {
+      id: initialVersionId,
+      versionNumber: 1,
+      content: input.content,
+      notes: input.notes || "Initial draft",
+      timestamp: now,
+      metrics: input.metrics,
+    };
+    promptVersions = [initialVersion];
+    activeVersionId = initialVersionId;
+  }
 
   const newPrompt: SavedPrompt = {
     id: promptId,
@@ -154,8 +160,8 @@ export function savePrompt(input: SavePromptInput): SavedPrompt {
     notes: input.notes || "",
     createdAt: now,
     updatedAt: now,
-    versions: [initialVersion],
-    currentVersionId: initialVersionId,
+    versions: promptVersions,
+    currentVersionId: activeVersionId,
   };
 
   const updatedList = [newPrompt, ...existingList];
@@ -290,19 +296,19 @@ export function importLibraryJson(
       if (
         item &&
         typeof item === "object" &&
-        "title" in item &&
         "content" in item &&
         typeof (item as SavedPrompt).content === "string"
       ) {
         const p = item as Partial<SavedPrompt>;
         const now = Date.now();
         const id = p.id || `prompt_imported_${now}_${Math.random().toString(36).slice(2, 6)}`;
+        const rawTitle = typeof p.title === "string" ? p.title.trim() : (p.title != null ? String(p.title) : "Imported Prompt");
         const normalized = normalizePrompt({
           id,
-          title: (p.title || "Imported Prompt").trim(),
+          title: rawTitle || "Imported Prompt",
           content: p.content || "",
-          tags: Array.isArray(p.tags) ? p.tags : [],
-          notes: p.notes || "",
+          tags: Array.isArray(p.tags) ? p.tags.map(String) : [],
+          notes: typeof p.notes === "string" ? p.notes : "",
           createdAt: typeof p.createdAt === "number" ? p.createdAt : now,
           updatedAt: typeof p.updatedAt === "number" ? p.updatedAt : now,
           versions: Array.isArray(p.versions) ? p.versions : undefined,
@@ -321,7 +327,14 @@ export function importLibraryJson(
     }
 
     if (mode === "replace") {
-      setStorageItem(STORAGE_KEYS.SAVED_PROMPTS, validPrompts);
+      const ok = setStorageItem(STORAGE_KEYS.SAVED_PROMPTS, validPrompts);
+      if (!ok && typeof window !== "undefined") {
+        return {
+          success: false,
+          importedCount: 0,
+          error: "Storage quota exceeded while saving imported prompts.",
+        };
+      }
       return { success: true, importedCount: validPrompts.length };
     }
 
@@ -345,19 +358,31 @@ export function importLibraryJson(
             mergedVersions.push(iv);
           }
         });
+        mergedVersions.sort((a, b) => a.versionNumber - b.versionNumber);
+        const newestVer = mergedVersions[mergedVersions.length - 1];
+
         idMap.set(imported.id, {
           ...existing,
           title: imported.title || existing.title,
+          content: imported.updatedAt >= existing.updatedAt ? imported.content : existing.content,
           tags: Array.from(new Set([...existing.tags, ...imported.tags])),
           versions: mergedVersions,
-          updatedAt: Date.now(),
+          currentVersionId: newestVer?.id || existing.currentVersionId,
+          updatedAt: Math.max(existing.updatedAt, imported.updatedAt),
         });
         newCount++;
       }
     });
 
     const finalList = Array.from(idMap.values());
-    setStorageItem(STORAGE_KEYS.SAVED_PROMPTS, finalList);
+    const ok = setStorageItem(STORAGE_KEYS.SAVED_PROMPTS, finalList);
+    if (!ok && typeof window !== "undefined") {
+      return {
+        success: false,
+        importedCount: 0,
+        error: "Storage quota exceeded while saving imported prompts.",
+      };
+    }
 
     return { success: true, importedCount: newCount };
   } catch (err) {

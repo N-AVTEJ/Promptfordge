@@ -305,6 +305,64 @@ Constraint: Under 250 words.`,
         /not found on prompt/i
       );
     });
+
+    it("every save creates a new version on an existing prompt, even when content is identical", () => {
+      const p = savePrompt({
+        title: "Prompt Invariant Test",
+        content: "Initial content",
+        notes: "Draft 1",
+      });
+
+      assert.strictEqual(p.versions?.length, 1);
+      assert.strictEqual(p.versions[0].versionNumber, 1);
+
+      // Save again with same content but updated notes/commit message
+      const p2 = savePrompt({
+        id: p.id,
+        title: "Prompt Invariant Test",
+        content: "Initial content",
+        notes: "Draft 2: Checkpoint without text edit",
+      });
+
+      assert.strictEqual(
+        p2.versions?.length,
+        2,
+        "Every save on an existing prompt must create a new version"
+      );
+      assert.strictEqual(p2.versions[1].versionNumber, 2);
+      assert.strictEqual(p2.versions[1].notes, "Draft 2: Checkpoint without text edit");
+      assert.strictEqual(p2.currentVersionId, p2.versions[1].id);
+    });
+
+    it("saving a prompt with explicit initial versions preserves full multi-version history", () => {
+      const now = Date.now();
+      const p = savePrompt({
+        id: "multi-ver-test",
+        title: "Multi-Version Seed Test",
+        content: "Optimized prompt v2",
+        versions: [
+          {
+            id: "ver-1",
+            versionNumber: 1,
+            content: "Weak prompt v1",
+            notes: "Weak original",
+            timestamp: now - 10000,
+          },
+          {
+            id: "ver-2",
+            versionNumber: 2,
+            content: "Optimized prompt v2",
+            notes: "Improved",
+            timestamp: now,
+          },
+        ],
+      });
+
+      assert.strictEqual(p.versions?.length, 2);
+      assert.strictEqual(p.versions[0].versionNumber, 1);
+      assert.strictEqual(p.versions[1].versionNumber, 2);
+      assert.strictEqual(p.currentVersionId, "ver-2");
+    });
   });
 
   // -------------------------------------------------------------------------
@@ -416,6 +474,55 @@ Constraint: Under 250 words.`,
       assert.strictEqual(diff.summary.removed, 2);
       assert.strictEqual(diff.summary.added, 0);
       assert.strictEqual(diff.summary.unchanged, 0);
+    });
+
+    it("supports trimTrailingNewlines to eliminate trailing empty line artifacts", () => {
+      const orig = "Line 1\nLine 2\n";
+      const imp = "Line 1\nLine 2\nLine 3\n";
+
+      // Without trim: trailing \n causes an empty string line
+      const diffWithout = computeLineDiff(orig, imp, { trimTrailingNewlines: false });
+      assert.strictEqual(diffWithout.summary.totalLinesOriginal, 3);
+
+      // With trim: trailing newlines are cleanly stripped
+      const diffWith = computeLineDiff(orig, imp, { trimTrailingNewlines: true });
+      assert.strictEqual(diffWith.summary.totalLinesOriginal, 2);
+      assert.strictEqual(diffWith.summary.totalLinesImproved, 3);
+      assert.strictEqual(diffWith.summary.added, 1);
+      assert.strictEqual(diffWith.summary.unchanged, 2);
+    });
+
+    it("supports detectModifications: false to strictly classify as added and removed", () => {
+      const orig = "Old Line";
+      const imp = "New Line";
+
+      const diffStrict = computeLineDiff(orig, imp, { detectModifications: false });
+      assert.strictEqual(diffStrict.summary.modified, 0);
+      assert.strictEqual(diffStrict.summary.removed, 1);
+      assert.strictEqual(diffStrict.summary.added, 1);
+    });
+
+    it("handles CR (\\r), CRLF (\\r\\n), and LF (\\n) line breaks consistently", () => {
+      const crLines = splitLines("Line1\rLine2\rLine3");
+      assert.strictEqual(crLines.length, 3);
+      assert.deepStrictEqual(crLines, ["Line1", "Line2", "Line3"]);
+
+      const crText = "Alpha\rBeta";
+      const lfText = "Alpha\nBeta\nGamma";
+      const diff = computeLineDiff(crText, lfText);
+      assert.strictEqual(diff.summary.unchanged, 2);
+      assert.strictEqual(diff.summary.added, 1);
+    });
+
+    it("handles zero common anchors (complete text replacement) with accurate diff classification", () => {
+      const orig = "A\nB\nC";
+      const imp = "X\nY\nZ";
+
+      const diff = computeLineDiff(orig, imp);
+      assert.strictEqual(diff.summary.unchanged, 0);
+      assert.strictEqual(diff.summary.modified, 3);
+      assert.strictEqual(diff.summary.added, 0);
+      assert.strictEqual(diff.summary.removed, 0);
     });
   });
 
@@ -612,6 +719,78 @@ Constraint: Under 250 words.`,
       assert.ok(result.error);
     });
 
+    it("safely handles non-string titles in imported JSON without throwing", () => {
+      const payloadWithNumericTitle = JSON.stringify({
+        prompts: [
+          {
+            id: "p-numeric-title",
+            title: 12345, // Non-string title
+            content: "Valid content with numeric title",
+          },
+        ],
+      });
+
+      const res = importLibraryJson(payloadWithNumericTitle);
+      assert.strictEqual(res.success, true);
+      assert.strictEqual(res.importedCount, 1);
+
+      const prompt = getSavedPrompts().find((p) => p.id === "p-numeric-title");
+      assert.ok(prompt);
+      assert.strictEqual(typeof prompt.title, "string");
+      assert.strictEqual(prompt.title, "12345");
+    });
+
+    it("updates active content and version history during merge when imported prompt has newer version", () => {
+      const now = Date.now();
+      savePrompt({
+        id: "p-version-merge",
+        title: "Base Prompt",
+        content: "Base content v1",
+        versions: [
+          {
+            id: "v1-base",
+            versionNumber: 1,
+            content: "Base content v1",
+            timestamp: now - 50000,
+          },
+        ],
+      });
+
+      const updatePayload = JSON.stringify({
+        prompts: [
+          {
+            id: "p-version-merge",
+            title: "Updated Title",
+            content: "Newer content v2",
+            updatedAt: now + 1000,
+            versions: [
+              {
+                id: "v1-base",
+                versionNumber: 1,
+                content: "Base content v1",
+                timestamp: now - 50000,
+              },
+              {
+                id: "v2-imported",
+                versionNumber: 2,
+                content: "Newer content v2",
+                timestamp: now + 1000,
+              },
+            ],
+          },
+        ],
+      });
+
+      const res = importLibraryJson(updatePayload, "merge");
+      assert.strictEqual(res.success, true);
+
+      const merged = getSavedPrompts().find((p) => p.id === "p-version-merge");
+      assert.ok(merged);
+      assert.strictEqual(merged.versions?.length, 2);
+      assert.strictEqual(merged.content, "Newer content v2");
+      assert.strictEqual(merged.currentVersionId, "v2-imported");
+    });
+
     it("deletes a prompt by ID", () => {
       const p = savePrompt({
         title: "To be deleted",
@@ -622,6 +801,107 @@ Constraint: Under 250 words.`,
       const deleted = deleteSavedPrompt(p.id);
       assert.strictEqual(deleted, true);
       assert.strictEqual(getSavedPrompts().length, 0);
+    });
+  });
+
+  // -------------------------------------------------------------------------
+  // ACCEPTANCE 6: Reason Attribution & Topic-Specific Simulation Fidelity
+  // -------------------------------------------------------------------------
+  describe("Acceptance 6: Reason Attribution & Topic-Specific Simulation Fidelity", () => {
+    it("never assigns pedagogical reason badges to blank or whitespace lines", () => {
+      const weak = "write about dogs";
+      const analysis = analyzeWeakPrompt(weak);
+      const improvements = generatePromptImprovements(weak, analysis.diagnoses);
+
+      for (const imp of improvements) {
+        for (const line of imp.diff.lines) {
+          if (line.text.trim().length === 0) {
+            assert.strictEqual(
+              line.reason,
+              undefined,
+              `Blank line at line index must not have reason badge, found: "${line.reason}"`
+            );
+          }
+        }
+      }
+    });
+
+    it("attaches pedagogical reasons accurately matching line content", () => {
+      const weak = "write about dogs";
+      const analysis = analyzeWeakPrompt(weak);
+      const improvements = generatePromptImprovements(weak, analysis.diagnoses);
+
+      const structured = improvements[0];
+      const personaLine = structured.diff.lines.find((l) =>
+        l.text.toLowerCase().includes("you are an authoritative")
+      );
+      assert.ok(personaLine, "Must find persona line");
+      assert.ok(
+        personaLine.reason?.toLowerCase().includes("persona"),
+        `Persona line must cite persona rationale, got: "${personaLine.reason}"`
+      );
+
+      const audienceLine = structured.diff.lines.find((l) =>
+        l.text.toLowerCase().includes("context & target audience")
+      );
+      assert.ok(audienceLine, "Must find audience line");
+      assert.ok(
+        audienceLine.reason?.toLowerCase().includes("audience") ||
+          audienceLine.reason?.toLowerCase().includes("ambiguity"),
+        `Audience line must cite audience rationale, got: "${audienceLine.reason}"`
+      );
+
+      const formatLine = structured.diff.lines.find((l) =>
+        l.text.toLowerCase().includes("required sections")
+      );
+      assert.ok(formatLine, "Must find required sections header");
+      assert.ok(
+        formatLine.reason?.toLowerCase().includes("hierarchical") ||
+          formatLine.reason?.toLowerCase().includes("section"),
+        `Format line must cite structural rationale, got: "${formatLine.reason}"`
+      );
+    });
+
+    it("simulateOptimizedRun generates domain-appropriate content for non-dog prompts", () => {
+      // 1. Recursion
+      const rec = simulateOptimizedRun("explain recursion", "structured");
+      assert.ok(
+        rec.text.toLowerCase().includes("recursion") ||
+          rec.text.toLowerCase().includes("stack frame"),
+        "Recursion prompt must generate recursion text, not canine text"
+      );
+      assert.strictEqual(
+        rec.text.toLowerCase().includes("canine"),
+        false,
+        "Recursion prompt must NOT mention canines"
+      );
+
+      // 2. Sales email
+      const sales = simulateOptimizedRun("write an email to sell our tool", "constrained");
+      assert.ok(
+        sales.text.toLowerCase().includes("outcome") ||
+          sales.text.toLowerCase().includes("recipient"),
+        "Sales prompt must generate sales B2B text"
+      );
+      assert.strictEqual(
+        sales.text.toLowerCase().includes("puppy"),
+        false,
+        "Sales prompt must NOT mention puppies"
+      );
+
+      // 3. Auth middleware
+      const auth = simulateOptimizedRun("make auth middleware for nextjs", "format_engineered");
+      assert.ok(
+        auth.text.toLowerCase().includes("edge") ||
+          auth.text.toLowerCase().includes("middleware") ||
+          auth.text.toLowerCase().includes("token"),
+        "Auth prompt must generate authentication middleware text"
+      );
+      assert.strictEqual(
+        auth.text.toLowerCase().includes("veterinary"),
+        false,
+        "Auth prompt must NOT mention veterinary care"
+      );
     });
   });
 });

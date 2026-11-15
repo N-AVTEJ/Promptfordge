@@ -41,12 +41,16 @@ export interface DiffOptions {
 }
 
 /**
- * Splits text into lines, handling both CRLF and LF safely.
+ * Splits text into lines, handling CRLF, CR, and LF safely.
+ * Optionally trims trailing empty newlines.
  */
-export function splitLines(text: string): string[] {
+export function splitLines(text: string, trimTrailingNewlines = false): string[] {
   if (!text) return [];
-  // Normalize \r\n to \n
-  const normalized = text.replace(/\r\n/g, "\n");
+  // Normalize \r\n and standalone \r to \n
+  let normalized = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+  if (trimTrailingNewlines) {
+    normalized = normalized.replace(/\n+$/, "");
+  }
   // If empty string, return empty array
   if (normalized.length === 0) return [];
   return normalized.split("\n");
@@ -131,8 +135,9 @@ export function computeLineDiff(
   options?: DiffOptions
 ): DiffResult {
   const detectModifications = options?.detectModifications ?? true;
-  const linesA = splitLines(originalText);
-  const linesB = splitLines(improvedText);
+  const trimTrailingNewlines = options?.trimTrailingNewlines ?? false;
+  const linesA = splitLines(originalText, trimTrailingNewlines);
+  const linesB = splitLines(improvedText, trimTrailingNewlines);
 
   // Quick optimization for identical texts
   if (originalText === improvedText) {
