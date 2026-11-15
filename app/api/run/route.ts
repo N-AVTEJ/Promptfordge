@@ -10,6 +10,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { executePrompt } from "@/lib/engine/execute";
+import { isKillSwitchActive, getDemoRunResult } from "@/lib/engine/demo-data";
 import {
   BudgetExhaustedError,
   GuardValidationError,
@@ -117,6 +118,20 @@ export async function POST(req: NextRequest) {
       typeof payload.maxOutputTokens === "number"
         ? payload.maxOutputTokens
         : undefined;
+
+    // Global Kill Switch Check: return cached demo result without consuming rate limit or budget
+    if (isKillSwitchActive()) {
+      const demoResult = getDemoRunResult(
+        promptStr,
+        typeof payload.model === "string" ? payload.model : undefined
+      );
+      return NextResponse.json({
+        success: true,
+        data: demoResult,
+        demoData: true,
+        killSwitch: true,
+      });
+    }
 
     // Route Guard step: enforce payload bounds, daily budget hard stop, and per-IP rate limit
     guardRequest({

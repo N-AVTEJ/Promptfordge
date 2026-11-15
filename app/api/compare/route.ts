@@ -13,6 +13,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError, z } from "zod";
 import { executePrompt, RunResult } from "@/lib/engine/execute";
+import { isKillSwitchActive, getDemoCompareResults } from "@/lib/engine/demo-data";
 import {
   BudgetExhaustedError,
   GuardValidationError,
@@ -194,6 +195,28 @@ export async function POST(req: NextRequest) {
     referenceAnswer,
     skipCache,
   } = parsedInput;
+
+  // Global Kill Switch Check: Bypass API calls and serve pre-recorded demo comparison data
+  if (isKillSwitchActive()) {
+    const demo = getDemoCompareResults(task, model);
+    return NextResponse.json({
+      success: true,
+      status: "completed",
+      demoData: true,
+      data: {
+        task,
+        model,
+        temperature,
+        expectedFormat: format || "none",
+        referenceAnswerProvided: Boolean(referenceAnswer && referenceAnswer.trim().length > 0),
+        runsRequestedPerTechnique: runsPerTechnique,
+        totalRunsRequested: techniques.length * runsPerTechnique,
+        totalCompletedRuns: techniques.length * runsPerTechnique,
+        isPartial: false,
+        results: demo.results,
+      },
+    });
+  }
 
   // Initial guard check
   try {

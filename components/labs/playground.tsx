@@ -14,11 +14,13 @@ import {
   Cpu,
   Layers,
   Sliders,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
+import { getDemoRunResult } from "@/lib/engine/demo-data";
 import { cn } from "@/lib/utils";
 
 interface RunData {
@@ -517,6 +519,22 @@ export function PromptPlayground({
                       test with your own API key.
                     </p>
                   )}
+                  <div className="pt-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const demo = getDemoRunResult(prompt, model);
+                        setResult(demo);
+                        setError(null);
+                      }}
+                      className="border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 text-xs h-7"
+                    >
+                      <Sparkles className="mr-1.5 h-3 w-3 text-amber-400" />
+                      Load Cached Demo Data
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -543,6 +561,16 @@ export function PromptPlayground({
                     >
                       <Zap className="mr-1 h-3 w-3 fill-cyan-300" />
                       Cached
+                    </Badge>
+                  )}
+                  {((result as unknown as { demoData?: boolean })?.demoData ||
+                    result?.provider?.includes("Demo")) && (
+                    <Badge
+                      variant="outline"
+                      className="border-amber-500/40 bg-amber-500/10 text-amber-400 font-mono text-[11px]"
+                    >
+                      <Sparkles className="mr-1 h-3 w-3" />
+                      Demo data
                     </Badge>
                   )}
                 </div>

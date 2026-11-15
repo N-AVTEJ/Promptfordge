@@ -12,6 +12,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { executePrompt, RunResult } from "@/lib/engine/execute";
+import { isKillSwitchActive } from "@/lib/engine/demo-data";
 import {
   BudgetExhaustedError,
   GuardValidationError,
@@ -349,7 +350,9 @@ export async function POST(req: NextRequest) {
   const shuffledJudge = buildShuffledJudgePrompt(prompt, candidatesForJudge);
   let judgeEvaluations: Record<string, JudgeEvaluation> = {};
 
-  const hasLiveKey = Boolean(byokKey || process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY);
+  const hasLiveKey =
+    !isKillSwitchActive() &&
+    Boolean(byokKey || process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY);
 
   if (hasLiveKey && !simulate) {
     try {

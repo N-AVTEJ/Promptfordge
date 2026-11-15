@@ -6,10 +6,6 @@ import {
   Sparkles,
   Shield,
   ArrowRight,
-  BarChart3,
-  Layers,
-  Cpu,
-  Target,
 } from "lucide-react";
 
 export const metadata: Metadata = {

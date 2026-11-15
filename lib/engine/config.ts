@@ -16,6 +16,8 @@ export interface EngineConfig {
   cacheMaxEntries: number;
   /** Time to live for cached responses in milliseconds (default 24 hours) */
   cacheTtlMs: number;
+  /** Global Kill Switch: Disables external LLM API calls and enforces demo fallback */
+  killSwitch: boolean;
 }
 
 function parseEnvInt(key: string, defaultValue: number): number {
@@ -35,4 +37,7 @@ export const ENGINE_CONFIG: EngineConfig = {
     "PROMPTFORGE_CACHE_TTL_MS",
     24 * 60 * 60 * 1000 // 24 hours
   ),
+  killSwitch:
+    process.env.PROMPTFORGE_KILL_SWITCH === "true" ||
+    process.env.NEXT_PUBLIC_DEMO_MODE === "true",
 };

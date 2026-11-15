@@ -49,10 +49,12 @@ import {
   setStorageItem,
   CompareExperimentRecord,
 } from "@/lib/storage";
+import { getDemoCompareResults } from "@/lib/engine/demo-data";
 
 interface CompareApiResponse {
   success: boolean;
   status?: "completed" | "partial";
+  demoData?: boolean;
   warning?: {
     code: string;
     message: string;
@@ -129,6 +131,7 @@ export function CompareLab() {
   const [progressMessage, setProgressMessage] = useState<string>("");
   const [results, setResults] = useState<TechniqueAggregateResult[] | null>(null);
   const [isPartialResult, setIsPartialResult] = useState<boolean>(false);
+  const [isDemoData, setIsDemoData] = useState<boolean>(false);
   const [warningMessage, setWarningMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -282,6 +285,7 @@ export function CompareLab() {
 
       if (json.data && json.data.results) {
         setResults(json.data.results);
+        setIsDemoData(Boolean(json.demoData));
         setIsPartialResult(Boolean(json.status === "partial" || json.data.isPartial));
 
         if (json.warning) {
@@ -320,6 +324,28 @@ export function CompareLab() {
       setProgressStage(0);
       setProgressMessage("");
     }
+  };
+
+  const handleLoadDemoData = () => {
+    const demo = getDemoCompareResults(task, model);
+    setResults(demo.results);
+    setIsDemoData(true);
+    setErrorMessage(null);
+    setIsPartialResult(false);
+    const experimentRecord: CompareExperimentRecord = {
+      id: `exp_demo_${Date.now()}`,
+      timestamp: Date.now(),
+      task,
+      model,
+      temperature,
+      expectedFormat: format || "none",
+      runsPerTechnique: 3,
+      results: demo.results,
+    };
+    const existing = (getStorageItem(STORAGE_KEYS.COMPARE_EXPERIMENTS) || []) as CompareExperimentRecord[];
+    const updated = [experimentRecord, ...existing.slice(0, 19)];
+    setStorageItem(STORAGE_KEYS.COMPARE_EXPERIMENTS, updated);
+    setSavedExperiments(updated);
   };
 
   // Export Results as JSON
@@ -1027,9 +1053,19 @@ export function CompareLab() {
         {errorMessage && (
           <div className="w-full max-w-xl rounded-lg border border-red-500/40 bg-red-950/20 p-4 text-xs font-mono text-red-300 flex items-start gap-2.5">
             <ShieldAlert className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
-            <div>
-              <p className="font-bold">Execution Error</p>
-              <p className="mt-1 text-red-200">{errorMessage}</p>
+            <div className="space-y-2">
+              <div>
+                <p className="font-bold">Execution Error</p>
+                <p className="mt-1 text-red-200">{errorMessage}</p>
+              </div>
+              <button
+                type="button"
+                onClick={handleLoadDemoData}
+                className="inline-flex items-center gap-1.5 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-1.5 text-xs font-medium text-amber-300 hover:bg-amber-500/20 transition-colors"
+              >
+                <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+                <span>Load Cached Demo Comparison</span>
+              </button>
             </div>
           </div>
         )}
@@ -1056,6 +1092,16 @@ export function CompareLab() {
       {/* =================================================================== */}
       {results && results.length > 0 && (
         <div className="space-y-10 pt-6">
+          {isDemoData && (
+            <div className="flex items-center gap-2.5 rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-2.5 text-xs font-mono text-amber-300">
+              <Sparkles className="h-4 w-4 text-amber-400 shrink-0" />
+              <span className="font-bold">DEMO DATA:</span>
+              <span>
+                Pre-recorded empirical benchmark comparison. Live API execution was not invoked.
+              </span>
+            </div>
+          )}
+
           {/* Analytical "What this shows" Panel */}
           {analysisWinners && (
             <Card className="border-cyan-500/40 bg-gradient-to-b from-forge-surface to-forge-elevated p-6 space-y-4">

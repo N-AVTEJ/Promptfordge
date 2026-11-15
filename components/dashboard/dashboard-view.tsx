@@ -15,8 +15,6 @@ import {
   Bookmark,
   ExternalLink,
   Info,
-  Clock,
-  CheckCircle2,
   AlertTriangle,
   Play,
   RotateCcw,
@@ -25,7 +23,7 @@ import { useProgress } from "@/lib/storage/progress";
 import { useChallenges } from "@/lib/storage/challenges";
 import { getArenaProgress } from "@/lib/storage/arena";
 import { getSavedPrompts } from "@/lib/storage/library";
-import { getStorageItem, STORAGE_KEYS, CompareExperimentRecord, StorageHistoryItem } from "@/lib/storage/index";
+import { getStorageItem, STORAGE_KEYS, CompareExperimentRecord } from "@/lib/storage/index";
 import { getSuggestedNextLesson, getCurriculumStats } from "@/lib/dashboard/recommend";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 
@@ -121,14 +119,6 @@ export function DashboardView() {
     const exps = getStorageItem(STORAGE_KEYS.COMPARE_EXPERIMENTS);
     if (!Array.isArray(exps)) return [];
     return (exps as CompareExperimentRecord[]).slice(-4).reverse();
-  }, [isHydrated]);
-
-  // Prompt execution history
-  const recentHistory = useMemo(() => {
-    if (!isHydrated) return [];
-    const hist = getStorageItem(STORAGE_KEYS.HISTORY);
-    if (!Array.isArray(hist)) return [];
-    return (hist as StorageHistoryItem[]).slice(-3).reverse();
   }, [isHydrated]);
 
   // Curriculum calculations

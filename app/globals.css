@@ -54,6 +54,12 @@ kbd {
   color: #fff7ed;
 }
 
+/* Global Accessible Focus-Visible Ring */
+:focus-visible {
+  outline: 2px solid #ff7a1a;
+  outline-offset: 2px;
+}
+
 /* Lenis smooth scrolling base rules */
 html.lenis,
 html.lenis body {

@@ -9,6 +9,7 @@ import { estimateCost } from "@/content/pricing";
 import { getProvider } from "@/lib/providers";
 import { computeCacheKey, engineCache } from "./cache";
 import { ENGINE_CONFIG } from "./config";
+import { isKillSwitchActive, getDemoRunResult } from "./demo-data";
 import {
   checkDailyBudget,
   checkRateLimit,
@@ -71,6 +72,12 @@ export async function executePrompt(input: ExecuteInput): Promise<RunResult> {
     prompt: parsed.prompt,
     maxOutputTokens: parsed.maxOutputTokens,
   });
+
+  // Global Kill Switch Check: Bypass all external provider calls and serve safe cached demo data
+  if (isKillSwitchActive()) {
+    return getDemoRunResult(parsed.prompt, parsed.model);
+  }
+
   checkDailyBudget();
 
   // Enforce per-IP rate limit when an IP is specified (e.g. from API route) and not bypassed
