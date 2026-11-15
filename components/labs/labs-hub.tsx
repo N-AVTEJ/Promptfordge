@@ -13,10 +13,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 const LabLoadingSkeleton = () => (
-  <div className="min-h-[500px] w-full rounded-2xl border border-white/[0.06] bg-[#0E1015]/60 p-8 flex flex-col items-center justify-center space-y-4 animate-pulse">
-    <div className="h-8 w-48 rounded bg-white/[0.08]" />
-    <div className="h-4 w-96 rounded bg-white/[0.04]" />
-    <div className="h-64 w-full rounded-xl bg-white/[0.02] mt-6" />
+  <div className="min-h-[500px] w-full rounded-2xl border border-indigo/10 bg-white p-8 flex flex-col items-center justify-center space-y-4 animate-pulse shadow-sm">
+    <div className="h-8 w-48 rounded bg-indigo/5" />
+    <div className="h-4 w-96 rounded bg-indigo/5" />
+    <div className="h-64 w-full rounded-xl bg-indigo/5 mt-6" />
   </div>
 );
 

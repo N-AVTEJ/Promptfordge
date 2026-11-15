@@ -617,7 +617,7 @@ export function OptimizeLab() {
                   </div>
 
                   {/* Diff Canvas */}
-                  <Card className="border-forge-border bg-[#0B0C0E] overflow-hidden font-mono text-xs">
+                  <Card className="border-indigo/10 bg-cream/70 overflow-hidden font-mono text-xs">
                     {diffViewMode === "unified" ? (
                       <div className="divide-y divide-white/[0.04] overflow-x-auto">
                         {activeCandidate.diff.lines.map((line, idx) => {
@@ -1020,7 +1020,7 @@ export function OptimizeLab() {
 
       {/* Save to Library Modal */}
       {isSaving && activeCandidate && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-indigo/60 backdrop-blur-sm p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}

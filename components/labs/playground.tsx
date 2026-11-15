@@ -402,7 +402,7 @@ export function PromptPlayground({
                   placeholder="Paste your Gemini or OpenAI key (optional)..."
                   value={byokKey}
                   onChange={(e) => setByokKey(e.target.value)}
-                  className="mt-2 w-full rounded border border-forge-border bg-forge-950 px-3 py-1.5 font-mono text-xs text-forge-text focus:border-ember-500 focus:outline-none"
+                  className="mt-2 w-full rounded border border-indigo/15 bg-cream/60 px-3 py-1.5 font-mono text-xs text-indigo focus:border-coral focus:outline-none"
                 />
                 <p className="mt-1 text-[11px] text-forge-subtle">
                   Transmitted securely via{" "}
@@ -599,7 +599,7 @@ export function PromptPlayground({
 
               {/* Metrics Strip */}
               {result && (
-                <div className="mt-3 grid grid-cols-4 gap-2 rounded-lg border border-forge-border bg-forge-950/60 p-2.5 font-mono text-xs">
+                <div className="mt-3 grid grid-cols-4 gap-2 rounded-xl border border-indigo/10 bg-cream/60 p-2.5 font-mono text-xs">
                   <div>
                     <span className="block text-[10px] text-forge-subtle">
                       Latency
