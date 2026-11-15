@@ -1494,7 +1494,7 @@ export function LlmSimulatorLab() {
             </div>
 
             {/* Generated Text Window */}
-            <div className="rounded-xl border border-forge-border bg-forge-black/80 p-5 space-y-2">
+            <div className="rounded-xl border border-indigo/10 bg-cream/60 p-5 space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-wider text-forge-muted">
                 Emitted Sequence So Far:
               </span>
@@ -1525,10 +1525,10 @@ export function LlmSimulatorLab() {
                   return (
                     <div
                       key={cand.id}
-                      className={`flex items-center gap-4 rounded-lg border p-3 font-mono text-xs transition-all ${
+                      className={`flex items-center gap-4 rounded-xl border p-3 font-mono text-xs transition-all ${
                         isSelected
-                          ? "border-emerald-500/50 bg-emerald-950/20 text-emerald-300 shadow-sm"
-                          : "border-forge-border bg-forge-black/50 text-forge-muted"
+                          ? "border-teal/50 bg-mint/30 text-teal-800 shadow-sm font-semibold"
+                          : "border-indigo/10 bg-cream/50 text-indigo/70"
                       }`}
                     >
                       <span className="w-6 font-bold">#{cand.rank}</span>

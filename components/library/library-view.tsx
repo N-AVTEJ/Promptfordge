@@ -729,7 +729,7 @@ export function LibraryView() {
                       {selectedPrompt.content.split(/\s+/).filter(Boolean).length} words · {selectedPrompt.content.length} characters
                     </span>
                   </div>
-                  <pre className="rounded-lg border border-forge-border bg-[#0B0C0E] p-4 text-xs font-mono text-forge-text whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto">
+                  <pre className="rounded-xl border border-indigo/10 bg-cream/70 p-4 text-xs font-mono text-indigo whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto">
                     {selectedPrompt.content}
                   </pre>
                 </div>
@@ -788,7 +788,7 @@ export function LibraryView() {
                 <div className="h-48 w-full pt-2">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={chartData} margin={{ top: 10, right: 20, left: -20, bottom: 0 }}>
-                      <CartesianGrid stroke="#232832" strokeDasharray="3 3" vertical={false} />
+                      <CartesianGrid stroke="#E5E7EB" strokeDasharray="3 3" vertical={false} />
                       <XAxis
                         dataKey="versionLabel"
                         stroke="#5A6272"
@@ -804,12 +804,12 @@ export function LibraryView() {
                       />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: "#121417",
-                          border: "1px solid #373F4E",
-                          borderRadius: "6px",
+                          backgroundColor: "#FFFFFF",
+                          border: "1px solid #E5E7EB",
+                          borderRadius: "8px",
                           fontFamily: "monospace",
                           fontSize: "11px",
-                          color: "#F5F6F8",
+                          color: "#1E1B4B",
                         }}
                       />
                       <Line
@@ -957,7 +957,7 @@ export function LibraryView() {
                   )}
 
                   {/* Diff Lines Render */}
-                  <div className="rounded-lg border border-forge-border bg-[#0B0C0E] overflow-hidden font-mono text-xs max-h-96 overflow-y-auto">
+                  <div className="rounded-xl border border-indigo/10 bg-cream/70 overflow-hidden font-mono text-xs max-h-96 overflow-y-auto">
                     {computedDiff &&
                       computedDiff.lines.map((line, idx) => {
                         let bgClass = "bg-transparent";
