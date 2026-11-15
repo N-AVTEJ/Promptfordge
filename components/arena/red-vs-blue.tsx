@@ -297,8 +297,8 @@ export function RedVsBlueChallenge() {
                   onClick={() => toggleExpand(atk.attackId)}
                   className={`cursor-pointer rounded-lg border p-3.5 transition-all ${
                     atk.blocked
-                      ? "border-cyan-500/30 bg-[#0C1014] hover:border-cyan-500/60"
-                      : "border-red-500/40 bg-[#140C0E] hover:border-red-500/70"
+                      ? "border-teal/30 bg-teal/5 hover:border-teal/50"
+                      : "border-coral/40 bg-coral/5 hover:border-coral/60"
                   }`}
                 >
                   {/* Card Top */}
