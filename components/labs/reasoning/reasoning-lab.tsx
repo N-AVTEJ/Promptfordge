@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { GitBranch, Terminal, Users, Sparkles, HelpCircle } from "lucide-react";
+import { GitBranch, Terminal, Users, Sparkles } from "lucide-react";
 import { TotVisualizer } from "./tot-visualizer";
 import { ReactVisualizer } from "./react-visualizer";
 import { ExpertVisualizer } from "./expert-visualizer";

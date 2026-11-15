@@ -10,8 +10,6 @@ import {
   RotateCcw,
   SkipForward,
   Info,
-  Sparkles,
-  Zap,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -186,7 +184,7 @@ export function ReactVisualizer() {
 
       {/* Alternating Step Timeline */}
       <div className="space-y-4">
-        {visibleSteps.map((step: ReactStep, idx: number) => {
+        {visibleSteps.map((step: ReactStep) => {
           const isThought = step.type === "thought";
           const isAction = step.type === "action";
           const isObservation = step.type === "observation";

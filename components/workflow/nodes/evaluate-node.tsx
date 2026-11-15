@@ -6,7 +6,6 @@ import { ShieldCheck, Clock, CheckCircle2 } from "lucide-react";
 import { EvaluateData } from "@/lib/workflow/types";
 
 export const EvaluateNode = memo(function EvaluateNode({
-  id,
   data,
   isConnectable,
 }: NodeProps<EvaluateData>) {

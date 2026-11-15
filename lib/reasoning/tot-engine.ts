@@ -7,7 +7,7 @@
  * prunes unpromising paths, and highlights the chosen optimal path.
  */
 
-import { TotTreeState, TotNode, TotNodeScores } from "./types";
+import { TotTreeState, TotNode } from "./types";
 
 export const TOT_EDUCATIONAL_DISCLOSURE =
   "Educational simulation: Candidate reasoning paths generated and scored via deliberate tree search; this visualizes externalized exploration strategies, not private model internal activations.";

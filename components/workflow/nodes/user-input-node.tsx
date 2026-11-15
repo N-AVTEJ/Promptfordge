@@ -6,7 +6,6 @@ import { MessageSquare, Clock } from "lucide-react";
 import { UserInputData } from "@/lib/workflow/types";
 
 export const UserInputNode = memo(function UserInputNode({
-  id,
   data,
   isConnectable,
 }: NodeProps<UserInputData>) {

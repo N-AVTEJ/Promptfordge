@@ -3,20 +3,15 @@
 import React, { useState, useMemo } from "react";
 import {
   GitBranch,
-  CheckCircle2,
   Sparkles,
   Info,
-  ChevronRight,
   RotateCcw,
-  Zap,
   Filter,
-  Check,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   TotTreeState,
   TotNode,
-  TotNodeScores,
 } from "@/lib/reasoning/types";
 import {
   buildTreeOfThoughts,

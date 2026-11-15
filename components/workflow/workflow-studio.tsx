@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useMemo, useRef } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import ReactFlow, {
   Controls,
   Background,
@@ -29,7 +29,6 @@ import {
   Zap,
   DollarSign,
   Layers,
-  Sparkles,
   Info,
   Trash2,
 } from "lucide-react";
@@ -41,6 +40,7 @@ import {
   WorkflowDefinition,
   NodeExecutionStatus,
   WorkflowNodeType,
+  EvaluateData,
 } from "@/lib/workflow/types";
 import {
   detectWorkflowCycle,
@@ -289,7 +289,11 @@ export function WorkflowStudio() {
                           status: "done" as NodeExecutionStatus,
                           output,
                           metrics,
-                          scores: scores || (n.data as any).scores,
+                          scores:
+                            scores ||
+                            ("scores" in n.data
+                              ? (n.data as EvaluateData).scores
+                              : undefined),
                         },
                       }
                     : n

@@ -4,7 +4,6 @@
  * variable interpolation, and DAG execution.
  */
 
-import { executePrompt, RunResult } from "@/lib/engine/execute";
 import { simulateRubricJudge } from "@/lib/engine/evaluate";
 import {
   WorkflowNode,
@@ -176,13 +175,6 @@ export function isValidWorkflowConnection(
   }
 
   // Rule 4: Typed handles
-  // sourceHandle may specify "text-out", "eval-out", etc.
-  // targetHandle may specify "text-in", "var-in", etc.
-  const srcHandle = connection.sourceHandle || "default-source";
-  const tgtHandle = connection.targetHandle || "default-target";
-
-  // If source is Evaluate and target is PromptTemplate or LlmRun or FinalOutput, allow text representation
-  // If target is LLM Run, source must produce text or prompt
   if (targetNode.type === "llmRun") {
     if (sourceNode.type === "finalOutput") return false;
   }
@@ -290,38 +282,49 @@ export async function defaultWorkflowPromptRunner(input: {
   costEstimateUsd: number;
   model: string;
 }> {
-  try {
-    const res = await executePrompt({
-      prompt: input.prompt,
-      system: input.system,
-      model: input.model || "gemini-1.5-flash",
-      temperature: input.temperature ?? 0.7,
-      skipRateLimit: true,
-    });
-    return {
-      text: res.text,
-      tokensIn: res.tokensIn,
-      tokensOut: res.tokensOut,
-      latencyMs: res.latencyMs,
-      costEstimateUsd: res.costEstimateUsd,
-      model: res.model,
-    };
-  } catch (err: unknown) {
-    // If live API is unavailable (e.g. no key in offline test), fall back cleanly to deterministic educational mock
-    const latency = 120 + Math.floor(Math.random() * 60);
-    const mockOutput = `[Execution Engine Output]\nGenerated response for: "${input.prompt.slice(0, 80)}..."\n\nKey Analysis:\n1. Architectural Clarity: Successfully synthesized multi-stage context.\n2. Output Validation: Met all target pipeline specifications.`;
-    const tokensIn = Math.max(1, Math.ceil(input.prompt.length / 4));
-    const tokensOut = Math.max(1, Math.ceil(mockOutput.length / 4));
-
-    return {
-      text: mockOutput,
-      tokensIn,
-      tokensOut,
-      latencyMs: latency,
-      costEstimateUsd: 0.00002,
-      model: input.model || "gemini-1.5-flash (simulated)",
-    };
+  // If in browser, call /api/run
+  if (typeof window !== "undefined") {
+    try {
+      const res = await fetch("/api/run", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: input.prompt,
+          system: input.system,
+          model: input.model || "gemini-1.5-flash",
+          temperature: input.temperature ?? 0.7,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success && data.data) {
+        return {
+          text: data.data.text,
+          tokensIn: data.data.tokensIn,
+          tokensOut: data.data.tokensOut,
+          latencyMs: data.data.latencyMs,
+          costEstimateUsd: data.data.costEstimateUsd,
+          model: data.data.model,
+        };
+      }
+    } catch {
+      // Fall through to deterministic educational simulation
+    }
   }
+
+  // Deterministic educational simulation fallback
+  const latency = 120 + Math.floor(Math.random() * 60);
+  const mockOutput = `[Execution Engine Output]\nGenerated response for: "${input.prompt.slice(0, 80)}..."\n\nKey Analysis:\n1. Architectural Clarity: Successfully synthesized multi-stage context.\n2. Output Validation: Met all target pipeline specifications.`;
+  const tokensIn = Math.max(1, Math.ceil(input.prompt.length / 4));
+  const tokensOut = Math.max(1, Math.ceil(mockOutput.length / 4));
+
+  return {
+    text: mockOutput,
+    tokensIn,
+    tokensOut,
+    latencyMs: latency,
+    costEstimateUsd: 0.00002,
+    model: input.model || "gemini-1.5-flash (simulated)",
+  };
 }
 
 /**

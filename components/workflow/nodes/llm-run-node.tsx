@@ -6,7 +6,6 @@ import { Cpu, Clock, Zap, DollarSign } from "lucide-react";
 import { LlmRunData } from "@/lib/workflow/types";
 
 export const LlmRunNode = memo(function LlmRunNode({
-  id,
   data,
   isConnectable,
 }: NodeProps<LlmRunData>) {

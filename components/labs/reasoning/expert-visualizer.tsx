@@ -9,11 +9,8 @@ import {
   Sparkles,
   Info,
   Clock,
-  Layers,
-  ChevronRight,
   RotateCcw,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import {
   EXPERT_ROLES,
   EXPERT_PRESETS,
@@ -180,7 +177,7 @@ export function ExpertVisualizer() {
                       Core Perspective Highlight:
                     </span>
                     <p className="text-[11px] font-mono text-forge-text leading-snug">
-                      "{resp.keyTakeaway}"
+                      &ldquo;{resp.keyTakeaway}&rdquo;
                     </p>
                   </div>
                 )}

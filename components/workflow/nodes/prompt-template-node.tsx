@@ -7,7 +7,6 @@ import { PromptTemplateData } from "@/lib/workflow/types";
 import { extractTemplateVariables } from "@/lib/workflow/engine";
 
 export const PromptTemplateNode = memo(function PromptTemplateNode({
-  id,
   data,
   isConnectable,
 }: NodeProps<PromptTemplateData>) {

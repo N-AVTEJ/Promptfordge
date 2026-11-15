@@ -6,7 +6,7 @@
  * using a sandboxed mock tool suite (safe calculator, knowledge lookup, text telemetry).
  */
 
-import { ReactStep, ReactScenario } from "./types";
+import { ReactScenario } from "./types";
 
 export const REACT_EDUCATIONAL_DISCLOSURE =
   "Educational simulation / Thought summaries: Summarized externalized rationale, not private internal reasoning.";

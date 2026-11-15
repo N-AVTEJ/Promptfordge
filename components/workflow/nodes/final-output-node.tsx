@@ -6,7 +6,6 @@ import { Check, Copy, FileText, CheckCircle2 } from "lucide-react";
 import { FinalOutputData } from "@/lib/workflow/types";
 
 export const FinalOutputNode = memo(function FinalOutputNode({
-  id,
   data,
   isConnectable,
 }: NodeProps<FinalOutputData>) {
