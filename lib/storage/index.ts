@@ -7,6 +7,8 @@
  * - In-memory fallback if window.localStorage is blocked/unavailable
  */
 
+import type { WorkflowDefinition } from "@/lib/workflow/types";
+
 export const STORAGE_PREFIX = "pf_v1_";
 
 export const STORAGE_KEYS = {
@@ -16,6 +18,7 @@ export const STORAGE_KEYS = {
   SETTINGS: `${STORAGE_PREFIX}settings`,
   LAB_DRAFTS: `${STORAGE_PREFIX}lab_drafts`,
   COMPARE_EXPERIMENTS: `${STORAGE_PREFIX}compare_experiments`,
+  WORKFLOWS: `${STORAGE_PREFIX}workflows`,
 } as const;
 
 export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
@@ -103,6 +106,7 @@ export interface StorageSchema {
   [STORAGE_KEYS.SETTINGS]: UserSettings;
   [STORAGE_KEYS.LAB_DRAFTS]: Record<string, string>;
   [STORAGE_KEYS.COMPARE_EXPERIMENTS]: CompareExperimentRecord[];
+  [STORAGE_KEYS.WORKFLOWS]: WorkflowDefinition[];
 }
 
 export const STORAGE_DEFAULTS: StorageSchema = {
@@ -124,6 +128,7 @@ export const STORAGE_DEFAULTS: StorageSchema = {
   },
   [STORAGE_KEYS.LAB_DRAFTS]: {},
   [STORAGE_KEYS.COMPARE_EXPERIMENTS]: [],
+  [STORAGE_KEYS.WORKFLOWS]: [],
 };
 
 export const STORAGE_VALIDATORS: {
@@ -149,6 +154,8 @@ export const STORAGE_VALIDATORS: {
   [STORAGE_KEYS.COMPARE_EXPERIMENTS]: (
     data: unknown
   ): data is CompareExperimentRecord[] => Array.isArray(data),
+  [STORAGE_KEYS.WORKFLOWS]: (data: unknown): data is WorkflowDefinition[] =>
+    Array.isArray(data),
 };
 
 // In-memory cache fallback for SSR or restricted environments
