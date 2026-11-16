@@ -478,16 +478,29 @@ export const M10_M12: CurriculumModule[] = [
       {
         id: "mod-10-les-05",
         title: "APE",
-        youtubeId: "",
-        status: "slot",
-        videos: [],
+        youtubeId: "uDIW34h8cmM",
+        status: "ok",
+        videos: [
+          {
+            id: "uDIW34h8cmM",
+            title: "Prompt Engineering Guide - From Beginner to Advanced",
+            channel: "Matthew Berman",
+            minutes: 20,
+            covers: ["APE", "Expert prompting"],
+            role: "core",
+            status: "ok",
+            source: "external",
+            thumbnailUrl: "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg",
+          },
+        ],
         chapters: [
-          { time: 0, label: "Automatic Prompt Engineer: Program Synthesis Formulation" },
-          { time: 240, label: "Candidate Generation, Scoring, and Resampling" },
-          { time: 480, label: "Evolutionary and Genetic Algorithms for Prompt Search" },
+          { time: 0, label: "Automatic Prompt Generation & Exploration" },
+          { time: 240, label: "Iterative Scoring & Candidate Selection" },
+          { time: 510, label: "APE in Autonomous Agent Systems" },
+          { time: 820, label: "Production Best Practices" },
         ],
         summary:
-          "Explore Automatic Prompt Engineer (APE). Learn how to treat natural language prompts as programs to be synthesized, evaluated, and optimized automatically by foundation models using score-guided search. (Video coming soon in next curriculum release).",
+          "Explore Automatic Prompt Engineer (APE). Learn how to treat natural language prompts as programs to be synthesized, evaluated, and optimized automatically by foundation models using score-guided search.",
         keyConcepts: [
           "APE Program Synthesis Formulation",
           "Score-Guided Prompt Optimization",
@@ -761,23 +774,36 @@ export const M10_M12: CurriculumModule[] = [
             explanation: "Human-in-the-loop oversight prevents autonomous misfires on irreversible or safety-critical operations.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Agent Loops (Plan, Act, Observe)\n\nAutonomous agents transcend single-turn prompting. By looping through planning, tool execution, and environmental observation, agents solve complex, multi-step real-world objectives.",
       },
       {
         id: "mod-11-les-02",
         title: "Context windows and context engineering vs prompt engineering",
-        youtubeId: "",
-        status: "slot",
-        videos: [],
+        youtubeId: "vD0E3EUb8-8",
+        status: "ok",
+        videos: [
+          {
+            id: "vD0E3EUb8-8",
+            title: "Context Engineering vs. Prompt Engineering: Smarter AI with RAG & Agents",
+            channel: "IBM Technology",
+            minutes: 6,
+            covers: ["Context windows and context engineering vs prompt engineering"],
+            role: "core",
+            status: "ok",
+            source: "external",
+            thumbnailUrl: "https://i.ytimg.com/vi/vD0E3EUb8-8/hqdefault.jpg",
+          },
+        ],
         chapters: [
-          { time: 0, label: "The Shift: From Prompt Engineering to Context Engineering" },
-          { time: 240, label: "Context Window Economics, Latency, and KV-Cache Hits" },
-          { time: 480, label: "Dynamic Context Pruning and Information Density" },
+          { time: 0, label: "What the Model Sees vs How You Ask" },
+          { time: 90, label: "Context Rot & The Lost in the Middle Problem" },
+          { time: 195, label: "Dynamic Context Windows: RAG & Tool State" },
+          { time: 280, label: "Context Engineering Architecture for Agents" },
         ],
         summary:
-          "Understand the paradigm shift from Prompt Engineering to Context Engineering. Learn how to architect, optimize, cache, and prune the holistic context window across multi-session agent workflows. (Video coming soon in next curriculum release).",
+          "Understand the paradigm shift from Prompt Engineering to Context Engineering. Learn how to architect, optimize, cache, and prune the holistic context window across multi-session agent workflows.",
         keyConcepts: [
           "Holistic Context Architecture",
           "KV-Cache Friendly Context Layouts",
@@ -849,7 +875,7 @@ export const M10_M12: CurriculumModule[] = [
             explanation: "Active eviction keeps the working context lean, reducing cost and preventing distraction from resolved tasks.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Context Engineering vs Prompt Engineering\n\nPrompt engineering asks: 'What words should I use?' Context engineering asks: 'What information should enter the context window, how should it be structured, what can be cached, and what must be evicted?'",
       },
@@ -958,7 +984,7 @@ export const M10_M12: CurriculumModule[] = [
             explanation: "Working memory is the immediate scratchpad space available within the active context window for the current execution step.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Memory and Tool Protocols\n\nAgents without memory are amnesiacs. By separating working memory (context window), episodic memory (interaction history), and semantic memory (knowledge graphs), agents deliver persistent, personalized utility.",
       },
@@ -1068,7 +1094,7 @@ export const M10_M12: CurriculumModule[] = [
             explanation: "The MCP Host is the client application that discovers servers, negotiates capabilities, and provides tools to the model.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Model Context Protocol (MCP)\n\nMCP establishes an open standard for AI extensibility. By decoupling AI applications (hosts) from tool providers (servers) via JSON-RPC, developers build tool integrations once that work across all compliant AI environments.",
       },
@@ -1177,7 +1203,7 @@ export const M10_M12: CurriculumModule[] = [
             explanation: "Iterative query expansion and self-reflection loops require multiple LLM calls, accumulating latency and token costs.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Agentic RAG\n\nStatic RAG pipelines fail when queries are ambiguous or multi-faceted. Agentic RAG introduces autonomy: evaluating retrieved documents, reformulating queries, and coordinating multi-hop information synthesis.",
       },
@@ -1287,9 +1313,20 @@ export const M10_M12: CurriculumModule[] = [
       {
         id: "mod-12-les-01",
         title: "Prompting vs RAG vs fine-tuning",
-        youtubeId: "HdafI0t3sEY",
+        youtubeId: "0A4zaEuRmig",
         status: "ok",
         videos: [
+          {
+            id: "0A4zaEuRmig",
+            title: "Prompt vs RAG vs Fine-Tuning — What’s the Difference?",
+            channel: "Analytics Vidhya",
+            minutes: 12,
+            covers: ["Prompting vs RAG vs fine-tuning"],
+            role: "core",
+            status: "ok",
+            source: "external",
+            thumbnailUrl: "https://i.ytimg.com/vi/0A4zaEuRmig/hqdefault.jpg",
+          },
           {
             id: "HdafI0t3sEY",
             title: "RAG vs. CAG: Solving Knowledge Gaps in AI Models",
@@ -1299,6 +1336,18 @@ export const M10_M12: CurriculumModule[] = [
             role: "core",
             status: "ok",
             source: "external",
+            thumbnailUrl: "https://i.ytimg.com/vi/HdafI0t3sEY/hqdefault.jpg",
+          },
+          {
+            id: "o9jz04bIW0E",
+            title: "LLM Fine Tuning Tutorial (Free Labs)",
+            channel: "KodeKloud",
+            minutes: 24,
+            covers: ["Prompting vs RAG vs fine-tuning"],
+            role: "optional",
+            status: "ok",
+            source: "external",
+            thumbnailUrl: "https://i.ytimg.com/vi/o9jz04bIW0E/hqdefault.jpg",
           },
           {
             id: "7xTGNNLPyMI",
@@ -1309,12 +1358,14 @@ export const M10_M12: CurriculumModule[] = [
             role: "optional",
             status: "ok",
             source: "external",
+            thumbnailUrl: "https://i.ytimg.com/vi/7xTGNNLPyMI/hqdefault.jpg",
           },
         ],
         chapters: [
-          { time: 0, label: "The Architectural Decision Matrix" },
-          { time: 270, label: "RAG for Knowledge vs Fine-Tuning for Form" },
-          { time: 540, label: "Hybrid Architectures: RAG + Fine-Tuned Domain Adapters" },
+          { time: 0, label: "The Triad: Prompting vs RAG vs Fine-Tuning" },
+          { time: 180, label: "When to Prompt: Zero-Shot to Few-Shot" },
+          { time: 390, label: "When to RAG: Dynamic External Knowledge" },
+          { time: 580, label: "When to Fine-Tune: Form, Style, and Syntax Adaptation" },
         ],
         summary:
           "Master the architectural decision matrix between Prompt Engineering, Retrieval-Augmented Generation, and Supervised Fine-Tuning. Learn when to use in-context prompting, when to index external data, and when to fine-tune weights.",
@@ -1389,7 +1440,7 @@ export const M10_M12: CurriculumModule[] = [
             explanation: "In-context prompt engineering can be authored and tested in minutes without training runs or database setup.",
           },
         ],
-        relatedLab: "/labs/optimizer",
+        relatedLab: "/labs/optimize",
         notesMarkdown:
           "### Prompting vs RAG vs Fine-Tuning\n\n- **Prompting**: Fast, zero-infrastructure steering of general capabilities.\n- **RAG**: Dynamic injection of private, frequently changing knowledge.\n- **Fine-Tuning**: Deep conditioning of style, syntax, and specialized behavioral form.",
       },
@@ -1488,7 +1539,7 @@ export const M10_M12: CurriculumModule[] = [
             explanation: "Sampling a statistical subset provides representative quality metrics while capping secondary evaluation token costs.",
           },
         ],
-        relatedLab: "/labs/optimizer",
+        relatedLab: "/labs/optimize",
         notesMarkdown:
           "### LLM-as-a-Judge in Production\n\nAutomated judging transforms production monitoring from lagging user complaints to proactive real-time alerting. Auditing shadow traffic with unbiased rubrics ensures quality at scale.",
       },
@@ -1576,7 +1627,7 @@ export const M10_M12: CurriculumModule[] = [
             explanation: "Pairing code commits with evaluation scorecards establishes an immutable historical record of quality.",
           },
         ],
-        relatedLab: "/labs/optimizer",
+        relatedLab: "/labs/optimize",
         notesMarkdown:
           "### Prompt Versioning and Regression Tests\n\nProduction prompts are software artifacts. Integrating prompts into GitOps workflows with automated regression gates ensures that deployments are safe, reproducible, and verifiable.",
       },
@@ -1675,7 +1726,7 @@ export const M10_M12: CurriculumModule[] = [
             explanation: "Setting a conservative `max_tokens` cap stops runaway generation from exhausting budgets.",
           },
         ],
-        relatedLab: "/labs/optimizer",
+        relatedLab: "/labs/optimize",
         notesMarkdown:
           "### Guardrails, Cost, Latency, and Caching\n\nOperational engineering is the backbone of production AI. Implementing strict rate limits, daily hard stops, semantic caching, and prefix reuse ensures reliability and cost sustainability.",
       },
@@ -1774,7 +1825,7 @@ export const M10_M12: CurriculumModule[] = [
             explanation: "Transparency ensures users know when they are interacting with AI, and watermarking tracks synthetic media provenance.",
           },
         ],
-        relatedLab: "/labs/optimizer",
+        relatedLab: "/labs/optimize",
         notesMarkdown:
           "### Bias, Safety, and Governance\n\nAI without governance is a liability. Responsible prompt engineering audits for demographic fairness, implements safety boundaries, and complies with legal and ethical standards.",
       },

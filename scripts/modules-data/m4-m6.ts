@@ -196,7 +196,7 @@ export const M4_M6: CurriculumModule[] = [
             explanation: "The assistant role models past AI outputs, ensuring subsequent completions remain coherent with previous statements.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Multi-Turn Conversations\n\nStateless LLMs maintain dialogue continuity through sequential message accumulation. Engineering scalable chat requires intelligent context window pruning, sliding windows, and running summaries.",
       },
@@ -284,7 +284,7 @@ export const M4_M6: CurriculumModule[] = [
             explanation: "Each sequential hop adds network round-trip and generation latency, requiring careful caching and selective chaining.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Prompt Chaining and Pipelines\n\nPrompt chaining transforms prompt engineering from static text generation into modular software engineering. Chaining enables specialized prompt nodes, validation gates, and conditional branch routing.",
       },
@@ -383,7 +383,7 @@ export const M4_M6: CurriculumModule[] = [
             explanation: "Structured list representations enable the model's attention heads to parse individual entities cleanly without boundary bleed.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Dynamic Prompt Templates\n\nPrompt templates parameterize interactions. Rather than hardcoding strings, template engines separate static instructional frameworks from dynamic runtime variables.",
       },
@@ -585,7 +585,7 @@ export const M4_M6: CurriculumModule[] = [
             explanation: "Lengthy additions increase cost and latency; optimizing for accuracy while preserving brevity is the engineering goal.",
           },
         ],
-        relatedLab: "/labs/optimizer",
+        relatedLab: "/labs/optimize",
         notesMarkdown:
           "### Iterative Refinement\n\nPrompt engineering without evaluations is guessing. Systematic iteration runs prompt candidates against curated test suites, calculating pass rates and measuring regressions before shipping to production.",
       },
@@ -684,7 +684,7 @@ export const M4_M6: CurriculumModule[] = [
             explanation: "Calculating alignment between automated judges and human experts validates that the evaluation suite reflects real-world quality.",
           },
         ],
-        relatedLab: "/labs/optimizer",
+        relatedLab: "/labs/optimize",
         notesMarkdown:
           "### Measuring Response Quality\n\nQuality is multi-faceted. Reliable evaluation separates correctness, relevance, tone, and safety into discrete measurable dimensions rather than a single vague score.",
       },
@@ -783,7 +783,7 @@ export const M4_M6: CurriculumModule[] = [
             explanation: "TPS quantifies how many output tokens the decoder generates per second during autoregressive streaming.",
           },
         ],
-        relatedLab: "/labs/optimizer",
+        relatedLab: "/labs/optimize",
         notesMarkdown:
           "### Performance Evaluation\n\nPrompt engineering is bounded by operational reality. Evaluating prompts requires tracking accuracy alongside latency (TTFT, TPS) and token costs across the production lifecycle.",
       },
@@ -882,23 +882,36 @@ export const M4_M6: CurriculumModule[] = [
             explanation: "Provider model updates can degrade bespoke manual prompts; automated pipelines adapt instructions to model drift.",
           },
         ],
-        relatedLab: "/labs/optimizer",
+        relatedLab: "/labs/optimize",
         notesMarkdown:
           "### Prompt Tuning Fundamentals\n\nPrompt tuning bridges manual wordsmithing and automated machine learning. Understanding sampling hyperparameters (temperature, top_p) and programmatic optimizers (DSPy) allows engineers to maximize consistency.",
       },
       {
         id: "mod-05-les-05",
         title: "BLEU, ROUGE, BERTScore",
-        youtubeId: "",
-        status: "slot",
-        videos: [],
+        youtubeId: "RTaZqGflrJ8",
+        status: "ok",
+        videos: [
+          {
+            id: "RTaZqGflrJ8",
+            title: "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+            channel: "AI Academy",
+            minutes: 9,
+            covers: ["BLEU, ROUGE, BERTScore", "Performance evaluation"],
+            role: "core",
+            status: "ok",
+            source: "external",
+            thumbnailUrl: "https://i.ytimg.com/vi/RTaZqGflrJ8/hqdefault.jpg",
+          },
+        ],
         chapters: [
           { time: 0, label: "Mathematical Foundations of Precision vs Recall in Text" },
-          { time: 240, label: "BLEU (Machine Translation) and ROUGE (Summarization)" },
-          { time: 480, label: "BERTScore: Embedding Cosine Similarity" },
+          { time: 140, label: "BLEU (Machine Translation) and ROUGE (Summarization)" },
+          { time: 290, label: "BERTScore: Semantic Cosine Similarity via Embeddings" },
+          { time: 420, label: "Evaluating Open-Ended vs Deterministic LLM Outputs" },
         ],
         summary:
-          "Deep-dive into quantitative evaluation metrics. Learn the mathematical formulations of BLEU (precision-oriented), ROUGE (recall-oriented), and BERTScore (semantic similarity). (Video coming soon in next curriculum release).",
+          "Deep-dive into quantitative evaluation metrics. Learn the mathematical formulations of BLEU (precision-oriented), ROUGE (recall-oriented), and BERTScore (semantic similarity). Master automated evaluation benchmarks across engineering pipelines.",
         keyConcepts: [
           "BLEU (Bilingual Evaluation Understudy) N-gram Precision",
           "ROUGE (Recall-Oriented Understudy for Gisting Evaluation)",
@@ -970,23 +983,36 @@ export const M4_M6: CurriculumModule[] = [
             explanation: "Open-ended generation has vast stylistic variety; n-gram overlap metrics penalize valid creativity and paraphrasing.",
           },
         ],
-        relatedLab: "/labs/optimizer",
+        relatedLab: "/labs/optimize",
         notesMarkdown:
           "### BLEU, ROUGE, and BERTScore\n\n- **BLEU**: Precision-focused n-gram overlap with brevity penalty.\n- **ROUGE**: Recall-focused evaluation standard for summarization.\n- **BERTScore**: Modern embedding-based semantic similarity.",
       },
       {
         id: "mod-05-les-06",
         title: "Hallucination detection",
-        youtubeId: "",
-        status: "slot",
-        videos: [],
+        youtubeId: "xsDNArrmyuo",
+        status: "ok",
+        videos: [
+          {
+            id: "xsDNArrmyuo",
+            title: "LLM Chronicles #6.6: Hallucination Detection and Evaluation for RAG systems (RAGAS, Lynx)",
+            channel: "Donato Capitella",
+            minutes: 14,
+            covers: ["Hallucination detection", "Measuring response quality"],
+            role: "core",
+            status: "ok",
+            source: "external",
+            thumbnailUrl: "https://i.ytimg.com/vi/xsDNArrmyuo/hqdefault.jpg",
+          },
+        ],
         chapters: [
-          { time: 0, label: "Taxonomy of Hallucinations: Intrinsic vs Extrinsic" },
-          { time: 260, label: "Automated Claim Extraction and Verification" },
-          { time: 510, label: "RAGAS, TruLens, and G-Eval Pipelines" },
+          { time: 0, label: "Root Causes of LLM Hallucination" },
+          { time: 180, label: "Measuring Faithfulness & Groundedness" },
+          { time: 380, label: "Automated Evaluation with RAGAS" },
+          { time: 560, label: "Lynx & Specialized Guardrail Models" },
         ],
         summary:
-          "Master automated hallucination detection. Learn to decompose LLM responses into atomic factual claims, verify claims against source context, and compute Faithfulness scores using frameworks like RAGAS. (Video coming soon in next curriculum release).",
+          "Master automated hallucination detection. Learn to decompose LLM responses into atomic factual claims, verify claims against source context, and compute Faithfulness scores using frameworks like RAGAS and specialized evaluators.",
         keyConcepts: [
           "Intrinsic vs Extrinsic Hallucinations",
           "Atomic Claim Decomposition",
@@ -1058,7 +1084,7 @@ export const M4_M6: CurriculumModule[] = [
             explanation: "Giving the model an explicit, permitted refusal path prevents it from filling knowledge gaps with plausibly fabricated text.",
           },
         ],
-        relatedLab: "/labs/optimizer",
+        relatedLab: "/labs/optimize",
         notesMarkdown:
           "### Hallucination Detection\n\nHallucination detection decomposes generated text into verifiable atomic assertions. Automated pipelines score outputs against source grounding data, catching fabrications before they reach users.",
       },
@@ -1270,7 +1296,7 @@ export const M4_M6: CurriculumModule[] = [
             explanation: "Spatial framing primes attention heads toward the specific image patches containing the target detail.",
           },
         ],
-        relatedLab: "/labs/arena",
+        relatedLab: "/arena",
         notesMarkdown:
           "### Intro to Multi-Model Prompting\n\nMultimodal models expand generative AI beyond text. By projecting visual patches directly into token embedding space, models perform visual reasoning, document parsing, and chart extraction natively.",
       },
@@ -1369,7 +1395,7 @@ export const M4_M6: CurriculumModule[] = [
             explanation: "Passing multiple images in the message array enables visual diffing, before/after analysis, and design comparisons.",
           },
         ],
-        relatedLab: "/labs/arena",
+        relatedLab: "/arena",
         notesMarkdown:
           "### Text + Image Prompts\n\nComposite prompts combine visual assets with instructional guidance. Applications range from automated invoice processing to translating sketches directly into functional user interface code.",
       },
@@ -1468,7 +1494,7 @@ export const M4_M6: CurriculumModule[] = [
             explanation: "Different model families have distinct training data distributions; consensus voting filters out individual model hallucinations.",
           },
         ],
-        relatedLab: "/labs/arena",
+        relatedLab: "/arena",
         notesMarkdown:
           "### Cross-Model AI Interaction\n\nNo single model dominates all domains. Real-world systems route tasks dynamically: lightweight models classify and filter, vision models transcribe, and frontier models tackle complex reasoning.",
       },

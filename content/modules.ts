@@ -879,7 +879,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Confidently implement zero-shot, few-shot, chain-of-thought, and persona-driven prompts to achieve robust, high-fidelity results across diverse reasoning tasks.",
     "duration": "75 mins",
     "lessonCount": 8,
-    "videoCount": 4,
+    "videoCount": 5,
     "level": "Foundational",
     "tags": [
       "Zero-Shot",
@@ -1544,9 +1544,22 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-02-les-06",
         "title": "Role based",
-        "youtubeId": "Cu8QvodkjpU",
-        "status": "unavailable",
+        "youtubeId": "cnww-CvDoRk",
+        "status": "ok",
         "videos": [
+          {
+            "id": "cnww-CvDoRk",
+            "title": "Advanced Prompt Engineering Techniques",
+            "channel": "Sai Ram Penjarla",
+            "minutes": 12,
+            "covers": [
+              "Role based"
+            ],
+            "role": "core",
+            "status": "ok",
+            "source": "external",
+            "thumbnailUrl": "https://i.ytimg.com/vi/cnww-CvDoRk/hqdefault.jpg"
+          },
           {
             "id": "Cu8QvodkjpU",
             "title": "Meta Reveals 7 Prompt Techniques",
@@ -1559,21 +1572,22 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "role": "optional",
             "status": "unavailable",
-            "source": "external"
+            "source": "external",
+            "thumbnailUrl": "https://i.ytimg.com/vi/Cu8QvodkjpU/hqdefault.jpg"
           }
         ],
         "chapters": [
           {
             "time": 0,
-            "label": "Psychological Priming of Foundation Models"
+            "label": "Role Framing & Expert Priming"
           },
           {
             "time": 240,
-            "label": "Target Audience and Expertise Calibration"
+            "label": "Target Audience & Vocabulary Calibration"
           },
           {
             "time": 480,
-            "label": "Avoiding Caricatures in Role Definition"
+            "label": "Avoiding Decorative Fluff in Role Prompts"
           }
         ],
         "summary": "Harness role-based prompt engineering to calibrate technical depth, vocabulary, and perspective. (Video currently unavailable due to provider privacy; explore the comprehensive notes and challenge below).",
@@ -2665,7 +2679,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "The assistant role models past AI outputs, ensuring subsequent completions remain coherent with previous statements."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Multi-Turn Conversations\n\nStateless LLMs maintain dialogue continuity through sequential message accumulation. Engineering scalable chat requires intelligent context window pruning, sliding windows, and running summaries."
       },
       {
@@ -2758,7 +2772,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Each sequential hop adds network round-trip and generation latency, requiring careful caching and selective chaining."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Prompt Chaining and Pipelines\n\nPrompt chaining transforms prompt engineering from static text generation into modular software engineering. Chaining enables specialized prompt nodes, validation gates, and conditional branch routing."
       },
       {
@@ -2865,7 +2879,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Structured list representations enable the model's attention heads to parse individual entities cleanly without boundary bleed."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Dynamic Prompt Templates\n\nPrompt templates parameterize interactions. Rather than hardcoding strings, template engines separate static instructional frameworks from dynamic runtime variables."
       }
     ]
@@ -2885,7 +2899,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Design quantitative evaluation suites and continuous optimization pipelines that track prompt accuracy, latency, cost, and hallucination rates across model iterations.",
     "duration": "60 mins",
     "lessonCount": 6,
-    "videoCount": 2,
+    "videoCount": 4,
     "level": "Core",
     "tags": [
       "Evaluations",
@@ -3074,7 +3088,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Lengthy additions increase cost and latency; optimizing for accuracy while preserving brevity is the engineering goal."
           }
         ],
-        "relatedLab": "/labs/optimizer",
+        "relatedLab": "/labs/optimize",
         "notesMarkdown": "### Iterative Refinement\n\nPrompt engineering without evaluations is guessing. Systematic iteration runs prompt candidates against curated test suites, calculating pass rates and measuring regressions before shipping to production."
       },
       {
@@ -3182,7 +3196,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Calculating alignment between automated judges and human experts validates that the evaluation suite reflects real-world quality."
           }
         ],
-        "relatedLab": "/labs/optimizer",
+        "relatedLab": "/labs/optimize",
         "notesMarkdown": "### Measuring Response Quality\n\nQuality is multi-faceted. Reliable evaluation separates correctness, relevance, tone, and safety into discrete measurable dimensions rather than a single vague score."
       },
       {
@@ -3290,7 +3304,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "TPS quantifies how many output tokens the decoder generates per second during autoregressive streaming."
           }
         ],
-        "relatedLab": "/labs/optimizer",
+        "relatedLab": "/labs/optimize",
         "notesMarkdown": "### Performance Evaluation\n\nPrompt engineering is bounded by operational reality. Evaluating prompts requires tracking accuracy alongside latency (TTFT, TPS) and token costs across the production lifecycle."
       },
       {
@@ -3397,30 +3411,49 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Provider model updates can degrade bespoke manual prompts; automated pipelines adapt instructions to model drift."
           }
         ],
-        "relatedLab": "/labs/optimizer",
+        "relatedLab": "/labs/optimize",
         "notesMarkdown": "### Prompt Tuning Fundamentals\n\nPrompt tuning bridges manual wordsmithing and automated machine learning. Understanding sampling hyperparameters (temperature, top_p) and programmatic optimizers (DSPy) allows engineers to maximize consistency."
       },
       {
         "id": "mod-05-les-05",
         "title": "BLEU, ROUGE, BERTScore",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "RTaZqGflrJ8",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "RTaZqGflrJ8",
+            "title": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+            "channel": "AI Academy",
+            "minutes": 9,
+            "covers": [
+              "BLEU, ROUGE, BERTScore",
+              "Performance evaluation"
+            ],
+            "role": "core",
+            "status": "ok",
+            "source": "external",
+            "thumbnailUrl": "https://i.ytimg.com/vi/RTaZqGflrJ8/hqdefault.jpg"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
             "label": "Mathematical Foundations of Precision vs Recall in Text"
           },
           {
-            "time": 240,
+            "time": 140,
             "label": "BLEU (Machine Translation) and ROUGE (Summarization)"
           },
           {
-            "time": 480,
-            "label": "BERTScore: Embedding Cosine Similarity"
+            "time": 290,
+            "label": "BERTScore: Semantic Cosine Similarity via Embeddings"
+          },
+          {
+            "time": 420,
+            "label": "Evaluating Open-Ended vs Deterministic LLM Outputs"
           }
         ],
-        "summary": "Deep-dive into quantitative evaluation metrics. Learn the mathematical formulations of BLEU (precision-oriented), ROUGE (recall-oriented), and BERTScore (semantic similarity). (Video coming soon in next curriculum release).",
+        "summary": "Deep-dive into quantitative evaluation metrics. Learn the mathematical formulations of BLEU (precision-oriented), ROUGE (recall-oriented), and BERTScore (semantic similarity). Master automated evaluation benchmarks across engineering pipelines.",
         "keyConcepts": [
           "BLEU (Bilingual Evaluation Understudy) N-gram Precision",
           "ROUGE (Recall-Oriented Understudy for Gisting Evaluation)",
@@ -3490,30 +3523,49 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Open-ended generation has vast stylistic variety; n-gram overlap metrics penalize valid creativity and paraphrasing."
           }
         ],
-        "relatedLab": "/labs/optimizer",
+        "relatedLab": "/labs/optimize",
         "notesMarkdown": "### BLEU, ROUGE, and BERTScore\n\n- **BLEU**: Precision-focused n-gram overlap with brevity penalty.\n- **ROUGE**: Recall-focused evaluation standard for summarization.\n- **BERTScore**: Modern embedding-based semantic similarity."
       },
       {
         "id": "mod-05-les-06",
         "title": "Hallucination detection",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "xsDNArrmyuo",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "xsDNArrmyuo",
+            "title": "LLM Chronicles #6.6: Hallucination Detection and Evaluation for RAG systems (RAGAS, Lynx)",
+            "channel": "Donato Capitella",
+            "minutes": 14,
+            "covers": [
+              "Hallucination detection",
+              "Measuring response quality"
+            ],
+            "role": "core",
+            "status": "ok",
+            "source": "external",
+            "thumbnailUrl": "https://i.ytimg.com/vi/xsDNArrmyuo/hqdefault.jpg"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
-            "label": "Taxonomy of Hallucinations: Intrinsic vs Extrinsic"
+            "label": "Root Causes of LLM Hallucination"
           },
           {
-            "time": 260,
-            "label": "Automated Claim Extraction and Verification"
+            "time": 180,
+            "label": "Measuring Faithfulness & Groundedness"
           },
           {
-            "time": 510,
-            "label": "RAGAS, TruLens, and G-Eval Pipelines"
+            "time": 380,
+            "label": "Automated Evaluation with RAGAS"
+          },
+          {
+            "time": 560,
+            "label": "Lynx & Specialized Guardrail Models"
           }
         ],
-        "summary": "Master automated hallucination detection. Learn to decompose LLM responses into atomic factual claims, verify claims against source context, and compute Faithfulness scores using frameworks like RAGAS. (Video coming soon in next curriculum release).",
+        "summary": "Master automated hallucination detection. Learn to decompose LLM responses into atomic factual claims, verify claims against source context, and compute Faithfulness scores using frameworks like RAGAS and specialized evaluators.",
         "keyConcepts": [
           "Intrinsic vs Extrinsic Hallucinations",
           "Atomic Claim Decomposition",
@@ -3583,7 +3635,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Giving the model an explicit, permitted refusal path prevents it from filling knowledge gaps with plausibly fabricated text."
           }
         ],
-        "relatedLab": "/labs/optimizer",
+        "relatedLab": "/labs/optimize",
         "notesMarkdown": "### Hallucination Detection\n\nHallucination detection decomposes generated text into verifiable atomic assertions. Automated pipelines score outputs against source grounding data, catching fabrications before they reach users."
       }
     ]
@@ -3804,7 +3856,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Spatial framing primes attention heads toward the specific image patches containing the target detail."
           }
         ],
-        "relatedLab": "/labs/arena",
+        "relatedLab": "/arena",
         "notesMarkdown": "### Intro to Multi-Model Prompting\n\nMultimodal models expand generative AI beyond text. By projecting visual patches directly into token embedding space, models perform visual reasoning, document parsing, and chart extraction natively."
       },
       {
@@ -3911,7 +3963,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Passing multiple images in the message array enables visual diffing, before/after analysis, and design comparisons."
           }
         ],
-        "relatedLab": "/labs/arena",
+        "relatedLab": "/arena",
         "notesMarkdown": "### Text + Image Prompts\n\nComposite prompts combine visual assets with instructional guidance. Applications range from automated invoice processing to translating sketches directly into functional user interface code."
       },
       {
@@ -4018,7 +4070,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Different model families have distinct training data distributions; consensus voting filters out individual model hallucinations."
           }
         ],
-        "relatedLab": "/labs/arena",
+        "relatedLab": "/arena",
         "notesMarkdown": "### Cross-Model AI Interaction\n\nNo single model dominates all domains. Real-world systems route tasks dynamically: lightweight models classify and filter, vision models transcribe, and frontier models tackle complex reasoning."
       }
     ]
@@ -4239,7 +4291,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Feeding API error descriptions into the tool response message allows the LLM to explain the problem or retry gracefully."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### API-Based Prompting\n\nAPI-based prompting connects neural models to external web services. The prompt acts as an intelligent compiler, translating messy human intent into deterministic API payloads."
       },
       {
@@ -4346,7 +4398,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "LLM outputs must be treated as untrusted user input; validating arguments against strict schemas before execution is mandatory."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Function Calling\n\nFunction calling turns generative models into programmatic controllers. By pairing natural language understanding with formal JSON schemas, LLMs reliably trigger deterministic backend operations."
       },
       {
@@ -4466,7 +4518,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Graceful error propagation allows the model to reason about the failure and attempt recovery."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Plug-in Tool Integration\n\nPlugins extend LLMs to internal enterprise systems. Secure plugin architectures enforce sandboxing, granular permissioning, and human confirmation gates for sensitive actions."
       },
       {
@@ -4585,7 +4637,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Citation prompting anchors token generation directly to the source text chunks, significantly curtailing ungrounded fabrications."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Retrieval Augmented Generation (RAG)\n\nRAG combines retrieval systems with generative foundation models. By fetching relevant document chunks from a vector database and injecting them into the prompt, RAG achieves factual accuracy on proprietary data."
       }
     ]
@@ -4605,7 +4657,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Identify adversarial prompt injection vectors, audit applications for indirect data poisoning, and implement robust defense-in-depth guardrails.",
     "duration": "60 mins",
     "lessonCount": 4,
-    "videoCount": 3,
+    "videoCount": 4,
     "level": "Advanced",
     "tags": [
       "Security",
@@ -4806,30 +4858,48 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "No single magic prompt stops all attacks; defense-in-depth across input scanning, structural isolation, and tool restrictions is essential."
           }
         ],
-        "relatedLab": "/labs/security",
+        "relatedLab": "/arena",
         "notesMarkdown": "### Prompt Injection\n\nPrompt injection represents the #1 vulnerability on the OWASP Top 10 for LLMs. Because models process instructions and data within a single stream, untrusted text can commandeer model behavior unless guarded by architectural boundaries."
       },
       {
         "id": "mod-08-les-02",
         "title": "Jailbreak techniques",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "zn2ukSnDqSg",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "zn2ukSnDqSg",
+            "title": "ChatGPT Jailbreak - Computerphile",
+            "channel": "Computerphile",
+            "minutes": 11,
+            "covers": [
+              "Jailbreak techniques"
+            ],
+            "role": "core",
+            "status": "ok",
+            "source": "external",
+            "thumbnailUrl": "https://i.ytimg.com/vi/zn2ukSnDqSg/hqdefault.jpg"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
-            "label": "Alignment vs Jailbreak: The Adversarial Arms Race"
+            "label": "DAN & Persona Overrides: The Anatomy of Jailbreaks"
           },
           {
-            "time": 240,
-            "label": "Roleplay, Hypotheticals, and Fictional Framing"
+            "time": 130,
+            "label": "System Prompt Extraction vs Safety Alignment"
           },
           {
-            "time": 480,
-            "label": "Token Smuggling, Base64, and Multi-Language Attacks"
+            "time": 290,
+            "label": "Hypothetical Scenario Framing & Suffix Injections"
+          },
+          {
+            "time": 470,
+            "label": "Defense In-Depth: Input Filtering & Output Scanners"
           }
         ],
-        "summary": "Analyze jailbreak taxonomies and adversarial coercion strategies. Learn how attackers exploit hypothetical framing, character roleplay (DAN), and token obfuscation to subvert safety alignment. (Video coming soon in next curriculum release).",
+        "summary": "Analyze jailbreak taxonomies and adversarial coercion strategies. Learn how attackers exploit hypothetical framing, character roleplay (DAN), and token obfuscation to subvert safety alignment.",
         "keyConcepts": [
           "Jailbreak Taxonomies & Adversarial Framing",
           "Token Smuggling & Base64/Cipher Obfuscation",
@@ -4899,7 +4969,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Continuous red-teaming and dedicated guardrail models (like Llama Guard) evaluate safety independently from the generative model."
           }
         ],
-        "relatedLab": "/labs/security",
+        "relatedLab": "/arena",
         "notesMarkdown": "### Jailbreak Techniques\n\nJailbreaking exploits discrepancies between pre-trained capabilities and post-trained alignment. Understanding adversarial techniques—from roleplay personas to token smuggling—is crucial for engineering resilient defenses."
       },
       {
@@ -5020,7 +5090,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Restricting tool capabilities ensures that even if a prompt is subverted, the attacker cannot execute catastrophic actions."
           }
         ],
-        "relatedLab": "/labs/security",
+        "relatedLab": "/arena",
         "notesMarkdown": "### Mitigation Strategies\n\nSecurity is an engineering discipline. Defending LLM applications requires defense-in-depth: input classifiers, structured delimitations, secret canaries, output filtering, and strict privilege sandboxing."
       },
       {
@@ -5128,7 +5198,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Threat modeling identifies attack surfaces (direct injection, indirect RAG poisoning, exfiltration) so targeted defenses can be constructed."
           }
         ],
-        "relatedLab": "/labs/security",
+        "relatedLab": "/arena",
         "notesMarkdown": "### Safe Prompt Design\n\nSafe prompt design is proactive defensive architecture. By structuring prompts with clear fences, deterministic refusal codes, and boundary reinforcements, engineers harden systems against emerging threats."
       }
     ]
@@ -5347,7 +5417,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "LLMs generate plausible-looking code that may hallucinate methods or miss boundary checks; automated testing is essential."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Coding Prompts\n\nPrompt engineering for software development requires technical precision. Grounding prompts with framework versions, typing requirements, and test-driven specifications produces robust code."
       },
       {
@@ -5440,7 +5510,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "A supportive, non-judgmental tone builds student psychological safety, encouraging questions and error exploration."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Education and Tutoring\n\nEffective AI tutors do not simply spit out answers. Grounded in pedagogical theory (ZPD, scaffolding), prompt-driven tutors guide learners through active inquiry and concept verification."
       },
       {
@@ -5533,7 +5603,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Enterprise APIs provide zero-data-retention (ZDR) guarantees, ensuring proprietary documents remain private and un-trained."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Business Automation\n\nEnterprise automation demands determinism. By turning messy invoices, contracts, and emails into strictly verified data records, prompt engineering unlocks automated back-office workflows."
       },
       {
@@ -5626,7 +5696,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Meta-synthesis extracts overarching patterns across heterogeneous studies to reveal consensus and controversy in a field."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Research Assistance\n\nPrompt engineering accelerates scientific discovery when coupled with rigorous evidentiary grounding. Researchers use LLMs for literature indexing, study comparisons, and hypothesis stress-testing."
       }
     ]
@@ -5646,7 +5716,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Implement Tree-of-Thoughts search algorithms, construct autonomous ReAct reasoning loops, and automate prompt discovery using optimization frameworks.",
     "duration": "70 mins",
     "lessonCount": 5,
-    "videoCount": 2,
+    "videoCount": 3,
     "level": "Specialized",
     "tags": [
       "Tree-of-Thoughts",
@@ -6131,24 +6201,43 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-10-les-05",
         "title": "APE",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "uDIW34h8cmM",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "uDIW34h8cmM",
+            "title": "Prompt Engineering Guide - From Beginner to Advanced",
+            "channel": "Matthew Berman",
+            "minutes": 20,
+            "covers": [
+              "APE",
+              "Expert prompting"
+            ],
+            "role": "core",
+            "status": "ok",
+            "source": "external",
+            "thumbnailUrl": "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
-            "label": "Automatic Prompt Engineer: Program Synthesis Formulation"
+            "label": "Automatic Prompt Generation & Exploration"
           },
           {
             "time": 240,
-            "label": "Candidate Generation, Scoring, and Resampling"
+            "label": "Iterative Scoring & Candidate Selection"
           },
           {
-            "time": 480,
-            "label": "Evolutionary and Genetic Algorithms for Prompt Search"
+            "time": 510,
+            "label": "APE in Autonomous Agent Systems"
+          },
+          {
+            "time": 820,
+            "label": "Production Best Practices"
           }
         ],
-        "summary": "Explore Automatic Prompt Engineer (APE). Learn how to treat natural language prompts as programs to be synthesized, evaluated, and optimized automatically by foundation models using score-guided search. (Video coming soon in next curriculum release).",
+        "summary": "Explore Automatic Prompt Engineer (APE). Learn how to treat natural language prompts as programs to be synthesized, evaluated, and optimized automatically by foundation models using score-guided search.",
         "keyConcepts": [
           "APE Program Synthesis Formulation",
           "Score-Guided Prompt Optimization",
@@ -6234,7 +6323,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Architect autonomous agentic workflows, design stateful memory architectures, connect tools via Model Context Protocol (MCP), and build resilient Agentic RAG pipelines.",
     "duration": "75 mins",
     "lessonCount": 5,
-    "videoCount": 5,
+    "videoCount": 6,
     "level": "Specialized",
     "tags": [
       "Agents",
@@ -6423,30 +6512,48 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Human-in-the-loop oversight prevents autonomous misfires on irreversible or safety-critical operations."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Agent Loops (Plan, Act, Observe)\n\nAutonomous agents transcend single-turn prompting. By looping through planning, tool execution, and environmental observation, agents solve complex, multi-step real-world objectives."
       },
       {
         "id": "mod-11-les-02",
         "title": "Context windows and context engineering vs prompt engineering",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "vD0E3EUb8-8",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "vD0E3EUb8-8",
+            "title": "Context Engineering vs. Prompt Engineering: Smarter AI with RAG & Agents",
+            "channel": "IBM Technology",
+            "minutes": 6,
+            "covers": [
+              "Context windows and context engineering vs prompt engineering"
+            ],
+            "role": "core",
+            "status": "ok",
+            "source": "external",
+            "thumbnailUrl": "https://i.ytimg.com/vi/vD0E3EUb8-8/hqdefault.jpg"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
-            "label": "The Shift: From Prompt Engineering to Context Engineering"
+            "label": "What the Model Sees vs How You Ask"
           },
           {
-            "time": 240,
-            "label": "Context Window Economics, Latency, and KV-Cache Hits"
+            "time": 90,
+            "label": "Context Rot & The Lost in the Middle Problem"
           },
           {
-            "time": 480,
-            "label": "Dynamic Context Pruning and Information Density"
+            "time": 195,
+            "label": "Dynamic Context Windows: RAG & Tool State"
+          },
+          {
+            "time": 280,
+            "label": "Context Engineering Architecture for Agents"
           }
         ],
-        "summary": "Understand the paradigm shift from Prompt Engineering to Context Engineering. Learn how to architect, optimize, cache, and prune the holistic context window across multi-session agent workflows. (Video coming soon in next curriculum release).",
+        "summary": "Understand the paradigm shift from Prompt Engineering to Context Engineering. Learn how to architect, optimize, cache, and prune the holistic context window across multi-session agent workflows.",
         "keyConcepts": [
           "Holistic Context Architecture",
           "KV-Cache Friendly Context Layouts",
@@ -6516,7 +6623,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Active eviction keeps the working context lean, reducing cost and preventing distraction from resolved tasks."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Context Engineering vs Prompt Engineering\n\nPrompt engineering asks: 'What words should I use?' Context engineering asks: 'What information should enter the context window, how should it be structured, what can be cached, and what must be evicted?'"
       },
       {
@@ -6636,7 +6743,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Working memory is the immediate scratchpad space available within the active context window for the current execution step."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Memory and Tool Protocols\n\nAgents without memory are amnesiacs. By separating working memory (context window), episodic memory (interaction history), and semantic memory (knowledge graphs), agents deliver persistent, personalized utility."
       },
       {
@@ -6757,7 +6864,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "The MCP Host is the client application that discovers servers, negotiates capabilities, and provides tools to the model."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Model Context Protocol (MCP)\n\nMCP establishes an open standard for AI extensibility. By decoupling AI applications (hosts) from tool providers (servers) via JSON-RPC, developers build tool integrations once that work across all compliant AI environments."
       },
       {
@@ -6876,7 +6983,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Iterative query expansion and self-reflection loops require multiple LLM calls, accumulating latency and token costs."
           }
         ],
-        "relatedLab": "/labs/workflow",
+        "relatedLab": "/workflow",
         "notesMarkdown": "### Agentic RAG\n\nStatic RAG pipelines fail when queries are ambiguous or multi-faceted. Agentic RAG introduces autonomy: evaluating retrieved documents, reformulating queries, and coordinating multi-hop information synthesis."
       }
     ]
@@ -6892,7 +6999,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Evaluate architectural trade-offs between prompting, RAG, and fine-tuning, establish CI/CD prompt regression pipelines, optimize production caching and cost controls, and implement responsible AI governance guardrails.",
     "duration": "65 mins",
     "lessonCount": 5,
-    "videoCount": 3,
+    "videoCount": 5,
     "level": "Specialized",
     "tags": [
       "Production",
@@ -6980,9 +7087,22 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-12-les-01",
         "title": "Prompting vs RAG vs fine-tuning",
-        "youtubeId": "HdafI0t3sEY",
+        "youtubeId": "0A4zaEuRmig",
         "status": "ok",
         "videos": [
+          {
+            "id": "0A4zaEuRmig",
+            "title": "Prompt vs RAG vs Fine-Tuning — What’s the Difference?",
+            "channel": "Analytics Vidhya",
+            "minutes": 12,
+            "covers": [
+              "Prompting vs RAG vs fine-tuning"
+            ],
+            "role": "core",
+            "status": "ok",
+            "source": "external",
+            "thumbnailUrl": "https://i.ytimg.com/vi/0A4zaEuRmig/hqdefault.jpg"
+          },
           {
             "id": "HdafI0t3sEY",
             "title": "RAG vs. CAG: Solving Knowledge Gaps in AI Models",
@@ -6994,7 +7114,21 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "role": "core",
             "status": "ok",
-            "source": "external"
+            "source": "external",
+            "thumbnailUrl": "https://i.ytimg.com/vi/HdafI0t3sEY/hqdefault.jpg"
+          },
+          {
+            "id": "o9jz04bIW0E",
+            "title": "LLM Fine Tuning Tutorial (Free Labs)",
+            "channel": "KodeKloud",
+            "minutes": 24,
+            "covers": [
+              "Prompting vs RAG vs fine-tuning"
+            ],
+            "role": "optional",
+            "status": "ok",
+            "source": "external",
+            "thumbnailUrl": "https://i.ytimg.com/vi/o9jz04bIW0E/hqdefault.jpg"
           },
           {
             "id": "7xTGNNLPyMI",
@@ -7007,21 +7141,26 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "role": "optional",
             "status": "ok",
-            "source": "external"
+            "source": "external",
+            "thumbnailUrl": "https://i.ytimg.com/vi/7xTGNNLPyMI/hqdefault.jpg"
           }
         ],
         "chapters": [
           {
             "time": 0,
-            "label": "The Architectural Decision Matrix"
+            "label": "The Triad: Prompting vs RAG vs Fine-Tuning"
           },
           {
-            "time": 270,
-            "label": "RAG for Knowledge vs Fine-Tuning for Form"
+            "time": 180,
+            "label": "When to Prompt: Zero-Shot to Few-Shot"
           },
           {
-            "time": 540,
-            "label": "Hybrid Architectures: RAG + Fine-Tuned Domain Adapters"
+            "time": 390,
+            "label": "When to RAG: Dynamic External Knowledge"
+          },
+          {
+            "time": 580,
+            "label": "When to Fine-Tune: Form, Style, and Syntax Adaptation"
           }
         ],
         "summary": "Master the architectural decision matrix between Prompt Engineering, Retrieval-Augmented Generation, and Supervised Fine-Tuning. Learn when to use in-context prompting, when to index external data, and when to fine-tune weights.",
@@ -7094,7 +7233,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "In-context prompt engineering can be authored and tested in minutes without training runs or database setup."
           }
         ],
-        "relatedLab": "/labs/optimizer",
+        "relatedLab": "/labs/optimize",
         "notesMarkdown": "### Prompting vs RAG vs Fine-Tuning\n\n- **Prompting**: Fast, zero-infrastructure steering of general capabilities.\n- **RAG**: Dynamic injection of private, frequently changing knowledge.\n- **Fine-Tuning**: Deep conditioning of style, syntax, and specialized behavioral form."
       },
       {
@@ -7202,7 +7341,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Sampling a statistical subset provides representative quality metrics while capping secondary evaluation token costs."
           }
         ],
-        "relatedLab": "/labs/optimizer",
+        "relatedLab": "/labs/optimize",
         "notesMarkdown": "### LLM-as-a-Judge in Production\n\nAutomated judging transforms production monitoring from lagging user complaints to proactive real-time alerting. Auditing shadow traffic with unbiased rubrics ensures quality at scale."
       },
       {
@@ -7295,7 +7434,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Pairing code commits with evaluation scorecards establishes an immutable historical record of quality."
           }
         ],
-        "relatedLab": "/labs/optimizer",
+        "relatedLab": "/labs/optimize",
         "notesMarkdown": "### Prompt Versioning and Regression Tests\n\nProduction prompts are software artifacts. Integrating prompts into GitOps workflows with automated regression gates ensures that deployments are safe, reproducible, and verifiable."
       },
       {
@@ -7402,7 +7541,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Setting a conservative `max_tokens` cap stops runaway generation from exhausting budgets."
           }
         ],
-        "relatedLab": "/labs/optimizer",
+        "relatedLab": "/labs/optimize",
         "notesMarkdown": "### Guardrails, Cost, Latency, and Caching\n\nOperational engineering is the backbone of production AI. Implementing strict rate limits, daily hard stops, semantic caching, and prefix reuse ensures reliability and cost sustainability."
       },
       {
@@ -7509,7 +7648,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "explanation": "Transparency ensures users know when they are interacting with AI, and watermarking tracks synthetic media provenance."
           }
         ],
-        "relatedLab": "/labs/optimizer",
+        "relatedLab": "/labs/optimize",
         "notesMarkdown": "### Bias, Safety, and Governance\n\nAI without governance is a liability. Responsible prompt engineering audits for demographic fairness, implements safety boundaries, and complies with legal and ethical standards."
       }
     ]

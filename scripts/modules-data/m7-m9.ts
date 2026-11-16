@@ -206,7 +206,7 @@ export const M7_M9: CurriculumModule[] = [
             explanation: "Feeding API error descriptions into the tool response message allows the LLM to explain the problem or retry gracefully.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### API-Based Prompting\n\nAPI-based prompting connects neural models to external web services. The prompt acts as an intelligent compiler, translating messy human intent into deterministic API payloads.",
       },
@@ -305,7 +305,7 @@ export const M7_M9: CurriculumModule[] = [
             explanation: "LLM outputs must be treated as untrusted user input; validating arguments against strict schemas before execution is mandatory.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Function Calling\n\nFunction calling turns generative models into programmatic controllers. By pairing natural language understanding with formal JSON schemas, LLMs reliably trigger deterministic backend operations.",
       },
@@ -414,7 +414,7 @@ export const M7_M9: CurriculumModule[] = [
             explanation: "Graceful error propagation allows the model to reason about the failure and attempt recovery.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Plug-in Tool Integration\n\nPlugins extend LLMs to internal enterprise systems. Secure plugin architectures enforce sandboxing, granular permissioning, and human confirmation gates for sensitive actions.",
       },
@@ -523,7 +523,7 @@ export const M7_M9: CurriculumModule[] = [
             explanation: "Citation prompting anchors token generation directly to the source text chunks, significantly curtailing ungrounded fabrications.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Retrieval Augmented Generation (RAG)\n\nRAG combines retrieval systems with generative foundation models. By fetching relevant document chunks from a vector database and injecting them into the prompt, RAG achieves factual accuracy on proprietary data.",
       },
@@ -735,23 +735,36 @@ export const M7_M9: CurriculumModule[] = [
             explanation: "No single magic prompt stops all attacks; defense-in-depth across input scanning, structural isolation, and tool restrictions is essential.",
           },
         ],
-        relatedLab: "/labs/security",
+        relatedLab: "/arena",
         notesMarkdown:
           "### Prompt Injection\n\nPrompt injection represents the #1 vulnerability on the OWASP Top 10 for LLMs. Because models process instructions and data within a single stream, untrusted text can commandeer model behavior unless guarded by architectural boundaries.",
       },
       {
         id: "mod-08-les-02",
         title: "Jailbreak techniques",
-        youtubeId: "",
-        status: "slot",
-        videos: [],
+        youtubeId: "zn2ukSnDqSg",
+        status: "ok",
+        videos: [
+          {
+            id: "zn2ukSnDqSg",
+            title: "ChatGPT Jailbreak - Computerphile",
+            channel: "Computerphile",
+            minutes: 11,
+            covers: ["Jailbreak techniques"],
+            role: "core",
+            status: "ok",
+            source: "external",
+            thumbnailUrl: "https://i.ytimg.com/vi/zn2ukSnDqSg/hqdefault.jpg",
+          },
+        ],
         chapters: [
-          { time: 0, label: "Alignment vs Jailbreak: The Adversarial Arms Race" },
-          { time: 240, label: "Roleplay, Hypotheticals, and Fictional Framing" },
-          { time: 480, label: "Token Smuggling, Base64, and Multi-Language Attacks" },
+          { time: 0, label: "DAN & Persona Overrides: The Anatomy of Jailbreaks" },
+          { time: 130, label: "System Prompt Extraction vs Safety Alignment" },
+          { time: 290, label: "Hypothetical Scenario Framing & Suffix Injections" },
+          { time: 470, label: "Defense In-Depth: Input Filtering & Output Scanners" },
         ],
         summary:
-          "Analyze jailbreak taxonomies and adversarial coercion strategies. Learn how attackers exploit hypothetical framing, character roleplay (DAN), and token obfuscation to subvert safety alignment. (Video coming soon in next curriculum release).",
+          "Analyze jailbreak taxonomies and adversarial coercion strategies. Learn how attackers exploit hypothetical framing, character roleplay (DAN), and token obfuscation to subvert safety alignment.",
         keyConcepts: [
           "Jailbreak Taxonomies & Adversarial Framing",
           "Token Smuggling & Base64/Cipher Obfuscation",
@@ -823,7 +836,7 @@ export const M7_M9: CurriculumModule[] = [
             explanation: "Continuous red-teaming and dedicated guardrail models (like Llama Guard) evaluate safety independently from the generative model.",
           },
         ],
-        relatedLab: "/labs/security",
+        relatedLab: "/arena",
         notesMarkdown:
           "### Jailbreak Techniques\n\nJailbreaking exploits discrepancies between pre-trained capabilities and post-trained alignment. Understanding adversarial techniques—from roleplay personas to token smuggling—is crucial for engineering resilient defenses.",
       },
@@ -932,7 +945,7 @@ export const M7_M9: CurriculumModule[] = [
             explanation: "Restricting tool capabilities ensures that even if a prompt is subverted, the attacker cannot execute catastrophic actions.",
           },
         ],
-        relatedLab: "/labs/security",
+        relatedLab: "/arena",
         notesMarkdown:
           "### Mitigation Strategies\n\nSecurity is an engineering discipline. Defending LLM applications requires defense-in-depth: input classifiers, structured delimitations, secret canaries, output filtering, and strict privilege sandboxing.",
       },
@@ -1031,7 +1044,7 @@ export const M7_M9: CurriculumModule[] = [
             explanation: "Threat modeling identifies attack surfaces (direct injection, indirect RAG poisoning, exfiltration) so targeted defenses can be constructed.",
           },
         ],
-        relatedLab: "/labs/security",
+        relatedLab: "/arena",
         notesMarkdown:
           "### Safe Prompt Design\n\nSafe prompt design is proactive defensive architecture. By structuring prompts with clear fences, deterministic refusal codes, and boundary reinforcements, engineers harden systems against emerging threats.",
       },
@@ -1243,7 +1256,7 @@ export const M7_M9: CurriculumModule[] = [
             explanation: "LLMs generate plausible-looking code that may hallucinate methods or miss boundary checks; automated testing is essential.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Coding Prompts\n\nPrompt engineering for software development requires technical precision. Grounding prompts with framework versions, typing requirements, and test-driven specifications produces robust code.",
       },
@@ -1331,7 +1344,7 @@ export const M7_M9: CurriculumModule[] = [
             explanation: "A supportive, non-judgmental tone builds student psychological safety, encouraging questions and error exploration.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Education and Tutoring\n\nEffective AI tutors do not simply spit out answers. Grounded in pedagogical theory (ZPD, scaffolding), prompt-driven tutors guide learners through active inquiry and concept verification.",
       },
@@ -1419,7 +1432,7 @@ export const M7_M9: CurriculumModule[] = [
             explanation: "Enterprise APIs provide zero-data-retention (ZDR) guarantees, ensuring proprietary documents remain private and un-trained.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Business Automation\n\nEnterprise automation demands determinism. By turning messy invoices, contracts, and emails into strictly verified data records, prompt engineering unlocks automated back-office workflows.",
       },
@@ -1507,7 +1520,7 @@ export const M7_M9: CurriculumModule[] = [
             explanation: "Meta-synthesis extracts overarching patterns across heterogeneous studies to reveal consensus and controversy in a field.",
           },
         ],
-        relatedLab: "/labs/workflow",
+        relatedLab: "/workflow",
         notesMarkdown:
           "### Research Assistance\n\nPrompt engineering accelerates scientific discovery when coupled with rigorous evidentiary grounding. Researchers use LLMs for literature indexing, study comparisons, and hypothesis stress-testing.",
       },

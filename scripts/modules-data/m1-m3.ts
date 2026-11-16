@@ -1361,9 +1361,20 @@ export const M1_M3: CurriculumModule[] = [
       {
         id: "mod-02-les-06",
         title: "Role based",
-        youtubeId: "Cu8QvodkjpU",
-        status: "unavailable",
+        youtubeId: "cnww-CvDoRk",
+        status: "ok",
         videos: [
+          {
+            id: "cnww-CvDoRk",
+            title: "Advanced Prompt Engineering Techniques",
+            channel: "Sai Ram Penjarla",
+            minutes: 12,
+            covers: ["Role based"],
+            role: "core",
+            status: "ok",
+            source: "external",
+            thumbnailUrl: "https://i.ytimg.com/vi/cnww-CvDoRk/hqdefault.jpg",
+          },
           {
             id: "Cu8QvodkjpU",
             title: "Meta Reveals 7 Prompt Techniques",
@@ -1373,12 +1384,13 @@ export const M1_M3: CurriculumModule[] = [
             role: "optional",
             status: "unavailable",
             source: "external",
+            thumbnailUrl: "https://i.ytimg.com/vi/Cu8QvodkjpU/hqdefault.jpg",
           },
         ],
         chapters: [
-          { time: 0, label: "Psychological Priming of Foundation Models" },
-          { time: 240, label: "Target Audience and Expertise Calibration" },
-          { time: 480, label: "Avoiding Caricatures in Role Definition" },
+          { time: 0, label: "Role Framing & Expert Priming" },
+          { time: 240, label: "Target Audience & Vocabulary Calibration" },
+          { time: 480, label: "Avoiding Decorative Fluff in Role Prompts" },
         ],
         summary:
           "Harness role-based prompt engineering to calibrate technical depth, vocabulary, and perspective. (Video currently unavailable due to provider privacy; explore the comprehensive notes and challenge below).",
