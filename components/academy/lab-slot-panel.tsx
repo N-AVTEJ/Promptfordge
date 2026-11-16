@@ -15,6 +15,28 @@ export interface LabSlotPanelProps {
   customPrompt?: string;
 }
 
+function resolveLabTarget(relatedLab?: string): { href: string; label: string } {
+  if (!relatedLab) return { href: "/labs", label: "Labs Hub" };
+  const lab = relatedLab.toLowerCase().trim();
+
+  if (lab.includes("anatomy")) return { href: "/labs/anatomy", label: "Anatomy Lab" };
+  if (lab.includes("simulator") || lab.includes("llm-simulator"))
+    return { href: "/labs/llm-simulator", label: "Simulator Lab" };
+  if (lab.includes("compare")) return { href: "/labs/compare", label: "Comparison Lab" };
+  if (lab.includes("optimize") || lab.includes("optimizer"))
+    return { href: "/labs/optimize", label: "Optimizer Lab" };
+  if (lab.includes("reasoning")) return { href: "/labs/reasoning", label: "Reasoning Lab" };
+  if (lab.includes("workflow")) return { href: "/workflow", label: "Workflow Builder" };
+  if (lab.includes("security") || lab.includes("arena"))
+    return { href: "/arena", label: "Security Arena" };
+  if (lab.includes("library")) return { href: "/library", label: "Prompt Library" };
+  if (lab.includes("evaluate")) return { href: "/evaluate", label: "Evaluation Hub" };
+  if (lab.includes("playground")) return { href: "/labs/playground", label: "Prompt Playground" };
+  if (lab.startsWith("/")) return { href: lab, label: "Open Lab" };
+
+  return { href: "/labs", label: "Labs Hub" };
+}
+
 export function LabSlotPanel({
   lesson,
   className,
@@ -32,6 +54,8 @@ export function LabSlotPanel({
     setActivePrompt(lesson.practiceChallenge.starterPrompt);
   };
 
+  const labTarget = resolveLabTarget(lesson.relatedLab);
+
   return (
     <div className={cn("space-y-4", className)}>
       {/* Lab Header */}
@@ -45,7 +69,7 @@ export function LabSlotPanel({
               Interactive Lab Studio
             </span>
             <span className="ml-2 font-mono text-xs text-teal font-semibold">
-              [{lesson.relatedLab}]
+              [{labTarget.href}]
             </span>
           </div>
         </div>
@@ -62,28 +86,13 @@ export function LabSlotPanel({
             <span className="hidden sm:inline">Reset</span>
           </Button>
 
-          <Link
-            href={
-              lesson.relatedLab === "anatomy"
-                ? "/labs/anatomy"
-                : lesson.relatedLab === "simulator"
-                ? "/labs/llm-simulator"
-                : "/labs"
-            }
-            target="_blank"
-          >
+          <Link href={labTarget.href} target="_blank">
             <Button
               variant="outline"
               size="sm"
               className="h-8 px-2.5 text-xs text-indigo-900/70 hover:text-indigo flex items-center gap-1"
             >
-              <span className="hidden sm:inline">
-                {lesson.relatedLab === "anatomy"
-                  ? "Anatomy Lab"
-                  : lesson.relatedLab === "simulator"
-                  ? "Simulator Lab"
-                  : "Full Lab"}
-              </span>
+              <span className="hidden sm:inline">{labTarget.label}</span>
               <ExternalLink className="h-3.5 w-3.5 text-teal" />
             </Button>
           </Link>
