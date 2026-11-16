@@ -8,8 +8,8 @@ import {
 } from "../content/modules";
 
 describe("PromptForge Phase 4: Module & Lesson Curriculum Data", () => {
-  test("Curriculum defines exactly 10 comprehensive modules", () => {
-    assert.strictEqual(CURRICULUM_MODULES.length, 10);
+  test("Curriculum defines exactly 12 comprehensive modules", () => {
+    assert.strictEqual(CURRICULUM_MODULES.length, 12);
     CURRICULUM_MODULES.forEach((mod, idx) => {
       assert.strictEqual(mod.number, idx + 1);
       assert.ok(mod.id.startsWith("mod-"));
@@ -21,7 +21,7 @@ describe("PromptForge Phase 4: Module & Lesson Curriculum Data", () => {
     });
   });
 
-  test("Every lesson satisfies required curriculum schema with placeholder YouTube ID", () => {
+  test("Every lesson satisfies required curriculum schema with valid video or slot", () => {
     let totalLessonsCount = 0;
 
     CURRICULUM_MODULES.forEach((mod) => {
@@ -29,10 +29,10 @@ describe("PromptForge Phase 4: Module & Lesson Curriculum Data", () => {
         totalLessonsCount++;
         assert.ok(lesson.id.length > 0, "Lesson must have an id");
         assert.ok(lesson.title.length > 0, "Lesson must have a title");
-        assert.ok(
-          lesson.youtubeId.startsWith("TODO"),
-          `Lesson ${lesson.id} YouTube ID must be clearly marked TODO placeholder, got: ${lesson.youtubeId}`
-        );
+        assert.ok(typeof lesson.youtubeId === "string");
+        if (lesson.status) {
+          assert.ok(["ok", "slot", "unavailable"].includes(lesson.status));
+        }
 
         // Chapters
         assert.ok(
@@ -61,7 +61,7 @@ describe("PromptForge Phase 4: Module & Lesson Curriculum Data", () => {
         assert.ok(lesson.practiceChallenge.starterPrompt.length > 0);
 
         // Quiz
-        assert.ok(lesson.quiz.length >= 1, "Must have at least 1 quiz question");
+        assert.strictEqual(lesson.quiz.length, 5, `Lesson ${lesson.id} must have 5 quiz questions`);
         lesson.quiz.forEach((q, qIdx) => {
           assert.ok(q.question.length > 0, `Question ${qIdx} in ${lesson.id} must have text`);
           assert.ok(q.options.length >= 2, "Quiz questions must have at least 2 options");
@@ -77,15 +77,15 @@ describe("PromptForge Phase 4: Module & Lesson Curriculum Data", () => {
       });
     });
 
-    assert.ok(totalLessonsCount >= 20, `Expected at least 20 total lessons, got ${totalLessonsCount}`);
+    assert.strictEqual(totalLessonsCount, 58, `Expected 58 total lessons, got ${totalLessonsCount}`);
   });
 
   test("Helper functions retrieve modules and lessons accurately", () => {
     const mod1 = getModuleById("mod-01");
     assert.ok(mod1);
-    assert.strictEqual(mod1?.title, "Tokenomics & Attention Mechanics");
+    assert.strictEqual(mod1?.title, "Introduction to Prompt Engineering");
 
-    const modBySlug = getModuleById("prompt-anatomy-and-system-framing");
+    const modBySlug = getModuleById("example-and-instruction-based-prompts");
     assert.ok(modBySlug);
     assert.strictEqual(modBySlug?.id, "mod-02");
 
@@ -98,6 +98,6 @@ describe("PromptForge Phase 4: Module & Lesson Curriculum Data", () => {
     assert.strictEqual(lessonData?.prevLesson, undefined);
 
     const all = getAllLessons();
-    assert.strictEqual(all.length, 30);
+    assert.strictEqual(all.length, 58);
   });
 });

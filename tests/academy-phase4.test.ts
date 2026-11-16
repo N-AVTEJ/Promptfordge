@@ -120,8 +120,8 @@ describe("Phase 4: Academy Acceptance Verification", () => {
       currentProgress.completedLessonIds.includes(l.id)
     ).length;
     percent = Math.round((completedInMod / mod1.lessons.length) * 100);
-    // 1 of 3 lessons complete = 33%
-    assert.strictEqual(percent, 33);
+    // 1 of 6 lessons complete = 17%
+    assert.strictEqual(percent, 17);
 
     // Complete second lesson
     const lesson2 = mod1.lessons[1];
@@ -133,19 +133,18 @@ describe("Phase 4: Academy Acceptance Verification", () => {
       currentProgress.completedLessonIds.includes(l.id)
     ).length;
     percent = Math.round((completedInMod / mod1.lessons.length) * 100);
-    // 2 of 3 lessons complete = 67%
-    assert.strictEqual(percent, 67);
+    // 2 of 6 lessons complete = 33%
+    assert.strictEqual(percent, 33);
 
-    // Complete third lesson
-    const lesson3 = mod1.lessons[2];
-    markLessonComplete(lesson3.id, true);
+    // Complete all lessons in mod1
+    mod1.lessons.forEach((l) => markLessonComplete(l.id, true));
 
     currentProgress = getStoredProgress();
     completedInMod = mod1.lessons.filter((l) =>
       currentProgress.completedLessonIds.includes(l.id)
     ).length;
     percent = Math.round((completedInMod / mod1.lessons.length) * 100);
-    // 3 of 3 lessons complete = 100%
+    // 6 of 6 lessons complete = 100%
     assert.strictEqual(percent, 100);
   });
 
@@ -187,8 +186,8 @@ describe("Phase 4: Academy Acceptance Verification", () => {
     assert.strictEqual(restored.lastVisited?.lessonId, "mod-02-les-01");
   });
 
-  test("All 10 modules have valid structures, unique routes, and complete lessons", () => {
-    assert.strictEqual(CURRICULUM_MODULES.length, 10);
+  test("All 12 modules have valid structures, unique routes, and complete lessons", () => {
+    assert.strictEqual(CURRICULUM_MODULES.length, 12);
     const seenLessonIds = new Set<string>();
 
     CURRICULUM_MODULES.forEach((mod) => {
@@ -196,13 +195,13 @@ describe("Phase 4: Academy Acceptance Verification", () => {
       mod.lessons.forEach((les) => {
         assert.ok(!seenLessonIds.has(les.id), `Duplicate lesson ID: ${les.id}`);
         seenLessonIds.add(les.id);
-        assert.ok(les.youtubeId.startsWith("TODO"), "Placeholder YouTube ID marked TODO");
+        assert.ok(typeof les.youtubeId === "string");
         assert.ok(les.chapters.length >= 2, "Has chapters for seeking");
-        assert.ok(les.quiz.length >= 1, "Has quiz questions");
+        assert.strictEqual(les.quiz.length, 5, "Has 5 quiz questions");
       });
     });
 
-    assert.strictEqual(seenLessonIds.size, 30);
+    assert.strictEqual(seenLessonIds.size, 58);
   });
 
   test("Quiz auto-completes passing grade (>= 66%) but rejects sub-passing scores", () => {

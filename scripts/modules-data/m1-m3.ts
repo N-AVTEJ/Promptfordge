@@ -125,8 +125,9 @@ export const M1_M3: CurriculumModule[] = [
         ],
         chapters: [
           { time: 0, label: "From Rules to Probabilities: The AI Timeline" },
-          { time: 140, label: "Why Scaling Data & Compute Shifted the Paradigm" },
-          { time: 310, label: "Emergence of In-Context Learning" },
+          { time: 65, label: "From Symbolic AI to Neural Networks" },
+          { time: 140, label: "Scaling Laws and In-Context Reasoning" },
+          { time: 245, label: "Modern Foundation Model Breakthroughs" },
         ],
         summary:
           "Trace the philosophical and architectural transition from expert rule systems to deep statistical foundation models. Understand how scaling parameters and pretraining datasets unlocked emergent capabilities in language reasoning.",

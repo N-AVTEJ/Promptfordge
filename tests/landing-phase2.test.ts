@@ -4,8 +4,8 @@ import { CURRICULUM_MODULES } from "../content/modules";
 import { durations } from "../lib/motion/index";
 
 describe("Phase 2: Landing Page Data & Motion Verification", () => {
-  test("Curriculum defines exactly 10 comprehensive modules", () => {
-    assert.strictEqual(CURRICULUM_MODULES.length, 10);
+  test("Curriculum defines exactly 12 comprehensive modules", () => {
+    assert.strictEqual(CURRICULUM_MODULES.length, 12);
     CURRICULUM_MODULES.forEach((mod, idx) => {
       assert.strictEqual(
         mod.number,

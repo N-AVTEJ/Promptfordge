@@ -344,7 +344,7 @@ describe("Phase 10 Acceptance: Gamified Missions & Badges System", () => {
 });
 
 describe("Phase 10 Acceptance: Deterministic Dashboard Recommendation Engine", () => {
-  it("computes accurate curriculum statistics across all 10 modules", () => {
+  it("computes accurate curriculum statistics across all 12 modules", () => {
     const mockProgress = {
       ...STORAGE_DEFAULTS[STORAGE_KEYS.PROGRESS],
       completedLessonIds: ["mod-01-les-01", "mod-01-les-02"],
@@ -360,7 +360,7 @@ describe("Phase 10 Acceptance: Deterministic Dashboard Recommendation Engine", (
 
     const stats = getCurriculumStats(mockProgress);
     assert.strictEqual(stats.completedLessons, 2);
-    assert.strictEqual(stats.totalLessons, 30);
+    assert.strictEqual(stats.totalLessons, 58);
     assert.strictEqual(stats.quizzesAttempted, 2);
     assert.strictEqual(stats.quizzesPassed, 1);
     assert.strictEqual(stats.quizzesPassPercentage, 50);
