@@ -14,7 +14,6 @@ import {
   ChevronRight,
   FileJson,
   Film,
-  Video,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -527,6 +526,7 @@ export function LessonStudio({
                       >
                         {/* Thumbnail */}
                         <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg bg-indigo-950/10 border border-indigo-950/10">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={thumbUrl}
                             alt={vid.title}

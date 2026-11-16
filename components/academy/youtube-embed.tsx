@@ -13,7 +13,7 @@ export interface YouTubeEmbedRef {
 export interface YouTubeEmbedProps {
   youtubeId?: string | null;
   title: string;
-  status?: "ok" | "slot" | "unavailable";
+  status?: "ok" | "slot" | "unavailable" | "unverified";
   onTimeUpdate?: (seconds: number) => void;
   className?: string;
   duration?: number;
@@ -34,6 +34,7 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
     const isPlaceholder =
       status === "slot" ||
       status === "unavailable" ||
+      status === "unverified" ||
       !youtubeId ||
       youtubeId === "TODO" ||
       youtubeId.startsWith("TODO") ||

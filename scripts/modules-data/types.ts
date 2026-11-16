@@ -28,6 +28,7 @@ export interface VideoSource {
   role: "core" | "optional";
   status: "unverified" | "ok" | "unavailable";
   source: "external" | "own";
+  thumbnailUrl?: string;
 }
 
 export interface Lesson {
