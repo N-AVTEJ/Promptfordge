@@ -9,7 +9,8 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "node --import tsx --test tests/**/*.test.ts"
+    "test": "node --import tsx --test tests/**/*.test.ts",
+    "verify:videos": "node --import tsx scripts/verify-videos.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.5.0",
