@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-11-16T07:47:23.240Z",
-  "totalOk": 31,
+  "generatedAt": "2026-11-16T08:17:29.620Z",
+  "totalOk": 39,
   "totalUnavailable": 1,
-  "totalSlots": 15,
+  "totalSlots": 10,
   "modules": [
     {
       "moduleId": "mod-01",
@@ -32,7 +32,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/LPZh9BOjkQs/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:11.643Z"
+          "verifiedAt": "2026-11-16T08:17:16.689Z"
         },
         {
           "id": "wjZofJX0v4M",
@@ -53,7 +53,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/wjZofJX0v4M/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:12.033Z"
+          "verifiedAt": "2026-11-16T08:17:17.022Z"
         },
         {
           "id": "eMlx5fFNoYc",
@@ -74,7 +74,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/eMlx5fFNoYc/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:12.384Z"
+          "verifiedAt": "2026-11-16T08:17:17.361Z"
         },
         {
           "id": "7xTGNNLPyMI",
@@ -96,7 +96,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/7xTGNNLPyMI/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:12.740Z"
+          "verifiedAt": "2026-11-16T08:17:17.715Z"
         }
       ],
       "slots": [
@@ -113,7 +113,7 @@
       "moduleId": "mod-02",
       "moduleNumber": 2,
       "moduleTitle": "Example and Instruction Based Prompts",
-      "okCount": 4,
+      "okCount": 5,
       "unavailableCount": 1,
       "slotCount": 0,
       "hasPlayableVideo": true,
@@ -137,7 +137,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/T-w_5T-j-dA/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:13.059Z"
+          "verifiedAt": "2026-11-16T08:17:18.035Z"
         },
         {
           "id": "Vl4hH_L5-3Q",
@@ -159,7 +159,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/Vl4hH_L5-3Q/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:13.403Z"
+          "verifiedAt": "2026-11-16T08:17:18.345Z"
         },
         {
           "id": "b210W3JWOxw",
@@ -179,7 +179,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/b210W3JWOxw/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:13.716Z"
+          "verifiedAt": "2026-11-16T08:17:18.664Z"
         },
         {
           "id": "b2t4pa9lOIc",
@@ -201,7 +201,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/b2t4pa9lOIc/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:14.043Z"
+          "verifiedAt": "2026-11-16T08:17:18.983Z"
         },
         {
           "id": "Cu8QvodkjpU",
@@ -221,7 +221,27 @@
           "title": "Meta Reveals 7 Prompt Techniques",
           "status": "unavailable",
           "httpStatus": 401,
-          "verifiedAt": "2026-11-16T07:47:14.384Z"
+          "verifiedAt": "2026-11-16T08:17:19.290Z"
+        },
+        {
+          "id": "cnww-CvDoRk",
+          "moduleId": "mod-02",
+          "moduleNumber": 2,
+          "moduleTitle": "Example and Instruction Based Prompts",
+          "expectedTitle": "Advanced Prompt Engineering Techniques",
+          "channel": "Sai Ram Penjarla",
+          "minutes": 12,
+          "covers": [
+            "Role based"
+          ],
+          "role": "core",
+          "source": "external",
+          "title": "Advanced Prompt Engineering Techniques",
+          "authorName": "Sai Ram Penjarla",
+          "thumbnailUrl": "https://i.ytimg.com/vi/cnww-CvDoRk/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-16T08:17:19.619Z"
         }
       ],
       "slots": []
@@ -255,7 +275,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/cnww-CvDoRk/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:14.734Z"
+          "verifiedAt": "2026-11-16T08:17:19.946Z"
         }
       ],
       "slots": [
@@ -303,7 +323,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/3TGqlQxpuU0/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:15.069Z"
+          "verifiedAt": "2026-11-16T08:17:20.254Z"
         }
       ],
       "slots": [
@@ -320,9 +340,9 @@
       "moduleId": "mod-05",
       "moduleNumber": 5,
       "moduleTitle": "Prompt Optimization Techniques",
-      "okCount": 2,
+      "okCount": 4,
       "unavailableCount": 0,
-      "slotCount": 2,
+      "slotCount": 0,
       "hasPlayableVideo": true,
       "videos": [
         {
@@ -344,7 +364,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/vBJF2sy1Pyw/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:15.393Z"
+          "verifiedAt": "2026-11-16T08:17:20.587Z"
         },
         {
           "id": "LZJTrAXcyFM",
@@ -365,25 +385,52 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/LZJTrAXcyFM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:15.720Z"
-        }
-      ],
-      "slots": [
-        {
-          "moduleId": "mod-05",
-          "moduleNumber": 5,
-          "moduleTitle": "Prompt Optimization Techniques",
-          "topic": "BLEU, ROUGE, BERTScore",
-          "notes": "Evaluation metric benchmarking slot"
+          "verifiedAt": "2026-11-16T08:17:20.895Z"
         },
         {
+          "id": "RTaZqGflrJ8",
           "moduleId": "mod-05",
           "moduleNumber": 5,
           "moduleTitle": "Prompt Optimization Techniques",
-          "topic": "Hallucination detection",
-          "notes": "RAGAS and automated hallucination scoring slot"
+          "expectedTitle": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+          "channel": "AI Academy ",
+          "minutes": 9,
+          "covers": [
+            "BLEU, ROUGE, BERTScore",
+            "Performance evaluation"
+          ],
+          "role": "core",
+          "source": "external",
+          "title": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+          "authorName": "AI Academy ",
+          "thumbnailUrl": "https://i.ytimg.com/vi/RTaZqGflrJ8/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-16T08:17:21.218Z"
+        },
+        {
+          "id": "xsDNArrmyuo",
+          "moduleId": "mod-05",
+          "moduleNumber": 5,
+          "moduleTitle": "Prompt Optimization Techniques",
+          "expectedTitle": "LLM Chronicles #6.6: Hallucination Detection and Evaluation for RAG systems (RAGAS, Lynx)",
+          "channel": "Donato Capitella",
+          "minutes": 14,
+          "covers": [
+            "Hallucination detection",
+            "Measuring response quality"
+          ],
+          "role": "core",
+          "source": "external",
+          "title": "LLM Chronicles #6.6: Hallucination Detection and Evaluation for RAG systems (RAGAS, Lynx)",
+          "authorName": "Donato Capitella",
+          "thumbnailUrl": "https://i.ytimg.com/vi/xsDNArrmyuo/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-16T08:17:21.550Z"
         }
-      ]
+      ],
+      "slots": []
     },
     {
       "moduleId": "mod-06",
@@ -413,7 +460,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/lOD_EE96jhM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:16.069Z"
+          "verifiedAt": "2026-11-16T08:17:21.901Z"
         },
         {
           "id": "J51oZYcNvP8",
@@ -434,7 +481,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/J51oZYcNvP8/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:16.398Z"
+          "verifiedAt": "2026-11-16T08:17:22.215Z"
         }
       ],
       "slots": []
@@ -466,7 +513,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/cDn7bf84LsM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:16.733Z"
+          "verifiedAt": "2026-11-16T08:17:22.552Z"
         },
         {
           "id": "0z9_MhcYvcY",
@@ -487,7 +534,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/0z9_MhcYvcY/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:17.056Z"
+          "verifiedAt": "2026-11-16T08:17:22.865Z"
         },
         {
           "id": "h8gMhXYAv1k",
@@ -508,7 +555,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/h8gMhXYAv1k/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:17.404Z"
+          "verifiedAt": "2026-11-16T08:17:23.180Z"
         },
         {
           "id": "gosZ_vqXkMI",
@@ -529,7 +576,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/gosZ_vqXkMI/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:17.735Z"
+          "verifiedAt": "2026-11-16T08:17:23.505Z"
         }
       ],
       "slots": []
@@ -538,9 +585,9 @@
       "moduleId": "mod-08",
       "moduleNumber": 8,
       "moduleTitle": "Security in Prompt Engineering",
-      "okCount": 3,
+      "okCount": 4,
       "unavailableCount": 0,
-      "slotCount": 1,
+      "slotCount": 0,
       "hasPlayableVideo": true,
       "videos": [
         {
@@ -562,7 +609,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/_9x-mAHGgC4/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:18.086Z"
+          "verifiedAt": "2026-11-16T08:17:23.830Z"
         },
         {
           "id": "gZTQNb0NGjM",
@@ -583,7 +630,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/gZTQNb0NGjM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:18.414Z"
+          "verifiedAt": "2026-11-16T08:17:24.152Z"
         },
         {
           "id": "yNIlm9IfcgA",
@@ -604,18 +651,30 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/yNIlm9IfcgA/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:18.823Z"
-        }
-      ],
-      "slots": [
+          "verifiedAt": "2026-11-16T08:17:24.475Z"
+        },
         {
+          "id": "zn2ukSnDqSg",
           "moduleId": "mod-08",
           "moduleNumber": 8,
           "moduleTitle": "Security in Prompt Engineering",
-          "topic": "Jailbreak techniques",
-          "notes": "Adversarial jailbreak taxonomy slot (Computerphile candidate left as slot)"
+          "expectedTitle": "ChatGPT Jailbreak - Computerphile",
+          "channel": "Computerphile",
+          "minutes": 11,
+          "covers": [
+            "Jailbreak techniques"
+          ],
+          "role": "core",
+          "source": "external",
+          "title": "ChatGPT Jailbreak - Computerphile",
+          "authorName": "Computerphile",
+          "thumbnailUrl": "https://i.ytimg.com/vi/zn2ukSnDqSg/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-16T08:17:24.815Z"
         }
-      ]
+      ],
+      "slots": []
     },
     {
       "moduleId": "mod-09",
@@ -644,7 +703,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/LAF-lACf2QY/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:19.162Z"
+          "verifiedAt": "2026-11-16T08:17:25.135Z"
         },
         {
           "id": "--XpNP6NsqE",
@@ -664,7 +723,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/--XpNP6NsqE/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:19.521Z"
+          "verifiedAt": "2026-11-16T08:17:25.465Z"
         }
       ],
       "slots": [
@@ -695,9 +754,9 @@
       "moduleId": "mod-10",
       "moduleNumber": 10,
       "moduleTitle": "Advanced Prompt Engineering",
-      "okCount": 2,
+      "okCount": 3,
       "unavailableCount": 0,
-      "slotCount": 3,
+      "slotCount": 2,
       "hasPlayableVideo": true,
       "videos": [
         {
@@ -718,7 +777,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/ut5kp56wW_4/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:19.893Z"
+          "verifiedAt": "2026-11-16T08:17:26.004Z"
         },
         {
           "id": "QX-p-vsDoiQ",
@@ -738,7 +797,28 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/QX-p-vsDoiQ/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:20.245Z"
+          "verifiedAt": "2026-11-16T08:17:26.321Z"
+        },
+        {
+          "id": "uDIW34h8cmM",
+          "moduleId": "mod-10",
+          "moduleNumber": 10,
+          "moduleTitle": "Advanced Prompt Engineering",
+          "expectedTitle": "Prompt Engineering Guide - From Beginner to Advanced",
+          "channel": "Matthew Berman",
+          "minutes": 20,
+          "covers": [
+            "APE",
+            "Expert prompting"
+          ],
+          "role": "core",
+          "source": "external",
+          "title": "Prompt Engineering Guide - From Beginner to Advanced",
+          "authorName": "Matthew Berman",
+          "thumbnailUrl": "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-16T08:17:26.644Z"
         }
       ],
       "slots": [
@@ -755,13 +835,6 @@
           "moduleTitle": "Advanced Prompt Engineering",
           "topic": "Expert prompting",
           "notes": "Multi-persona expert ensemble slot"
-        },
-        {
-          "moduleId": "mod-10",
-          "moduleNumber": 10,
-          "moduleTitle": "Advanced Prompt Engineering",
-          "topic": "APE",
-          "notes": "Automatic Prompt Engineer generation slot"
         }
       ]
     },
@@ -769,9 +842,9 @@
       "moduleId": "mod-11",
       "moduleNumber": 11,
       "moduleTitle": "AI Agents, Context Engineering and MCP",
-      "okCount": 4,
+      "okCount": 5,
       "unavailableCount": 0,
-      "slotCount": 1,
+      "slotCount": 0,
       "hasPlayableVideo": true,
       "videos": [
         {
@@ -793,7 +866,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/eur8dUO9mvE/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:21.542Z"
+          "verifiedAt": "2026-11-16T08:17:26.955Z"
         },
         {
           "id": "7j1t3UZA1TY",
@@ -814,7 +887,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/7j1t3UZA1TY/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:21.877Z"
+          "verifiedAt": "2026-11-16T08:17:27.300Z"
         },
         {
           "id": "kQmXtrmQ5Zg",
@@ -835,7 +908,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/kQmXtrmQ5Zg/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:22.198Z"
+          "verifiedAt": "2026-11-16T08:17:27.614Z"
         },
         {
           "id": "Yq29bZ8Hlrc",
@@ -855,24 +928,36 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/Yq29bZ8Hlrc/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:22.532Z"
-        }
-      ],
-      "slots": [
+          "verifiedAt": "2026-11-16T08:17:27.935Z"
+        },
         {
+          "id": "vD0E3EUb8-8",
           "moduleId": "mod-11",
           "moduleNumber": 11,
           "moduleTitle": "AI Agents, Context Engineering and MCP",
-          "topic": "Context windows and context engineering vs prompt engineering",
-          "notes": "Context engineering vs prompt engineering slot"
+          "expectedTitle": "Context Engineering vs. Prompt Engineering: Smarter AI with RAG & Agents",
+          "channel": "IBM Technology",
+          "minutes": 6,
+          "covers": [
+            "Context windows and context engineering vs prompt engineering"
+          ],
+          "role": "core",
+          "source": "external",
+          "title": "Context Engineering vs. Prompt Engineering: Smarter AI with RAG & Agents",
+          "authorName": "IBM Technology",
+          "thumbnailUrl": "https://i.ytimg.com/vi/vD0E3EUb8-8/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-16T08:17:28.240Z"
         }
-      ]
+      ],
+      "slots": []
     },
     {
       "moduleId": "mod-12",
       "moduleNumber": 12,
       "moduleTitle": "Production Prompt Engineering and Responsible AI",
-      "okCount": 2,
+      "okCount": 4,
       "unavailableCount": 0,
       "slotCount": 1,
       "hasPlayableVideo": true,
@@ -896,7 +981,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/HdafI0t3sEY/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:22.861Z"
+          "verifiedAt": "2026-11-16T08:17:28.586Z"
         },
         {
           "id": "7xTGNNLPyMI",
@@ -917,7 +1002,47 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/7xTGNNLPyMI/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-16T07:47:23.240Z"
+          "verifiedAt": "2026-11-16T08:17:28.911Z"
+        },
+        {
+          "id": "0A4zaEuRmig",
+          "moduleId": "mod-12",
+          "moduleNumber": 12,
+          "moduleTitle": "Production Prompt Engineering and Responsible AI",
+          "expectedTitle": "Prompt vs RAG vs Fine-Tuning — What’s the Difference?",
+          "channel": "Analytics Vidhya",
+          "minutes": 12,
+          "covers": [
+            "Prompting vs RAG vs fine-tuning"
+          ],
+          "role": "core",
+          "source": "external",
+          "title": "Prompt vs RAG vs Fine-Tuning — What’s the Difference?",
+          "authorName": "Analytics Vidhya",
+          "thumbnailUrl": "https://i.ytimg.com/vi/0A4zaEuRmig/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-16T08:17:29.297Z"
+        },
+        {
+          "id": "o9jz04bIW0E",
+          "moduleId": "mod-12",
+          "moduleNumber": 12,
+          "moduleTitle": "Production Prompt Engineering and Responsible AI",
+          "expectedTitle": "LLM Fine Tuning Tutorial (Free Labs)",
+          "channel": "KodeKloud",
+          "minutes": 24,
+          "covers": [
+            "Prompting vs RAG vs fine-tuning"
+          ],
+          "role": "optional",
+          "source": "external",
+          "title": "LLM Fine Tuning Tutorial (Free Labs)",
+          "authorName": "KodeKloud",
+          "thumbnailUrl": "https://i.ytimg.com/vi/o9jz04bIW0E/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-16T08:17:29.620Z"
         }
       ],
       "slots": [
