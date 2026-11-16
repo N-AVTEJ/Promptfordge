@@ -587,51 +587,66 @@ export const SLOT_TOPICS: SlotTopic[] = [
   },
 ];
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export async function verifyAllVideos(): Promise<VideoReport> {
   console.log(`Starting verification of ${CANDIDATE_VIDEOS.length} candidate videos via YouTube oEmbed...`);
   const verifiedList: VerifiedVideo[] = [];
 
   for (const candidate of CANDIDATE_VIDEOS) {
     const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${candidate.id}&format=json`;
-    try {
-      const res = await fetch(oembedUrl);
-      if (res.ok) {
-        const data = (await res.json()) as {
-          title: string;
-          author_name?: string;
-          thumbnail_url?: string;
-        };
-        console.log(`[OK 200] ${candidate.id} -> "${data.title}" (${data.author_name})`);
-        verifiedList.push({
-          ...candidate,
-          title: data.title || candidate.expectedTitle,
-          channel: data.author_name || candidate.channel,
-          authorName: data.author_name,
-          thumbnailUrl: data.thumbnail_url || `https://i.ytimg.com/vi/${candidate.id}/hqdefault.jpg`,
-          status: "ok",
-          httpStatus: 200,
-          verifiedAt: new Date().toISOString(),
-        });
-      } else {
-        console.warn(`[UNAVAILABLE ${res.status}] ${candidate.id} (${candidate.expectedTitle})`);
-        verifiedList.push({
-          ...candidate,
-          title: candidate.expectedTitle,
-          status: "unavailable",
-          httpStatus: res.status,
-          verifiedAt: new Date().toISOString(),
-        });
+    let attempts = 0;
+    let success = false;
+
+    while (attempts < 3 && !success) {
+      attempts++;
+      try {
+        await sleep(200); // polite spacing to avoid rate limits
+        const res = await fetch(oembedUrl);
+        if (res.ok) {
+          const data = (await res.json()) as {
+            title: string;
+            author_name?: string;
+            thumbnail_url?: string;
+          };
+          console.log(`[OK 200] ${candidate.id} -> "${data.title}" (${data.author_name})`);
+          verifiedList.push({
+            ...candidate,
+            title: data.title || candidate.expectedTitle,
+            channel: data.author_name || candidate.channel,
+            authorName: data.author_name,
+            thumbnailUrl: data.thumbnail_url || `https://i.ytimg.com/vi/${candidate.id}/hqdefault.jpg`,
+            status: "ok",
+            httpStatus: 200,
+            verifiedAt: new Date().toISOString(),
+          });
+          success = true;
+        } else {
+          console.warn(`[UNAVAILABLE ${res.status}] ${candidate.id} (${candidate.expectedTitle})`);
+          verifiedList.push({
+            ...candidate,
+            title: candidate.expectedTitle,
+            status: "unavailable",
+            httpStatus: res.status,
+            verifiedAt: new Date().toISOString(),
+          });
+          success = true; // definitive HTTP response, no need to retry
+        }
+      } catch (err: unknown) {
+        if (attempts >= 3) {
+          const msg = err instanceof Error ? err.message : String(err);
+          console.error(`[ERROR] ${candidate.id} after ${attempts} attempts: ${msg}`);
+          verifiedList.push({
+            ...candidate,
+            title: candidate.expectedTitle,
+            status: "unavailable",
+            httpStatus: 0,
+            verifiedAt: new Date().toISOString(),
+          });
+        } else {
+          await sleep(500);
+        }
       }
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : String(err);
-      console.error(`[ERROR] ${candidate.id}: ${msg}`);
-      verifiedList.push({
-        ...candidate,
-        title: candidate.expectedTitle,
-        status: "unavailable",
-        httpStatus: 0,
-        verifiedAt: new Date().toISOString(),
-      });
     }
   }
 
