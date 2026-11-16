@@ -37,7 +37,7 @@ export function FinalCtaSection() {
           </h2>
 
           <p className="mx-auto mt-4 max-w-[65ch] text-base leading-[1.7] text-indigo-900/75">
-            Ten comprehensive curriculum modules. Interactive browser-based token telemetry.
+            Twelve comprehensive curriculum modules. Interactive browser-based token telemetry.
             Real evaluation assertions that protect your production pipelines from hallucination.
           </p>
 

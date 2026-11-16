@@ -4,7 +4,7 @@ import { AcademyGrid } from "@/components/academy/academy-grid";
 export const metadata: Metadata = {
   title: "Academy | PromptForge",
   description:
-    "Comprehensive 10-module interactive prompt engineering curriculum with embedded video lessons and side-by-side lab studios.",
+    "Comprehensive 12-module interactive prompt engineering curriculum with embedded video lessons and side-by-side lab studios.",
 };
 
 export default function AcademyPage() {

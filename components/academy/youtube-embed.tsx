@@ -13,6 +13,7 @@ export interface YouTubeEmbedRef {
 export interface YouTubeEmbedProps {
   youtubeId?: string | null;
   title: string;
+  status?: "ok" | "slot" | "unavailable";
   onTimeUpdate?: (seconds: number) => void;
   className?: string;
   duration?: number;
@@ -23,6 +24,7 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
     {
       youtubeId,
       title,
+      status = "ok",
       onTimeUpdate,
       className,
       duration = 720,
@@ -30,6 +32,8 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
     ref
   ) => {
     const isPlaceholder =
+      status === "slot" ||
+      status === "unavailable" ||
       !youtubeId ||
       youtubeId === "TODO" ||
       youtubeId.startsWith("TODO") ||
@@ -175,7 +179,11 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
 
                 <div className="inline-flex items-center gap-1.5 rounded-full border border-violet/30 bg-violet/10 px-3 py-1 text-xs font-semibold text-violet">
                   <Clock className="h-3.5 w-3.5" />
-                  <span>Video coming soon</span>
+                  <span>
+                    {status === "unavailable"
+                      ? "Video temporarily unavailable"
+                      : "Video coming soon"}
+                  </span>
                 </div>
               </div>
 
@@ -199,7 +207,9 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
                 </h3>
 
                 <p className="mt-1.5 max-w-sm text-xs sm:text-sm text-indigo-900/70">
-                  Full studio video walkthrough is in post-production. You can explore the structured notes, timestamp index, and live challenge below right now!
+                  {status === "unavailable"
+                    ? "The designated video source is currently restricted by the external host. Detailed syllabus notes, chapters, and the interactive lab challenge are fully ready below!"
+                    : "Curriculum studio walkthrough is in post-production. You can explore the structured notes, timestamp index, and live challenge below right now!"}
                 </p>
 
                 {seekFeedback && (

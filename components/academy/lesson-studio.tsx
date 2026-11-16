@@ -13,6 +13,8 @@ import {
   ArrowRight,
   ChevronRight,
   FileJson,
+  Film,
+  Video,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -50,6 +52,24 @@ export function LessonStudio({
   const [mobileTab, setMobileTab] = React.useState<"outline" | "center" | "right">("center");
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [customLabPrompt, setCustomLabPrompt] = React.useState<string | undefined>(undefined);
+  const [selectedVideoId, setSelectedVideoId] = React.useState<string | undefined>(undefined);
+
+  // Active Video resolution
+  const activeVideo = React.useMemo(() => {
+    if (selectedVideoId && lesson.videos) {
+      const found = lesson.videos.find((v) => v.id === selectedVideoId);
+      if (found) return found;
+    }
+    if (lesson.videos && lesson.videos.length > 0) {
+      const okVideo = lesson.videos.find((v) => v.status === "ok");
+      if (okVideo) return okVideo;
+      return lesson.videos[0];
+    }
+    return undefined;
+  }, [selectedVideoId, lesson.videos]);
+
+  const activeVideoId = activeVideo?.id ?? lesson.youtubeId;
+  const activeVideoStatus = activeVideo?.status ?? lesson.status ?? (activeVideoId ? "ok" : "slot");
 
   // Keyboard navigation
   React.useEffect(() => {
@@ -103,6 +123,7 @@ export function LessonStudio({
     visitLesson(module.id, lesson.id);
     setCustomLabPrompt(undefined);
     setCurrentPlaybackSecond(0);
+    setSelectedVideoId(undefined);
   }, [module.id, lesson.id, visitLesson]);
 
   const handleSeek = (seconds: number) => {
@@ -450,10 +471,119 @@ export function LessonStudio({
             {/* Official YouTube Embed (using youtube-nocookie.com, lazy loaded, 16:9, rounded) */}
             <YouTubeEmbed
               ref={playerRef}
-              youtubeId={lesson.youtubeId}
-              title={lesson.title}
+              youtubeId={activeVideoId}
+              title={activeVideo?.title ?? lesson.title}
+              status={activeVideoStatus}
               onTimeUpdate={(sec) => setCurrentPlaybackSecond(sec)}
             />
+
+            {/* More videos for this lesson row */}
+            {lesson.videos && lesson.videos.length > 0 && (
+              <div className="rounded-2xl border border-indigo-950/10 bg-white p-5 shadow-card space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Film className="h-4 w-4 text-coral" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900/70 font-mono">
+                      More videos for this lesson ({lesson.videos.length})
+                    </h3>
+                  </div>
+                  <span className="text-[11px] font-mono text-indigo-900/50">
+                    Click to switch video
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  {lesson.videos.map((vid) => {
+                    const isCurrent = vid.id === activeVideoId;
+                    const isUnavailable = vid.status === "unavailable";
+                    const thumbUrl =
+                      vid.thumbnailUrl ||
+                      `https://i.ytimg.com/vi/${vid.id}/hqdefault.jpg`;
+
+                    return (
+                      <button
+                        key={vid.id}
+                        type="button"
+                        onClick={() => {
+                          if (!isUnavailable) {
+                            setSelectedVideoId(vid.id);
+                            setCurrentPlaybackSecond(0);
+                          }
+                        }}
+                        disabled={isUnavailable}
+                        className={cn(
+                          "group relative flex items-start gap-3 rounded-xl p-2.5 text-left transition-all border",
+                          isCurrent
+                            ? "bg-coral/5 border-coral/50 shadow-sm ring-1 ring-coral/20"
+                            : isUnavailable
+                            ? "opacity-60 bg-cream/30 border-indigo-950/5 cursor-not-allowed"
+                            : "bg-cream/40 border-indigo-950/10 hover:bg-cream hover:border-indigo-950/20"
+                        )}
+                        title={
+                          isUnavailable
+                            ? "Video temporarily unavailable"
+                            : `Switch to: ${vid.title}`
+                        }
+                      >
+                        {/* Thumbnail */}
+                        <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg bg-indigo-950/10 border border-indigo-950/10">
+                          <img
+                            src={thumbUrl}
+                            alt={vid.title}
+                            className="h-full w-full object-cover group-hover:scale-105 transition-transform"
+                            loading="lazy"
+                          />
+                          {vid.minutes && (
+                            <span className="absolute bottom-1 right-1 rounded bg-black/80 px-1 py-0.5 text-[9px] font-mono font-bold text-white">
+                              {vid.minutes}m
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Meta */}
+                        <div className="min-w-0 flex-1 space-y-1">
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span
+                              className={cn(
+                                "text-[10px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded",
+                                vid.role === "core"
+                                  ? "bg-amber-100 text-amber-900 border border-amber-300"
+                                  : "bg-indigo-100 text-indigo-800 border border-indigo-200"
+                              )}
+                            >
+                              {vid.role}
+                            </span>
+                            {isCurrent && (
+                              <span className="text-[10px] font-mono font-bold text-coral">
+                                • Active
+                              </span>
+                            )}
+                            {isUnavailable && (
+                              <span className="text-[10px] font-mono font-bold text-rose-600">
+                                • Unavailable
+                              </span>
+                            )}
+                          </div>
+                          <p
+                            className={cn(
+                              "text-xs font-semibold leading-tight line-clamp-2",
+                              isCurrent ? "text-coral font-bold" : "text-indigo"
+                            )}
+                          >
+                            {vid.title}
+                          </p>
+                          {vid.channel && (
+                            <p className="text-[10px] font-mono text-indigo-900/50 truncate">
+                              {vid.channel}
+                            </p>
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {/* Timestamp Chips that seek player */}
             <div className="rounded-2xl border border-indigo-950/10 bg-white p-6 shadow-card">

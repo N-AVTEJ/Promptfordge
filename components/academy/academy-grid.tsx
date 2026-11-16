@@ -55,7 +55,7 @@ export function AcademyGrid() {
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full bg-coral/10 px-3.5 py-1 text-xs font-mono font-bold text-coral border border-coral/30">
               <BookOpen className="h-4 w-4" />
-              <span>PromptForge Curriculum · 10 Modules</span>
+              <span>PromptForge Curriculum · {CURRICULUM_MODULES.length} Modules</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-indigo font-sans">
               The Engineering Curriculum
@@ -206,14 +206,18 @@ export function AcademyGrid() {
                 </div>
 
                 <div className="mt-8 pt-4 border-t border-indigo-950/10">
-                  <div className="flex items-center justify-between text-xs font-mono text-indigo-900/60 mb-4">
-                    <span className="flex items-center gap-1">
+                  <div className="flex items-center justify-between text-xs font-mono text-indigo-900/60 mb-4 gap-2">
+                    <span className="flex items-center gap-1.5" title={`${module.lessonCount} Lessons`}>
                       <BookOpen className="h-3.5 w-3.5 text-violet" />
-                      {module.lessonCount} Lessons
+                      <span>{module.lessonCount} Lessons</span>
                     </span>
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1.5" title={`${module.videoCount ?? 0} Videos`}>
+                      <PlayCircle className="h-3.5 w-3.5 text-coral" />
+                      <span>{module.videoCount ?? 0} Videos</span>
+                    </span>
+                    <span className="flex items-center gap-1.5" title={`Duration: ${module.duration}`}>
                       <Clock className="h-3.5 w-3.5 text-teal" />
-                      {module.duration}
+                      <span>{module.duration}</span>
                     </span>
                   </div>
 

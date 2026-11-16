@@ -194,7 +194,7 @@ export function ModulesHorizontalSection() {
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-indigo-950/15 bg-white px-4 py-1.5 text-xs font-bold text-indigo shadow-card">
                 <Layers className="h-4 w-4 text-coral" />
-                <span>Horizontal Track · 10 Modules</span>
+                <span>Horizontal Track · {CURRICULUM_MODULES.length} Modules</span>
               </div>
               <h2 className="mt-3 font-sans text-3xl font-extrabold tracking-tight text-indigo sm:text-5xl">
                 From Token Splits to Autonomous Agents

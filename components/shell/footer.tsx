@@ -44,7 +44,7 @@ export function Footer() {
                   href="/academy"
                   className="transition-colors hover:text-coral"
                 >
-                  Academy Modules (1–10)
+                  Academy Modules (1–12)
                 </Link>
               </li>
               <li>

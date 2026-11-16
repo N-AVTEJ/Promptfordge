@@ -288,7 +288,7 @@ export function DashboardView() {
               className="inline-flex items-center gap-2 rounded-xl border border-indigo-950/10 bg-cream px-4 py-2.5 text-xs font-bold text-indigo hover:bg-white transition-colors"
             >
               <BookOpen className="h-4 w-4 text-violet" />
-              <span>10 Academy Modules</span>
+              <span>{CURRICULUM_MODULES.length} Academy Modules</span>
             </Link>
           </div>
         </div>

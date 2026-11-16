@@ -25,7 +25,7 @@ export interface CurriculumStats {
 }
 
 /**
- * Computes deterministic curriculum stats across all 10 modules.
+ * Computes deterministic curriculum stats across all 12 modules.
  */
 export function getCurriculumStats(progress: ProgressData): CurriculumStats {
   const allLessons: Lesson[] = [];
@@ -117,7 +117,7 @@ export function getSuggestedNextLesson(
   return {
     module: firstModule,
     lesson: firstLesson,
-    reason: "Curriculum Complete: All 10 modules completed! Continue refining your skills in the Security Arena or Comparison Lab.",
+    reason: `Curriculum Complete: All ${CURRICULUM_MODULES.length} modules completed! Continue refining your skills in the Security Arena or Comparison Lab.`,
     isRemediation: false,
   };
 }
