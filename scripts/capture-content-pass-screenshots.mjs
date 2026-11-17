@@ -21,14 +21,14 @@ async function run() {
       label: "M1: Introduction to Prompt Engineering (Lesson 1: Evolution of AI and LLMs)",
     },
     {
-      name: "m7",
-      path: "/academy/mod-07/mod-07-les-01",
-      label: "M7: Tool-Augmented Prompting (Lesson 1: API-based prompting)",
+      name: "m5",
+      path: "/academy/mod-05/mod-05-les-01",
+      label: "M5: Prompt Optimization Techniques (Lesson 1: Iterative refinement)",
     },
     {
-      name: "m10",
-      path: "/academy/mod-10/mod-10-les-01",
-      label: "M10: Advanced Prompt Engineering (Lesson 1: Tree-of-Thoughts)",
+      name: "m8",
+      path: "/academy/mod-08/mod-08-les-01",
+      label: "M8: Security in Prompt Engineering (Lesson 1: Prompt injection)",
     },
     {
       name: "m12",

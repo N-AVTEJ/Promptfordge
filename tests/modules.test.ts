@@ -18,11 +18,18 @@ describe("PromptForge Phase 4: Module & Lesson Curriculum Data", () => {
       assert.ok(mod.outcome.length > 0);
       assert.ok(mod.lessons.length > 0, `Module ${mod.id} must have lessons`);
       assert.strictEqual(mod.lessonCount, mod.lessons.length);
+      assert.ok(mod.videoCount >= 1, `Module ${mod.id} must have at least one playable video`);
+      assert.ok(typeof mod.totalWatchTime === "string" && mod.totalWatchTime.includes("watch"), `Module ${mod.id} must have totalWatchTime formatted`);
     });
   });
 
   test("Every lesson satisfies required curriculum schema with valid video or slot", () => {
     let totalLessonsCount = 0;
+    const LEVEL_RANK: Record<string, number> = {
+      beginner: 1,
+      intermediate: 2,
+      advanced: 3,
+    };
 
     CURRICULUM_MODULES.forEach((mod) => {
       mod.lessons.forEach((lesson) => {
@@ -33,6 +40,40 @@ describe("PromptForge Phase 4: Module & Lesson Curriculum Data", () => {
         if (lesson.status) {
           assert.ok(["ok", "slot", "unavailable"].includes(lesson.status));
         }
+
+        // Before you watch (2 plain-English lines)
+        assert.ok(Array.isArray(lesson.beforeYouWatch), `Lesson ${lesson.id} must have beforeYouWatch array`);
+        assert.strictEqual(lesson.beforeYouWatch.length, 2, `Lesson ${lesson.id} beforeYouWatch must have exactly 2 lines`);
+        assert.ok(lesson.beforeYouWatch[0].trim().length > 10, `Lesson ${lesson.id} beforeYouWatch line 1 must have content`);
+        assert.ok(lesson.beforeYouWatch[1].trim().length > 10, `Lesson ${lesson.id} beforeYouWatch line 2 must have content`);
+
+        // Check yourself (1 question with answer)
+        assert.ok(lesson.checkYourself, `Lesson ${lesson.id} must have checkYourself`);
+        assert.ok(lesson.checkYourself.question.trim().length > 10, `Lesson ${lesson.id} checkYourself question must be present`);
+        assert.ok(lesson.checkYourself.answer.trim().length > 10, `Lesson ${lesson.id} checkYourself answer must be present`);
+
+        // Videos sorting: beginner first
+        if (lesson.videos && lesson.videos.length > 1) {
+          for (let vIdx = 1; vIdx < lesson.videos.length; vIdx++) {
+            const prevRank = LEVEL_RANK[lesson.videos[vIdx - 1].level] ?? 2;
+            const currRank = LEVEL_RANK[lesson.videos[vIdx].level] ?? 2;
+            assert.ok(
+              prevRank <= currRank,
+              `Videos in ${lesson.id} must be sorted beginner first. Found ${lesson.videos[vIdx - 1].level} before ${lesson.videos[vIdx].level}`
+            );
+          }
+        }
+
+        // Validate VideoSource schema
+        lesson.videos?.forEach((vid) => {
+          assert.ok(vid.id.length > 0, `Video must have an id in ${lesson.id}`);
+          assert.ok(vid.title.length > 0, `Video must have a title in ${lesson.id}`);
+          assert.ok(vid.channel.length > 0, `Video must have a channel in ${lesson.id}`);
+          assert.ok(typeof vid.minutes === "number" && vid.minutes > 0, `Video must have positive minutes in ${lesson.id}`);
+          assert.ok(["beginner", "intermediate", "advanced"].includes(vid.level), `Video must have valid level in ${lesson.id}`);
+          assert.ok(["ok", "unavailable", "slot"].includes(vid.status), `Video must have valid status in ${lesson.id}`);
+          assert.ok(["seed", "agent-search"].includes(vid.resolvedBy), `Video must have valid resolvedBy in ${lesson.id}`);
+        });
 
         // Chapters
         assert.ok(
