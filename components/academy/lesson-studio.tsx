@@ -516,6 +516,88 @@ export function LessonStudio({
               onTimeUpdate={(sec) => setCurrentPlaybackSecond(sec)}
             />
 
+            {/* Active Video Metadata Card with Honest Coverage (Covers vs Related) & Watch Time */}
+            {activeVideo && activeVideoStatus === "ok" && (
+              <div className="rounded-2xl border border-indigo-950/10 bg-white p-4 shadow-card space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <Film className="h-4 w-4 text-coral" />
+                    <span className="text-xs font-bold text-indigo font-sans">
+                      {activeVideo.channel || "Course Video"}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {activeVideo.role === "optional" ? (
+                      <span className="text-[11px] font-mono font-bold text-amber-800 bg-amber-50 border border-amber-300 px-2 py-0.5 rounded-md">
+                        Optional deep dive ({activeVideo.minutes} min)
+                      </span>
+                    ) : activeVideo.minutes ? (
+                      <span className="text-[11px] font-mono font-semibold text-indigo-900/60 bg-cream/70 border border-indigo-950/10 px-2 py-0.5 rounded-md flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {activeVideo.minutes} min
+                      </span>
+                    ) : null}
+                    {activeVideo.level && (
+                      <span
+                        className={cn(
+                          "text-[10px] font-mono font-bold capitalize px-2 py-0.5 rounded-md",
+                          activeVideo.level === "beginner"
+                            ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                            : activeVideo.level === "intermediate"
+                            ? "bg-sky-50 text-sky-800 border border-sky-200"
+                            : "bg-indigo-50 text-indigo-800 border border-indigo-200"
+                        )}
+                      >
+                        {activeVideo.level}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Honest Coverage Tags: Covers vs Related */}
+                {((activeVideo.covers && activeVideo.covers.length > 0) ||
+                  (activeVideo.relatedTo && activeVideo.relatedTo.length > 0)) && (
+                  <div className="space-y-2 pt-2 border-t border-indigo-950/5">
+                    {activeVideo.covers && activeVideo.covers.length > 0 && (
+                      <div className="flex items-start gap-2 flex-wrap text-xs">
+                        <span className="font-mono font-bold text-[11px] uppercase tracking-wider text-emerald-800 bg-emerald-100/90 border border-emerald-300 px-2 py-0.5 rounded shrink-0 shadow-xs">
+                          Covers
+                        </span>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          {activeVideo.covers.map((topic, tIdx) => (
+                            <span
+                              key={tIdx}
+                              className="bg-emerald-50 text-emerald-900 text-xs px-2 py-0.5 rounded border border-emerald-200/60 font-medium"
+                            >
+                              {topic}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {activeVideo.relatedTo && activeVideo.relatedTo.length > 0 && (
+                      <div className="flex items-start gap-2 flex-wrap text-xs">
+                        <span className="font-mono font-bold text-[11px] uppercase tracking-wider text-sky-800 bg-sky-100/90 border border-sky-300 px-2 py-0.5 rounded shrink-0 shadow-xs">
+                          Related
+                        </span>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          {activeVideo.relatedTo.map((topic, tIdx) => (
+                            <span
+                              key={tIdx}
+                              className="bg-sky-50 text-sky-900 text-xs px-2 py-0.5 rounded border border-sky-200/60 font-medium"
+                            >
+                              {topic}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* More videos for this lesson row (shown when lesson has multiple video options) */}
             {sortedVideos.length > 1 && (
               <div className="rounded-2xl border border-indigo-950/10 bg-white p-5 shadow-card space-y-3">
@@ -600,6 +682,11 @@ export function LessonStudio({
                             >
                               {vid.level}
                             </span>
+                            {vid.role === "optional" && (
+                              <span className="text-[9px] font-mono font-bold text-amber-800 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">
+                                Optional ({vid.minutes}m)
+                              </span>
+                            )}
                             {isCurrent && (
                               <span className="text-[10px] font-mono font-bold text-coral">
                                 • Active
@@ -622,6 +709,17 @@ export function LessonStudio({
                           {vid.channel && (
                             <p className="text-[10px] font-mono text-indigo-900/50 truncate">
                               {vid.channel}
+                            </p>
+                          )}
+                          {/* Covers vs Related in more videos */}
+                          {vid.covers && vid.covers.length > 0 && (
+                            <p className="text-[10px] truncate text-emerald-900/80 font-mono">
+                              <span className="font-bold text-emerald-800">Covers:</span> {vid.covers.join(", ")}
+                            </p>
+                          )}
+                          {vid.relatedTo && vid.relatedTo.length > 0 && (
+                            <p className="text-[10px] truncate text-sky-900/80 font-mono">
+                              <span className="font-bold text-sky-800">Related:</span> {vid.relatedTo.join(", ")}
                             </p>
                           )}
                         </div>
