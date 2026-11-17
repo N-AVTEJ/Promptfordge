@@ -98,7 +98,7 @@ export function MobileDrawer({
             animate="visible"
             exit="exit"
             onClick={onClose}
-            className="fixed inset-0 bg-indigo-950/40 backdrop-blur-sm"
+            className="fixed inset-0 bg-navy/40 backdrop-blur-sm"
             aria-hidden="true"
           />
 
@@ -109,23 +109,23 @@ export function MobileDrawer({
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="relative z-10 flex h-full w-[85%] max-w-sm flex-col border-l border-indigo-950/10 bg-cream p-6 shadow-2xl"
+            className="relative z-10 flex h-full w-[85%] max-w-sm flex-col border-l border-navy/10 bg-daylight p-6 shadow-2xl"
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-indigo-950/10 pb-4">
+            <div className="flex items-center justify-between border-b border-navy/10 pb-4">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-coral/30 bg-coral/10">
-                  <Flame className="h-4 w-4 text-coral" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-ultramarine/30 bg-ultramarine/10">
+                  <Flame className="h-4 w-4 text-ultramarine" />
                 </div>
-                <span className="font-sans text-sm font-bold tracking-tight text-indigo">
-                  Prompt<span className="text-coral">Forge</span>
+                <span className="font-sans text-sm font-bold tracking-tight text-navy">
+                  Prompt<span className="text-ultramarine">Forge</span>
                 </span>
               </div>
               <button
                 ref={closeButtonRef}
                 type="button"
                 onClick={onClose}
-                className="rounded-lg p-1.5 text-indigo-900/60 hover:bg-indigo-950/5 hover:text-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+                className="rounded-lg p-1.5 text-navy/60 hover:bg-navy/5 hover:text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ultramarine"
                 aria-label="Close menu"
               >
                 <X className="h-5 w-5" aria-hidden="true" />
@@ -137,7 +137,7 @@ export function MobileDrawer({
               <Link
                 href="/dashboard"
                 onClick={onClose}
-                className="flex items-center justify-center gap-2 rounded-lg bg-coral px-4 py-2.5 text-xs font-bold text-white shadow-coral-glow hover:bg-coral-600 transition-colors"
+                className="flex items-center justify-center gap-2 rounded-lg bg-ultramarine px-4 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-ultramarine/90 transition-colors"
               >
                 <span>Go to Dashboard</span>
                 <ArrowRight className="h-4 w-4" />
@@ -151,8 +151,8 @@ export function MobileDrawer({
                 onClick={onClose}
                 className={`flex items-center justify-between rounded-lg px-3.5 py-3 text-sm font-medium transition-colors ${
                   currentPath === "/"
-                    ? "border-l-2 border-coral bg-white pl-3 font-semibold text-coral shadow-card"
-                    : "text-indigo-900/70 hover:bg-white hover:text-indigo"
+                    ? "border-l-2 border-ultramarine bg-white pl-3 font-semibold text-ultramarine shadow-xs"
+                    : "text-navy/70 hover:bg-white hover:text-navy"
                 }`}
               >
                 <span>Landing Page</span>
@@ -169,17 +169,12 @@ export function MobileDrawer({
                     onClick={onClose}
                     className={`flex items-center justify-between rounded-lg px-3.5 py-3 text-sm font-medium transition-colors ${
                       isActive
-                        ? "border-l-2 border-coral bg-white pl-3 font-semibold text-coral shadow-card"
-                        : "text-indigo-900/70 hover:bg-white hover:text-indigo"
+                        ? "border-l-2 border-ultramarine bg-white pl-3 font-semibold text-ultramarine shadow-xs"
+                        : "text-navy/70 hover:bg-white hover:text-navy"
                     }`}
                     aria-current={isActive ? "page" : undefined}
                   >
-                    <div className="flex flex-col">
-                      <span>{item.label}</span>
-                      <span className="font-mono text-[10px] text-indigo-900/50">
-                        {item.phase}
-                      </span>
-                    </div>
+                    <span>{item.label}</span>
                     <ArrowRight className="h-4 w-4 opacity-50" />
                   </Link>
                 );
@@ -187,10 +182,10 @@ export function MobileDrawer({
             </nav>
 
             {/* Footer inside Drawer */}
-            <div className="border-t border-indigo-950/10 pt-4">
-              <div className="flex items-center justify-between font-mono text-xs text-indigo-900/60">
+            <div className="border-t border-navy/10 pt-4">
+              <div className="flex items-center justify-between font-mono text-xs text-navy/60">
                 <span>Free & Open Sandbox</span>
-                <span className="text-teal font-medium">No Auth Required</span>
+                <span className="text-navy font-semibold">No Auth Required</span>
               </div>
             </div>
           </motion.div>
