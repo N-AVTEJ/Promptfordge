@@ -150,25 +150,22 @@ async function verifyLandingAnimation() {
   console.log("\n[Technique Rows Check] Scrolling to TechniqueRows...");
   const techRowEl = await page.$("section[aria-label='Prompting techniques comparison']");
   assert.ok(techRowEl, "TechniqueRows section must exist");
-  const techBox = await techRowEl.boundingBox();
-  if (techBox) {
-    await page.evaluate(`window.scrollTo(0, ${techBox.y})`);
-    await page.waitForTimeout(600);
-    const barWidth = await page.evaluate(`
-      (() => {
-        const bar = document.querySelector(
-          "section[aria-label='Prompting techniques comparison'] .bg-ultramarine"
-        );
-        return bar ? bar.getAttribute("style") : null;
-      })()
-    `) as string | null;
+  await techRowEl.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(600);
+  const barWidth = await page.evaluate(`
+    (() => {
+      const bar = document.querySelector(
+        "section[aria-label='Prompting techniques comparison'] .bg-ultramarine"
+      );
+      return bar ? bar.getAttribute("style") : null;
+    })()
+  `) as string | null;
 
-    console.log("Technique bar width style after scroll:", barWidth);
-    assert.ok(
-      barWidth && barWidth.includes("%") && !barWidth.includes("0%"),
-      "Token bars must draw when section enters view"
-    );
-  }
+  console.log("Technique bar width style after scroll:", barWidth);
+  assert.ok(
+    barWidth && barWidth.includes("%") && !barWidth.includes("0%"),
+    "Token bars must draw when section enters view"
+  );
 
   console.log("\n✓ ALL SCROLL ANIMATION TESTS PASSED PERFECTLY!");
   await browser.close();
