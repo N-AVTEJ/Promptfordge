@@ -24,17 +24,19 @@ async function verifyLandingAnimation() {
   assert.strictEqual(errors.length, 0, "No console or page errors on initial load");
 
   // 1. Verify ScrollTrigger exists and is pinned
-  const stInfo = await page.evaluate(() => {
-    const stList = (window as unknown as { ScrollTrigger?: { getAll: () => any[] } })
-      .ScrollTrigger?.getAll() || [];
-    const st = stList.find((t: any) => t.pin);
-    if (!st) return null;
-    return {
-      start: st.start,
-      end: st.end,
-      total: st.end - st.start,
-    };
-  });
+  const stInfo = await page.evaluate(`
+    (() => {
+      const stList = (window.ScrollTrigger && window.ScrollTrigger.getAll()) || [];
+      const st = stList.find(t => t.pin);
+      if (!st) return null;
+      return {
+        start: st.start,
+        end: st.end,
+        total: st.end - st.start,
+      };
+    })()
+  `) as { start: number; end: number; total: number } | null;
+
   console.log("ScrollTrigger pin bounds:", stInfo);
   assert.ok(stInfo, "Pinned ScrollTrigger instance must exist");
   assert.ok(stInfo.total > 2000, "Pin distance must cover the 400vh scrub story");
@@ -53,29 +55,30 @@ async function verifyLandingAnimation() {
 
   for (const stg of testStages) {
     const targetY = stInfo.start + stInfo.total * stg.progress;
-    await page.evaluate((pos) => window.scrollTo(0, pos), targetY);
+    await page.evaluate(`window.scrollTo(0, ${targetY})`);
     await page.waitForTimeout(400);
 
-    const visualState = await page.evaluate(() => {
-      const getOpacity = (sel: string) => {
-        const el = document.querySelector(sel);
-        return el ? parseFloat(window.getComputedStyle(el).opacity) : null;
-      };
-      const getTransform = (sel: string) => {
-        const el = document.querySelector(sel);
-        return el ? window.getComputedStyle(el).transform : null;
-      };
-
-      return {
-        sentenceCardOpacity: getOpacity(".desktop-sentence-card"),
-        tokensOpacity: getOpacity(".desktop-tokens-layer"),
-        firstTokenOpacity: getOpacity(".desktop-token-11956"),
-        firstTokenTransform: getTransform(".desktop-token-11956"),
-        loopsTokenTransform: getTransform(".desktop-token-19445"),
-        attnLinesOpacity: getOpacity(".desktop-attn-line"),
-        outputConsoleOpacity: getOpacity(".desktop-output-console"),
-      };
-    });
+    const visualState = await page.evaluate(`
+      (() => {
+        function op(sel) {
+          const el = document.querySelector(sel);
+          return el ? parseFloat(window.getComputedStyle(el).opacity) : null;
+        }
+        function tr(sel) {
+          const el = document.querySelector(sel);
+          return el ? window.getComputedStyle(el).transform : null;
+        }
+        return {
+          sentenceCardOpacity: op(".desktop-sentence-card"),
+          tokensOpacity: op(".desktop-tokens-layer"),
+          firstTokenOpacity: op(".desktop-token-11956"),
+          firstTokenTransform: tr(".desktop-token-11956"),
+          loopsTokenTransform: tr(".desktop-token-19445"),
+          attnLinesOpacity: op(".desktop-attn-line"),
+          outputConsoleOpacity: op(".desktop-output-console"),
+        };
+      })()
+    `) as any;
 
     console.log(
       `\nChecking ${stg.name} (progress ~${(stg.progress * 100).toFixed(0)}%):`,
@@ -128,12 +131,15 @@ async function verifyLandingAnimation() {
 
   // 2. Reverse scroll check: scroll from bottom back to 0
   console.log("\n[Reverse Scroll Check] Scrubbing backwards to 0%...");
-  await page.evaluate((pos) => window.scrollTo(0, pos), stInfo.start);
+  await page.evaluate(`window.scrollTo(0, ${stInfo.start})`);
   await page.waitForTimeout(500);
-  const revertedState = await page.evaluate(() => {
-    const el = document.querySelector(".desktop-sentence-card");
-    return el ? parseFloat(window.getComputedStyle(el).opacity) : 0;
-  });
+  const revertedState = await page.evaluate(`
+    (() => {
+      const el = document.querySelector(".desktop-sentence-card");
+      return el ? parseFloat(window.getComputedStyle(el).opacity) : 0;
+    })()
+  `) as number;
+
   console.log("Reverted sentence card opacity:", revertedState);
   assert.ok(
     revertedState > 0.8,
@@ -146,14 +152,17 @@ async function verifyLandingAnimation() {
   assert.ok(techRowEl, "TechniqueRows section must exist");
   const techBox = await techRowEl.boundingBox();
   if (techBox) {
-    await page.evaluate((y) => window.scrollTo(0, y), techBox.y);
+    await page.evaluate(`window.scrollTo(0, ${techBox.y})`);
     await page.waitForTimeout(600);
-    const barWidth = await page.evaluate(() => {
-      const bar = document.querySelector(
-        "section[aria-label='Prompting techniques comparison'] .bg-ultramarine"
-      );
-      return bar ? bar.getAttribute("style") : null;
-    });
+    const barWidth = await page.evaluate(`
+      (() => {
+        const bar = document.querySelector(
+          "section[aria-label='Prompting techniques comparison'] .bg-ultramarine"
+        );
+        return bar ? bar.getAttribute("style") : null;
+      })()
+    `) as string | null;
+
     console.log("Technique bar width style after scroll:", barWidth);
     assert.ok(
       barWidth && barWidth.includes("%") && !barWidth.includes("0%"),
