@@ -116,7 +116,7 @@ ALL_MODULES.forEach((mod, idx) => {
   const hours = Math.floor(modTotalMinutes / 60);
   const remainingMins = modTotalMinutes % 60;
   mod.totalWatchTime = hours > 0
-    ? `${hours}h ${remainingMins > 0 ? `${remainingMins}m` : ""} watch`
+    ? (remainingMins > 0 ? `${hours}h ${remainingMins}m watch` : `${hours}h watch`)
     : `${modTotalMinutes}m watch`;
 });
 

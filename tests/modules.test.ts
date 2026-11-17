@@ -20,6 +20,7 @@ describe("PromptForge Phase 4: Module & Lesson Curriculum Data", () => {
       assert.strictEqual(mod.lessonCount, mod.lessons.length);
       assert.ok(mod.videoCount >= 1, `Module ${mod.id} must have at least one playable video`);
       assert.ok(typeof mod.totalWatchTime === "string" && mod.totalWatchTime.includes("watch"), `Module ${mod.id} must have totalWatchTime formatted`);
+      assert.ok(!mod.totalWatchTime.includes("  "), `Module ${mod.id} totalWatchTime must not contain double spaces`);
     });
   });
 
