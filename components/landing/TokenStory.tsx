@@ -16,9 +16,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function TokenStory() {
   const prefersReduced = useReducedMotion();
+  const [forceInteractive, setForceInteractive] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLDivElement | null>(null);
   const [activeStageIndex, setActiveStageIndex] = useState(0);
+
+  const isInteractive = !prefersReduced || forceInteractive;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -26,7 +29,7 @@ export function TokenStory() {
         ScrollTrigger;
     }
 
-    if (prefersReduced) return;
+    if (!isInteractive) return;
 
     const container = containerRef.current;
     const canvas = canvasRef.current;
@@ -88,7 +91,7 @@ export function TokenStory() {
             start: "top top",
             end: "+=400%",
             pin: true,
-            scrub: 1,
+            scrub: 0.6,
             anticipatePin: 1,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
@@ -322,7 +325,7 @@ export function TokenStory() {
             start: "top top",
             end: "+=300%",
             pin: true,
-            scrub: 1,
+            scrub: 0.6,
             anticipatePin: 1,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
@@ -405,12 +408,12 @@ export function TokenStory() {
     return () => {
       ctx.revert();
     };
-  }, [prefersReduced]);
+  }, [isInteractive]);
 
   // ===========================================================================
   // REDUCED MOTION STATIC VIEW (Accessible static fallback)
   // ===========================================================================
-  if (prefersReduced) {
+  if (!isInteractive) {
     return (
       <div
         ref={containerRef}
@@ -418,13 +421,27 @@ export function TokenStory() {
         aria-label="Prompt decomposition simulation (reduced motion static view)"
       >
         <div className="mx-auto max-w-6xl px-6">
-          <div className="flex items-center justify-between border-b border-white/20 pb-6 mb-12">
-            <h2 className="font-sans text-3xl font-bold tracking-tight text-white">
-              How a machine reads your prompt
-            </h2>
-            <span className="font-mono text-xs border border-white/30 rounded px-2.5 py-1 bg-white/10 text-white/90">
-              {SIMULATION_BADGE}
-            </span>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/20 pb-6 mb-12 gap-4">
+            <div>
+              <h2 className="font-sans text-3xl font-bold tracking-tight text-white">
+                How a machine reads your prompt
+              </h2>
+              <p className="mt-1 font-mono text-xs text-white/70">
+                Reduced-motion preference active. Showing static decomposition.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setForceInteractive(true)}
+                className="rounded-lg bg-white px-3.5 py-1.5 font-mono text-xs font-bold text-ultramarine shadow-sm hover:bg-white/90 transition-all"
+              >
+                Launch interactive scroll story →
+              </button>
+              <span className="font-mono text-xs border border-white/30 rounded px-2.5 py-1 bg-white/10 text-white/90">
+                {SIMULATION_BADGE}
+              </span>
+            </div>
           </div>
 
           <div className="space-y-16">
@@ -603,10 +620,20 @@ export function TokenStory() {
             })}
           </nav>
 
-          {/* Persistent Educational Simulation Badge */}
-          <span className="font-mono text-[10px] sm:text-xs rounded border border-white/20 bg-navy/60 px-2.5 py-1 text-white/80 backdrop-blur-sm">
-            {SIMULATION_BADGE}
-          </span>
+          {/* Persistent Educational Simulation Badge & Active Scroll Cue */}
+          <div className="flex items-center gap-3">
+            <span className="hidden md:inline-flex items-center gap-1.5 font-mono text-xs text-white/90 bg-navy/60 border border-white/20 rounded px-2.5 py-1 backdrop-blur-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-mint animate-pulse" />
+              {activeStageIndex === 0 && "Scroll to decompose prompt ↓"}
+              {activeStageIndex === 1 && "Scroll to project embeddings ↓"}
+              {activeStageIndex === 2 && "Scroll to calculate attention ↓"}
+              {activeStageIndex === 3 && "Scroll to stream output tokens ↓"}
+              {activeStageIndex === 4 && "Generation complete ✓"}
+            </span>
+            <span className="font-mono text-[10px] sm:text-xs rounded border border-white/20 bg-navy/60 px-2.5 py-1 text-white/80 backdrop-blur-sm">
+              {SIMULATION_BADGE}
+            </span>
+          </div>
         </div>
 
         {/* Center Main: Left Caption & Right Canvas (Desktop) / Top Caption & Bottom Canvas (Mobile) */}

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <div className="relative min-h-screen bg-daylight text-navy overflow-x-clip">
+    <div className="relative min-h-screen bg-daylight text-navy">
       {/* 1. Header Navigation */}
       <Nav />
 

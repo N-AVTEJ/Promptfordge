@@ -1,16 +1,61 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { ArrowDown } from "lucide-react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { curriculumStats, HERO_SEGMENTS } from "@/content/landing";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function Hero() {
   const prefersReduced = useReducedMotion();
   const [activeSegment, setActiveSegment] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (prefersReduced) return;
+    const ctx = gsap.context(() => {
+      if (cardRef.current && sectionRef.current) {
+        gsap.to(cardRef.current, {
+          y: -20,
+          scale: 0.99,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.5,
+          },
+        });
+      }
+      if (scrollIndicatorRef.current && sectionRef.current) {
+        gsap.to(scrollIndicatorRef.current, {
+          opacity: 0,
+          y: 16,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "center top",
+            end: "bottom top",
+            scrub: 0.5,
+          },
+        });
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [prefersReduced]);
 
   return (
-    <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 bg-daylight text-navy overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="relative pt-32 pb-16 md:pt-40 md:pb-24 bg-daylight text-navy overflow-hidden"
+    >
       <div className="mx-auto max-w-6xl px-6">
         <div className="max-w-3xl">
           {/* Main Headline — single uniform styling, no accented word, up to 88px desktop */}
@@ -44,7 +89,10 @@ export function Hero() {
 
         {/* The Sentence IS the Hero — Set huge in JetBrains Mono */}
         <div className="mt-16 md:mt-24">
-          <div className="relative rounded-2xl border border-navy/15 bg-white p-6 sm:p-10 md:p-14 shadow-sm">
+          <div
+            ref={cardRef}
+            className="relative rounded-2xl border border-navy/15 bg-white p-6 sm:p-10 md:p-14 shadow-sm transition-shadow will-change-transform"
+          >
             <div
               className="font-mono text-2xl sm:text-3xl md:text-4xl lg:text-[44px] font-semibold text-navy leading-[1.5] tracking-tight selection:bg-ultramarine/20"
               aria-label="Example prompt decomposed into role, task, context, and constraint"
@@ -100,6 +148,20 @@ export function Hero() {
                 );
               })}
             </div>
+          </div>
+        </div>
+
+        {/* Scroll Indicator Prompt */}
+        <div
+          ref={scrollIndicatorRef}
+          className="mt-12 flex flex-col items-center justify-center gap-2 text-center text-navy/70 select-none"
+          aria-hidden="true"
+        >
+          <span className="font-mono text-xs tracking-wider uppercase font-semibold text-navy/60">
+            Scroll to see machine decomposition
+          </span>
+          <div className="flex h-7 w-7 items-center justify-center rounded-full border border-navy/15 bg-white shadow-xs animate-bounce">
+            <ArrowDown className="h-3.5 w-3.5 text-ultramarine" />
           </div>
         </div>
       </div>

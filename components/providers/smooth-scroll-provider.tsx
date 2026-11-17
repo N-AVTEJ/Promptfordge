@@ -42,16 +42,24 @@ export function SmoothScrollProvider({
     // If user prefers reduced motion, do not intercept natural browser scroll
     if (prefersReduced) {
       ScrollTrigger.refresh();
-      return;
+      const nativeScrollHandler = () => {
+        ScrollTrigger.update();
+      };
+      window.addEventListener("scroll", nativeScrollHandler, { passive: true });
+      return () => {
+        window.removeEventListener("scroll", nativeScrollHandler);
+      };
     }
 
     const lenis = new Lenis({
-      duration: 1.15,
+      duration: 0.85,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
+      wheelMultiplier: 1.0,
       touchMultiplier: 1.5,
+      autoRaf: false,
     });
 
     lenisRef.current = lenis;
@@ -61,6 +69,12 @@ export function SmoothScrollProvider({
     lenis.on("scroll", () => {
       ScrollTrigger.update();
     });
+
+    // Also connect window scroll listener for safety
+    const onWindowScroll = () => {
+      ScrollTrigger.update();
+    };
+    window.addEventListener("scroll", onWindowScroll, { passive: true });
 
     // Single RAF loop: drive Lenis updates exclusively via GSAP ticker
     // Prevents double-ticking and keeps GSAP and Lenis perfectly in sync
@@ -73,20 +87,27 @@ export function SmoothScrollProvider({
     // Disable GSAP lag smoothing to avoid jumps during heavy scroll
     gsap.ticker.lagSmoothing(0);
 
-    // After font load or full page load, recalculate ScrollTrigger pins to prevent layout shifts
-    if (typeof document !== "undefined" && document.fonts?.ready) {
-      document.fonts.ready.then(() => {
-        ScrollTrigger.refresh();
-      });
-    }
-
-    const handleWindowLoad = () => {
+    // Recalculate ScrollTrigger pins after layout settlements
+    const refreshTrigger = () => {
       ScrollTrigger.refresh();
     };
-    window.addEventListener("load", handleWindowLoad);
+
+    if (typeof document !== "undefined" && document.fonts?.ready) {
+      document.fonts.ready.then(refreshTrigger);
+    }
+
+    window.addEventListener("load", refreshTrigger);
+    window.addEventListener("resize", refreshTrigger);
+
+    const t1 = setTimeout(refreshTrigger, 100);
+    const t2 = setTimeout(refreshTrigger, 500);
 
     return () => {
-      window.removeEventListener("load", handleWindowLoad);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      window.removeEventListener("load", refreshTrigger);
+      window.removeEventListener("resize", refreshTrigger);
+      window.removeEventListener("scroll", onWindowScroll);
       gsap.ticker.remove(tickerUpdate);
       lenis.destroy();
       lenisRef.current = null;
