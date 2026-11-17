@@ -16,6 +16,7 @@ import {
   Film,
   Compass,
   Clock,
+  ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -516,6 +517,22 @@ export function LessonStudio({
               onTimeUpdate={(sec) => setCurrentPlaybackSecond(sec)}
             />
 
+            {/* Direct YouTube fallback link */}
+            {activeVideoId && activeVideoId !== "TODO" && !activeVideoId.startsWith("TODO") && (
+              <div className="flex items-center justify-end -mt-3 mb-1">
+                <a
+                  href={`https://www.youtube.com/watch?v=${activeVideoId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-indigo-900/60 hover:text-coral transition-colors underline-offset-4 hover:underline"
+                  title="Open video on YouTube in a new tab"
+                >
+                  <ExternalLink className="h-3 w-3" />
+                  <span>Not working? Open on YouTube</span>
+                </a>
+              </div>
+            )}
+
             {/* Active Video Metadata Card with Honest Coverage (Covers vs Related) & Watch Time */}
             {activeVideo && activeVideoStatus === "ok" && (
               <div className="rounded-2xl border border-indigo-950/10 bg-white p-4 shadow-card space-y-3">
@@ -591,6 +608,12 @@ export function LessonStudio({
                             </span>
                           ))}
                         </div>
+                      </div>
+                    )}
+
+                    {activeVideo.notes && (
+                      <div className="text-xs text-amber-900/80 italic bg-amber-50/80 border border-amber-200/60 rounded px-2.5 py-1">
+                        Note: {activeVideo.notes}
                       </div>
                     )}
                   </div>

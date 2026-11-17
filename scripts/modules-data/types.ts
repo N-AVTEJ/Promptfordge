@@ -32,6 +32,10 @@ export interface VideoSource {
   role?: "core" | "optional";
   source?: "external" | "own";
   thumbnailUrl?: string;
+  whyThisVideo?: string;
+  reviewed?: boolean;
+  notes?: string;
+  chapters?: Chapter[];
 }
 
 export interface CheckYourself {
