@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T07:38:19.638Z",
+  "generatedAt": "2026-11-17T07:41:44.830Z",
   "totalOk": 53,
   "totalUnavailable": 0,
   "totalSlots": 0,
@@ -69,7 +69,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/LPZh9BOjkQs/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:37:56.095Z"
+          "verifiedAt": "2026-11-17T07:41:29.694Z"
         },
         {
           "id": "ZHCB09O6zUk",
@@ -91,7 +91,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/ZHCB09O6zUk/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:37:56.520Z"
+          "verifiedAt": "2026-11-17T07:41:29.949Z"
         },
         {
           "id": "uDIW34h8cmM",
@@ -113,7 +113,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:37:56.892Z"
+          "verifiedAt": "2026-11-17T07:41:30.140Z"
         },
         {
           "id": "wjZofJX0v4M",
@@ -135,7 +135,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/wjZofJX0v4M/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:37:57.079Z"
+          "verifiedAt": "2026-11-17T07:41:30.375Z"
         },
         {
           "id": "eMlx5fFNoYc",
@@ -157,7 +157,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/eMlx5fFNoYc/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:37:57.395Z"
+          "verifiedAt": "2026-11-17T07:41:30.689Z"
         },
         {
           "id": "7xTGNNLPyMI",
@@ -179,7 +179,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/7xTGNNLPyMI/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:37:58.025Z"
+          "verifiedAt": "2026-11-17T07:41:30.891Z"
         }
       ],
       "slots": []
@@ -240,7 +240,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/T-w_5T-j-dA/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:37:58.221Z"
+          "verifiedAt": "2026-11-17T07:41:31.145Z"
         },
         {
           "id": "Vl4hH_L5-3Q",
@@ -263,7 +263,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/Vl4hH_L5-3Q/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:37:58.506Z"
+          "verifiedAt": "2026-11-17T07:41:31.379Z"
         },
         {
           "id": "uDIW34h8cmM",
@@ -287,7 +287,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:37:58.840Z"
+          "verifiedAt": "2026-11-17T07:41:31.585Z"
         },
         {
           "id": "b210W3JWOxw",
@@ -308,7 +308,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/b210W3JWOxw/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:37:59.085Z"
+          "verifiedAt": "2026-11-17T07:41:31.799Z"
         },
         {
           "id": "b2t4pa9lOIc",
@@ -331,7 +331,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/b2t4pa9lOIc/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:37:59.384Z"
+          "verifiedAt": "2026-11-17T07:41:32.023Z"
         },
         {
           "id": "cnww-CvDoRk",
@@ -353,7 +353,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/cnww-CvDoRk/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:37:59.624Z"
+          "verifiedAt": "2026-11-17T07:41:32.323Z"
         },
         {
           "id": "ugxPshXr7Ro",
@@ -374,7 +374,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/ugxPshXr7Ro/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:37:59.972Z"
+          "verifiedAt": "2026-11-17T07:41:32.618Z"
         }
       ],
       "slots": []
@@ -429,7 +429,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/cnww-CvDoRk/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:00.169Z"
+          "verifiedAt": "2026-11-17T07:41:32.916Z"
         },
         {
           "id": "zrp3Lr5eeFc",
@@ -451,7 +451,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/zrp3Lr5eeFc/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:00.452Z"
+          "verifiedAt": "2026-11-17T07:41:33.259Z"
         },
         {
           "id": "OEQPss-UXhA",
@@ -472,7 +472,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/OEQPss-UXhA/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:00.915Z"
+          "verifiedAt": "2026-11-17T07:41:33.533Z"
         }
       ],
       "slots": []
@@ -521,7 +521,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/3TGqlQxpuU0/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:01.175Z"
+          "verifiedAt": "2026-11-17T07:41:33.838Z"
         },
         {
           "id": "KwC8bUZrUKA",
@@ -542,7 +542,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/KwC8bUZrUKA/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:01.466Z"
+          "verifiedAt": "2026-11-17T07:41:34.165Z"
         }
       ],
       "slots": []
@@ -596,7 +596,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/yu27PWzJI_Y/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:01.737Z"
+          "verifiedAt": "2026-11-17T07:41:34.477Z"
         },
         {
           "id": "ZFKvTIADp0k",
@@ -618,7 +618,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/ZFKvTIADp0k/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:02.875Z"
+          "verifiedAt": "2026-11-17T07:41:34.787Z"
         },
         {
           "id": "vBJF2sy1Pyw",
@@ -640,7 +640,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/vBJF2sy1Pyw/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:03.082Z"
+          "verifiedAt": "2026-11-17T07:41:35.590Z"
         },
         {
           "id": "LZJTrAXcyFM",
@@ -664,7 +664,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/LZJTrAXcyFM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:03.371Z"
+          "verifiedAt": "2026-11-17T07:41:37.214Z"
         },
         {
           "id": "RTaZqGflrJ8",
@@ -685,7 +685,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/RTaZqGflrJ8/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:03.561Z"
+          "verifiedAt": "2026-11-17T07:41:37.898Z"
         }
       ],
       "slots": []
@@ -734,7 +734,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/J51oZYcNvP8/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:03.921Z"
+          "verifiedAt": "2026-11-17T07:41:38.406Z"
         },
         {
           "id": "lOD_EE96jhM",
@@ -756,7 +756,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/lOD_EE96jhM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:04.246Z"
+          "verifiedAt": "2026-11-17T07:41:38.625Z"
         }
       ],
       "slots": []
@@ -807,7 +807,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/h8gMhXYAv1k/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:04.602Z"
+          "verifiedAt": "2026-11-17T07:41:38.812Z"
         },
         {
           "id": "gosZ_vqXkMI",
@@ -829,7 +829,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/gosZ_vqXkMI/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:06.692Z"
+          "verifiedAt": "2026-11-17T07:41:39.062Z"
         },
         {
           "id": "cDn7bf84LsM",
@@ -850,7 +850,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/cDn7bf84LsM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:07.418Z"
+          "verifiedAt": "2026-11-17T07:41:39.269Z"
         },
         {
           "id": "0z9_MhcYvcY",
@@ -872,7 +872,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/0z9_MhcYvcY/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:09.038Z"
+          "verifiedAt": "2026-11-17T07:41:39.484Z"
         }
       ],
       "slots": []
@@ -927,7 +927,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/_9x-mAHGgC4/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:09.987Z"
+          "verifiedAt": "2026-11-17T07:41:39.723Z"
         },
         {
           "id": "zn2ukSnDqSg",
@@ -948,7 +948,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/zn2ukSnDqSg/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:10.648Z"
+          "verifiedAt": "2026-11-17T07:41:39.933Z"
         },
         {
           "id": "gZTQNb0NGjM",
@@ -970,7 +970,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/gZTQNb0NGjM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:10.856Z"
+          "verifiedAt": "2026-11-17T07:41:40.136Z"
         },
         {
           "id": "yNIlm9IfcgA",
@@ -992,7 +992,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/yNIlm9IfcgA/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:11.025Z"
+          "verifiedAt": "2026-11-17T07:41:40.384Z"
         }
       ],
       "slots": []
@@ -1042,7 +1042,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/LAF-lACf2QY/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:11.395Z"
+          "verifiedAt": "2026-11-17T07:41:40.627Z"
         },
         {
           "id": "--XpNP6NsqE",
@@ -1063,7 +1063,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/--XpNP6NsqE/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:11.563Z"
+          "verifiedAt": "2026-11-17T07:41:40.850Z"
         },
         {
           "id": "GxlOoKI0zxg",
@@ -1084,7 +1084,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/GxlOoKI0zxg/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:11.826Z"
+          "verifiedAt": "2026-11-17T07:41:41.056Z"
         },
         {
           "id": "QRgayVF5PyM",
@@ -1105,7 +1105,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/QRgayVF5PyM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:12.051Z"
+          "verifiedAt": "2026-11-17T07:41:41.254Z"
         },
         {
           "id": "U8zrqWrTYdc",
@@ -1126,7 +1126,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/U8zrqWrTYdc/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:12.274Z"
+          "verifiedAt": "2026-11-17T07:41:41.454Z"
         }
       ],
       "slots": []
@@ -1178,7 +1178,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:12.638Z"
+          "verifiedAt": "2026-11-17T07:41:41.708Z"
         },
         {
           "id": "ut5kp56wW_4",
@@ -1199,7 +1199,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/ut5kp56wW_4/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:12.939Z"
+          "verifiedAt": "2026-11-17T07:41:41.898Z"
         },
         {
           "id": "QX-p-vsDoiQ",
@@ -1220,7 +1220,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/QX-p-vsDoiQ/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:13.222Z"
+          "verifiedAt": "2026-11-17T07:41:42.119Z"
         },
         {
           "id": "wcmLgy1-9aQ",
@@ -1241,7 +1241,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/wcmLgy1-9aQ/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:14.466Z"
+          "verifiedAt": "2026-11-17T07:41:42.361Z"
         },
         {
           "id": "g5h-piquf_k",
@@ -1262,7 +1262,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/g5h-piquf_k/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:14.890Z"
+          "verifiedAt": "2026-11-17T07:41:42.625Z"
         }
       ],
       "slots": []
@@ -1318,7 +1318,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/eur8dUO9mvE/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:15.178Z"
+          "verifiedAt": "2026-11-17T07:41:42.847Z"
         },
         {
           "id": "vD0E3EUb8-8",
@@ -1340,7 +1340,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/vD0E3EUb8-8/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:15.908Z"
+          "verifiedAt": "2026-11-17T07:41:43.048Z"
         },
         {
           "id": "7j1t3UZA1TY",
@@ -1362,7 +1362,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/7j1t3UZA1TY/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:16.192Z"
+          "verifiedAt": "2026-11-17T07:41:43.293Z"
         },
         {
           "id": "kQmXtrmQ5Zg",
@@ -1384,7 +1384,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/kQmXtrmQ5Zg/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:16.488Z"
+          "verifiedAt": "2026-11-17T07:41:43.483Z"
         },
         {
           "id": "Yq29bZ8Hlrc",
@@ -1406,7 +1406,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/Yq29bZ8Hlrc/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:16.788Z"
+          "verifiedAt": "2026-11-17T07:41:43.688Z"
         }
       ],
       "slots": []
@@ -1456,7 +1456,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/zYGDpG-pTho/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:17.262Z"
+          "verifiedAt": "2026-11-17T07:41:43.920Z"
         },
         {
           "id": "l5K4r_TJz_8",
@@ -1478,7 +1478,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/l5K4r_TJz_8/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:17.594Z"
+          "verifiedAt": "2026-11-17T07:41:44.163Z"
         },
         {
           "id": "HdafI0t3sEY",
@@ -1502,7 +1502,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/HdafI0t3sEY/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:17.943Z"
+          "verifiedAt": "2026-11-17T07:41:44.343Z"
         },
         {
           "id": "7xTGNNLPyMI",
@@ -1526,7 +1526,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/7xTGNNLPyMI/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:18.257Z"
+          "verifiedAt": "2026-11-17T07:41:44.539Z"
         },
         {
           "id": "DNmIqNjbKoM",
@@ -1547,7 +1547,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/DNmIqNjbKoM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:38:19.550Z"
+          "verifiedAt": "2026-11-17T07:41:44.740Z"
         }
       ],
       "slots": []
