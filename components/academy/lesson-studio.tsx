@@ -165,29 +165,30 @@ export function LessonStudio({
   return (
     <div className="flex min-h-screen flex-col bg-cream text-indigo">
       {/* Studio Top Navigation Bar */}
-      <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-indigo-950/10 bg-cream/95 px-6 backdrop-blur-md">
+      <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-indigo-950/10 bg-cream/95 px-4 sm:px-6 backdrop-blur-md">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm min-w-0 flex-1 mr-4">
+        <div className="flex items-center gap-2 text-sm min-w-0 flex-1 mr-2 sm:mr-4">
           <Link
             href="/academy"
             className="flex items-center gap-1.5 text-indigo-900/70 hover:text-indigo font-semibold shrink-0"
+            title="Back to Academy"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Academy</span>
+            <span className="hidden sm:inline">Academy</span>
           </Link>
-          <span className="text-indigo-900/30 shrink-0">/</span>
+          <span className="text-indigo-900/30 shrink-0 hidden sm:inline">/</span>
           <span className="font-mono text-xs text-indigo-900/60 hidden md:inline shrink-0 font-bold">
             Mod {module.number.toString().padStart(2, "0")}
           </span>
           <span className="text-indigo-900/30 hidden md:inline shrink-0">/</span>
-          <span className="font-bold text-indigo truncate max-w-[280px]">
+          <span className="font-bold text-indigo truncate max-w-[150px] sm:max-w-[280px]">
             {lesson.title}
           </span>
         </div>
 
         {/* Header Actions */}
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <div className="hidden xs:flex items-center gap-2">
             <ProgressRing
               percent={modulePercent}
               size={32}
@@ -203,7 +204,7 @@ export function LessonStudio({
             variant="outline"
             size="sm"
             onClick={() => setIsModalOpen(true)}
-            className="h-8 px-3 text-xs flex items-center gap-1.5"
+            className="h-8 px-2 sm:px-3 text-xs flex items-center gap-1.5"
             title="Export or Import Progress"
           >
             <FileJson className="h-3.5 w-3.5 text-coral" />
@@ -215,14 +216,14 @@ export function LessonStudio({
             size="sm"
             onClick={() => toggleLesson(lesson.id)}
             className={cn(
-              "h-8 px-3 text-xs flex items-center gap-1.5 font-bold transition-all",
+              "h-8 px-2.5 sm:px-3 text-xs flex items-center gap-1.5 font-bold transition-all",
               isCurrentLessonComplete
                 ? "border-teal/30 text-teal bg-teal/10 hover:bg-teal/20"
                 : "bg-coral hover:bg-coral-600 text-white shadow-coral-glow"
             )}
           >
             <CheckCircle className="h-3.5 w-3.5 shrink-0" />
-            <span>{isCurrentLessonComplete ? "Completed" : "Mark complete"}</span>
+            <span className="hidden sm:inline">{isCurrentLessonComplete ? "Completed" : "Mark complete"}</span>
           </Button>
         </div>
       </header>
@@ -514,52 +515,8 @@ export function LessonStudio({
               onTimeUpdate={(sec) => setCurrentPlaybackSecond(sec)}
             />
 
-            {/* Check yourself (1 question after the video) */}
-            {lesson.checkYourself && (
-              <div className="rounded-2xl border border-indigo-950/10 bg-white p-5 shadow-card space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <HelpCircle className="h-4 w-4 text-teal" />
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900/70 font-mono">
-                      Check yourself
-                    </h3>
-                  </div>
-                  <span className="text-[11px] font-mono text-indigo-900/50">
-                    Concept check
-                  </span>
-                </div>
-                <p className="text-sm font-semibold text-indigo leading-snug">
-                  {lesson.checkYourself.question}
-                </p>
-
-                <div className="pt-1">
-                  <button
-                    type="button"
-                    onClick={() => setShowCheckAnswer(!showCheckAnswer)}
-                    className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-teal hover:text-teal/80 transition-colors"
-                  >
-                    <span>{showCheckAnswer ? "Hide answer" : "Show answer"}</span>
-                    <ChevronRight
-                      className={cn("h-3.5 w-3.5 transition-transform", showCheckAnswer && "rotate-90")}
-                    />
-                  </button>
-
-                  {showCheckAnswer && (
-                    <div className="mt-2.5 rounded-xl bg-teal/5 border border-teal/20 p-3.5 text-xs text-indigo-900/80 space-y-1.5">
-                      <p className="font-semibold text-indigo">{lesson.checkYourself.answer}</p>
-                      {lesson.checkYourself.hint && (
-                        <p className="text-[11px] text-indigo-900/60 font-sans italic">
-                          Hint: {lesson.checkYourself.hint}
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* More videos for this lesson row */}
-            {sortedVideos.length > 0 && (
+            {/* More videos for this lesson row (shown when lesson has multiple video options) */}
+            {sortedVideos.length > 1 && (
               <div className="rounded-2xl border border-indigo-950/10 bg-white p-5 shadow-card space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -614,6 +571,10 @@ export function LessonStudio({
                             alt={vid.title}
                             className="h-full w-full object-cover group-hover:scale-105 transition-transform"
                             loading="lazy"
+                            onError={(e) => {
+                              // Elegant fallback if ytimg is blocked
+                              (e.currentTarget as HTMLImageElement).src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="68" viewBox="0 0 120 68" fill="%23f4efe6"><rect width="120" height="68" fill="%23f4efe6"/><polygon points="48,22 80,34 48,46" fill="%23e0684b"/></svg>`;
+                            }}
                           />
                           {vid.minutes && (
                             <span className="absolute bottom-1 right-1 rounded bg-black/80 px-1 py-0.5 text-[9px] font-mono font-bold text-white">
@@ -666,6 +627,50 @@ export function LessonStudio({
                       </button>
                     );
                   })}
+                </div>
+              </div>
+            )}
+
+            {/* Check yourself (1 question after the video) */}
+            {lesson.checkYourself && (
+              <div className="rounded-2xl border border-indigo-950/10 bg-white p-5 shadow-card space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <HelpCircle className="h-4 w-4 text-teal" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900/70 font-mono">
+                      Check yourself
+                    </h3>
+                  </div>
+                  <span className="text-[11px] font-mono text-indigo-900/50">
+                    Concept check
+                  </span>
+                </div>
+                <p className="text-sm font-semibold text-indigo leading-snug">
+                  {lesson.checkYourself.question}
+                </p>
+
+                <div className="pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setShowCheckAnswer(!showCheckAnswer)}
+                    className="inline-flex items-center gap-1.5 py-1.5 px-2.5 -ml-2.5 rounded-lg text-xs font-mono font-semibold text-teal hover:text-teal/80 hover:bg-teal/5 transition-colors min-h-[36px]"
+                  >
+                    <span>{showCheckAnswer ? "Hide answer" : "Show answer"}</span>
+                    <ChevronRight
+                      className={cn("h-3.5 w-3.5 transition-transform", showCheckAnswer && "rotate-90")}
+                    />
+                  </button>
+
+                  {showCheckAnswer && (
+                    <div className="mt-2.5 rounded-xl bg-teal/5 border border-teal/20 p-3.5 text-xs text-indigo-900/80 space-y-1.5">
+                      <p className="font-semibold text-indigo">{lesson.checkYourself.answer}</p>
+                      {lesson.checkYourself.hint && (
+                        <p className="text-[11px] text-indigo-900/60 font-sans italic">
+                          Hint: {lesson.checkYourself.hint}
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             )}

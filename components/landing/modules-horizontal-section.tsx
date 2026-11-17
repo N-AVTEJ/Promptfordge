@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Clock, BookOpen, ChevronRight, Layers } from "lucide-react";
+import { Clock, BookOpen, ChevronRight, Layers, PlayCircle } from "lucide-react";
 import { CURRICULUM_MODULES, CurriculumModule } from "@/content/modules";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { CurvedDivider } from "@/components/ui/curved-divider";
@@ -69,14 +69,18 @@ function ModuleCard({
       </div>
 
       <div className="mt-6 pt-4 border-t border-indigo-950/10">
-        <div className="flex items-center justify-between text-xs font-mono text-indigo-900/60 mb-4">
-          <span className="flex items-center gap-1">
+        <div className="flex items-center justify-between text-xs font-mono text-indigo-900/60 mb-4 gap-2">
+          <span className="flex items-center gap-1.5" title={`${module.lessonCount} Lessons`}>
             <BookOpen className="h-3.5 w-3.5 text-violet" />
-            {module.lessonCount} Lessons
+            <span>{module.lessonCount} Lessons</span>
           </span>
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1.5" title={`${module.videoCount ?? 0} Videos`}>
+            <PlayCircle className="h-3.5 w-3.5 text-coral" />
+            <span>{module.videoCount ?? 0} Videos</span>
+          </span>
+          <span className="flex items-center gap-1.5" title={`Total watch time: ${module.totalWatchTime || module.duration}`}>
             <Clock className="h-3.5 w-3.5 text-teal" />
-            {module.duration}
+            <span>{module.totalWatchTime || module.duration}</span>
           </span>
         </div>
 
