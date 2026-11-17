@@ -75,8 +75,8 @@ ALL_MODULES.forEach((mod, idx) => {
     // Sort videos beginner first
     if (les.videos && les.videos.length > 0) {
       les.videos.sort((a, b) => {
-        const rA = LEVEL_RANK[a.level] ?? 2;
-        const rB = LEVEL_RANK[b.level] ?? 2;
+        const rA = (a.level ? LEVEL_RANK[a.level] : undefined) ?? 2;
+        const rB = (b.level ? LEVEL_RANK[b.level] : undefined) ?? 2;
         return rA - rB;
       });
 
