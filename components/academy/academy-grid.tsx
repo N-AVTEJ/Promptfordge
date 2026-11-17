@@ -215,9 +215,9 @@ export function AcademyGrid() {
                       <PlayCircle className="h-3.5 w-3.5 text-coral" />
                       <span>{module.videoCount ?? 0} Videos</span>
                     </span>
-                    <span className="flex items-center gap-1.5" title={`Duration: ${module.duration}`}>
+                    <span className="flex items-center gap-1.5" title={`Total watch time: ${module.totalWatchTime || module.duration}`}>
                       <Clock className="h-3.5 w-3.5 text-teal" />
-                      <span>{module.duration}</span>
+                      <span>{module.totalWatchTime || module.duration}</span>
                     </span>
                   </div>
 
