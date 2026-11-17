@@ -25,9 +25,9 @@ export interface VideoSource {
   channel: string;
   minutes: number;
   covers: string[];
-  level: "beginner" | "intermediate" | "advanced";
+  level?: "beginner" | "intermediate" | "advanced";
   status: "ok" | "unavailable" | "slot";
-  resolvedBy: "seed" | "agent-search";
+  resolvedBy?: "seed" | "agent-search";
   role?: "core" | "optional";
   source?: "external" | "own";
   thumbnailUrl?: string;
