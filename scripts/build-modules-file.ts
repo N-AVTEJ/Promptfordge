@@ -94,7 +94,10 @@ ALL_MODULES.forEach((mod, idx) => {
       les.videos.forEach((v) => {
         if (v.status === "ok" && !uniqueVideoIds.has(v.id)) {
           uniqueVideoIds.add(v.id);
-          modTotalMinutes += v.minutes || 0;
+          // UI watch time = core videos only
+          if (v.role !== "optional") {
+            modTotalMinutes += v.minutes || 0;
+          }
         }
       });
     }
@@ -111,6 +114,15 @@ ALL_MODULES.forEach((mod, idx) => {
   const firstPlayableInModule = mod.lessons.find((l) => l.youtubeId && l.status === "ok");
   if (firstPlayableInModule) {
     mod.youtubeVideoId = firstPlayableInModule.youtubeId;
+  }
+
+  // Fallback if no core video had positive minutes
+  if (modTotalMinutes === 0 && uniqueVideoIds.size > 0) {
+    mod.lessons.forEach((les) => {
+      les.videos?.forEach((v) => {
+        if (v.status === "ok") modTotalMinutes += v.minutes || 0;
+      });
+    });
   }
 
   const hours = Math.floor(modTotalMinutes / 60);
@@ -154,6 +166,7 @@ export interface VideoSource {
   channel: string;
   minutes: number;
   covers: string[];
+  relatedTo?: string[];
   level: "beginner" | "intermediate" | "advanced";
   status: "ok" | "unavailable" | "slot";
   resolvedBy: "seed" | "agent-search";
