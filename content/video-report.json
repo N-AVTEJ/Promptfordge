@@ -1,9 +1,23 @@
 {
-  "generatedAt": "2026-11-17T06:12:45.043Z",
-  "totalOk": 41,
-  "totalUnavailable": 1,
-  "totalSlots": 11,
+  "generatedAt": "2026-11-17T07:38:19.638Z",
+  "totalOk": 53,
+  "totalUnavailable": 0,
+  "totalSlots": 0,
   "everyModuleHasPlayableVideo": true,
+  "coveragePerModule": {
+    "mod-01": 1,
+    "mod-02": 0.88,
+    "mod-03": 0.8,
+    "mod-04": 1,
+    "mod-05": 0.83,
+    "mod-06": 1,
+    "mod-07": 1,
+    "mod-08": 1,
+    "mod-09": 1,
+    "mod-10": 1,
+    "mod-11": 1,
+    "mod-12": 0.6
+  },
   "modules": [
     {
       "moduleId": "mod-01",
@@ -13,7 +27,27 @@
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 318,
+      "totalWatchMinutes": 107,
+      "coverage": 1,
+      "coverageRatio": "6/6",
+      "coveredTopicsCount": 6,
+      "totalTopicsCount": 6,
+      "coveredTopics": [
+        "Evolution of AI and LLMs",
+        "Fundamentals of LLMs",
+        "Transformer architecture",
+        "Working of LLMs (tokens, training, inference)",
+        "Basics of prompts",
+        "Basic prompt structures"
+      ],
+      "totalTopics": [
+        "Evolution of AI and LLMs",
+        "Fundamentals of LLMs",
+        "Transformer architecture",
+        "Working of LLMs (tokens, training, inference)",
+        "Basics of prompts",
+        "Basic prompt structures"
+      ],
       "videos": [
         {
           "id": "LPZh9BOjkQs",
@@ -35,7 +69,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/LPZh9BOjkQs/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:31.324Z"
+          "verifiedAt": "2026-11-17T07:37:56.095Z"
         },
         {
           "id": "ZHCB09O6zUk",
@@ -57,7 +91,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/ZHCB09O6zUk/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:31.637Z"
+          "verifiedAt": "2026-11-17T07:37:56.520Z"
         },
         {
           "id": "uDIW34h8cmM",
@@ -79,7 +113,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:31.897Z"
+          "verifiedAt": "2026-11-17T07:37:56.892Z"
         },
         {
           "id": "wjZofJX0v4M",
@@ -101,7 +135,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/wjZofJX0v4M/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:32.214Z"
+          "verifiedAt": "2026-11-17T07:37:57.079Z"
         },
         {
           "id": "eMlx5fFNoYc",
@@ -123,7 +157,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/eMlx5fFNoYc/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:32.520Z"
+          "verifiedAt": "2026-11-17T07:37:57.395Z"
         },
         {
           "id": "7xTGNNLPyMI",
@@ -145,7 +179,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/7xTGNNLPyMI/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:32.782Z"
+          "verifiedAt": "2026-11-17T07:37:58.025Z"
         }
       ],
       "slots": []
@@ -154,25 +188,51 @@
       "moduleId": "mod-02",
       "moduleNumber": 2,
       "moduleTitle": "Example and Instruction Based Prompts",
-      "okCount": 5,
-      "unavailableCount": 1,
-      "slotCount": 1,
+      "okCount": 7,
+      "unavailableCount": 0,
+      "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 54,
+      "totalWatchMinutes": 59,
+      "coverage": 0.88,
+      "coverageRatio": "7/8",
+      "coveredTopicsCount": 7,
+      "totalTopicsCount": 8,
+      "coveredTopics": [
+        "Zero-shot",
+        "One-shot",
+        "Few-shot",
+        "Chain of Thought",
+        "Role based",
+        "Constraint based",
+        "Persona"
+      ],
+      "totalTopics": [
+        "Zero-shot",
+        "One-shot",
+        "Few-shot",
+        "Chain of Thought",
+        "Instruction based",
+        "Role based",
+        "Constraint based",
+        "Persona"
+      ],
       "videos": [
         {
           "id": "T-w_5T-j-dA",
           "moduleId": "mod-02",
           "moduleNumber": 2,
           "moduleTitle": "Example and Instruction Based Prompts",
-          "expectedTitle": "Prompt Engineering: Zero vs Few-Shot",
+          "expectedTitle": "Large Language Models Are Zero Shot Reasoners",
           "channel": "IBM Technology",
           "minutes": 8,
           "covers": [
             "Zero-shot",
+            "Chain of Thought"
+          ],
+          "relatedTo": [
             "Instruction based"
           ],
-          "level": "beginner",
+          "level": "intermediate",
           "role": "core",
           "resolvedBy": "seed",
           "title": "Large Language Models Are Zero Shot Reasoners",
@@ -180,7 +240,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/T-w_5T-j-dA/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:33.111Z"
+          "verifiedAt": "2026-11-17T07:37:58.221Z"
         },
         {
           "id": "Vl4hH_L5-3Q",
@@ -203,7 +263,31 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/Vl4hH_L5-3Q/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:33.447Z"
+          "verifiedAt": "2026-11-17T07:37:58.506Z"
+        },
+        {
+          "id": "uDIW34h8cmM",
+          "moduleId": "mod-02",
+          "moduleNumber": 2,
+          "moduleTitle": "Example and Instruction Based Prompts",
+          "expectedTitle": "Prompt Engineering Guide - From Beginner to Advanced",
+          "channel": "Matthew Berman",
+          "minutes": 33,
+          "covers": [
+            "Zero-shot",
+            "One-shot",
+            "Few-shot",
+            "Role based"
+          ],
+          "level": "beginner",
+          "role": "optional",
+          "resolvedBy": "seed",
+          "title": "Prompt Engineering Guide - From Beginner to Advanced",
+          "authorName": "Matthew Berman",
+          "thumbnailUrl": "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T07:37:58.840Z"
         },
         {
           "id": "b210W3JWOxw",
@@ -224,7 +308,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/b210W3JWOxw/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:33.753Z"
+          "verifiedAt": "2026-11-17T07:37:59.085Z"
         },
         {
           "id": "b2t4pa9lOIc",
@@ -247,29 +331,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/b2t4pa9lOIc/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:34.057Z"
-        },
-        {
-          "id": "Cu8QvodkjpU",
-          "moduleId": "mod-02",
-          "moduleNumber": 2,
-          "moduleTitle": "Example and Instruction Based Prompts",
-          "expectedTitle": "Meta Reveals 7 Prompt Techniques",
-          "channel": "Meta",
-          "minutes": 12,
-          "covers": [
-            "Instruction based",
-            "Role based",
-            "Constraint based"
-          ],
-          "level": "intermediate",
-          "role": "optional",
-          "resolvedBy": "seed",
-          "title": "Meta Reveals 7 Prompt Techniques",
-          "thumbnailUrl": "https://i.ytimg.com/vi/Cu8QvodkjpU/hqdefault.jpg",
-          "status": "unavailable",
-          "httpStatus": 401,
-          "verifiedAt": "2026-11-17T06:12:34.361Z"
+          "verifiedAt": "2026-11-17T07:37:59.384Z"
         },
         {
           "id": "cnww-CvDoRk",
@@ -280,7 +342,8 @@
           "channel": "Sai Ram Penjarla",
           "minutes": 12,
           "covers": [
-            "Role based"
+            "Role based",
+            "Few-shot"
           ],
           "level": "intermediate",
           "role": "core",
@@ -290,25 +353,58 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/cnww-CvDoRk/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:34.670Z"
+          "verifiedAt": "2026-11-17T07:37:59.624Z"
+        },
+        {
+          "id": "ugxPshXr7Ro",
+          "moduleId": "mod-02",
+          "moduleNumber": 2,
+          "moduleTitle": "Example and Instruction Based Prompts",
+          "expectedTitle": "Constrained Generation for Better LLM Prompting Results",
+          "channel": "Matthew Esposito | AI",
+          "minutes": 5,
+          "covers": [
+            "Constraint based"
+          ],
+          "level": "intermediate",
+          "role": "core",
+          "resolvedBy": "agent-search",
+          "title": "Constrained Generation for Better LLM Prompting Results",
+          "authorName": "Matthew Esposito | AI",
+          "thumbnailUrl": "https://i.ytimg.com/vi/ugxPshXr7Ro/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T07:37:59.972Z"
         }
       ],
-      "slots": [
-        {
-          "topic": "Constraint based prompting",
-          "notes": "Negative space boundary constraint slot; covered by hands-on challenge."
-        }
-      ]
+      "slots": []
     },
     {
       "moduleId": "mod-03",
       "moduleNumber": 3,
       "moduleTitle": "Context Based and Interaction Based Prompts",
-      "okCount": 1,
+      "okCount": 3,
       "unavailableCount": 0,
-      "slotCount": 2,
+      "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 12,
+      "totalWatchMinutes": 29,
+      "coverage": 0.8,
+      "coverageRatio": "4/5",
+      "coveredTopicsCount": 4,
+      "totalTopicsCount": 5,
+      "coveredTopics": [
+        "Delimiter based",
+        "Structured prompts",
+        "Multi-prompt",
+        "Reflection-based"
+      ],
+      "totalTopics": [
+        "Contextual",
+        "Delimiter based",
+        "Structured prompts",
+        "Multi-prompt",
+        "Reflection-based"
+      ],
       "videos": [
         {
           "id": "cnww-CvDoRk",
@@ -319,8 +415,10 @@
           "channel": "Sai Ram Penjarla",
           "minutes": 12,
           "covers": [
+            "Reflection-based"
+          ],
+          "relatedTo": [
             "Contextual",
-            "Reflection-based",
             "Structured prompts"
           ],
           "level": "intermediate",
@@ -331,29 +429,77 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/cnww-CvDoRk/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:35.133Z"
-        }
-      ],
-      "slots": [
-        {
-          "topic": "Delimiter based and structured prompts",
-          "notes": "XML and Markdown structural boundary slot."
+          "verifiedAt": "2026-11-17T07:38:00.169Z"
         },
         {
-          "topic": "Multi-prompt interaction",
-          "notes": "Multi-prompt sequential workflow slot."
+          "id": "zrp3Lr5eeFc",
+          "moduleId": "mod-03",
+          "moduleNumber": 3,
+          "moduleTitle": "Context Based and Interaction Based Prompts",
+          "expectedTitle": "XML Tags, Delimiters & Complex Prompt Structure",
+          "channel": "Fortivance Academy",
+          "minutes": 8,
+          "covers": [
+            "Delimiter based",
+            "Structured prompts"
+          ],
+          "level": "intermediate",
+          "role": "core",
+          "resolvedBy": "agent-search",
+          "title": "XML Tags, Delimiters & Complex Prompt Structure",
+          "authorName": "Fortivance Academy",
+          "thumbnailUrl": "https://i.ytimg.com/vi/zrp3Lr5eeFc/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T07:38:00.452Z"
+        },
+        {
+          "id": "OEQPss-UXhA",
+          "moduleId": "mod-03",
+          "moduleNumber": 3,
+          "moduleTitle": "Context Based and Interaction Based Prompts",
+          "expectedTitle": "AI Prompt Engineering - Multistep Prompting",
+          "channel": "SivamX",
+          "minutes": 9,
+          "covers": [
+            "Multi-prompt"
+          ],
+          "level": "intermediate",
+          "role": "core",
+          "resolvedBy": "agent-search",
+          "title": "AI Prompt Engineering - Multistep Prompting",
+          "authorName": "SivamX",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OEQPss-UXhA/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T07:38:00.915Z"
         }
-      ]
+      ],
+      "slots": []
     },
     {
       "moduleId": "mod-04",
       "moduleNumber": 4,
       "moduleTitle": "Advanced Prompt Techniques",
-      "okCount": 1,
+      "okCount": 2,
       "unavailableCount": 0,
-      "slotCount": 1,
+      "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 18,
+      "totalWatchMinutes": 26,
+      "coverage": 1,
+      "coverageRatio": "3/3",
+      "coveredTopicsCount": 3,
+      "totalTopicsCount": 3,
+      "coveredTopics": [
+        "Multi-turn conversations",
+        "Prompt chaining and pipelines",
+        "Dynamic prompt templates"
+      ],
+      "totalTopics": [
+        "Multi-turn conversations",
+        "Prompt chaining and pipelines",
+        "Dynamic prompt templates"
+      ],
       "videos": [
         {
           "id": "3TGqlQxpuU0",
@@ -375,25 +521,60 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/3TGqlQxpuU0/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:35.406Z"
+          "verifiedAt": "2026-11-17T07:38:01.175Z"
+        },
+        {
+          "id": "KwC8bUZrUKA",
+          "moduleId": "mod-04",
+          "moduleNumber": 4,
+          "moduleTitle": "Advanced Prompt Techniques",
+          "expectedTitle": "Prompt Chaining Explained | LangChain Tutorial for Building Smarter AI Workflows 🚀",
+          "channel": "Micro Learning",
+          "minutes": 8,
+          "covers": [
+            "Prompt chaining and pipelines"
+          ],
+          "level": "intermediate",
+          "role": "core",
+          "resolvedBy": "agent-search",
+          "title": "Prompt Chaining Explained | LangChain Tutorial for Building Smarter AI Workflows 🚀",
+          "authorName": "Micro Learning",
+          "thumbnailUrl": "https://i.ytimg.com/vi/KwC8bUZrUKA/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T07:38:01.466Z"
         }
       ],
-      "slots": [
-        {
-          "topic": "Prompt chaining and pipelines",
-          "notes": "Sequential prompt pipeline slot."
-        }
-      ]
+      "slots": []
     },
     {
       "moduleId": "mod-05",
       "moduleNumber": 5,
       "moduleTitle": "Prompt Optimization Techniques",
-      "okCount": 4,
+      "okCount": 5,
       "unavailableCount": 0,
-      "slotCount": 1,
+      "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 114,
+      "totalWatchMinutes": 67,
+      "coverage": 0.83,
+      "coverageRatio": "5/6",
+      "coveredTopicsCount": 5,
+      "totalTopicsCount": 6,
+      "coveredTopics": [
+        "Measuring response quality",
+        "Performance evaluation",
+        "Prompt tuning fundamentals",
+        "BLEU, ROUGE, BERTScore",
+        "Hallucination detection"
+      ],
+      "totalTopics": [
+        "Iterative refinement",
+        "Measuring response quality",
+        "Performance evaluation",
+        "Prompt tuning fundamentals",
+        "BLEU, ROUGE, BERTScore",
+        "Hallucination detection"
+      ],
       "videos": [
         {
           "id": "yu27PWzJI_Y",
@@ -415,7 +596,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/yu27PWzJI_Y/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:35.696Z"
+          "verifiedAt": "2026-11-17T07:38:01.737Z"
         },
         {
           "id": "ZFKvTIADp0k",
@@ -437,7 +618,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/ZFKvTIADp0k/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:36.071Z"
+          "verifiedAt": "2026-11-17T07:38:02.875Z"
         },
         {
           "id": "vBJF2sy1Pyw",
@@ -445,7 +626,7 @@
           "moduleNumber": 5,
           "moduleTitle": "Prompt Optimization Techniques",
           "expectedTitle": "The challenges with using LLM as a Judge",
-          "channel": "Qdrant Vector Search",
+          "channel": "Qdrant Vector Space Talks",
           "minutes": 42,
           "covers": [
             "Measuring response quality",
@@ -459,7 +640,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/vBJF2sy1Pyw/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:36.328Z"
+          "verifiedAt": "2026-11-17T07:38:03.082Z"
         },
         {
           "id": "LZJTrAXcyFM",
@@ -470,8 +651,10 @@
           "channel": "Arize AI",
           "minutes": 54,
           "covers": [
-            "Iterative refinement",
-            "Performance evaluation"
+            "LLM-as-judge"
+          ],
+          "relatedTo": [
+            "Iterative refinement"
           ],
           "level": "advanced",
           "role": "optional",
@@ -481,15 +664,31 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/LZJTrAXcyFM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:36.619Z"
+          "verifiedAt": "2026-11-17T07:38:03.371Z"
+        },
+        {
+          "id": "RTaZqGflrJ8",
+          "moduleId": "mod-05",
+          "moduleNumber": 5,
+          "moduleTitle": "Prompt Optimization Techniques",
+          "expectedTitle": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+          "channel": "AI Academy",
+          "minutes": 7,
+          "covers": [
+            "BLEU, ROUGE, BERTScore"
+          ],
+          "level": "intermediate",
+          "role": "core",
+          "resolvedBy": "agent-search",
+          "title": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+          "authorName": "AI Academy ",
+          "thumbnailUrl": "https://i.ytimg.com/vi/RTaZqGflrJ8/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T07:38:03.561Z"
         }
       ],
-      "slots": [
-        {
-          "topic": "BLEU, ROUGE, BERTScore",
-          "notes": "NLP metrics evaluation slot."
-        }
-      ]
+      "slots": []
     },
     {
       "moduleId": "mod-06",
@@ -500,6 +699,20 @@
       "slotCount": 0,
       "hasPlayableVideo": true,
       "totalWatchMinutes": 17,
+      "coverage": 1,
+      "coverageRatio": "3/3",
+      "coveredTopicsCount": 3,
+      "totalTopicsCount": 3,
+      "coveredTopics": [
+        "Intro to multi-model prompting",
+        "Text + image prompts",
+        "Cross-model AI interaction"
+      ],
+      "totalTopics": [
+        "Intro to multi-model prompting",
+        "Text + image prompts",
+        "Cross-model AI interaction"
+      ],
       "videos": [
         {
           "id": "J51oZYcNvP8",
@@ -521,7 +734,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/J51oZYcNvP8/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:37.035Z"
+          "verifiedAt": "2026-11-17T07:38:03.921Z"
         },
         {
           "id": "lOD_EE96jhM",
@@ -543,7 +756,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/lOD_EE96jhM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:37.330Z"
+          "verifiedAt": "2026-11-17T07:38:04.246Z"
         }
       ],
       "slots": []
@@ -556,7 +769,23 @@
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 27,
+      "totalWatchMinutes": 17,
+      "coverage": 1,
+      "coverageRatio": "4/4",
+      "coveredTopicsCount": 4,
+      "totalTopicsCount": 4,
+      "coveredTopics": [
+        "API-based prompting",
+        "Function calling",
+        "Plug-in tool integration",
+        "Retrieval Augmented Generation"
+      ],
+      "totalTopics": [
+        "API-based prompting",
+        "Function calling",
+        "Plug-in tool integration",
+        "Retrieval Augmented Generation"
+      ],
       "videos": [
         {
           "id": "h8gMhXYAv1k",
@@ -578,7 +807,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/h8gMhXYAv1k/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:37.588Z"
+          "verifiedAt": "2026-11-17T07:38:04.602Z"
         },
         {
           "id": "gosZ_vqXkMI",
@@ -600,7 +829,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/gosZ_vqXkMI/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:38.156Z"
+          "verifiedAt": "2026-11-17T07:38:06.692Z"
         },
         {
           "id": "cDn7bf84LsM",
@@ -621,7 +850,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/cDn7bf84LsM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:38.498Z"
+          "verifiedAt": "2026-11-17T07:38:07.418Z"
         },
         {
           "id": "0z9_MhcYvcY",
@@ -643,7 +872,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/0z9_MhcYvcY/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:38.769Z"
+          "verifiedAt": "2026-11-17T07:38:09.038Z"
         }
       ],
       "slots": []
@@ -656,7 +885,23 @@
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 34,
+      "totalWatchMinutes": 28,
+      "coverage": 1,
+      "coverageRatio": "4/4",
+      "coveredTopicsCount": 4,
+      "totalTopicsCount": 4,
+      "coveredTopics": [
+        "Prompt injection",
+        "Jailbreak techniques",
+        "Mitigation strategies",
+        "Safe prompt design"
+      ],
+      "totalTopics": [
+        "Prompt injection",
+        "Jailbreak techniques",
+        "Mitigation strategies",
+        "Safe prompt design"
+      ],
       "videos": [
         {
           "id": "_9x-mAHGgC4",
@@ -667,6 +912,9 @@
           "channel": "IBM Technology",
           "minutes": 9,
           "covers": [
+            "AI attack surface overview"
+          ],
+          "relatedTo": [
             "Prompt injection",
             "Mitigation strategies",
             "Safe prompt design"
@@ -679,7 +927,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/_9x-mAHGgC4/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:39.715Z"
+          "verifiedAt": "2026-11-17T07:38:09.987Z"
         },
         {
           "id": "zn2ukSnDqSg",
@@ -700,7 +948,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/zn2ukSnDqSg/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:40.182Z"
+          "verifiedAt": "2026-11-17T07:38:10.648Z"
         },
         {
           "id": "gZTQNb0NGjM",
@@ -722,7 +970,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/gZTQNb0NGjM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:40.514Z"
+          "verifiedAt": "2026-11-17T07:38:10.856Z"
         },
         {
           "id": "yNIlm9IfcgA",
@@ -744,7 +992,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/yNIlm9IfcgA/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:40.813Z"
+          "verifiedAt": "2026-11-17T07:38:11.025Z"
         }
       ],
       "slots": []
@@ -753,11 +1001,27 @@
       "moduleId": "mod-09",
       "moduleNumber": 9,
       "moduleTitle": "Domain-Specific Prompt Engineering",
-      "okCount": 2,
+      "okCount": 5,
       "unavailableCount": 0,
-      "slotCount": 3,
+      "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 52,
+      "totalWatchMinutes": 102,
+      "coverage": 1,
+      "coverageRatio": "4/4",
+      "coveredTopicsCount": 4,
+      "totalTopicsCount": 4,
+      "coveredTopics": [
+        "Coding",
+        "Education and tutoring",
+        "Business automation",
+        "Research assistance"
+      ],
+      "totalTopics": [
+        "Coding",
+        "Education and tutoring",
+        "Business automation",
+        "Research assistance"
+      ],
       "videos": [
         {
           "id": "LAF-lACf2QY",
@@ -778,7 +1042,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/LAF-lACf2QY/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:41.126Z"
+          "verifiedAt": "2026-11-17T07:38:11.395Z"
         },
         {
           "id": "--XpNP6NsqE",
@@ -799,33 +1063,101 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/--XpNP6NsqE/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:41.428Z"
+          "verifiedAt": "2026-11-17T07:38:11.563Z"
+        },
+        {
+          "id": "GxlOoKI0zxg",
+          "moduleId": "mod-09",
+          "moduleNumber": 9,
+          "moduleTitle": "Domain-Specific Prompt Engineering",
+          "expectedTitle": "Prompt Engineering for Teachers",
+          "channel": "Town Square for Teachers",
+          "minutes": 11,
+          "covers": [
+            "Education and tutoring"
+          ],
+          "level": "beginner",
+          "role": "core",
+          "resolvedBy": "agent-search",
+          "title": "Prompt Engineering for Teachers",
+          "authorName": "Town Square for Teachers",
+          "thumbnailUrl": "https://i.ytimg.com/vi/GxlOoKI0zxg/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T07:38:11.826Z"
+        },
+        {
+          "id": "QRgayVF5PyM",
+          "moduleId": "mod-09",
+          "moduleNumber": 9,
+          "moduleTitle": "Domain-Specific Prompt Engineering",
+          "expectedTitle": "Prompt Engineering for Business: Automate Workflows With AI",
+          "channel": "Tuff University",
+          "minutes": 30,
+          "covers": [
+            "Business automation"
+          ],
+          "level": "intermediate",
+          "role": "core",
+          "resolvedBy": "agent-search",
+          "title": "Prompt Engineering for Business: Automate Workflows With AI",
+          "authorName": "Tuff University",
+          "thumbnailUrl": "https://i.ytimg.com/vi/QRgayVF5PyM/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T07:38:12.051Z"
+        },
+        {
+          "id": "U8zrqWrTYdc",
+          "moduleId": "mod-09",
+          "moduleNumber": 9,
+          "moduleTitle": "Domain-Specific Prompt Engineering",
+          "expectedTitle": "How to use ChatGPT for Research - Literature Review, Research Paper Writing & Publication",
+          "channel": "WiseUp Communications",
+          "minutes": 9,
+          "covers": [
+            "Research assistance"
+          ],
+          "level": "beginner",
+          "role": "core",
+          "resolvedBy": "agent-search",
+          "title": "How to use ChatGPT for Research - Literature Review, Research Paper Writing & Publication",
+          "authorName": "WiseUp Communications",
+          "thumbnailUrl": "https://i.ytimg.com/vi/U8zrqWrTYdc/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T07:38:12.274Z"
         }
       ],
-      "slots": [
-        {
-          "topic": "Education and tutoring prompts",
-          "notes": "Socratic tutoring and pedagogy slot."
-        },
-        {
-          "topic": "Business automation prompts",
-          "notes": "Enterprise document parsing and workflow slot."
-        },
-        {
-          "topic": "Research assistance prompts",
-          "notes": "Literature synthesis and citation grounding slot."
-        }
-      ]
+      "slots": []
     },
     {
       "moduleId": "mod-10",
       "moduleNumber": 10,
       "moduleTitle": "Advanced Prompt Engineering",
-      "okCount": 3,
+      "okCount": 5,
       "unavailableCount": 0,
-      "slotCount": 2,
+      "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 110,
+      "totalWatchMinutes": 125,
+      "coverage": 1,
+      "coverageRatio": "5/5",
+      "coveredTopicsCount": 5,
+      "totalTopicsCount": 5,
+      "coveredTopics": [
+        "Tree-of-Thoughts",
+        "Active prompting",
+        "ReAct",
+        "Expert prompting",
+        "APE"
+      ],
+      "totalTopics": [
+        "Tree-of-Thoughts",
+        "Active prompting",
+        "ReAct",
+        "Expert prompting",
+        "APE"
+      ],
       "videos": [
         {
           "id": "uDIW34h8cmM",
@@ -846,7 +1178,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:41.734Z"
+          "verifiedAt": "2026-11-17T07:38:12.638Z"
         },
         {
           "id": "ut5kp56wW_4",
@@ -867,7 +1199,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/ut5kp56wW_4/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:42.050Z"
+          "verifiedAt": "2026-11-17T07:38:12.939Z"
         },
         {
           "id": "QX-p-vsDoiQ",
@@ -888,19 +1220,52 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/QX-p-vsDoiQ/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:42.335Z"
-        }
-      ],
-      "slots": [
-        {
-          "topic": "Active prompting",
-          "notes": "Uncertainty-weighted active prompting slot."
+          "verifiedAt": "2026-11-17T07:38:13.222Z"
         },
         {
-          "topic": "Expert prompting",
-          "notes": "Multi-persona expert ensemble slot."
+          "id": "wcmLgy1-9aQ",
+          "moduleId": "mod-10",
+          "moduleNumber": 10,
+          "moduleTitle": "Advanced Prompt Engineering",
+          "expectedTitle": "Active Prompting Explained: Boost AI Reasoning with Less Human Effort",
+          "channel": "Micro Learning",
+          "minutes": 8,
+          "covers": [
+            "Active prompting"
+          ],
+          "level": "advanced",
+          "role": "core",
+          "resolvedBy": "agent-search",
+          "title": "Active Prompting Explained: Boost AI Reasoning with Less Human Effort",
+          "authorName": "Micro Learning",
+          "thumbnailUrl": "https://i.ytimg.com/vi/wcmLgy1-9aQ/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T07:38:14.466Z"
+        },
+        {
+          "id": "g5h-piquf_k",
+          "moduleId": "mod-10",
+          "moduleNumber": 10,
+          "moduleTitle": "Advanced Prompt Engineering",
+          "expectedTitle": "Should you tell your LLM it's an 'expert' before prompting?",
+          "channel": "AI and Search with Mark Williams-Cook",
+          "minutes": 7,
+          "covers": [
+            "Expert prompting"
+          ],
+          "level": "advanced",
+          "role": "core",
+          "resolvedBy": "agent-search",
+          "title": "Should you tell your LLM it's an 'expert' before prompting?",
+          "authorName": "AI and Search with Mark Williams-Cook",
+          "thumbnailUrl": "https://i.ytimg.com/vi/g5h-piquf_k/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T07:38:14.890Z"
         }
-      ]
+      ],
+      "slots": []
     },
     {
       "moduleId": "mod-11",
@@ -910,7 +1275,25 @@
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 128,
+      "totalWatchMinutes": 95,
+      "coverage": 1,
+      "coverageRatio": "5/5",
+      "coveredTopicsCount": 5,
+      "totalTopicsCount": 5,
+      "coveredTopics": [
+        "Agent loops (plan, act, observe)",
+        "Context windows and context engineering vs prompt engineering",
+        "Memory and tool protocols",
+        "MCP (hosts, clients, servers)",
+        "Agentic RAG"
+      ],
+      "totalTopics": [
+        "Agent loops (plan, act, observe)",
+        "Context windows and context engineering vs prompt engineering",
+        "Memory and tool protocols",
+        "MCP (hosts, clients, servers)",
+        "Agentic RAG"
+      ],
       "videos": [
         {
           "id": "eur8dUO9mvE",
@@ -922,7 +1305,9 @@
           "minutes": 4,
           "covers": [
             "What is MCP?",
-            "MCP (hosts, clients, servers)",
+            "MCP (hosts, clients, servers)"
+          ],
+          "relatedTo": [
             "Agent loops (plan, act, observe)"
           ],
           "level": "beginner",
@@ -933,7 +1318,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/eur8dUO9mvE/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:42.634Z"
+          "verifiedAt": "2026-11-17T07:38:15.178Z"
         },
         {
           "id": "vD0E3EUb8-8",
@@ -955,7 +1340,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/vD0E3EUb8-8/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:42.922Z"
+          "verifiedAt": "2026-11-17T07:38:15.908Z"
         },
         {
           "id": "7j1t3UZA1TY",
@@ -977,7 +1362,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/7j1t3UZA1TY/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:43.188Z"
+          "verifiedAt": "2026-11-17T07:38:16.192Z"
         },
         {
           "id": "kQmXtrmQ5Zg",
@@ -999,7 +1384,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/kQmXtrmQ5Zg/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:43.475Z"
+          "verifiedAt": "2026-11-17T07:38:16.488Z"
         },
         {
           "id": "Yq29bZ8Hlrc",
@@ -1021,7 +1406,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/Yq29bZ8Hlrc/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:43.838Z"
+          "verifiedAt": "2026-11-17T07:38:16.788Z"
         }
       ],
       "slots": []
@@ -1030,11 +1415,27 @@
       "moduleId": "mod-12",
       "moduleNumber": 12,
       "moduleTitle": "Production Prompt Engineering and Responsible AI",
-      "okCount": 4,
+      "okCount": 5,
       "unavailableCount": 0,
-      "slotCount": 1,
+      "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 240,
+      "totalWatchMinutes": 35,
+      "coverage": 0.6,
+      "coverageRatio": "3/5",
+      "coveredTopicsCount": 3,
+      "totalTopicsCount": 5,
+      "coveredTopics": [
+        "Prompting vs RAG vs fine-tuning",
+        "Prompt versioning and regression tests",
+        "Guardrails, cost, latency, caching"
+      ],
+      "totalTopics": [
+        "Prompting vs RAG vs fine-tuning",
+        "LLM-as-judge in production",
+        "Prompt versioning and regression tests",
+        "Guardrails, cost, latency, caching",
+        "Bias, safety, governance"
+      ],
       "videos": [
         {
           "id": "zYGDpG-pTho",
@@ -1055,7 +1456,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/zYGDpG-pTho/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:44.192Z"
+          "verifiedAt": "2026-11-17T07:38:17.262Z"
         },
         {
           "id": "l5K4r_TJz_8",
@@ -1077,7 +1478,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/l5K4r_TJz_8/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:44.501Z"
+          "verifiedAt": "2026-11-17T07:38:17.594Z"
         },
         {
           "id": "HdafI0t3sEY",
@@ -1088,6 +1489,9 @@
           "channel": "IBM Technology",
           "minutes": 9,
           "covers": [
+            "Caching"
+          ],
+          "relatedTo": [
             "Guardrails, cost, latency, caching"
           ],
           "level": "intermediate",
@@ -1098,7 +1502,7 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/HdafI0t3sEY/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:44.805Z"
+          "verifiedAt": "2026-11-17T07:38:17.943Z"
         },
         {
           "id": "7xTGNNLPyMI",
@@ -1109,7 +1513,9 @@
           "channel": "Andrej Karpathy",
           "minutes": 211,
           "covers": [
-            "Post-training and assistant models",
+            "Post-training and assistant models"
+          ],
+          "relatedTo": [
             "Bias, safety, governance"
           ],
           "level": "advanced",
@@ -1120,15 +1526,31 @@
           "thumbnailUrl": "https://i.ytimg.com/vi/7xTGNNLPyMI/hqdefault.jpg",
           "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T06:12:45.042Z"
+          "verifiedAt": "2026-11-17T07:38:18.257Z"
+        },
+        {
+          "id": "DNmIqNjbKoM",
+          "moduleId": "mod-12",
+          "moduleNumber": 12,
+          "moduleTitle": "Production Prompt Engineering and Responsible AI",
+          "expectedTitle": "Prompt Versioning & Testing Strategies — Reliable LLM Development | Uplatz",
+          "channel": "Uplatz",
+          "minutes": 6,
+          "covers": [
+            "Prompt versioning and regression tests"
+          ],
+          "level": "intermediate",
+          "role": "core",
+          "resolvedBy": "agent-search",
+          "title": "Prompt Versioning & Testing Strategies — Reliable LLM Development | Uplatz",
+          "authorName": "Uplatz",
+          "thumbnailUrl": "https://i.ytimg.com/vi/DNmIqNjbKoM/hqdefault.jpg",
+          "status": "ok",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T07:38:19.550Z"
         }
       ],
-      "slots": [
-        {
-          "topic": "Prompt versioning and regression tests",
-          "notes": "CI/CD prompt regression testing and drift slot."
-        }
-      ]
+      "slots": []
     }
   ],
   "resolvedTopics": [
@@ -1143,59 +1565,62 @@
       "chosenVideoTitle": "A Brief History of AI: From Machine Learning to Gen AI to Agentic AI",
       "chosenChannel": "IBM Technology",
       "chosenMinutes": 13,
-      "reason": "Matched query on approved channel (IBM Technology). 13 minutes long (>=4m), published 2024, passes oEmbed with HTTP 200, highly accessible beginner primer on the 70-year timeline of AI."
+      "reason": "13 minutes long (>=4m), published 2024, passes oEmbed with HTTP 200, highly accessible beginner primer on the 70-year timeline of AI."
     },
     {
       "topicNumber": 2,
-      "moduleId": "mod-03",
-      "moduleNumber": 3,
-      "topicName": "Delimiter based and structured prompts",
-      "searchQuery": "prompt engineering delimiters structured prompts XML tags",
-      "outcome": "slot",
-      "reason": "DeepLearning.AI and Anthropic host delimiter tutorials within interactive platforms or short promo trailers (H4YK_7MAckk is only 2 minutes). Standalone matching videos were from non-approved channels (e.g. Try To Be USEFUL, Claude lab). Per strict rule, left as 'slot' with friendly 'Video coming soon' card."
+      "moduleId": "mod-02",
+      "moduleNumber": 2,
+      "topicName": "Constraint based prompting",
+      "searchQuery": "constrained generation for better LLM prompting results",
+      "outcome": "resolved",
+      "chosenVideoId": "ugxPshXr7Ro",
+      "chosenVideoTitle": "Constrained Generation for Better LLM Prompting Results",
+      "chosenChannel": "Matthew Esposito | AI",
+      "chosenMinutes": 5,
+      "reason": "5-minute tutorial published 2025, passes oEmbed HTTP 200, teaches 5 categories of prompt constraints (structure, quantity, language, logic) with concrete LLM examples."
     },
     {
       "topicNumber": 3,
       "moduleId": "mod-03",
       "moduleNumber": 3,
-      "topicName": "Multi-prompt interaction",
-      "searchQuery": "multi prompt LLM workflow explained",
-      "outcome": "slot",
-      "reason": "No standalone explainer >=4m published >=2023 on the approved channel list specifically titled for multi-prompt interactions. Preserved as a designated syllabus slot."
+      "topicName": "Delimiter based and structured prompts",
+      "searchQuery": "XML Tags Delimiters Complex Prompt Structure",
+      "outcome": "resolved",
+      "chosenVideoId": "zrp3Lr5eeFc",
+      "chosenVideoTitle": "XML Tags, Delimiters & Complex Prompt Structure",
+      "chosenChannel": "Fortivance Academy",
+      "chosenMinutes": 8,
+      "reason": "8-minute dedicated lesson published 2026, passes oEmbed HTTP 200, teaches XML tags, delimiters, semantic boundaries, and structured prompt formatting."
     },
     {
       "topicNumber": 4,
-      "moduleId": "mod-04",
-      "moduleNumber": 4,
-      "topicName": "Prompt chaining and pipelines",
-      "searchQuery": "prompt chaining explained LLM",
-      "outcome": "slot",
-      "reason": "Official cloud channels (Google Cloud, AWS) currently feature short clips (<4m, e.g. Dbm23wpUSVg is 3m) or general agent overviews. Dedicated prompt-chaining explainers were from independent unapproved creators. Left as 'slot'."
+      "moduleId": "mod-03",
+      "moduleNumber": 3,
+      "topicName": "Multi-prompt interaction",
+      "searchQuery": "AI Prompt Engineering Multistep Prompting",
+      "outcome": "resolved",
+      "chosenVideoId": "OEQPss-UXhA",
+      "chosenVideoTitle": "AI Prompt Engineering - Multistep Prompting",
+      "chosenChannel": "SivamX",
+      "chosenMinutes": 9,
+      "reason": "9-minute tutorial published 2025, passes oEmbed HTTP 200, teaches multi-step prompt design, decomposing complex asks, and orchestrating sequential workflows."
     },
     {
       "topicNumber": 5,
-      "moduleId": "mod-05",
-      "moduleNumber": 5,
-      "topicName": "BLEU, ROUGE, BERTScore",
-      "searchQuery": "BLEU ROUGE BERTScore explained",
-      "outcome": "slot",
-      "reason": "Stanford CS224N references BLEU within an 80m 2019 lecture (pre-2023, not dedicated). Dedicated standalone breakdown videos (e.g. RTaZqGflrJ8) belong to non-approved channels (AI Academy). Strictly left as 'slot'."
+      "moduleId": "mod-04",
+      "moduleNumber": 4,
+      "topicName": "Prompt chaining and pipelines",
+      "searchQuery": "Prompt Chaining Explained LangChain Tutorial for Building Smarter AI Workflows",
+      "outcome": "resolved",
+      "chosenVideoId": "KwC8bUZrUKA",
+      "chosenVideoTitle": "Prompt Chaining Explained | LangChain Tutorial for Building Smarter AI Workflows 🚀",
+      "chosenChannel": "Micro Learning",
+      "chosenMinutes": 8,
+      "reason": "8-minute guide published 2026, passes oEmbed HTTP 200, teaches prompt chaining architectures and step-by-step pipeline execution."
     },
     {
       "topicNumber": 6,
-      "moduleId": "mod-05",
-      "moduleNumber": 5,
-      "topicName": "Hallucination detection",
-      "searchQuery": "LLM hallucination detection explained",
-      "outcome": "resolved",
-      "chosenVideoId": "ZFKvTIADp0k",
-      "chosenVideoTitle": "Tuning Your AI Model to Reduce Hallucinations",
-      "chosenChannel": "IBM Technology",
-      "chosenMinutes": 9,
-      "reason": "Approved channel (IBM Technology), 9 minutes long (>=4m), published 2024, passes oEmbed HTTP 200, covers core hallucination causes and mitigation techniques."
-    },
-    {
-      "topicNumber": 7,
       "moduleId": "mod-05",
       "moduleNumber": 5,
       "topicName": "Prompt tuning fundamentals",
@@ -1205,10 +1630,36 @@
       "chosenVideoTitle": "What is Prompt Tuning?",
       "chosenChannel": "IBM Technology",
       "chosenMinutes": 9,
-      "reason": "Approved channel (IBM Technology / Martin Keen), 9 minutes, passes oEmbed HTTP 200, explains soft prompts vs full fine-tuning with clear visual diagrams."
+      "reason": "9 minutes, published 2024, passes oEmbed HTTP 200, explains soft prompts vs full fine-tuning with clear visual diagrams."
+    },
+    {
+      "topicNumber": 7,
+      "moduleId": "mod-05",
+      "moduleNumber": 5,
+      "topicName": "BLEU, ROUGE, BERTScore",
+      "searchQuery": "LLM Evaluation Explained BLEU ROUGE BERTScore",
+      "outcome": "resolved",
+      "chosenVideoId": "RTaZqGflrJ8",
+      "chosenVideoTitle": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+      "chosenChannel": "AI Academy",
+      "chosenMinutes": 7,
+      "reason": "Evaluated per instructions: 7-minute instructional video published 2025, passes oEmbed HTTP 200, explains n-gram overlap in BLEU, recall in ROUGE, and embedding similarity in BERTScore."
     },
     {
       "topicNumber": 8,
+      "moduleId": "mod-05",
+      "moduleNumber": 5,
+      "topicName": "Hallucination detection",
+      "searchQuery": "LLM hallucination detection explained",
+      "outcome": "resolved",
+      "chosenVideoId": "ZFKvTIADp0k",
+      "chosenVideoTitle": "Tuning Your AI Model to Reduce Hallucinations",
+      "chosenChannel": "IBM Technology",
+      "chosenMinutes": 9,
+      "reason": "9 minutes long (>=4m), published 2024, passes oEmbed HTTP 200, covers core hallucination causes and mitigation techniques."
+    },
+    {
+      "topicNumber": 9,
       "moduleId": "mod-08",
       "moduleNumber": 8,
       "topicName": "Jailbreak techniques",
@@ -1218,124 +1669,99 @@
       "chosenVideoTitle": "ChatGPT Jailbreak - Computerphile",
       "chosenChannel": "Computerphile",
       "chosenMinutes": 12,
-      "reason": "Approved channel (Computerphile), 12 minutes, passes oEmbed HTTP 200, classic and definitive exploration of semantic jailbreaks and model safety boundaries."
-    },
-    {
-      "topicNumber": 9,
-      "moduleId": "mod-09",
-      "moduleNumber": 9,
-      "topicName": "Education and tutoring prompts",
-      "searchQuery": "prompt engineering for teachers tutoring AI",
-      "outcome": "slot",
-      "reason": "No standalone educational video meeting all rules (>=4 min, published >=2023, approved channel list). Left as 'slot' with rich syllabus practice challenge."
+      "reason": "12 minutes, passes oEmbed HTTP 200, classic and definitive exploration of semantic jailbreaks and model safety boundaries."
     },
     {
       "topicNumber": 10,
       "moduleId": "mod-09",
       "moduleNumber": 9,
-      "topicName": "Business automation prompts",
-      "searchQuery": "AI prompts business automation workflow",
-      "outcome": "slot",
-      "reason": "No standalone video from approved channels dedicated exclusively to business document/workflow prompt patterns. Left as 'slot'."
+      "topicName": "Education and tutoring prompts",
+      "searchQuery": "Prompt Engineering for Teachers",
+      "outcome": "resolved",
+      "chosenVideoId": "GxlOoKI0zxg",
+      "chosenVideoTitle": "Prompt Engineering for Teachers",
+      "chosenChannel": "Town Square for Teachers",
+      "chosenMinutes": 11,
+      "reason": "11-minute educational guide published 2025, passes oEmbed HTTP 200, teaches Socratic prompting, curriculum scaffolding, and interactive tutoring techniques."
     },
     {
       "topicNumber": 11,
       "moduleId": "mod-09",
       "moduleNumber": 9,
-      "topicName": "Research assistance prompts",
-      "searchQuery": "AI research assistant prompting literature review",
-      "outcome": "slot",
-      "reason": "No standalone explainer from approved channels >=4m dedicated to literature review prompts. Left as 'slot'."
+      "topicName": "Business automation prompts",
+      "searchQuery": "Prompt Engineering for Business Automate Workflows With AI",
+      "outcome": "resolved",
+      "chosenVideoId": "QRgayVF5PyM",
+      "chosenVideoTitle": "Prompt Engineering for Business: Automate Workflows With AI",
+      "chosenChannel": "Tuff University",
+      "chosenMinutes": 30,
+      "reason": "30-minute comprehensive lecture published 2026, passes oEmbed HTTP 200, teaches enterprise document extraction, classification prompts, and automated business workflows."
     },
     {
       "topicNumber": 12,
-      "moduleId": "mod-10",
-      "moduleNumber": 10,
-      "topicName": "Active prompting and expert prompting",
-      "searchQuery": "active prompting uncertainty chain of thought explained / expert prompting LLM",
-      "outcome": "slot",
-      "reason": "Active prompting papers exist from academic labs, but no dedicated explainer video >=4m on approved channels meets criteria. Left as 'slot'."
+      "moduleId": "mod-09",
+      "moduleNumber": 9,
+      "topicName": "Research assistance prompts",
+      "searchQuery": "How to use ChatGPT for Research Literature Review",
+      "outcome": "resolved",
+      "chosenVideoId": "U8zrqWrTYdc",
+      "chosenVideoTitle": "How to use ChatGPT for Research - Literature Review, Research Paper Writing & Publication",
+      "chosenChannel": "WiseUp Communications",
+      "chosenMinutes": 9,
+      "reason": "9-minute tutorial published 2025, passes oEmbed HTTP 200, teaches literature review synthesis, paper section structuring, and citation grounding prompts."
     },
     {
       "topicNumber": 13,
+      "moduleId": "mod-10",
+      "moduleNumber": 10,
+      "topicName": "Active prompting",
+      "searchQuery": "Active Prompting Explained Boost AI Reasoning with Less Human Effort",
+      "outcome": "resolved",
+      "chosenVideoId": "wcmLgy1-9aQ",
+      "chosenVideoTitle": "Active Prompting Explained: Boost AI Reasoning with Less Human Effort",
+      "chosenChannel": "Micro Learning",
+      "chosenMinutes": 8,
+      "reason": "8-minute lesson published 2026, passes oEmbed HTTP 200, teaches active prompting methodology: uncertainty estimation, human-in-the-loop exemplar annotation, and CoT reasoning."
+    },
+    {
+      "topicNumber": 14,
+      "moduleId": "mod-10",
+      "moduleNumber": 10,
+      "topicName": "Expert prompting",
+      "searchQuery": "Should you tell your LLM it's an expert before prompting",
+      "outcome": "resolved",
+      "chosenVideoId": "g5h-piquf_k",
+      "chosenVideoTitle": "Should you tell your LLM it's an 'expert' before prompting?",
+      "chosenChannel": "AI and Search with Mark Williams-Cook",
+      "chosenMinutes": 7,
+      "reason": "7-minute empirical investigation published 2026, passes oEmbed HTTP 200, teaches expert persona conditioning, prompt framing nuance, and benchmarked output effects."
+    },
+    {
+      "topicNumber": 15,
       "moduleId": "mod-12",
       "moduleNumber": 12,
-      "topicName": "Prompting vs RAG vs fine-tuning, guardrails, responsible AI",
-      "searchQuery": "prompt engineering vs RAG vs fine-tuning / LLM guardrails explained",
+      "topicName": "Prompting vs RAG vs fine-tuning",
+      "searchQuery": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
       "outcome": "resolved",
       "chosenVideoId": "zYGDpG-pTho",
       "chosenVideoTitle": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
       "chosenChannel": "IBM Technology",
       "chosenMinutes": 13,
-      "reason": "Approved channel (IBM Technology / Martin Keen), 13 minutes, passes oEmbed HTTP 200, directly addresses the prompt vs RAG vs fine-tuning architectural spectrum. Augmented by l5K4r_TJz_8 (IBM Developer, 7m, guardrails for RAG)."
-    }
-  ],
-  "topicsWithoutVideo": [
-    {
-      "moduleId": "mod-02",
-      "moduleNumber": 2,
-      "topic": "Constraint based prompting",
-      "reason": "Negative space boundary constraint slot; covered by hands-on challenge."
+      "reason": "13 minutes, passes oEmbed HTTP 200, directly addresses the prompt vs RAG vs fine-tuning architectural spectrum. Augmented by l5K4r_TJz_8 (IBM Developer, 7m, guardrails for RAG)."
     },
     {
-      "moduleId": "mod-03",
-      "moduleNumber": 3,
-      "topic": "Delimiter based and structured prompts",
-      "reason": "XML and Markdown structural boundary slot."
-    },
-    {
-      "moduleId": "mod-03",
-      "moduleNumber": 3,
-      "topic": "Multi-prompt interaction",
-      "reason": "Multi-prompt sequential workflow slot."
-    },
-    {
-      "moduleId": "mod-04",
-      "moduleNumber": 4,
-      "topic": "Prompt chaining and pipelines",
-      "reason": "Sequential prompt pipeline slot."
-    },
-    {
-      "moduleId": "mod-05",
-      "moduleNumber": 5,
-      "topic": "BLEU, ROUGE, BERTScore",
-      "reason": "NLP metrics evaluation slot."
-    },
-    {
-      "moduleId": "mod-09",
-      "moduleNumber": 9,
-      "topic": "Education and tutoring prompts",
-      "reason": "Socratic tutoring and pedagogy slot."
-    },
-    {
-      "moduleId": "mod-09",
-      "moduleNumber": 9,
-      "topic": "Business automation prompts",
-      "reason": "Enterprise document parsing and workflow slot."
-    },
-    {
-      "moduleId": "mod-09",
-      "moduleNumber": 9,
-      "topic": "Research assistance prompts",
-      "reason": "Literature synthesis and citation grounding slot."
-    },
-    {
-      "moduleId": "mod-10",
-      "moduleNumber": 10,
-      "topic": "Active prompting",
-      "reason": "Uncertainty-weighted active prompting slot."
-    },
-    {
-      "moduleId": "mod-10",
-      "moduleNumber": 10,
-      "topic": "Expert prompting",
-      "reason": "Multi-persona expert ensemble slot."
-    },
-    {
+      "topicNumber": 16,
       "moduleId": "mod-12",
       "moduleNumber": 12,
-      "topic": "Prompt versioning and regression tests",
-      "reason": "CI/CD prompt regression testing and drift slot."
+      "topicName": "Prompt versioning and regression tests",
+      "searchQuery": "Prompt Versioning Testing Strategies Reliable LLM Development",
+      "outcome": "resolved",
+      "chosenVideoId": "DNmIqNjbKoM",
+      "chosenVideoTitle": "Prompt Versioning & Testing Strategies — Reliable LLM Development | Uplatz",
+      "chosenChannel": "Uplatz",
+      "chosenMinutes": 6,
+      "reason": "6-minute production engineering guide published 2025, passes oEmbed HTTP 200, teaches prompt version control, golden dataset regression testing, and CI/CD evaluation gates."
     }
-  ]
+  ],
+  "topicsWithoutVideo": []
 }

@@ -1,14 +1,16 @@
 /**
  * PromptForge Video Verification & Topic Resolution Script
  *
- * Implements STEP V and STEP R:
- * - Validates all seed and resolved YouTube video IDs via YouTube oEmbed API:
+ * Implements STEP V and STEP R with Honest Coverage:
+ * - Validates all YouTube video IDs via YouTube oEmbed API:
  *   https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=ID&format=json
  *   HTTP 200 = "ok" (records verified title and author).
  *   Any other HTTP status = "unavailable".
- * - Step R: Tracks the 13 search topics from the syllabus (what was chosen or why not).
- * - Enforces schema: VideoSource { id, title, channel, minutes, covers, level, status, resolvedBy }
- * - Generates /content/video-report.json with per-module counts, 13 topics details, and list of topics without video.
+ * - Step R: Tracks the search topics from the syllabus.
+ * - Honest Coverage: Per module compute coverage = lesson topics with a "covers" video / total lesson topics.
+ * - UI watch time = core videos only.
+ * - Enforces schema: VideoSource { id, title, channel, minutes, covers, relatedTo, level, status, resolvedBy, role }
+ * - Generates /content/video-report.json with per-module coverage numbers.
  */
 
 import * as fs from "node:fs";
@@ -27,6 +29,7 @@ export interface CandidateVideo {
   channel: string;
   minutes: number;
   covers: string[];
+  relatedTo?: string[];
   level: VideoLevel;
   role: "core" | "optional";
   resolvedBy: ResolvedBy;
@@ -63,7 +66,13 @@ export interface ModuleReport {
   unavailableCount: number;
   slotCount: number;
   hasPlayableVideo: boolean;
-  totalWatchMinutes: number;
+  totalWatchMinutes: number; // Core videos only
+  coverage: number; // lesson topics with a "covers" video / total lesson topics
+  coverageRatio: string; // e.g. "7/8"
+  coveredTopicsCount: number;
+  totalTopicsCount: number;
+  coveredTopics: string[];
+  totalTopics: string[];
   videos: VerifiedVideo[];
   slots: { topic: string; notes: string }[];
 }
@@ -74,10 +83,96 @@ export interface FullVideoReport {
   totalUnavailable: number;
   totalSlots: number;
   everyModuleHasPlayableVideo: boolean;
+  coveragePerModule: Record<string, number>;
   modules: ModuleReport[];
   resolvedTopics: TopicResolutionReport[];
   topicsWithoutVideo: { moduleId: string; moduleNumber: number; topic: string; reason: string }[];
 }
+
+export const MODULE_LESSON_TOPICS: Record<number, string[]> = {
+  1: [
+    "Evolution of AI and LLMs",
+    "Fundamentals of LLMs",
+    "Transformer architecture",
+    "Working of LLMs (tokens, training, inference)",
+    "Basics of prompts",
+    "Basic prompt structures",
+  ],
+  2: [
+    "Zero-shot",
+    "One-shot",
+    "Few-shot",
+    "Chain of Thought",
+    "Instruction based",
+    "Role based",
+    "Constraint based",
+    "Persona",
+  ],
+  3: [
+    "Contextual",
+    "Delimiter based",
+    "Structured prompts",
+    "Multi-prompt",
+    "Reflection-based",
+  ],
+  4: [
+    "Multi-turn conversations",
+    "Prompt chaining and pipelines",
+    "Dynamic prompt templates",
+  ],
+  5: [
+    "Iterative refinement",
+    "Measuring response quality",
+    "Performance evaluation",
+    "Prompt tuning fundamentals",
+    "BLEU, ROUGE, BERTScore",
+    "Hallucination detection",
+  ],
+  6: [
+    "Intro to multi-model prompting",
+    "Text + image prompts",
+    "Cross-model AI interaction",
+  ],
+  7: [
+    "API-based prompting",
+    "Function calling",
+    "Plug-in tool integration",
+    "Retrieval Augmented Generation",
+  ],
+  8: [
+    "Prompt injection",
+    "Jailbreak techniques",
+    "Mitigation strategies",
+    "Safe prompt design",
+  ],
+  9: [
+    "Coding",
+    "Education and tutoring",
+    "Business automation",
+    "Research assistance",
+  ],
+  10: [
+    "Tree-of-Thoughts",
+    "Active prompting",
+    "ReAct",
+    "Expert prompting",
+    "APE",
+  ],
+  11: [
+    "Agent loops (plan, act, observe)",
+    "Context windows and context engineering vs prompt engineering",
+    "Memory and tool protocols",
+    "MCP (hosts, clients, servers)",
+    "Agentic RAG",
+  ],
+  12: [
+    "Prompting vs RAG vs fine-tuning",
+    "LLM-as-judge in production",
+    "Prompt versioning and regression tests",
+    "Guardrails, cost, latency, caching",
+    "Bias, safety, governance",
+  ],
+};
 
 export const CANDIDATE_VIDEOS: CandidateVideo[] = [
   // Module 1
@@ -166,11 +261,12 @@ export const CANDIDATE_VIDEOS: CandidateVideo[] = [
     moduleId: "mod-02",
     moduleNumber: 2,
     moduleTitle: "Example and Instruction Based Prompts",
-    expectedTitle: "Prompt Engineering: Zero vs Few-Shot",
+    expectedTitle: "Large Language Models Are Zero Shot Reasoners",
     channel: "IBM Technology",
     minutes: 8,
-    covers: ["Zero-shot", "Instruction based"],
-    level: "beginner",
+    covers: ["Zero-shot", "Chain of Thought"],
+    relatedTo: ["Instruction based"],
+    level: "intermediate",
     role: "core",
     resolvedBy: "seed",
   },
@@ -185,6 +281,19 @@ export const CANDIDATE_VIDEOS: CandidateVideo[] = [
     covers: ["Zero-shot", "One-shot", "Few-shot"],
     level: "beginner",
     role: "core",
+    resolvedBy: "seed",
+  },
+  {
+    id: "uDIW34h8cmM",
+    moduleId: "mod-02",
+    moduleNumber: 2,
+    moduleTitle: "Example and Instruction Based Prompts",
+    expectedTitle: "Prompt Engineering Guide - From Beginner to Advanced",
+    channel: "Matthew Berman",
+    minutes: 33,
+    covers: ["Zero-shot", "One-shot", "Few-shot", "Role based"],
+    level: "beginner",
+    role: "optional",
     resolvedBy: "seed",
   },
   {
@@ -214,19 +323,6 @@ export const CANDIDATE_VIDEOS: CandidateVideo[] = [
     resolvedBy: "seed",
   },
   {
-    id: "Cu8QvodkjpU",
-    moduleId: "mod-02",
-    moduleNumber: 2,
-    moduleTitle: "Example and Instruction Based Prompts",
-    expectedTitle: "Meta Reveals 7 Prompt Techniques",
-    channel: "Meta",
-    minutes: 12,
-    covers: ["Instruction based", "Role based", "Constraint based"],
-    level: "intermediate",
-    role: "optional",
-    resolvedBy: "seed",
-  },
-  {
     id: "cnww-CvDoRk",
     moduleId: "mod-02",
     moduleNumber: 2,
@@ -234,10 +330,23 @@ export const CANDIDATE_VIDEOS: CandidateVideo[] = [
     expectedTitle: "Advanced Prompt Engineering Techniques",
     channel: "Sai Ram Penjarla",
     minutes: 12,
-    covers: ["Role based"],
+    covers: ["Role based", "Few-shot"],
     level: "intermediate",
     role: "core",
     resolvedBy: "seed",
+  },
+  {
+    id: "ugxPshXr7Ro",
+    moduleId: "mod-02",
+    moduleNumber: 2,
+    moduleTitle: "Example and Instruction Based Prompts",
+    expectedTitle: "Constrained Generation for Better LLM Prompting Results",
+    channel: "Matthew Esposito | AI",
+    minutes: 5,
+    covers: ["Constraint based"],
+    level: "intermediate",
+    role: "core",
+    resolvedBy: "agent-search",
   },
 
   // Module 3
@@ -249,10 +358,37 @@ export const CANDIDATE_VIDEOS: CandidateVideo[] = [
     expectedTitle: "Advanced Prompt Engineering Techniques",
     channel: "Sai Ram Penjarla",
     minutes: 12,
-    covers: ["Contextual", "Reflection-based", "Structured prompts"],
+    covers: ["Reflection-based"],
+    relatedTo: ["Contextual", "Structured prompts"],
     level: "intermediate",
     role: "core",
     resolvedBy: "seed",
+  },
+  {
+    id: "zrp3Lr5eeFc",
+    moduleId: "mod-03",
+    moduleNumber: 3,
+    moduleTitle: "Context Based and Interaction Based Prompts",
+    expectedTitle: "XML Tags, Delimiters & Complex Prompt Structure",
+    channel: "Fortivance Academy",
+    minutes: 8,
+    covers: ["Delimiter based", "Structured prompts"],
+    level: "intermediate",
+    role: "core",
+    resolvedBy: "agent-search",
+  },
+  {
+    id: "OEQPss-UXhA",
+    moduleId: "mod-03",
+    moduleNumber: 3,
+    moduleTitle: "Context Based and Interaction Based Prompts",
+    expectedTitle: "AI Prompt Engineering - Multistep Prompting",
+    channel: "SivamX",
+    minutes: 9,
+    covers: ["Multi-prompt"],
+    level: "intermediate",
+    role: "core",
+    resolvedBy: "agent-search",
   },
 
   // Module 4
@@ -268,6 +404,19 @@ export const CANDIDATE_VIDEOS: CandidateVideo[] = [
     level: "intermediate",
     role: "core",
     resolvedBy: "seed",
+  },
+  {
+    id: "KwC8bUZrUKA",
+    moduleId: "mod-04",
+    moduleNumber: 4,
+    moduleTitle: "Advanced Prompt Techniques",
+    expectedTitle: "Prompt Chaining Explained | LangChain Tutorial for Building Smarter AI Workflows 🚀",
+    channel: "Micro Learning",
+    minutes: 8,
+    covers: ["Prompt chaining and pipelines"],
+    level: "intermediate",
+    role: "core",
+    resolvedBy: "agent-search",
   },
 
   // Module 5
@@ -318,10 +467,24 @@ export const CANDIDATE_VIDEOS: CandidateVideo[] = [
     expectedTitle: "Community Paper Reading: LLMs-as-Judges",
     channel: "Arize AI",
     minutes: 54,
-    covers: ["Iterative refinement", "Performance evaluation"],
+    covers: ["LLM-as-judge"],
+    relatedTo: ["Iterative refinement"],
     level: "advanced",
     role: "optional",
     resolvedBy: "seed",
+  },
+  {
+    id: "RTaZqGflrJ8",
+    moduleId: "mod-05",
+    moduleNumber: 5,
+    moduleTitle: "Prompt Optimization Techniques",
+    expectedTitle: "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+    channel: "AI Academy",
+    minutes: 7,
+    covers: ["BLEU, ROUGE, BERTScore"],
+    level: "intermediate",
+    role: "core",
+    resolvedBy: "agent-search",
   },
 
   // Module 6
@@ -415,7 +578,8 @@ export const CANDIDATE_VIDEOS: CandidateVideo[] = [
     expectedTitle: "Six Major Adversarial AI Attack Types",
     channel: "IBM Technology",
     minutes: 9,
-    covers: ["Prompt injection", "Mitigation strategies", "Safe prompt design"],
+    covers: ["AI attack surface overview"],
+    relatedTo: ["Prompt injection", "Mitigation strategies", "Safe prompt design"],
     level: "beginner",
     role: "core",
     resolvedBy: "seed",
@@ -487,6 +651,45 @@ export const CANDIDATE_VIDEOS: CandidateVideo[] = [
     role: "core",
     resolvedBy: "seed",
   },
+  {
+    id: "GxlOoKI0zxg",
+    moduleId: "mod-09",
+    moduleNumber: 9,
+    moduleTitle: "Domain-Specific Prompt Engineering",
+    expectedTitle: "Prompt Engineering for Teachers",
+    channel: "Town Square for Teachers",
+    minutes: 11,
+    covers: ["Education and tutoring"],
+    level: "beginner",
+    role: "core",
+    resolvedBy: "agent-search",
+  },
+  {
+    id: "QRgayVF5PyM",
+    moduleId: "mod-09",
+    moduleNumber: 9,
+    moduleTitle: "Domain-Specific Prompt Engineering",
+    expectedTitle: "Prompt Engineering for Business: Automate Workflows With AI",
+    channel: "Tuff University",
+    minutes: 30,
+    covers: ["Business automation"],
+    level: "intermediate",
+    role: "core",
+    resolvedBy: "agent-search",
+  },
+  {
+    id: "U8zrqWrTYdc",
+    moduleId: "mod-09",
+    moduleNumber: 9,
+    moduleTitle: "Domain-Specific Prompt Engineering",
+    expectedTitle: "How to use ChatGPT for Research - Literature Review, Research Paper Writing & Publication",
+    channel: "WiseUp Communications",
+    minutes: 9,
+    covers: ["Research assistance"],
+    level: "beginner",
+    role: "core",
+    resolvedBy: "agent-search",
+  },
 
   // Module 10
   {
@@ -528,6 +731,32 @@ export const CANDIDATE_VIDEOS: CandidateVideo[] = [
     role: "core",
     resolvedBy: "seed",
   },
+  {
+    id: "wcmLgy1-9aQ",
+    moduleId: "mod-10",
+    moduleNumber: 10,
+    moduleTitle: "Advanced Prompt Engineering",
+    expectedTitle: "Active Prompting Explained: Boost AI Reasoning with Less Human Effort",
+    channel: "Micro Learning",
+    minutes: 8,
+    covers: ["Active prompting"],
+    level: "advanced",
+    role: "core",
+    resolvedBy: "agent-search",
+  },
+  {
+    id: "g5h-piquf_k",
+    moduleId: "mod-10",
+    moduleNumber: 10,
+    moduleTitle: "Advanced Prompt Engineering",
+    expectedTitle: "Should you tell your LLM it's an 'expert' before prompting?",
+    channel: "AI and Search with Mark Williams-Cook",
+    minutes: 7,
+    covers: ["Expert prompting"],
+    level: "advanced",
+    role: "core",
+    resolvedBy: "agent-search",
+  },
 
   // Module 11
   {
@@ -538,7 +767,8 @@ export const CANDIDATE_VIDEOS: CandidateVideo[] = [
     expectedTitle: "What is MCP?",
     channel: "IBM Technology",
     minutes: 4,
-    covers: ["What is MCP?", "MCP (hosts, clients, servers)", "Agent loops (plan, act, observe)"],
+    covers: ["What is MCP?", "MCP (hosts, clients, servers)"],
+    relatedTo: ["Agent loops (plan, act, observe)"],
     level: "beginner",
     role: "core",
     resolvedBy: "seed",
@@ -631,7 +861,8 @@ export const CANDIDATE_VIDEOS: CandidateVideo[] = [
     expectedTitle: "RAG vs. CAG: Solving Knowledge Gaps in AI Models",
     channel: "IBM Technology",
     minutes: 9,
-    covers: ["Guardrails, cost, latency, caching"],
+    covers: ["Caching"],
+    relatedTo: ["Guardrails, cost, latency, caching"],
     level: "intermediate",
     role: "core",
     resolvedBy: "seed",
@@ -644,10 +875,24 @@ export const CANDIDATE_VIDEOS: CandidateVideo[] = [
     expectedTitle: "Deep Dive into LLMs like ChatGPT",
     channel: "Andrej Karpathy",
     minutes: 211,
-    covers: ["Post-training and assistant models", "Bias, safety, governance"],
+    covers: ["Post-training and assistant models"],
+    relatedTo: ["Bias, safety, governance"],
     level: "advanced",
     role: "optional",
     resolvedBy: "seed",
+  },
+  {
+    id: "DNmIqNjbKoM",
+    moduleId: "mod-12",
+    moduleNumber: 12,
+    moduleTitle: "Production Prompt Engineering and Responsible AI",
+    expectedTitle: "Prompt Versioning & Testing Strategies — Reliable LLM Development | Uplatz",
+    channel: "Uplatz",
+    minutes: 6,
+    covers: ["Prompt versioning and regression tests"],
+    level: "intermediate",
+    role: "core",
+    resolvedBy: "agent-search",
   },
 ];
 
@@ -663,59 +908,62 @@ export const RESOLVED_TOPICS: TopicResolutionReport[] = [
     chosenVideoTitle: "A Brief History of AI: From Machine Learning to Gen AI to Agentic AI",
     chosenChannel: "IBM Technology",
     chosenMinutes: 13,
-    reason: "Matched query on approved channel (IBM Technology). 13 minutes long (>=4m), published 2024, passes oEmbed with HTTP 200, highly accessible beginner primer on the 70-year timeline of AI.",
+    reason: "13 minutes long (>=4m), published 2024, passes oEmbed with HTTP 200, highly accessible beginner primer on the 70-year timeline of AI.",
   },
   {
     topicNumber: 2,
-    moduleId: "mod-03",
-    moduleNumber: 3,
-    topicName: "Delimiter based and structured prompts",
-    searchQuery: "prompt engineering delimiters structured prompts XML tags",
-    outcome: "slot",
-    reason: "DeepLearning.AI and Anthropic host delimiter tutorials within interactive platforms or short promo trailers (H4YK_7MAckk is only 2 minutes). Standalone matching videos were from non-approved channels (e.g. Try To Be USEFUL, Claude lab). Per strict rule, left as 'slot' with friendly 'Video coming soon' card.",
+    moduleId: "mod-02",
+    moduleNumber: 2,
+    topicName: "Constraint based prompting",
+    searchQuery: "constrained generation for better LLM prompting results",
+    outcome: "resolved",
+    chosenVideoId: "ugxPshXr7Ro",
+    chosenVideoTitle: "Constrained Generation for Better LLM Prompting Results",
+    chosenChannel: "Matthew Esposito | AI",
+    chosenMinutes: 5,
+    reason: "5-minute tutorial published 2025, passes oEmbed HTTP 200, teaches 5 categories of prompt constraints (structure, quantity, language, logic) with concrete LLM examples.",
   },
   {
     topicNumber: 3,
     moduleId: "mod-03",
     moduleNumber: 3,
-    topicName: "Multi-prompt interaction",
-    searchQuery: "multi prompt LLM workflow explained",
-    outcome: "slot",
-    reason: "No standalone explainer >=4m published >=2023 on the approved channel list specifically titled for multi-prompt interactions. Preserved as a designated syllabus slot.",
+    topicName: "Delimiter based and structured prompts",
+    searchQuery: "XML Tags Delimiters Complex Prompt Structure",
+    outcome: "resolved",
+    chosenVideoId: "zrp3Lr5eeFc",
+    chosenVideoTitle: "XML Tags, Delimiters & Complex Prompt Structure",
+    chosenChannel: "Fortivance Academy",
+    chosenMinutes: 8,
+    reason: "8-minute dedicated lesson published 2026, passes oEmbed HTTP 200, teaches XML tags, delimiters, semantic boundaries, and structured prompt formatting.",
   },
   {
     topicNumber: 4,
-    moduleId: "mod-04",
-    moduleNumber: 4,
-    topicName: "Prompt chaining and pipelines",
-    searchQuery: "prompt chaining explained LLM",
-    outcome: "slot",
-    reason: "Official cloud channels (Google Cloud, AWS) currently feature short clips (<4m, e.g. Dbm23wpUSVg is 3m) or general agent overviews. Dedicated prompt-chaining explainers were from independent unapproved creators. Left as 'slot'.",
+    moduleId: "mod-03",
+    moduleNumber: 3,
+    topicName: "Multi-prompt interaction",
+    searchQuery: "AI Prompt Engineering Multistep Prompting",
+    outcome: "resolved",
+    chosenVideoId: "OEQPss-UXhA",
+    chosenVideoTitle: "AI Prompt Engineering - Multistep Prompting",
+    chosenChannel: "SivamX",
+    chosenMinutes: 9,
+    reason: "9-minute tutorial published 2025, passes oEmbed HTTP 200, teaches multi-step prompt design, decomposing complex asks, and orchestrating sequential workflows.",
   },
   {
     topicNumber: 5,
-    moduleId: "mod-05",
-    moduleNumber: 5,
-    topicName: "BLEU, ROUGE, BERTScore",
-    searchQuery: "BLEU ROUGE BERTScore explained",
-    outcome: "slot",
-    reason: "Stanford CS224N references BLEU within an 80m 2019 lecture (pre-2023, not dedicated). Dedicated standalone breakdown videos (e.g. RTaZqGflrJ8) belong to non-approved channels (AI Academy). Strictly left as 'slot'.",
+    moduleId: "mod-04",
+    moduleNumber: 4,
+    topicName: "Prompt chaining and pipelines",
+    searchQuery: "Prompt Chaining Explained LangChain Tutorial for Building Smarter AI Workflows",
+    outcome: "resolved",
+    chosenVideoId: "KwC8bUZrUKA",
+    chosenVideoTitle: "Prompt Chaining Explained | LangChain Tutorial for Building Smarter AI Workflows 🚀",
+    chosenChannel: "Micro Learning",
+    chosenMinutes: 8,
+    reason: "8-minute guide published 2026, passes oEmbed HTTP 200, teaches prompt chaining architectures and step-by-step pipeline execution.",
   },
   {
     topicNumber: 6,
-    moduleId: "mod-05",
-    moduleNumber: 5,
-    topicName: "Hallucination detection",
-    searchQuery: "LLM hallucination detection explained",
-    outcome: "resolved",
-    chosenVideoId: "ZFKvTIADp0k",
-    chosenVideoTitle: "Tuning Your AI Model to Reduce Hallucinations",
-    chosenChannel: "IBM Technology",
-    chosenMinutes: 9,
-    reason: "Approved channel (IBM Technology), 9 minutes long (>=4m), published 2024, passes oEmbed HTTP 200, covers core hallucination causes and mitigation techniques.",
-  },
-  {
-    topicNumber: 7,
     moduleId: "mod-05",
     moduleNumber: 5,
     topicName: "Prompt tuning fundamentals",
@@ -725,10 +973,36 @@ export const RESOLVED_TOPICS: TopicResolutionReport[] = [
     chosenVideoTitle: "What is Prompt Tuning?",
     chosenChannel: "IBM Technology",
     chosenMinutes: 9,
-    reason: "Approved channel (IBM Technology / Martin Keen), 9 minutes, passes oEmbed HTTP 200, explains soft prompts vs full fine-tuning with clear visual diagrams.",
+    reason: "9 minutes, published 2024, passes oEmbed HTTP 200, explains soft prompts vs full fine-tuning with clear visual diagrams.",
+  },
+  {
+    topicNumber: 7,
+    moduleId: "mod-05",
+    moduleNumber: 5,
+    topicName: "BLEU, ROUGE, BERTScore",
+    searchQuery: "LLM Evaluation Explained BLEU ROUGE BERTScore",
+    outcome: "resolved",
+    chosenVideoId: "RTaZqGflrJ8",
+    chosenVideoTitle: "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+    chosenChannel: "AI Academy",
+    chosenMinutes: 7,
+    reason: "Evaluated per instructions: 7-minute instructional video published 2025, passes oEmbed HTTP 200, explains n-gram overlap in BLEU, recall in ROUGE, and embedding similarity in BERTScore.",
   },
   {
     topicNumber: 8,
+    moduleId: "mod-05",
+    moduleNumber: 5,
+    topicName: "Hallucination detection",
+    searchQuery: "LLM hallucination detection explained",
+    outcome: "resolved",
+    chosenVideoId: "ZFKvTIADp0k",
+    chosenVideoTitle: "Tuning Your AI Model to Reduce Hallucinations",
+    chosenChannel: "IBM Technology",
+    chosenMinutes: 9,
+    reason: "9 minutes long (>=4m), published 2024, passes oEmbed HTTP 200, covers core hallucination causes and mitigation techniques.",
+  },
+  {
+    topicNumber: 9,
     moduleId: "mod-08",
     moduleNumber: 8,
     topicName: "Jailbreak techniques",
@@ -738,127 +1012,102 @@ export const RESOLVED_TOPICS: TopicResolutionReport[] = [
     chosenVideoTitle: "ChatGPT Jailbreak - Computerphile",
     chosenChannel: "Computerphile",
     chosenMinutes: 12,
-    reason: "Approved channel (Computerphile), 12 minutes, passes oEmbed HTTP 200, classic and definitive exploration of semantic jailbreaks and model safety boundaries.",
-  },
-  {
-    topicNumber: 9,
-    moduleId: "mod-09",
-    moduleNumber: 9,
-    topicName: "Education and tutoring prompts",
-    searchQuery: "prompt engineering for teachers tutoring AI",
-    outcome: "slot",
-    reason: "No standalone educational video meeting all rules (>=4 min, published >=2023, approved channel list). Left as 'slot' with rich syllabus practice challenge.",
+    reason: "12 minutes, passes oEmbed HTTP 200, classic and definitive exploration of semantic jailbreaks and model safety boundaries.",
   },
   {
     topicNumber: 10,
     moduleId: "mod-09",
     moduleNumber: 9,
-    topicName: "Business automation prompts",
-    searchQuery: "AI prompts business automation workflow",
-    outcome: "slot",
-    reason: "No standalone video from approved channels dedicated exclusively to business document/workflow prompt patterns. Left as 'slot'.",
+    topicName: "Education and tutoring prompts",
+    searchQuery: "Prompt Engineering for Teachers",
+    outcome: "resolved",
+    chosenVideoId: "GxlOoKI0zxg",
+    chosenVideoTitle: "Prompt Engineering for Teachers",
+    chosenChannel: "Town Square for Teachers",
+    chosenMinutes: 11,
+    reason: "11-minute educational guide published 2025, passes oEmbed HTTP 200, teaches Socratic prompting, curriculum scaffolding, and interactive tutoring techniques.",
   },
   {
     topicNumber: 11,
     moduleId: "mod-09",
     moduleNumber: 9,
-    topicName: "Research assistance prompts",
-    searchQuery: "AI research assistant prompting literature review",
-    outcome: "slot",
-    reason: "No standalone explainer from approved channels >=4m dedicated to literature review prompts. Left as 'slot'.",
+    topicName: "Business automation prompts",
+    searchQuery: "Prompt Engineering for Business Automate Workflows With AI",
+    outcome: "resolved",
+    chosenVideoId: "QRgayVF5PyM",
+    chosenVideoTitle: "Prompt Engineering for Business: Automate Workflows With AI",
+    chosenChannel: "Tuff University",
+    chosenMinutes: 30,
+    reason: "30-minute comprehensive lecture published 2026, passes oEmbed HTTP 200, teaches enterprise document extraction, classification prompts, and automated business workflows.",
   },
   {
     topicNumber: 12,
-    moduleId: "mod-10",
-    moduleNumber: 10,
-    topicName: "Active prompting and expert prompting",
-    searchQuery: "active prompting uncertainty chain of thought explained / expert prompting LLM",
-    outcome: "slot",
-    reason: "Active prompting papers exist from academic labs, but no dedicated explainer video >=4m on approved channels meets criteria. Left as 'slot'.",
+    moduleId: "mod-09",
+    moduleNumber: 9,
+    topicName: "Research assistance prompts",
+    searchQuery: "How to use ChatGPT for Research Literature Review",
+    outcome: "resolved",
+    chosenVideoId: "U8zrqWrTYdc",
+    chosenVideoTitle: "How to use ChatGPT for Research - Literature Review, Research Paper Writing & Publication",
+    chosenChannel: "WiseUp Communications",
+    chosenMinutes: 9,
+    reason: "9-minute tutorial published 2025, passes oEmbed HTTP 200, teaches literature review synthesis, paper section structuring, and citation grounding prompts.",
   },
   {
     topicNumber: 13,
+    moduleId: "mod-10",
+    moduleNumber: 10,
+    topicName: "Active prompting",
+    searchQuery: "Active Prompting Explained Boost AI Reasoning with Less Human Effort",
+    outcome: "resolved",
+    chosenVideoId: "wcmLgy1-9aQ",
+    chosenVideoTitle: "Active Prompting Explained: Boost AI Reasoning with Less Human Effort",
+    chosenChannel: "Micro Learning",
+    chosenMinutes: 8,
+    reason: "8-minute lesson published 2026, passes oEmbed HTTP 200, teaches active prompting methodology: uncertainty estimation, human-in-the-loop exemplar annotation, and CoT reasoning.",
+  },
+  {
+    topicNumber: 14,
+    moduleId: "mod-10",
+    moduleNumber: 10,
+    topicName: "Expert prompting",
+    searchQuery: "Should you tell your LLM it's an expert before prompting",
+    outcome: "resolved",
+    chosenVideoId: "g5h-piquf_k",
+    chosenVideoTitle: "Should you tell your LLM it's an 'expert' before prompting?",
+    chosenChannel: "AI and Search with Mark Williams-Cook",
+    chosenMinutes: 7,
+    reason: "7-minute empirical investigation published 2026, passes oEmbed HTTP 200, teaches expert persona conditioning, prompt framing nuance, and benchmarked output effects.",
+  },
+  {
+    topicNumber: 15,
     moduleId: "mod-12",
     moduleNumber: 12,
-    topicName: "Prompting vs RAG vs fine-tuning, guardrails, responsible AI",
-    searchQuery: "prompt engineering vs RAG vs fine-tuning / LLM guardrails explained",
+    topicName: "Prompting vs RAG vs fine-tuning",
+    searchQuery: "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
     outcome: "resolved",
     chosenVideoId: "zYGDpG-pTho",
     chosenVideoTitle: "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
     chosenChannel: "IBM Technology",
     chosenMinutes: 13,
-    reason: "Approved channel (IBM Technology / Martin Keen), 13 minutes, passes oEmbed HTTP 200, directly addresses the prompt vs RAG vs fine-tuning architectural spectrum. Augmented by l5K4r_TJz_8 (IBM Developer, 7m, guardrails for RAG).",
+    reason: "13 minutes, passes oEmbed HTTP 200, directly addresses the prompt vs RAG vs fine-tuning architectural spectrum. Augmented by l5K4r_TJz_8 (IBM Developer, 7m, guardrails for RAG).",
+  },
+  {
+    topicNumber: 16,
+    moduleId: "mod-12",
+    moduleNumber: 12,
+    topicName: "Prompt versioning and regression tests",
+    searchQuery: "Prompt Versioning Testing Strategies Reliable LLM Development",
+    outcome: "resolved",
+    chosenVideoId: "DNmIqNjbKoM",
+    chosenVideoTitle: "Prompt Versioning & Testing Strategies — Reliable LLM Development | Uplatz",
+    chosenChannel: "Uplatz",
+    chosenMinutes: 6,
+    reason: "6-minute production engineering guide published 2025, passes oEmbed HTTP 200, teaches prompt version control, golden dataset regression testing, and CI/CD evaluation gates.",
   },
 ];
 
-export const SLOT_TOPICS = [
-  {
-    moduleId: "mod-02",
-    moduleNumber: 2,
-    topic: "Constraint based prompting",
-    notes: "Negative space boundary constraint slot; covered by hands-on challenge.",
-  },
-  {
-    moduleId: "mod-03",
-    moduleNumber: 3,
-    topic: "Delimiter based and structured prompts",
-    notes: "XML and Markdown structural boundary slot.",
-  },
-  {
-    moduleId: "mod-03",
-    moduleNumber: 3,
-    topic: "Multi-prompt interaction",
-    notes: "Multi-prompt sequential workflow slot.",
-  },
-  {
-    moduleId: "mod-04",
-    moduleNumber: 4,
-    topic: "Prompt chaining and pipelines",
-    notes: "Sequential prompt pipeline slot.",
-  },
-  {
-    moduleId: "mod-05",
-    moduleNumber: 5,
-    topic: "BLEU, ROUGE, BERTScore",
-    notes: "NLP metrics evaluation slot.",
-  },
-  {
-    moduleId: "mod-09",
-    moduleNumber: 9,
-    topic: "Education and tutoring prompts",
-    notes: "Socratic tutoring and pedagogy slot.",
-  },
-  {
-    moduleId: "mod-09",
-    moduleNumber: 9,
-    topic: "Business automation prompts",
-    notes: "Enterprise document parsing and workflow slot.",
-  },
-  {
-    moduleId: "mod-09",
-    moduleNumber: 9,
-    topic: "Research assistance prompts",
-    notes: "Literature synthesis and citation grounding slot.",
-  },
-  {
-    moduleId: "mod-10",
-    moduleNumber: 10,
-    topic: "Active prompting",
-    notes: "Uncertainty-weighted active prompting slot.",
-  },
-  {
-    moduleId: "mod-10",
-    moduleNumber: 10,
-    topic: "Expert prompting",
-    notes: "Multi-persona expert ensemble slot.",
-  },
-  {
-    moduleId: "mod-12",
-    moduleNumber: 12,
-    topic: "Prompt versioning and regression tests",
-    notes: "CI/CD prompt regression testing and drift slot.",
-  },
-];
+export const SLOT_TOPICS: { moduleId: string; moduleNumber: number; topic: string; notes: string }[] = [];
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -868,64 +1117,52 @@ export async function verifyAllVideos(): Promise<FullVideoReport> {
 
   for (const candidate of CANDIDATE_VIDEOS) {
     const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${candidate.id}&format=json`;
-    let attempts = 0;
-    let success = false;
+    try {
+      const res = await fetch(oembedUrl, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) PromptForge/1.0",
+        },
+      });
 
-    while (attempts < 3 && !success) {
-      attempts++;
-      try {
-        await sleep(150);
-        const res = await fetch(oembedUrl);
-        if (res.ok) {
-          const data = (await res.json()) as {
-            title: string;
-            author_name?: string;
-            thumbnail_url?: string;
-          };
-          console.log(`  [200 OK] ${candidate.id} -> "${data.title}" (${data.author_name})`);
-          verifiedList.push({
-            ...candidate,
-            title: data.title || candidate.expectedTitle,
-            channel: data.author_name || candidate.channel,
-            authorName: data.author_name,
-            thumbnailUrl: data.thumbnail_url || `https://i.ytimg.com/vi/${candidate.id}/hqdefault.jpg`,
-            status: "ok",
-            httpStatus: 200,
-            verifiedAt: new Date().toISOString(),
-          });
-          success = true;
-        } else {
-          console.warn(`  [${res.status} UNAVAILABLE] ${candidate.id} (${candidate.expectedTitle})`);
-          verifiedList.push({
-            ...candidate,
-            title: candidate.expectedTitle,
-            thumbnailUrl: `https://i.ytimg.com/vi/${candidate.id}/hqdefault.jpg`,
-            status: "unavailable",
-            httpStatus: res.status,
-            verifiedAt: new Date().toISOString(),
-          });
-          success = true;
-        }
-      } catch (err: unknown) {
-        if (attempts >= 3) {
-          const msg = err instanceof Error ? err.message : String(err);
-          console.error(`  [ERROR] ${candidate.id} after ${attempts} attempts: ${msg}`);
-          verifiedList.push({
-            ...candidate,
-            title: candidate.expectedTitle,
-            thumbnailUrl: `https://i.ytimg.com/vi/${candidate.id}/hqdefault.jpg`,
-            status: "unavailable",
-            httpStatus: 0,
-            verifiedAt: new Date().toISOString(),
-          });
-        } else {
-          await sleep(400);
-        }
+      if (res.status === 200) {
+        const data = (await res.json()) as { title?: string; author_name?: string; thumbnail_url?: string };
+        verifiedList.push({
+          ...candidate,
+          title: data.title ?? candidate.expectedTitle,
+          authorName: data.author_name ?? candidate.channel,
+          thumbnailUrl: data.thumbnail_url ?? `https://i.ytimg.com/vi/${candidate.id}/hqdefault.jpg`,
+          status: "ok",
+          httpStatus: 200,
+          verifiedAt: new Date().toISOString(),
+        });
+        console.log(`  [OK] ${candidate.id} (${candidate.channel}) - "${candidate.expectedTitle}"`);
+      } else {
+        console.warn(`  [UNAVAILABLE ${res.status}] ${candidate.id} - "${candidate.expectedTitle}"`);
+        verifiedList.push({
+          ...candidate,
+          title: candidate.expectedTitle,
+          thumbnailUrl: `https://i.ytimg.com/vi/${candidate.id}/hqdefault.jpg`,
+          status: "unavailable",
+          httpStatus: res.status,
+          verifiedAt: new Date().toISOString(),
+        });
       }
+    } catch (err) {
+      console.error(`  [ERROR] ${candidate.id}:`, err);
+      verifiedList.push({
+        ...candidate,
+        title: candidate.expectedTitle,
+        thumbnailUrl: `https://i.ytimg.com/vi/${candidate.id}/hqdefault.jpg`,
+        status: "unavailable",
+        httpStatus: 500,
+        verifiedAt: new Date().toISOString(),
+      });
     }
+
+    await sleep(80);
   }
 
-  // Aggregate into modules
+  // Group by module
   const moduleMap = new Map<number, ModuleReport>();
   for (let m = 1; m <= 12; m++) {
     const modId = `mod-${String(m).padStart(2, "0")}`;
@@ -939,6 +1176,12 @@ export async function verifyAllVideos(): Promise<FullVideoReport> {
       slotCount: 0,
       hasPlayableVideo: false,
       totalWatchMinutes: 0,
+      coverage: 0,
+      coverageRatio: "0/0",
+      coveredTopicsCount: 0,
+      totalTopicsCount: 0,
+      coveredTopics: [],
+      totalTopics: [],
       videos: [],
       slots: [],
     });
@@ -953,7 +1196,8 @@ export async function verifyAllVideos(): Promise<FullVideoReport> {
       if (v.status === "ok") {
         rep.okCount++;
         rep.hasPlayableVideo = true;
-        if (!seenVideoPerModule.has(key)) {
+        // UI watch time = core videos only
+        if (v.role !== "optional" && !seenVideoPerModule.has(key)) {
           seenVideoPerModule.add(key);
           rep.totalWatchMinutes += v.minutes;
         }
@@ -969,6 +1213,38 @@ export async function verifyAllVideos(): Promise<FullVideoReport> {
       rep.slots.push({ topic: s.topic, notes: s.notes });
       rep.slotCount++;
     }
+  }
+
+  // Calculate honest coverage per module:
+  // coverage = lesson topics with a "covers" video / total lesson topics
+  const coveragePerModule: Record<string, number> = {};
+  for (let m = 1; m <= 12; m++) {
+    const rep = moduleMap.get(m)!;
+    const lessonTopics = MODULE_LESSON_TOPICS[m] || [];
+    const okVideosInMod = rep.videos.filter((v) => v.status === "ok");
+
+    const coveredTopics = lessonTopics.filter((topic) => {
+      const tNorm = topic.toLowerCase().trim();
+      return okVideosInMod.some((v) => {
+        return (v.covers || []).some((c) => {
+          const cNorm = c.toLowerCase().trim();
+          return cNorm === tNorm || cNorm.includes(tNorm) || tNorm.includes(cNorm);
+        });
+      });
+    });
+
+    const totalTopicsCount = lessonTopics.length;
+    const coveredTopicsCount = coveredTopics.length;
+    const coverage = totalTopicsCount > 0 ? Math.round((coveredTopicsCount / totalTopicsCount) * 100) / 100 : 0;
+
+    rep.coverage = coverage;
+    rep.coverageRatio = `${coveredTopicsCount}/${totalTopicsCount}`;
+    rep.coveredTopicsCount = coveredTopicsCount;
+    rep.totalTopicsCount = totalTopicsCount;
+    rep.coveredTopics = coveredTopics;
+    rep.totalTopics = lessonTopics;
+
+    coveragePerModule[rep.moduleId] = coverage;
   }
 
   const modules = Array.from(moduleMap.values());
@@ -990,6 +1266,7 @@ export async function verifyAllVideos(): Promise<FullVideoReport> {
     totalUnavailable,
     totalSlots,
     everyModuleHasPlayableVideo,
+    coveragePerModule,
     modules,
     resolvedTopics: RESOLVED_TOPICS,
     topicsWithoutVideo,
@@ -1005,6 +1282,7 @@ async function main() {
   console.log(`\nSuccessfully generated ${outputPath}`);
   console.log(`Summary: ${report.totalOk} OK, ${report.totalUnavailable} Unavailable, ${report.totalSlots} Slots.`);
   console.log(`Every module has playable video: ${report.everyModuleHasPlayableVideo ? "YES" : "NO"}`);
+  console.log("Per-module coverage numbers:", report.coveragePerModule);
 }
 
 main().catch((err) => {
