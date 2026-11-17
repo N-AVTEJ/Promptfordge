@@ -146,11 +146,11 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
     return (
       <div
         className={cn(
-          "relative w-full overflow-hidden rounded-2xl border border-indigo-950/10 bg-white shadow-card transition-shadow hover:shadow-card-hover",
+          "relative w-full overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-card transition-shadow hover:shadow-card-hover",
           className
         )}
       >
-        <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-cream">
+        <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-daylight">
           {!isPlaceholder ? (
             /* Privacy-enhanced YouTube Iframe Embed */
             <iframe
@@ -164,22 +164,22 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
             />
           ) : (
             /* Friendly "Video coming soon" Card with Thumbnail Placeholder */
-            <div className="absolute inset-0 flex flex-col justify-between bg-[#fbf9f5] border border-indigo-950/10 p-6 sm:p-8 select-none">
+            <div className="absolute inset-0 flex flex-col justify-between bg-[#fbf9f5] border border-navy/10 p-6 sm:p-8 select-none">
               {/* Top Bar */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-coral/30 bg-coral/10 text-coral">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-ultramarine/30 bg-ultramarine/10 text-ultramarine">
                     <Video className="h-4 w-4" />
                   </div>
                   <div>
-                    <span className="font-sans text-xs font-bold uppercase tracking-wider text-coral">
+                    <span className="font-sans text-xs font-bold uppercase tracking-wider text-ultramarine">
                       Lesson Studio Preview
                     </span>
                   </div>
                 </div>
 
-                <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-950/10 bg-white px-3 py-1 text-xs font-semibold text-indigo shadow-sm">
-                  <Clock className="h-3.5 w-3.5 text-coral" />
+                <div className="inline-flex items-center gap-1.5 rounded-full border border-navy/10 bg-white px-3 py-1 text-xs font-semibold text-navy shadow-sm">
+                  <Clock className="h-3.5 w-3.5 text-ultramarine" />
                   <span>
                     {status === "unavailable"
                       ? "Video temporarily unavailable"
@@ -193,7 +193,7 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
                 <button
                   type="button"
                   onClick={() => setIsPlaying(!isPlaying)}
-                  className="group relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-coral text-white shadow-card transition-transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-coral"
+                  className="group relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-ultramarine text-white shadow-card transition-transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-coral"
                   aria-label={isPlaying ? "Pause simulated walkthrough" : "Play simulated walkthrough"}
                 >
                   {isPlaying ? (
@@ -203,19 +203,19 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
                   )}
                 </button>
 
-                <h3 className="mt-4 max-w-md font-sans text-base sm:text-lg font-bold text-indigo">
+                <h3 className="mt-4 max-w-md font-sans text-base sm:text-lg font-bold text-navy">
                   {title}
                 </h3>
 
-                <p className="mt-1.5 max-w-sm text-xs sm:text-sm text-indigo-900/70">
+                <p className="mt-1.5 max-w-sm text-xs sm:text-sm text-navy/70">
                   {status === "unavailable"
                     ? "The designated video source is currently restricted by the external host. Detailed syllabus notes, chapters, and the interactive lab challenge are fully ready below!"
                     : "Curriculum studio walkthrough is in post-production. You can explore the structured notes, timestamp index, and live challenge below right now!"}
                 </p>
 
                 {seekFeedback && (
-                  <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-indigo-950/10 bg-white px-3 py-1 font-mono text-xs font-semibold text-indigo shadow-sm">
-                    <Clock className="h-3.5 w-3.5 text-coral" />
+                  <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-navy/10 bg-white px-3 py-1 font-mono text-xs font-semibold text-navy shadow-sm">
+                    <Clock className="h-3.5 w-3.5 text-ultramarine" />
                     <span>{seekFeedback}</span>
                   </div>
                 )}
@@ -224,7 +224,7 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
               {/* Bottom Scrubber & Controls */}
               <div className="space-y-2">
                 <div
-                  className="relative h-2 w-full cursor-pointer rounded-full bg-indigo-950/10 overflow-hidden"
+                  className="relative h-2 w-full cursor-pointer rounded-full bg-navy/10 overflow-hidden"
                   onClick={(e) => {
                     const rect = e.currentTarget.getBoundingClientRect();
                     const clickX = e.clientX - rect.left;
@@ -239,12 +239,12 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
                   tabIndex={0}
                 >
                   <div
-                    className="h-full bg-coral transition-all duration-150 rounded-full"
+                    className="h-full bg-ultramarine transition-all duration-150 rounded-full"
                     style={{ width: `${(currentTime / totalDuration) * 100}%` }}
                   />
                 </div>
 
-                <div className="flex items-center justify-between font-mono text-[11px] text-indigo-900/60">
+                <div className="flex items-center justify-between font-mono text-[11px] text-navy/70">
                   <span>{formatTime(currentTime)}</span>
                   <span className="flex items-center gap-1 text-teal font-medium">
                     <Sparkles className="h-3 w-3" /> Interactive simulation mode

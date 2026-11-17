@@ -10,10 +10,10 @@ export const EvaluateNode = memo(function EvaluateNode({
   isConnectable,
 }: NodeProps<EvaluateData>) {
   const statusColors = {
-    idle: "border-indigo-950/10 bg-white shadow-card",
+    idle: "border-navy/10 bg-white shadow-sm",
     running: "border-violet bg-violet/10 ring-1 ring-violet animate-pulse",
     done: "border-teal/70 bg-teal/10",
-    failed: "border-coral bg-coral/10 ring-1 ring-coral",
+    failed: "border-ultramarine bg-ultramarine/10 ring-1 ring-ultramarine",
   };
 
   const scores = data.scores;
@@ -65,15 +65,15 @@ export const EvaluateNode = memo(function EvaluateNode({
 
       {/* Body / Criteria */}
       <div className="mt-3 space-y-2">
-        <div className="rounded border border-indigo-950/10 bg-cream/70 p-2 text-[10px] font-mono text-indigo-900/70 leading-relaxed">
-          <span className="text-coral font-semibold block mb-0.5">
+        <div className="rounded border border-navy/10 bg-daylight p-2 text-[10px] font-mono text-navy/70 leading-relaxed">
+          <span className="text-ultramarine font-semibold block mb-0.5">
             4-Dimensional Quality Rubric
           </span>
           Independent metric evaluation across Clarity, Relevance, Correctness, and Constraint Following.
         </div>
 
         {data.educationalNote && (
-          <p className="text-[10px] text-indigo-900/60 italic leading-tight">
+          <p className="text-[10px] text-navy/70 italic leading-tight">
             {data.educationalNote}
           </p>
         )}
@@ -81,13 +81,13 @@ export const EvaluateNode = memo(function EvaluateNode({
 
       {/* 4 Separate Scores Display (Never combined!) */}
       {scores && data.status === "done" && (
-        <div className="mt-2.5 space-y-1.5 rounded border border-indigo-950/10 bg-cream/70 p-2.5 font-mono text-[11px]">
+        <div className="mt-2.5 space-y-1.5 rounded border border-navy/10 bg-daylight p-2.5 font-mono text-[11px]">
           <div className="flex items-center justify-between text-[10px] text-teal font-semibold mb-1">
             <span className="flex items-center gap-1">
               <CheckCircle2 className="h-3 w-3" /> Rubric Assessment
             </span>
             {data.metrics?.latencyMs !== undefined && (
-              <span className="text-indigo-900/60 flex items-center gap-1">
+              <span className="text-navy/70 flex items-center gap-1">
                 <Clock className="h-2.5 w-2.5" />
                 {data.metrics.latencyMs}ms
               </span>
@@ -176,7 +176,7 @@ export const EvaluateNode = memo(function EvaluateNode({
         isConnectable={isConnectable}
         data-datatype="evaluation"
         title="Output: rubric evaluation scores"
-        className="!h-3 !w-3 !rounded-full !border-2 !border-white !bg-coral hover:!scale-125 transition-transform"
+        className="!h-3 !w-3 !rounded-full !border-2 !border-white !bg-ultramarine hover:!scale-125 transition-transform"
       />
     </div>
   );

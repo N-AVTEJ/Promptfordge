@@ -617,7 +617,7 @@ export function OptimizeLab() {
                   </div>
 
                   {/* Diff Canvas */}
-                  <Card className="border-indigo/10 bg-cream/70 overflow-hidden font-mono text-xs">
+                  <Card className="border-navy/10 bg-daylight overflow-hidden font-mono text-xs">
                     {diffViewMode === "unified" ? (
                       <div className="divide-y divide-white/[0.04] overflow-x-auto">
                         {activeCandidate.diff.lines.map((line, idx) => {

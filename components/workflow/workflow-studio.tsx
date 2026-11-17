@@ -424,12 +424,12 @@ export function WorkflowStudio() {
   );
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] flex-col bg-cream text-indigo">
+    <div className="flex h-[calc(100vh-4rem)] flex-col bg-daylight text-navy">
       {/* Top Toolbar */}
-      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-indigo-950/10 bg-white/95 px-4 py-2.5 backdrop-blur-md">
+      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-navy/10 bg-white/95 px-4 py-2.5 backdrop-blur-md">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-coral/10 text-coral border border-coral/30">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-ultramarine/10 text-ultramarine border border-ultramarine/30">
               <Layers className="h-4 w-4" />
             </div>
             <div>
@@ -454,18 +454,18 @@ export function WorkflowStudio() {
         {/* Center: Template Switcher & Add Node Dropdown */}
         <div className="flex items-center gap-2">
           {/* Starter Template Selector */}
-          <div className="flex items-center gap-1.5 rounded-lg border border-indigo-950/10 bg-white px-2.5 py-1">
-            <span className="text-[10px] font-mono text-indigo-900/60 uppercase">
+          <div className="flex items-center gap-1.5 rounded-lg border border-navy/10 bg-white px-2.5 py-1">
+            <span className="text-[10px] font-mono text-navy/70 uppercase">
               Template:
             </span>
             <select
               value={currentTemplateId}
               onChange={(e) => handleSelectTemplate(e.target.value)}
-              className="bg-transparent font-mono text-xs text-indigo focus:outline-none cursor-pointer"
+              className="bg-transparent font-mono text-xs text-navy focus:outline-none cursor-pointer"
             >
               <optgroup label="Starter DAG Templates">
                 {STARTER_TEMPLATES.map((t) => (
-                  <option key={t.id} value={t.id} className="bg-white text-indigo">
+                  <option key={t.id} value={t.id} className="bg-white text-navy">
                     {t.name}
                   </option>
                 ))}
@@ -475,7 +475,7 @@ export function WorkflowStudio() {
                   {savedWorkflows
                     .filter((w) => !w.isTemplate)
                     .map((w) => (
-                      <option key={w.id} value={w.id} className="bg-white text-indigo">
+                      <option key={w.id} value={w.id} className="bg-white text-navy">
                         {w.name}
                       </option>
                     ))}
@@ -488,44 +488,44 @@ export function WorkflowStudio() {
           <div className="relative group">
             <button
               type="button"
-              className="flex items-center gap-1.5 rounded-lg border border-indigo-950/10 bg-white px-3 py-1.5 text-xs font-mono text-indigo hover:bg-cream transition-colors"
+              className="flex items-center gap-1.5 rounded-lg border border-navy/10 bg-white px-3 py-1.5 text-xs font-mono text-navy hover:bg-daylight transition-colors"
             >
               <Plus className="h-3.5 w-3.5 text-teal" />
               <span>Add Node</span>
             </button>
-            <div className="absolute left-0 top-full z-50 mt-1 hidden w-44 rounded-lg border border-indigo-950/10 bg-white p-1 shadow-card group-hover:block">
+            <div className="absolute left-0 top-full z-50 mt-1 hidden w-44 rounded-lg border border-navy/10 bg-white p-1 shadow-sm group-hover:block">
               <button
                 type="button"
                 onClick={() => handleAddNode("userInput")}
-                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-teal hover:bg-cream rounded"
+                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-teal hover:bg-daylight rounded"
               >
                 + User Input
               </button>
               <button
                 type="button"
                 onClick={() => handleAddNode("promptTemplate")}
-                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-coral hover:bg-cream rounded"
+                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-ultramarine hover:bg-daylight rounded"
               >
                 + Prompt Template
               </button>
               <button
                 type="button"
                 onClick={() => handleAddNode("llmRun")}
-                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-violet hover:bg-cream rounded"
+                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-violet hover:bg-daylight rounded"
               >
                 + LLM Run
               </button>
               <button
                 type="button"
                 onClick={() => handleAddNode("evaluate")}
-                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-coral hover:bg-cream rounded"
+                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-ultramarine hover:bg-daylight rounded"
               >
                 + Evaluate
               </button>
               <button
                 type="button"
                 onClick={() => handleAddNode("finalOutput")}
-                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-teal hover:bg-cream rounded"
+                className="w-full text-left px-2.5 py-1.5 text-xs font-mono text-teal hover:bg-daylight rounded"
               >
                 + Final Output
               </button>
@@ -539,10 +539,10 @@ export function WorkflowStudio() {
           <button
             type="button"
             onClick={() => setShowSaveAsModal(true)}
-            className="flex items-center gap-1.5 rounded-lg border border-indigo-950/10 bg-white px-2.5 py-1.5 text-xs font-mono text-indigo hover:bg-cream transition-colors"
+            className="flex items-center gap-1.5 rounded-lg border border-navy/10 bg-white px-2.5 py-1.5 text-xs font-mono text-navy hover:bg-daylight transition-colors"
             title="Save workflow to localStorage"
           >
-            <Save className="h-3.5 w-3.5 text-coral" />
+            <Save className="h-3.5 w-3.5 text-ultramarine" />
             <span className="hidden md:inline">Save</span>
           </button>
 
@@ -550,7 +550,7 @@ export function WorkflowStudio() {
           <button
             type="button"
             onClick={() => setShowSavedModal(true)}
-            className="flex items-center gap-1.5 rounded-lg border border-indigo-950/10 bg-white px-2.5 py-1.5 text-xs font-mono text-indigo hover:bg-cream transition-colors"
+            className="flex items-center gap-1.5 rounded-lg border border-navy/10 bg-white px-2.5 py-1.5 text-xs font-mono text-navy hover:bg-daylight transition-colors"
             title="Manage saved workflows"
           >
             <FolderOpen className="h-3.5 w-3.5 text-teal" />
@@ -561,7 +561,7 @@ export function WorkflowStudio() {
           <button
             type="button"
             onClick={handleExportJson}
-            className="flex items-center gap-1 rounded-lg border border-indigo-950/10 bg-white px-2 py-1.5 text-xs font-mono text-indigo-900/60 hover:text-indigo transition-colors"
+            className="flex items-center gap-1 rounded-lg border border-navy/10 bg-white px-2 py-1.5 text-xs font-mono text-navy/70 hover:text-navy transition-colors"
             title="Export workflow JSON"
           >
             <Download className="h-3.5 w-3.5" />
@@ -571,7 +571,7 @@ export function WorkflowStudio() {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center gap-1 rounded-lg border border-indigo-950/10 bg-white px-2 py-1.5 text-xs font-mono text-indigo-900/60 hover:text-indigo transition-colors"
+            className="flex items-center gap-1 rounded-lg border border-navy/10 bg-white px-2 py-1.5 text-xs font-mono text-navy/70 hover:text-navy transition-colors"
             title="Import workflow JSON"
           >
             <Upload className="h-3.5 w-3.5" />
@@ -588,7 +588,7 @@ export function WorkflowStudio() {
           <button
             type="button"
             onClick={() => handleSelectTemplate(currentTemplateId)}
-            className="flex items-center gap-1.5 rounded-lg border border-indigo-950/10 bg-white px-2.5 py-1.5 text-xs font-mono text-indigo-900/60 hover:text-indigo transition-colors"
+            className="flex items-center gap-1.5 rounded-lg border border-navy/10 bg-white px-2.5 py-1.5 text-xs font-mono text-navy/70 hover:text-navy transition-colors"
             title="Reset workflow to template defaults"
           >
             <RotateCcw className="h-3.5 w-3.5" />
@@ -600,10 +600,10 @@ export function WorkflowStudio() {
             type="button"
             onClick={handleRunWorkflow}
             disabled={isRunning}
-            className={`flex items-center gap-2 rounded-lg px-4 py-1.5 font-mono text-xs font-bold text-white shadow-card transition-all ${
+            className={`flex items-center gap-2 rounded-lg px-4 py-1.5 font-mono text-xs font-bold text-white shadow-sm transition-all ${
               isRunning
                 ? "bg-teal/50 cursor-not-allowed"
-                : "bg-coral hover:bg-coral-600"
+                : "bg-ultramarine hover:bg-ultramarine-600"
             }`}
           >
             <Play className={`h-3.5 w-3.5 ${isRunning ? "animate-spin" : ""}`} />
@@ -664,7 +664,7 @@ export function WorkflowStudio() {
       )}
 
       {/* React Flow Canvas */}
-      <div className="relative flex-1 w-full h-full bg-cream">
+      <div className="relative flex-1 w-full h-full bg-daylight">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -677,12 +677,12 @@ export function WorkflowStudio() {
           fitView
           fitViewOptions={{ padding: 0.2 }}
           attributionPosition="bottom-left"
-          className="bg-cream"
+          className="bg-daylight"
         >
           <Background color="var(--forge-border)" gap={20} size={1} />
-          <Controls className="!bg-white !border !border-indigo-950/10 !rounded-lg !text-indigo" />
+          <Controls className="!bg-white !border !border-navy/10 !rounded-lg !text-navy" />
           <MiniMap
-            className="!bg-white !border !border-indigo-950/10 !rounded-lg"
+            className="!bg-white !border !border-navy/10 !rounded-lg"
             nodeColor={(node) => {
               switch (node.type) {
                 case "userInput":
@@ -703,9 +703,9 @@ export function WorkflowStudio() {
         </ReactFlow>
 
         {/* Floating Educational Disclosure */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border border-indigo-950/10 bg-white/95 px-4 py-1.5 shadow-card backdrop-blur-md flex items-center gap-2 pointer-events-none">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border border-navy/10 bg-white/95 px-4 py-1.5 shadow-sm backdrop-blur-md flex items-center gap-2 pointer-events-none">
           <Info className="h-3 w-3 text-teal" />
-          <span className="font-mono text-[10px] text-indigo-900/60">
+          <span className="font-mono text-[10px] text-navy/70">
             Educational simulation: Typed handles enforce valid pipeline flow. Cycles are rejected before execution.
           </span>
         </div>
@@ -714,11 +714,11 @@ export function WorkflowStudio() {
       {/* Save Workflow Modal */}
       {showSaveAsModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-indigo/60 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md rounded-2xl border border-indigo/10 bg-white p-6 shadow-2xl">
-            <h3 className="font-mono text-sm font-bold text-indigo mb-2">
+          <div className="w-full max-w-md rounded-2xl border border-navy/10 bg-white p-6 shadow-2xl">
+            <h3 className="font-mono text-sm font-bold text-navy mb-2">
               Save Workflow to LocalStorage
             </h3>
-            <p className="text-xs text-indigo/70 mb-4">
+            <p className="text-xs text-navy/70 mb-4">
               Enter a name to persist this {nodes.length}-node pipeline in your browser.
             </p>
             <input
@@ -726,14 +726,14 @@ export function WorkflowStudio() {
               value={newWorkflowName}
               onChange={(e) => setNewWorkflowName(e.target.value)}
               placeholder="e.g. My Multi-Agent Security Audit Pipeline"
-              className="w-full rounded-xl border border-indigo/15 bg-cream px-3 py-2 font-mono text-xs text-indigo focus:border-coral focus:outline-none mb-4"
+              className="w-full rounded-xl border border-navy/15 bg-daylight px-3 py-2 font-mono text-xs text-navy focus:border-ultramarine focus:outline-none mb-4"
               autoFocus
             />
             <div className="flex items-center justify-end gap-2">
               <button
                 type="button"
                 onClick={() => setShowSaveAsModal(false)}
-                className="rounded-lg px-3 py-1.5 font-mono text-xs text-indigo/60 hover:text-indigo"
+                className="rounded-lg px-3 py-1.5 font-mono text-xs text-navy/60 hover:text-navy"
               >
                 Cancel
               </button>
@@ -741,7 +741,7 @@ export function WorkflowStudio() {
                 type="button"
                 onClick={handleSaveCurrentWorkflow}
                 disabled={!newWorkflowName.trim()}
-                className="rounded-xl bg-coral px-4 py-1.5 font-mono text-xs font-bold text-white hover:bg-coral-hover disabled:opacity-50"
+                className="rounded-xl bg-ultramarine px-4 py-1.5 font-mono text-xs font-bold text-white hover:bg-ultramarine-hover disabled:opacity-50"
               >
                 Save Workflow
               </button>
@@ -753,16 +753,16 @@ export function WorkflowStudio() {
       {/* Manage Workflows Modal */}
       {showSavedModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-indigo/60 backdrop-blur-sm p-4">
-          <div className="w-full max-w-lg rounded-2xl border border-indigo/10 bg-white p-6 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-indigo/10 pb-3 mb-3">
-              <h3 className="font-mono text-sm font-bold text-indigo flex items-center gap-2">
+          <div className="w-full max-w-lg rounded-2xl border border-navy/10 bg-white p-6 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-navy/10 pb-3 mb-3">
+              <h3 className="font-mono text-sm font-bold text-navy flex items-center gap-2">
                 <FolderOpen className="h-4 w-4 text-violet" />
                 <span>Saved Workflows</span>
               </h3>
               <button
                 type="button"
                 onClick={() => setShowSavedModal(false)}
-                className="text-xs font-mono text-indigo/60 hover:text-indigo"
+                className="text-xs font-mono text-navy/60 hover:text-navy"
               >
                 Close
               </button>
@@ -772,7 +772,7 @@ export function WorkflowStudio() {
               {savedWorkflows.map((w) => (
                 <div
                   key={w.id}
-                  className="flex items-center justify-between rounded-xl border border-indigo/10 bg-cream p-3 hover:border-indigo/20 transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-navy/10 bg-daylight p-3 hover:border-navy/20 transition-colors"
                 >
                   <div className="flex-1 mr-3">
                     <div className="flex items-center gap-2">

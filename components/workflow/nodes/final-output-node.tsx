@@ -12,10 +12,10 @@ export const FinalOutputNode = memo(function FinalOutputNode({
   const [copied, setCopied] = useState(false);
 
   const statusColors = {
-    idle: "border-indigo-950/10 bg-white shadow-card",
+    idle: "border-navy/10 bg-white shadow-sm",
     running: "border-teal bg-teal/10 ring-1 ring-teal animate-pulse",
-    done: "border-teal bg-teal/10 ring-1 ring-teal/50 shadow-card",
-    failed: "border-coral bg-coral/10 ring-1 ring-coral",
+    done: "border-teal bg-teal/10 ring-1 ring-teal/50 shadow-sm",
+    failed: "border-ultramarine bg-ultramarine/10 ring-1 ring-ultramarine",
   };
 
   const handleCopy = () => {
@@ -98,12 +98,12 @@ export const FinalOutputNode = memo(function FinalOutputNode({
                 )}
               </button>
             </div>
-            <div className="max-h-48 overflow-y-auto rounded border border-indigo-950/10 bg-cream/70 p-2.5 font-mono text-xs text-indigo leading-relaxed whitespace-pre-wrap">
+            <div className="max-h-48 overflow-y-auto rounded border border-navy/10 bg-daylight p-2.5 font-mono text-xs text-navy leading-relaxed whitespace-pre-wrap">
               {data.output}
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center rounded border border-dashed border-indigo-950/10 bg-cream/40 p-6 text-center">
+          <div className="flex flex-col items-center justify-center rounded border border-dashed border-navy/10 bg-daylight p-6 text-center">
             <FileText className="h-6 w-6 text-forge-muted/40 mb-1.5" />
             <p className="font-mono text-[11px] text-forge-muted">
               Awaiting pipeline execution...

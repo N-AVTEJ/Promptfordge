@@ -40,14 +40,14 @@ export default function RootError({
         <button
           type="button"
           onClick={() => reset()}
-          className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-ember-500 to-amber-500 px-4 py-2 text-xs font-semibold text-black transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
+          className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-ember-500 to-amber-500 px-4 py-2 text-xs font-semibold text-navy transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
         >
           <RotateCcw className="h-4 w-4" />
           <span>Try Again</span>
         </button>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-lg bg-coral px-4 py-2 text-xs font-bold text-white hover:bg-coral-600 shadow-card"
+          className="inline-flex items-center gap-2 rounded-lg bg-ultramarine px-4 py-2 text-xs font-bold text-white hover:bg-ultramarine-600 shadow-sm"
         >
           <Home className="h-4 w-4 text-forge-muted" />
           <span>Return Home</span>

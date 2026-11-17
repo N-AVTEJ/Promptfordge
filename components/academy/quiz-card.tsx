@@ -86,7 +86,7 @@ export function QuizCard({
 
   if (!questions || questions.length === 0) {
     return (
-      <div className="rounded-2xl border border-indigo-950/10 bg-white p-6 text-center text-sm text-indigo-900/60 shadow-card">
+      <div className="rounded-2xl border border-navy/10 bg-white p-6 text-center text-sm text-navy/60 shadow-sm">
         No quiz available for this lesson.
       </div>
     );
@@ -100,11 +100,11 @@ export function QuizCard({
     return (
       <div
         className={cn(
-          "rounded-2xl border border-indigo-950/10 bg-white p-6 sm:p-8 shadow-card text-center space-y-6",
+          "rounded-2xl border border-navy/10 bg-white p-6 sm:p-8 shadow-sm text-center space-y-6",
           className
         )}
       >
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-coral/10 text-coral border border-coral/30">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-ultramarine/10 text-ultramarine border border-ultramarine/30">
           <Award className="h-8 w-8" />
         </div>
 
@@ -115,24 +115,24 @@ export function QuizCard({
           >
             {passed ? "Assessment Passed" : "Knowledge Check Complete"}
           </Badge>
-          <h3 className="text-xl font-bold text-indigo">
+          <h3 className="text-xl font-bold text-navy">
             {passed ? "Excellent Comprehension!" : "Keep Honing Your Knowledge"}
           </h3>
-          <p className="text-xs text-indigo-900/70">
+          <p className="text-xs text-navy/70">
             {lessonTitle ? `Knowledge check for "${lessonTitle}"` : "Lesson Quiz"}
           </p>
         </div>
 
         {/* Score Metric */}
-        <div className="mx-auto flex flex-col items-center justify-center rounded-xl bg-cream p-4 border border-indigo-950/10 max-w-xs">
-          <div className="font-mono text-3xl font-extrabold text-indigo">
+        <div className="mx-auto flex flex-col items-center justify-center rounded-xl bg-daylight p-4 border border-navy/10 max-w-xs">
+          <div className="font-mono text-3xl font-extrabold text-navy">
             {finalScore} <span className="opacity-40">/</span> {questions.length}
           </div>
-          <div className="text-xs font-semibold text-indigo-900/70 mt-1">
-            Score: <span className={cn("font-bold font-mono", passed ? "text-teal" : "text-coral")}>{percent}%</span>
+          <div className="text-xs font-semibold text-navy/70 mt-1">
+            Score: <span className={cn("font-bold font-mono", passed ? "text-teal" : "text-ultramarine")}>{percent}%</span>
           </div>
           {bestScore !== undefined && (
-            <div className="mt-2 text-[11px] font-mono text-indigo-900/50">
+            <div className="mt-2 text-[11px] font-mono text-navy/50">
               Best Saved Score: {bestScore} / {questions.length}
             </div>
           )}
@@ -157,28 +157,28 @@ export function QuizCard({
   return (
     <div
       className={cn(
-        "rounded-2xl border border-indigo-950/10 bg-white p-6 shadow-card space-y-5",
+        "rounded-2xl border border-navy/10 bg-white p-6 shadow-sm space-y-5",
         className
       )}
     >
       {/* Header & Progress */}
-      <div className="flex items-center justify-between border-b border-indigo-950/10 pb-3">
+      <div className="flex items-center justify-between border-b border-navy/10 pb-3">
         <div className="flex items-center gap-2">
           <HelpCircle className="h-4 w-4 text-violet" />
-          <span className="text-xs font-bold text-indigo-900/60 uppercase tracking-wider font-mono">
+          <span className="text-xs font-bold text-navy/60 uppercase tracking-wider font-mono">
             Knowledge Check
           </span>
         </div>
-        <div className="font-mono text-xs text-indigo-900/60">
-          Question <span className="text-indigo font-bold">{currentIndex + 1}</span> of{" "}
+        <div className="font-mono text-xs text-navy/60">
+          Question <span className="text-navy font-bold">{currentIndex + 1}</span> of{" "}
           <span>{questions.length}</span>
         </div>
       </div>
 
       {/* Progress Line */}
-      <div className="h-1.5 w-full bg-indigo-950/10 rounded-full overflow-hidden">
+      <div className="h-1.5 w-full bg-navy/10 rounded-full overflow-hidden">
         <div
-          className="h-full bg-coral transition-all duration-300"
+          className="h-full bg-ultramarine transition-all duration-300"
           style={{
             width: `${((currentIndex + 1) / questions.length) * 100}%`,
           }}
@@ -187,7 +187,7 @@ export function QuizCard({
 
       {/* Question Text */}
       <div className="space-y-1">
-        <h4 className="text-base font-bold text-indigo leading-snug">
+        <h4 className="text-base font-bold text-navy leading-snug">
           {currentQ.question}
         </h4>
       </div>
@@ -200,7 +200,7 @@ export function QuizCard({
           const isCorrect = idx === currentQ.answerIndex;
 
           let optionStyle =
-            "bg-cream text-indigo border-indigo-950/10 hover:bg-white hover:border-indigo-950/20";
+            "bg-daylight text-navy border-navy/10 hover:bg-white hover:border-navy/10";
 
           if (isAnswered) {
             if (isCorrect) {
@@ -208,7 +208,7 @@ export function QuizCard({
             } else if (isSelected && !isCorrect) {
               optionStyle = "bg-rose-50 text-rose-700 border-rose-300 font-semibold";
             } else {
-              optionStyle = "bg-cream/40 text-indigo-900/40 border-indigo-950/5 opacity-60";
+              optionStyle = "bg-daylight/40 text-navy/40 border-navy/5 opacity-60";
             }
           }
 
@@ -230,7 +230,7 @@ export function QuizCard({
                     ? "bg-teal text-white"
                     : isAnswered && isSelected && !isCorrect
                     ? "bg-rose-500 text-white"
-                    : "bg-white text-indigo-900/70 border border-indigo-950/10"
+                    : "bg-white text-navy/70 border border-navy/10"
                 )}
               >
                 {letter}
@@ -254,9 +254,9 @@ export function QuizCard({
 
       {/* Answer Explanation & Next Button */}
       {isAnswered && (
-        <div className="rounded-xl border border-indigo-950/10 bg-cream p-4 space-y-3">
-          <div className="text-xs font-semibold text-indigo-900/80 leading-relaxed">
-            <strong className="text-indigo font-bold block mb-1">
+        <div className="rounded-xl border border-navy/10 bg-daylight p-4 space-y-3">
+          <div className="text-xs font-semibold text-navy/80 leading-relaxed">
+            <strong className="text-navy font-bold block mb-1">
               Explanation:
             </strong>
             {currentQ.explanation}

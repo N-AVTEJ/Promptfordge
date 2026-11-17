@@ -117,33 +117,33 @@ export function TotVisualizer() {
                 onClick={() => handlePresetChange(p.id)}
                 className={`text-left rounded-lg border p-3 transition-all ${
                   selectedPresetId === p.id
-                    ? "border-coral bg-coral/10 ring-1 ring-coral/50"
-                    : "border-indigo-950/10 bg-white hover:border-coral/30"
+                    ? "border-ultramarine bg-ultramarine/10 ring-1 ring-ultramarine/50"
+                    : "border-navy/10 bg-white hover:border-ultramarine"
                 }`}
               >
-                <div className="font-mono text-xs font-bold text-indigo mb-1">
+                <div className="font-mono text-xs font-bold text-navy mb-1">
                   {p.title}
                 </div>
-                <div className="text-[10px] text-indigo-900/60 line-clamp-2 leading-relaxed">
+                <div className="text-[10px] text-navy/70 line-clamp-2 leading-relaxed">
                   {p.description}
                 </div>
               </button>
             ))}
           </div>
 
-          <div className="mt-3 pt-3 border-t border-indigo-950/10 flex items-center gap-2">
+          <div className="mt-3 pt-3 border-t border-navy/10 flex items-center gap-2">
             <input
               type="text"
               value={customInput}
               onChange={(e) => setCustomInput(e.target.value)}
               placeholder="Or enter a custom problem for tree search..."
-              className="flex-1 rounded-md border border-indigo-950/10 bg-cream/70 px-3 py-1.5 font-mono text-xs text-indigo focus:border-coral focus:outline-none"
+              className="flex-1 rounded-md border border-navy/10 bg-daylight px-3 py-1.5 font-mono text-xs text-navy focus:border-ultramarine focus:outline-none"
             />
             <button
               type="button"
               onClick={handleRunCustom}
               disabled={!customInput.trim()}
-              className="rounded-md bg-coral px-3 py-1.5 font-mono text-xs font-bold text-white hover:bg-coral-600 disabled:opacity-50"
+              className="rounded-md bg-ultramarine px-3 py-1.5 font-mono text-xs font-bold text-white hover:bg-ultramarine-600 disabled:opacity-50"
             >
               Search Tree
             </button>
@@ -189,7 +189,7 @@ export function TotVisualizer() {
       </div>
 
       {/* Visual Branching Tree Grid */}
-      <div className="rounded-xl border border-indigo-950/10 bg-white p-5 shadow-card overflow-x-auto">
+      <div className="rounded-xl border border-navy/10 bg-white p-5 shadow-sm overflow-x-auto">
         <div className="min-w-[840px] space-y-8">
           {/* Depth 0: Root */}
           <div>
@@ -206,11 +206,11 @@ export function TotVisualizer() {
                 className={`cursor-pointer rounded-xl border p-4 transition-all ${
                   selectedNodeId === node.id
                     ? "border-teal bg-teal/10 ring-1 ring-teal"
-                    : "border-teal/30 bg-cream/70 hover:border-teal"
+                    : "border-teal/30 bg-daylight hover:border-teal"
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-bold text-indigo flex items-center gap-1.5">
+                  <span className="font-mono text-xs font-bold text-navy flex items-center gap-1.5">
                     <Sparkles className="h-3.5 w-3.5 text-teal" />
                     {node.title}
                   </span>
@@ -218,7 +218,7 @@ export function TotVisualizer() {
                     Objective
                   </Badge>
                 </div>
-                <p className="mt-1 font-mono text-xs text-indigo-900/60 leading-relaxed">
+                <p className="mt-1 font-mono text-xs text-navy/70 leading-relaxed">
                   {node.thoughtSummary}
                 </p>
               </div>
@@ -228,7 +228,7 @@ export function TotVisualizer() {
           {/* Depth 1: Level 1 Candidate Approaches */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="font-mono text-xs font-bold text-coral uppercase tracking-wider">
+              <span className="font-mono text-xs font-bold text-ultramarine uppercase tracking-wider">
                 Level 1 · Candidate Approaches (Branching Factor: 3)
               </span>
               <div className="h-[1px] flex-1 bg-gradient-to-r from-coral/30 to-transparent" />
@@ -246,19 +246,19 @@ export function TotVisualizer() {
                     className={`cursor-pointer rounded-xl border p-4 transition-all flex flex-col justify-between ${
                       isChosen
                         ? isSelected
-                          ? "border-coral bg-coral/10 ring-2 ring-coral shadow-card"
-                          : "border-coral/70 bg-coral/5 ring-1 ring-coral/30"
+                          ? "border-ultramarine bg-ultramarine/10 ring-2 ring-ultramarine shadow-sm"
+                          : "border-ultramarine/70 bg-ultramarine/10 ring-1 ring-ultramarine/30"
                         : isPruned
-                        ? "border-indigo-950/10 bg-cream/30 opacity-60 hover:opacity-100"
+                        ? "border-navy/10 bg-daylight opacity-60 hover:opacity-100"
                         : isSelected
                         ? "border-teal bg-teal/10 ring-1 ring-teal"
-                        : "border-indigo-950/10 bg-white hover:border-indigo-950/20"
+                        : "border-navy/10 bg-white hover:border-navy/10"
                     }`}
                   >
                     <div>
                       <div className="flex items-center justify-between mb-2">
                         {isChosen ? (
-                          <Badge className="bg-ember-500 text-black font-mono text-[9px] font-bold">
+                          <Badge className="bg-ember-500 text-navy font-mono text-[9px] font-bold">
                             ★ CHOSEN PATH
                           </Badge>
                         ) : isPruned ? (
@@ -330,17 +330,17 @@ export function TotVisualizer() {
                       className={`cursor-pointer rounded-xl border p-4 transition-all flex flex-col justify-between ${
                         isChosen
                           ? isSelected
-                            ? "border-coral bg-coral/10 ring-2 ring-coral shadow-card"
-                            : "border-coral/70 bg-coral/5 ring-1 ring-coral/30"
+                            ? "border-ultramarine bg-ultramarine/10 ring-2 ring-ultramarine shadow-sm"
+                            : "border-ultramarine/70 bg-ultramarine/10 ring-1 ring-ultramarine/30"
                           : isSelected
                           ? "border-teal bg-teal/10 ring-1 ring-teal"
-                          : "border-indigo-950/10 bg-white hover:border-indigo-950/20"
+                          : "border-navy/10 bg-white hover:border-navy/10"
                       }`}
                     >
                       <div>
                         <div className="flex items-center justify-between mb-2">
                           {isChosen ? (
-                            <Badge className="bg-ember-500 text-black font-mono text-[9px] font-bold">
+                            <Badge className="bg-ember-500 text-navy font-mono text-[9px] font-bold">
                               ★ OPTIMAL LEAF
                             </Badge>
                           ) : (
@@ -392,23 +392,23 @@ export function TotVisualizer() {
 
       {/* Selected Node Deep Inspector */}
       {selectedNode && (
-        <div className="rounded-xl border border-indigo-950/10 bg-white p-5 shadow-card">
-          <div className="flex items-center justify-between border-b border-indigo-950/10 pb-3 mb-4">
+        <div className="rounded-xl border border-navy/10 bg-white p-5 shadow-sm">
+          <div className="flex items-center justify-between border-b border-navy/10 pb-3 mb-4">
             <div className="flex items-center gap-2">
               <span className="font-mono text-xs font-bold text-teal uppercase">
                 Node Inspector:
               </span>
-              <span className="font-mono text-sm font-bold text-indigo">
+              <span className="font-mono text-sm font-bold text-navy">
                 {selectedNode.title}
               </span>
             </div>
             <div className="flex items-center gap-2">
               {selectedNode.isChosenPath && (
-                <span className="rounded bg-coral/10 px-2 py-0.5 font-mono text-[10px] text-coral border border-coral/30">
+                <span className="rounded bg-ultramarine/10 px-2 py-0.5 font-mono text-[10px] text-ultramarine border border-ultramarine/30">
                   On Chosen Optimal Path
                 </span>
               )}
-              <span className="font-mono text-xs text-indigo-900/60">
+              <span className="font-mono text-xs text-navy/70">
                 Status: {selectedNode.status.toUpperCase()}
               </span>
             </div>
@@ -417,56 +417,56 @@ export function TotVisualizer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="md:col-span-2 space-y-3">
               <div>
-                <label className="text-[10px] font-mono uppercase tracking-wider text-indigo-900/60 block mb-1">
+                <label className="text-[10px] font-mono uppercase tracking-wider text-navy/70 block mb-1">
                   Thought Summary & Strategic Logic
                 </label>
-                <div className="rounded border border-indigo-950/10 bg-cream/70 p-3 font-mono text-xs text-indigo leading-relaxed whitespace-pre-wrap">
+                <div className="rounded border border-navy/10 bg-daylight p-3 font-mono text-xs text-navy leading-relaxed whitespace-pre-wrap">
                   {selectedNode.thoughtSummary}
                 </div>
               </div>
             </div>
 
             {/* Individual Non-Combined Score Breakdown */}
-            <div className="space-y-3 border-l border-indigo-950/10 pl-4">
-              <label className="text-[10px] font-mono uppercase tracking-wider text-indigo-900/60 block">
+            <div className="space-y-3 border-l border-navy/10 pl-4">
+              <label className="text-[10px] font-mono uppercase tracking-wider text-navy/70 block">
                 Independent Metric Evaluation
               </label>
 
               {/* Feasibility */}
-              <div className="rounded border border-indigo-950/10 bg-cream/70 p-2.5">
+              <div className="rounded border border-navy/10 bg-daylight p-2.5">
                 <div className="flex items-center justify-between text-xs font-mono mb-1">
-                  <span className="text-indigo-900/60">Feasibility</span>
+                  <span className="text-navy/70">Feasibility</span>
                   <span className="text-teal font-bold">
                     {selectedNode.scores.feasibility.score}/5
                   </span>
                 </div>
-                <p className="text-[10px] text-indigo-900/60 leading-tight">
+                <p className="text-[10px] text-navy/70 leading-tight">
                   {selectedNode.scores.feasibility.reason}
                 </p>
               </div>
 
               {/* Soundness */}
-              <div className="rounded border border-indigo-950/10 bg-cream/70 p-2.5">
+              <div className="rounded border border-navy/10 bg-daylight p-2.5">
                 <div className="flex items-center justify-between text-xs font-mono mb-1">
-                  <span className="text-indigo-900/60">Soundness</span>
+                  <span className="text-navy/70">Soundness</span>
                   <span className="text-teal font-bold">
                     {selectedNode.scores.soundness.score}/5
                   </span>
                 </div>
-                <p className="text-[10px] text-indigo-900/60 leading-tight">
+                <p className="text-[10px] text-navy/70 leading-tight">
                   {selectedNode.scores.soundness.reason}
                 </p>
               </div>
 
               {/* Completeness */}
-              <div className="rounded border border-indigo-950/10 bg-cream/70 p-2.5">
+              <div className="rounded border border-navy/10 bg-daylight p-2.5">
                 <div className="flex items-center justify-between text-xs font-mono mb-1">
-                  <span className="text-indigo-900/60">Completeness</span>
+                  <span className="text-navy/70">Completeness</span>
                   <span className="text-violet font-bold">
                     {selectedNode.scores.completeness.score}/5
                   </span>
                 </div>
-                <p className="text-[10px] text-indigo-900/60 leading-tight">
+                <p className="text-[10px] text-navy/70 leading-tight">
                   {selectedNode.scores.completeness.reason}
                 </p>
               </div>

@@ -554,13 +554,13 @@ Return strictly valid JSON with no markdown fences or preambles:
         </div>
 
         {/* Mode Switch: Standard Lab vs A/B Change One Component */}
-        <div className="flex items-center gap-1.5 self-start rounded-xl border border-indigo/10 bg-white p-1 sm:self-center font-mono shadow-sm">
+        <div className="flex items-center gap-1.5 self-start rounded-xl border border-navy/10 bg-white p-1 sm:self-center font-mono shadow-sm">
           <button
             onClick={() => setCompareMode(false)}
             className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-medium transition-colors ${
               !compareMode
-                ? "bg-coral text-white font-bold"
-                : "text-indigo/70 hover:text-indigo"
+                ? "bg-ultramarine text-white font-bold"
+                : "text-navy/70 hover:text-navy"
             }`}
           >
             <Layers className="h-3.5 w-3.5" />
@@ -570,8 +570,8 @@ Return strictly valid JSON with no markdown fences or preambles:
             onClick={() => setCompareMode(true)}
             className={`flex items-center gap-2 rounded-lg px-3.5 py-1.5 text-xs font-medium transition-colors ${
               compareMode
-                ? "bg-coral text-white font-bold"
-                : "text-indigo/70 hover:text-indigo"
+                ? "bg-ultramarine text-white font-bold"
+                : "text-navy/70 hover:text-navy"
             }`}
           >
             <GitCompare className="h-3.5 w-3.5" />
@@ -588,7 +588,7 @@ Return strictly valid JSON with no markdown fences or preambles:
             {/* Presets & Actions Toolbar */}
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex flex-wrap items-center gap-1.5">
-                <span className="text-xs font-mono text-indigo/60 uppercase tracking-wider mr-1">
+                <span className="text-xs font-mono text-navy/60 uppercase tracking-wider mr-1">
                   Presets:
                 </span>
                 {ANATOMY_PRESETS.map((preset) => {
@@ -599,8 +599,8 @@ Return strictly valid JSON with no markdown fences or preambles:
                       onClick={() => handleSelectPreset(preset.id)}
                       className={`rounded-lg px-2.5 py-1 text-xs font-mono transition-colors ${
                         isActive
-                          ? "border border-coral bg-coral/10 text-coral font-bold"
-                          : "border border-indigo/10 bg-cream text-indigo/70 hover:border-coral/40 hover:text-indigo"
+                          ? "border border-ultramarine bg-ultramarine/10 text-ultramarine font-bold"
+                          : "border border-navy/10 bg-daylight text-navy/70 hover:border-ultramarine hover:text-navy"
                       }`}
                     >
                       {preset.name}
@@ -686,7 +686,7 @@ Return strictly valid JSON with no markdown fences or preambles:
                 className={`rounded px-2.5 py-0.5 text-xs font-mono transition-colors ${
                   activeTypeFilter === "all"
                     ? "bg-indigo text-white font-semibold"
-                    : "text-indigo/70 hover:text-indigo"
+                    : "text-navy/70 hover:text-navy"
                 }`}
               >
                 All Components ({analysis.detectedSpans.length})
@@ -792,7 +792,7 @@ Return strictly valid JSON with no markdown fences or preambles:
                     }
                   }}
                   rows={6}
-                  className="w-full rounded-xl border border-indigo/15 bg-cream/60 p-4 font-mono text-sm leading-relaxed text-indigo placeholder:text-indigo/40 focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral transition-colors"
+                  className="w-full rounded-xl border border-navy/15 bg-daylight p-4 font-mono text-sm leading-relaxed text-navy placeholder:text-navy/40 focus:border-ultramarine focus:outline-none focus:ring-1 focus:ring-ultramarine transition-colors"
                   placeholder="Paste or write your prompt here to decompose its anatomy..."
                 />
               </div>
@@ -802,12 +802,12 @@ Return strictly valid JSON with no markdown fences or preambles:
           {/* Side Panel: Detected & Missing Components (4 cols) */}
           <div className="space-y-6 lg:col-span-4">
             {/* Completeness Card */}
-            <Card className="border-indigo/10 bg-white p-5 shadow-sm">
+            <Card className="border-navy/10 bg-white p-5 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-mono uppercase tracking-wider text-indigo/60">
+                <span className="text-xs font-mono uppercase tracking-wider text-navy/60">
                   Structural Score
                 </span>
-                <span className="font-mono text-base font-bold text-indigo">
+                <span className="font-mono text-base font-bold text-navy">
                   {analysis.presentTypes.length} / 6 Parts
                 </span>
               </div>
@@ -959,7 +959,7 @@ Return strictly valid JSON with no markdown fences or preambles:
               <Button
                 onClick={handleRunComparison}
                 disabled={isComparing}
-                className="gap-2 bg-coral font-semibold text-white hover:bg-coral-hover shadow-sm shrink-0"
+                className="gap-2 bg-ultramarine font-semibold text-white hover:bg-ultramarine-hover shadow-sm shrink-0"
               >
                 <Zap className={`h-4 w-4 ${isComparing ? "animate-spin" : ""}`} />
                 <span>
@@ -970,7 +970,7 @@ Return strictly valid JSON with no markdown fences or preambles:
           </div>
 
           {/* Component Selection & Mutation Toolbar */}
-          <Card className="border-indigo/10 bg-white p-5 space-y-4 shadow-sm">
+          <Card className="border-navy/10 bg-white p-5 space-y-4 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-forge-border/60 pb-3">
               <div className="flex items-center gap-2">
                 <Sliders className="h-4 w-4 text-cyan-400" />
@@ -1128,20 +1128,20 @@ Return strictly valid JSON with no markdown fences or preambles:
                   value={variantAPrompt}
                   onChange={(e) => setVariantAPrompt(e.target.value)}
                   rows={4}
-                  className="mt-1 w-full rounded-xl border border-indigo/15 bg-cream/60 p-3 font-mono text-xs leading-relaxed text-indigo focus:border-coral focus:outline-none"
+                  className="mt-1 w-full rounded-xl border border-navy/15 bg-daylight p-3 font-mono text-xs leading-relaxed text-navy focus:border-ultramarine focus:outline-none"
                 />
               </div>
 
               {/* Execution Result A */}
               <div className="flex-1 space-y-2 pt-2">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-indigo/60">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-navy/60">
                   Model Output (Baseline)
                 </span>
-                <div className="min-h-[140px] rounded-xl border border-indigo/10 bg-cream/40 p-4 font-mono text-xs leading-relaxed text-indigo whitespace-pre-wrap">
+                <div className="min-h-[140px] rounded-xl border border-navy/10 bg-daylight p-4 font-mono text-xs leading-relaxed text-navy whitespace-pre-wrap">
                   {variantAResult ? (
                     variantAResult.text
                   ) : (
-                    <span className="italic text-indigo/40">
+                    <span className="italic text-navy/40">
                       Click &quot;Re-run Both Versions&quot; to observe baseline model completion...
                     </span>
                   )}
@@ -1201,7 +1201,7 @@ Return strictly valid JSON with no markdown fences or preambles:
                   value={variantBPrompt}
                   onChange={(e) => setVariantBPrompt(e.target.value)}
                   rows={4}
-                  className="mt-1 w-full rounded-xl border border-teal/30 bg-mint/20 p-3 font-mono text-xs leading-relaxed text-indigo focus:border-teal focus:outline-none"
+                  className="mt-1 w-full rounded-xl border border-teal/30 bg-mint/20 p-3 font-mono text-xs leading-relaxed text-navy focus:border-teal focus:outline-none"
                 />
               </div>
 
@@ -1210,11 +1210,11 @@ Return strictly valid JSON with no markdown fences or preambles:
                 <span className="text-[11px] font-mono uppercase tracking-wider text-teal-700 font-semibold">
                   Model Output (Modified)
                 </span>
-                <div className="min-h-[140px] rounded-xl border border-teal/20 bg-mint/10 p-4 font-mono text-xs leading-relaxed text-indigo whitespace-pre-wrap">
+                <div className="min-h-[140px] rounded-xl border border-teal/20 bg-mint/10 p-4 font-mono text-xs leading-relaxed text-navy whitespace-pre-wrap">
                   {variantBResult ? (
                     variantBResult.text
                   ) : (
-                    <span className="italic text-indigo/40">
+                    <span className="italic text-navy/40">
                       Click &quot;Re-run Both Versions&quot; to observe modified model completion...
                     </span>
                   )}

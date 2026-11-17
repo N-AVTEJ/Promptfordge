@@ -4,21 +4,21 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ultramarine disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "bg-coral text-white shadow-coral-glow hover:bg-coral-600 active:scale-[0.98]",
+          "bg-ultramarine text-white shadow-xs hover:bg-ultramarine/90 active:scale-[0.98]",
         destructive:
           "border border-rose-500/30 bg-rose-50 text-rose-700 hover:bg-rose-100",
         outline:
-          "border border-indigo-950/15 bg-white text-indigo hover:bg-cream hover:border-indigo-950/25",
+          "border border-navy/15 bg-white text-navy hover:bg-daylight hover:border-navy/25",
         secondary:
-          "border border-teal/30 bg-teal/10 text-teal hover:bg-teal/20",
+          "border border-mint/40 bg-mint/15 text-navy hover:bg-mint/25",
         ghost:
-          "text-indigo-900/70 hover:bg-indigo-950/5 hover:text-indigo",
-        link: "text-coral underline-offset-4 hover:underline",
+          "text-navy/70 hover:bg-navy/5 hover:text-navy",
+        link: "text-ultramarine underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-5 py-2",

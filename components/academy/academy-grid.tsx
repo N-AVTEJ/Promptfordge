@@ -49,25 +49,25 @@ export function AcademyGrid() {
 
   return (
     <div className="space-y-12">
-      {/* Top Banner & Telemetry Header */}
-      <div className="rounded-3xl border border-indigo-950/10 bg-white p-8 sm:p-12 shadow-card">
+      {/* Top Banner & Header */}
+      <div className="rounded-3xl border border-navy/10 bg-white p-8 sm:p-12 shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-coral/10 px-3.5 py-1 text-xs font-mono font-bold text-coral border border-coral/30">
+            <div className="inline-flex items-center gap-2 rounded-full bg-ultramarine/10 px-3.5 py-1 text-xs font-mono font-bold text-ultramarine border border-ultramarine/20">
               <BookOpen className="h-4 w-4" />
               <span>PromptForge Curriculum · {CURRICULUM_MODULES.length} Modules</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-indigo font-sans">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-navy font-sans">
               The Engineering Curriculum
             </h1>
-            <p className="text-sm sm:text-base text-indigo-900/75 leading-[1.7] max-w-[65ch]">
+            <p className="text-sm sm:text-base text-navy/75 leading-[1.7] max-w-[65ch]">
               From subword token matrices to autonomous multi-agent swarms and CI/CD evaluation gates.
               Every module couples architectural mental models with side-by-side interactive lab experiments.
             </p>
           </div>
 
           {/* Quick Metrics & Overall Ring */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 rounded-2xl border border-indigo-950/10 bg-cream p-5 sm:p-6 shadow-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 rounded-2xl border border-navy/10 bg-daylight p-5 sm:p-6 shadow-xs">
             <ProgressRing
               percent={overallPercent}
               size={72}
@@ -75,16 +75,16 @@ export function AcademyGrid() {
               accent="amber"
             />
             <div className="space-y-1">
-              <div className="flex items-center gap-2 text-xs font-mono text-indigo-900/60 uppercase tracking-wider font-semibold">
+              <div className="flex items-center gap-2 text-xs font-mono text-navy/60 uppercase tracking-wider font-semibold">
                 <span>Curriculum Progress</span>
               </div>
-              <div className="font-mono text-xl font-bold text-indigo">
+              <div className="font-mono text-xl font-bold text-navy">
                 {totalCompleted} / {totalLessons}{" "}
-                <span className="text-xs font-normal text-indigo-900/60">
+                <span className="text-xs font-normal text-navy/60">
                   ({overallPercent}%)
                 </span>
               </div>
-              <div className="text-xs font-mono text-teal font-medium">
+              <div className="text-xs font-mono text-mint-700 font-semibold">
                 {passedQuizzesCount} Quizzes Completed
               </div>
             </div>
@@ -92,12 +92,12 @@ export function AcademyGrid() {
         </div>
 
         {/* Global Controls & Last Visited Resume */}
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-indigo-950/10 pt-5">
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-navy/10 pt-5">
           <div className="flex items-center gap-3">
             {progress.lastVisited && (
               <Link
                 href={`/academy/${progress.lastVisited.moduleId}/${progress.lastVisited.lessonId}`}
-                className="inline-flex items-center gap-2 rounded-xl bg-coral px-4 py-2 text-xs font-bold text-white shadow-coral-glow hover:bg-coral-600 transition-colors"
+                className="inline-flex items-center gap-2 rounded-xl bg-ultramarine px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-ultramarine/90 transition-colors"
               >
                 <PlayCircle className="h-4 w-4" />
                 <span>Resume Last Visited</span>
@@ -108,15 +108,15 @@ export function AcademyGrid() {
               variant="outline"
               size="sm"
               onClick={() => setIsModalOpen(true)}
-              className="text-xs flex items-center gap-1.5"
+              className="text-xs flex items-center gap-1.5 border-navy/15 text-navy hover:bg-daylight hover:border-navy/25"
             >
-              <FileJson className="h-3.5 w-3.5 text-coral" />
+              <FileJson className="h-3.5 w-3.5 text-ultramarine" />
               <span>Import / Export Progress</span>
             </Button>
           </div>
 
-          <div className="text-xs font-mono text-indigo-900/60">
-            Open access curriculum · 100% Client-side telemetry
+          <div className="text-xs font-mono text-navy/60">
+            Open access curriculum · Complete hands-on training
           </div>
         </div>
       </div>
@@ -148,11 +148,11 @@ export function AcademyGrid() {
               variants={getFadeVariants(prefersReducedMotion)}
               className="h-full"
             >
-              <div className="hover-lift flex h-full flex-col justify-between rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card">
+              <div className="hover-lift flex h-full flex-col justify-between rounded-2xl border border-navy/10 bg-white p-8 shadow-sm">
                 <div>
                   {/* Module Header */}
-                  <div className="flex items-center justify-between border-b border-indigo-950/10 pb-4">
-                    <span className="rounded-full bg-cream px-3 py-1 font-mono text-xs font-bold text-indigo border border-indigo-950/10">
+                  <div className="flex items-center justify-between border-b border-navy/10 pb-4">
+                    <span className="rounded-full bg-daylight px-3 py-1 font-mono text-xs font-bold text-navy border border-navy/10">
                       Module {String(module.number).padStart(2, "0")}
                     </span>
                     <ProgressRing
@@ -163,21 +163,21 @@ export function AcademyGrid() {
                     />
                   </div>
 
-                  <h2 className="mt-5 font-sans text-xl font-bold text-indigo">
+                  <h2 className="mt-5 font-sans text-xl font-bold text-navy">
                     {module.title}
                   </h2>
 
-                  <p className="mt-1 text-xs font-bold uppercase tracking-wider text-coral font-mono">
+                  <p className="mt-1 text-xs font-bold uppercase tracking-wider text-ultramarine font-mono">
                     {module.subtitle}
                   </p>
 
-                  <p className="mt-3 text-sm leading-[1.7] text-indigo-900/75">
+                  <p className="mt-3 text-sm leading-[1.7] text-navy/75">
                     {module.description}
                   </p>
 
                   {/* Lessons list in card */}
                   <div className="mt-6 space-y-2">
-                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-indigo-900/50 block">
+                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-navy/50 block">
                       Lessons in module:
                     </span>
                     {module.lessons.map((les, idx) => {
@@ -186,7 +186,7 @@ export function AcademyGrid() {
                         <Link
                           key={les.id}
                           href={`/academy/${module.id}/${les.id}`}
-                          className="flex items-center justify-between rounded-lg bg-cream/60 p-2.5 text-xs text-indigo hover:bg-cream border border-indigo-950/5 transition-colors"
+                          className="flex items-center justify-between rounded-lg bg-daylight p-2.5 text-xs text-navy hover:bg-daylight/70 border border-navy/5 transition-colors"
                         >
                           <span className="truncate pr-2">
                             {idx + 1}. {les.title}
@@ -194,7 +194,7 @@ export function AcademyGrid() {
                           <span
                             className={cn(
                               "font-mono text-[10px] font-bold shrink-0",
-                              isComplete ? "text-teal" : "text-indigo-900/40"
+                              isComplete ? "text-mint-700" : "text-navy/40"
                             )}
                           >
                             {isComplete ? "✓ Done" : "Start"}
@@ -205,25 +205,25 @@ export function AcademyGrid() {
                   </div>
                 </div>
 
-                <div className="mt-8 pt-4 border-t border-indigo-950/10">
-                  <div className="flex items-center justify-between text-xs font-mono text-indigo-900/60 mb-4 gap-2">
+                <div className="mt-8 pt-4 border-t border-navy/10">
+                  <div className="flex items-center justify-between text-xs font-mono text-navy/60 mb-4 gap-2">
                     <span className="flex items-center gap-1.5" title={`${module.lessonCount} Lessons`}>
-                      <BookOpen className="h-3.5 w-3.5 text-violet" />
+                      <BookOpen className="h-3.5 w-3.5 text-ultramarine" />
                       <span>{module.lessonCount} Lessons</span>
                     </span>
                     <span className="flex items-center gap-1.5" title={`${module.videoCount ?? 0} Videos`}>
-                      <PlayCircle className="h-3.5 w-3.5 text-coral" />
+                      <PlayCircle className="h-3.5 w-3.5 text-ultramarine" />
                       <span>{module.videoCount ?? 0} Videos</span>
                     </span>
                     <span className="flex items-center gap-1.5" title={`Total watch time: ${module.totalWatchTime || module.duration}`}>
-                      <Clock className="h-3.5 w-3.5 text-teal" />
+                      <Clock className="h-3.5 w-3.5 text-navy/70" />
                       <span>{module.totalWatchTime || module.duration}</span>
                     </span>
                   </div>
 
                   <Link
                     href={targetLessonHref}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-coral px-4 py-2.5 text-xs font-bold text-white shadow-coral-glow hover:bg-coral-600 transition-colors"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-ultramarine px-4 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-ultramarine/90 transition-colors"
                   >
                     <span>Launch Studio</span>
                     <ArrowRight className="h-4 w-4" />

@@ -75,7 +75,7 @@ export function RedVsBlueChallenge() {
   return (
     <div className="space-y-6">
       {/* Target Mission Briefing Banner */}
-      <div className="rounded-2xl border border-indigo/10 bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-navy/10 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
@@ -84,41 +84,41 @@ export function RedVsBlueChallenge() {
                 BLUE TEAM OBJECTIVE // FORTIFY THE SECRET TOKEN
               </span>
             </div>
-            <p className="text-xs text-indigo/70 leading-relaxed">
+            <p className="text-xs text-navy/70 leading-relaxed">
               Your mission: Author a defense system prompt that protects the secret flag below against our fixed battery of 8 adversarial prompt injection attacks.
             </p>
           </div>
 
           {bestScore && (
-            <div className="flex items-center gap-2 rounded-xl border border-coral/40 bg-coral/10 px-3 py-1.5 font-mono text-xs text-coral font-bold">
-              <Trophy className="h-4 w-4 text-coral" />
+            <div className="flex items-center gap-2 rounded-xl border border-ultramarine/30 bg-ultramarine/10 px-3 py-1.5 font-mono text-xs text-ultramarine font-bold">
+              <Trophy className="h-4 w-4 text-ultramarine" />
               <span>RECORD SCORE:</span>
-              <span className="font-bold text-sm text-coral">{bestScore}</span>
+              <span className="font-bold text-sm text-ultramarine">{bestScore}</span>
             </div>
           )}
         </div>
 
         {/* Highlighted Flag Box */}
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-indigo/10 bg-cream/60 p-3 font-mono text-xs">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-navy/10 bg-daylight p-3 font-mono text-xs">
           <div className="flex items-center gap-2">
-            <span className="text-indigo/60 uppercase text-[10px] font-semibold">
+            <span className="text-navy/60 uppercase text-[10px] font-semibold">
               PROTECTED SECRET FLAG:
             </span>
             <code className="text-teal-700 font-bold tracking-wider">
               {RED_VS_BLUE_TARGET_FLAG}
             </code>
           </div>
-          <span className="text-[10px] text-indigo/40">
+          <span className="text-[10px] text-navy/40">
             SAFE EDUCATIONAL TARGET // ZERO REAL SECRETS
           </span>
         </div>
       </div>
 
       {/* Defense Authoring Console */}
-      <div className="rounded-2xl border border-indigo/10 bg-white p-6 shadow-sm space-y-4">
+      <div className="rounded-2xl border border-navy/10 bg-white p-6 shadow-sm space-y-4">
         {/* Templates Picker */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-indigo/10 pb-3">
-          <span className="font-mono text-xs font-semibold text-indigo/70">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-navy/10 pb-3">
+          <span className="font-mono text-xs font-semibold text-navy/70">
             STARTER DEFENSE TEMPLATES:
           </span>
           <div className="flex flex-wrap gap-2">
@@ -127,7 +127,7 @@ export function RedVsBlueChallenge() {
                 key={idx}
                 type="button"
                 onClick={() => handleSelectTemplate(tmpl.prompt)}
-                className="rounded-lg border border-indigo/10 bg-cream px-2.5 py-1 font-mono text-xs text-indigo/70 hover:border-coral/40 hover:text-indigo transition-colors"
+                className="rounded-lg border border-navy/10 bg-daylight px-2.5 py-1 font-mono text-xs text-navy/70 hover:border-ultramarine hover:text-navy transition-colors"
               >
                 {tmpl.name}
               </button>
@@ -139,13 +139,13 @@ export function RedVsBlueChallenge() {
         <div>
           <label
             htmlFor="defense-prompt"
-            className="mb-1.5 flex items-center justify-between font-mono text-xs text-indigo/70"
+            className="mb-1.5 flex items-center justify-between font-mono text-xs text-navy/70"
           >
             <span className="flex items-center gap-1.5 text-teal-700">
               <Terminal className="h-3.5 w-3.5" />
               YOUR BLUE TEAM SYSTEM PROMPT DEFENSE:
             </span>
-            <span className="text-[10px] text-indigo/40">
+            <span className="text-[10px] text-navy/40">
               {defensePrompt.length} / 4000 chars
             </span>
           </label>
@@ -155,7 +155,7 @@ export function RedVsBlueChallenge() {
             value={defensePrompt}
             onChange={(e) => setDefensePrompt(e.target.value)}
             placeholder="Define your system directives, instruction hierarchies, delimiters, and refusal rules..."
-            className="w-full resize-none rounded-xl border border-indigo/15 bg-cream/50 p-3 font-mono text-xs text-indigo focus:border-coral focus:outline-none leading-relaxed"
+            className="w-full resize-none rounded-xl border border-navy/15 bg-daylight p-3 font-mono text-xs text-navy focus:border-ultramarine focus:outline-none leading-relaxed"
           />
         </div>
 
@@ -192,11 +192,11 @@ export function RedVsBlueChallenge() {
             type="button"
             onClick={handleRunBattery}
             disabled={isRunning || !defensePrompt.trim()}
-            className="flex items-center gap-2 rounded-md bg-gradient-to-r from-cyan-600 via-cyan-500 to-emerald-500 px-6 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-black shadow-lg hover:opacity-95 disabled:opacity-50 transition-all"
+            className="flex items-center gap-2 rounded-md bg-gradient-to-r from-cyan-600 via-cyan-500 to-emerald-500 px-6 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-navy shadow-lg hover:opacity-95 disabled:opacity-50 transition-all"
           >
             {isRunning ? (
               <>
-                <Zap className="h-4 w-4 animate-spin text-black" />
+                <Zap className="h-4 w-4 animate-spin text-navy" />
                 <span>RUNNING 8-ATTACK BATTERY...</span>
               </>
             ) : (
@@ -298,7 +298,7 @@ export function RedVsBlueChallenge() {
                   className={`cursor-pointer rounded-lg border p-3.5 transition-all ${
                     atk.blocked
                       ? "border-teal/30 bg-teal/5 hover:border-teal/50"
-                      : "border-coral/40 bg-coral/5 hover:border-coral/60"
+                      : "border-ultramarine/30 bg-ultramarine/10 hover:border-ultramarine/60"
                   }`}
                 >
                   {/* Card Top */}
@@ -352,12 +352,12 @@ export function RedVsBlueChallenge() {
 
                   {/* Expanded Details: Payload & Output */}
                   {isExpanded && (
-                    <div className="mt-3 pt-3 border-t border-indigo/10 space-y-2.5 font-mono text-xs">
+                    <div className="mt-3 pt-3 border-t border-navy/10 space-y-2.5 font-mono text-xs">
                       <div>
-                        <span className="text-[10px] text-coral uppercase block mb-1 font-semibold">
+                        <span className="text-[10px] text-ultramarine uppercase block mb-1 font-semibold">
                           Adversarial Test Payload:
                         </span>
-                        <pre className="whitespace-pre-wrap rounded-xl bg-cream/70 p-2.5 text-[11px] text-coral border border-coral/20">
+                        <pre className="whitespace-pre-wrap rounded-xl bg-daylight p-2.5 text-[11px] text-ultramarine border border-ultramarine/30">
                           {atk.payload}
                         </pre>
                       </div>
@@ -366,7 +366,7 @@ export function RedVsBlueChallenge() {
                         <span className="text-[10px] text-teal-700 uppercase block mb-1 font-semibold">
                           Model Output Response:
                         </span>
-                        <pre className="whitespace-pre-wrap rounded-xl bg-cream/70 p-2.5 text-[11px] text-indigo border border-indigo/10">
+                        <pre className="whitespace-pre-wrap rounded-xl bg-daylight p-2.5 text-[11px] text-navy border border-navy/10">
                           {atk.modelOutput}
                         </pre>
                       </div>
@@ -382,23 +382,23 @@ export function RedVsBlueChallenge() {
       {/* Default State: Preview all 8 attack vectors if no battery has been run yet */}
       {!result && (
         <div className="space-y-4">
-          <span className="font-mono text-xs font-bold uppercase tracking-wider text-indigo block">
+          <span className="font-mono text-xs font-bold uppercase tracking-wider text-navy block">
             PREVIEW: 8 ADVERSARIAL ATTACK VECTORS IN THE BATTERY
           </span>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 font-mono text-xs">
             {STORED_ATTACKS.map((atk) => (
               <div
                 key={atk.id}
-                className="rounded-xl border border-indigo/10 bg-white p-4 space-y-1.5 shadow-sm"
+                className="rounded-xl border border-navy/10 bg-white p-4 space-y-1.5 shadow-sm"
               >
-                <div className="flex items-center justify-between text-[10px] text-indigo/60">
+                <div className="flex items-center justify-between text-[10px] text-navy/60">
                   <span>VECTOR #{atk.index}</span>
-                  <span className="text-coral font-bold">{atk.category}</span>
+                  <span className="text-ultramarine font-bold">{atk.category}</span>
                 </div>
-                <div className="font-bold text-indigo text-[11px]">
+                <div className="font-bold text-navy text-[11px]">
                   {atk.name}
                 </div>
-                <p className="text-[10px] text-indigo/60 line-clamp-2">
+                <p className="text-[10px] text-navy/60 line-clamp-2">
                   {atk.payload}
                 </p>
               </div>

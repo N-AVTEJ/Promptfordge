@@ -729,7 +729,7 @@ export function LibraryView() {
                       {selectedPrompt.content.split(/\s+/).filter(Boolean).length} words · {selectedPrompt.content.length} characters
                     </span>
                   </div>
-                  <pre className="rounded-xl border border-indigo/10 bg-cream/70 p-4 text-xs font-mono text-indigo whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto">
+                  <pre className="rounded-xl border border-navy/10 bg-daylight p-4 text-xs font-mono text-navy whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto">
                     {selectedPrompt.content}
                   </pre>
                 </div>
@@ -957,7 +957,7 @@ export function LibraryView() {
                   )}
 
                   {/* Diff Lines Render */}
-                  <div className="rounded-xl border border-indigo/10 bg-cream/70 overflow-hidden font-mono text-xs max-h-96 overflow-y-auto">
+                  <div className="rounded-xl border border-navy/10 bg-daylight overflow-hidden font-mono text-xs max-h-96 overflow-y-auto">
                     {computedDiff &&
                       computedDiff.lines.map((line, idx) => {
                         let bgClass = "bg-transparent";

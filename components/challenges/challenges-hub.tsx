@@ -67,28 +67,28 @@ const TIER_CONFIG: Record<
   bronze: {
     label: "Bronze Tier",
     border: "border-amber-700/40",
-    glow: "shadow-card",
+    glow: "shadow-sm",
     text: "text-amber-700",
     bg: "bg-butter/50",
   },
   silver: {
     label: "Silver Tier",
     border: "border-slate-400/40",
-    glow: "shadow-card",
+    glow: "shadow-sm",
     text: "text-slate-600",
     bg: "bg-white",
   },
   gold: {
     label: "Gold Tier",
     border: "border-yellow-500/50",
-    glow: "shadow-card",
+    glow: "shadow-sm",
     text: "text-yellow-600",
     bg: "bg-butter/70",
   },
   platinum: {
     label: "Platinum Tier",
     border: "border-teal/50",
-    glow: "shadow-card",
+    glow: "shadow-sm",
     text: "text-teal",
     bg: "bg-mint/50",
   },
@@ -210,47 +210,47 @@ export function ChallengesHub() {
   return (
     <div className="space-y-10 pb-16">
       {/* Header Banner */}
-      <div className="relative overflow-hidden rounded-2xl border border-indigo-950/10 bg-white p-6 sm:p-8 shadow-card">
-        <div className="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-coral/10 blur-3xl pointer-events-none" />
+      <div className="relative overflow-hidden rounded-2xl border border-navy/10 bg-white p-6 sm:p-8 shadow-sm">
+        <div className="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-ultramarine/10 blur-3xl pointer-events-none" />
         <div className="absolute left-1/3 bottom-0 h-40 w-40 rounded-full bg-teal/10 blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 rounded-full border border-coral/30 bg-coral/10 px-3 py-1 text-xs font-medium text-coral">
+            <div className="inline-flex items-center gap-2 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 text-xs font-medium text-ultramarine">
               <Trophy className="h-3.5 w-3.5" />
               <span>Prompt Mastery Track</span>
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-indigo sm:text-3xl">
+            <h1 className="text-2xl font-bold tracking-tight text-navy sm:text-3xl">
               Engineering Missions & Badges
             </h1>
-            <p className="max-w-2xl text-sm text-indigo-900/70">
+            <p className="max-w-2xl text-sm text-navy/70">
               Complete automated lab challenges to forge your skills. Stored entirely in local
               browser state with deterministic criteria verification.
             </p>
           </div>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-3 gap-3 rounded-2xl border border-indigo/10 bg-white p-5 shadow-sm sm:gap-4">
+          <div className="grid grid-cols-3 gap-3 rounded-2xl border border-navy/10 bg-white p-5 shadow-sm sm:gap-4">
             <div className="text-center">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-indigo/60">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-navy/60">
                 Total Score
               </span>
               <div className="mt-1 flex items-center justify-center gap-1">
-                <Flame className="h-4 w-4 text-coral" />
-                <span className="font-mono text-xl font-bold text-indigo sm:text-2xl">
+                <Flame className="h-4 w-4 text-ultramarine" />
+                <span className="font-mono text-xl font-bold text-navy sm:text-2xl">
                   {challenges.totalPoints}
                 </span>
-                <span className="font-mono text-[11px] text-coral font-bold">pts</span>
+                <span className="font-mono text-[11px] text-ultramarine font-bold">pts</span>
               </div>
             </div>
 
-            <div className="border-l border-indigo/10 pl-3 text-center sm:pl-4">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-indigo/60">
+            <div className="border-l border-navy/10 pl-3 text-center sm:pl-4">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-navy/60">
                 Missions
               </span>
-              <div className="mt-1 flex items-center justify-center gap-1 font-mono text-xl font-bold text-indigo sm:text-2xl">
+              <div className="mt-1 flex items-center justify-center gap-1 font-mono text-xl font-bold text-navy sm:text-2xl">
                 <span>{challenges.completedMissionIds.length}</span>
-                <span className="text-sm font-normal text-indigo/60">/{missions.length}</span>
+                <span className="text-sm font-normal text-navy/60">/{missions.length}</span>
               </div>
             </div>
 
@@ -303,10 +303,10 @@ export function ChallengesHub() {
             type="button"
             onClick={handleAutoCheckAll}
             disabled={isAutoChecking}
-            className="inline-flex items-center gap-1.5 rounded-md border border-indigo-950/10 bg-white px-3 py-1.5 text-xs font-medium text-indigo transition-colors hover:border-coral/40 hover:text-coral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-md border border-navy/10 bg-white px-3 py-1.5 text-xs font-medium text-navy transition-colors hover:border-ultramarine hover:text-ultramarine focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ultramarine disabled:opacity-50"
             aria-label="Scan local lab storage to check and complete missions automatically"
           >
-            <RefreshCw className={`h-3.5 w-3.5 text-coral ${isAutoChecking ? "animate-spin" : ""}`} />
+            <RefreshCw className={`h-3.5 w-3.5 text-ultramarine ${isAutoChecking ? "animate-spin" : ""}`} />
             <span>Auto-Verify from Storage</span>
           </button>
         </div>
@@ -322,7 +322,7 @@ export function ChallengesHub() {
                 className={`relative flex flex-col items-center justify-between rounded-xl border p-4 text-center transition-all ${
                   isUnlocked
                     ? `${tierStyle.border} ${tierStyle.bg} ${tierStyle.glow}`
-                    : "border-indigo-950/10 bg-cream/40 opacity-60"
+                    : "border-navy/10 bg-daylight opacity-60"
                 }`}
               >
                 {/* Status Indicator */}
@@ -330,7 +330,7 @@ export function ChallengesHub() {
                   {isUnlocked ? (
                     <Unlock className="h-3.5 w-3.5 text-teal" />
                   ) : (
-                    <Lock className="h-3.5 w-3.5 text-indigo-900/40" />
+                    <Lock className="h-3.5 w-3.5 text-navy/70" />
                   )}
                 </div>
 
@@ -338,18 +338,18 @@ export function ChallengesHub() {
                   className={`mt-2 flex h-14 w-14 items-center justify-center rounded-xl border ${
                     isUnlocked
                       ? `${tierStyle.border} bg-white ${tierStyle.text}`
-                      : "border-indigo-950/10 bg-cream/70 text-indigo/40"
+                      : "border-navy/10 bg-daylight text-navy/40"
                   }`}
                 >
                   {renderBadgeIcon(badge.iconName, "h-7 w-7")}
                 </div>
 
                 <div className="mt-3 space-y-1">
-                  <h3 className="text-xs font-semibold text-indigo">{badge.name}</h3>
-                  <p className="text-[10px] font-mono text-indigo-900/60">{badge.title}</p>
+                  <h3 className="text-xs font-semibold text-navy">{badge.name}</h3>
+                  <p className="text-[10px] font-mono text-navy/70">{badge.title}</p>
                 </div>
 
-                <div className="mt-3 w-full border-t border-indigo-950/10 pt-2 text-[10px] text-indigo-900/60">
+                <div className="mt-3 w-full border-t border-navy/10 pt-2 text-[10px] text-navy/70">
                   {isUnlocked ? (
                     <span className="font-medium text-teal">Unlocked ✓</span>
                   ) : (
@@ -366,10 +366,10 @@ export function ChallengesHub() {
       <section className="space-y-6" aria-labelledby="missions-heading">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 id="missions-heading" className="text-lg font-semibold text-indigo">
+            <h2 id="missions-heading" className="text-lg font-semibold text-navy">
               Active Missions ({filteredMissions.length})
             </h2>
-            <p className="text-xs text-indigo-900/60">
+            <p className="text-xs text-navy/70">
               Select any mission to launch the linked lab and verify completion criteria.
             </p>
           </div>
@@ -379,7 +379,7 @@ export function ChallengesHub() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as "all" | "in_progress" | "completed")}
-              className="rounded-md border border-indigo-950/10 bg-white px-2.5 py-1.5 text-xs text-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+              className="rounded-md border border-navy/10 bg-white px-2.5 py-1.5 text-xs text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ultramarine"
               aria-label="Filter missions by completion status"
             >
               <option value="all">All Statuses</option>
@@ -390,7 +390,7 @@ export function ChallengesHub() {
             <select
               value={difficultyFilter}
               onChange={(e) => setDifficultyFilter(e.target.value)}
-              className="rounded-md border border-indigo-950/10 bg-white px-2.5 py-1.5 text-xs text-indigo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+              className="rounded-md border border-navy/10 bg-white px-2.5 py-1.5 text-xs text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ultramarine"
               aria-label="Filter missions by difficulty"
             >
               <option value="all">All Difficulties</option>
@@ -416,7 +416,7 @@ export function ChallengesHub() {
                 className={`relative flex flex-col justify-between rounded-2xl border p-6 transition-all ${
                   isCompleted
                     ? "border-teal/30 bg-mint/30"
-                    : "border-indigo/10 bg-white hover:border-coral/40 shadow-sm"
+                    : "border-navy/10 bg-white hover:border-ultramarine shadow-sm"
                 }`}
               >
                 <div>
@@ -428,7 +428,7 @@ export function ChallengesHub() {
                       >
                         {diffStyle.label}
                       </span>
-                      <span className="font-mono text-xs font-semibold text-coral">
+                      <span className="font-mono text-xs font-semibold text-ultramarine">
                         +{mission.points} pts
                       </span>
                     </div>
@@ -439,8 +439,8 @@ export function ChallengesHub() {
                         Completed
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 text-xs text-indigo/60">
-                        <Target className="h-3.5 w-3.5 text-coral" />
+                      <span className="inline-flex items-center gap-1 text-xs text-navy/60">
+                        <Target className="h-3.5 w-3.5 text-ultramarine" />
                         Available
                       </span>
                     )}
@@ -448,16 +448,16 @@ export function ChallengesHub() {
 
                   {/* Title & Description */}
                   <div className="mt-3 space-y-1">
-                    <h3 className="text-base font-semibold text-indigo">{mission.title}</h3>
-                    <p className="text-xs text-indigo/70">{mission.tagline}</p>
+                    <h3 className="text-base font-semibold text-navy">{mission.title}</h3>
+                    <p className="text-xs text-navy/70">{mission.tagline}</p>
                   </div>
 
-                  <p className="mt-2 text-xs leading-relaxed text-indigo/80">
+                  <p className="mt-2 text-xs leading-relaxed text-navy/80">
                     {mission.description}
                   </p>
 
                   {/* Target Requirement Badge */}
-                  <div className="mt-3 rounded-xl border border-indigo/10 bg-cream/70 p-3 text-xs text-indigo/80">
+                  <div className="mt-3 rounded-xl border border-navy/10 bg-daylight p-3 text-xs text-navy/80">
                     <span className="font-mono text-[10px] uppercase text-teal-700 font-bold">
                       Criteria:
                     </span>{" "}
@@ -519,7 +519,7 @@ export function ChallengesHub() {
                       <button
                         type="button"
                         onClick={() => handleVerify(mission)}
-                        className="rounded-md border border-coral/30 bg-coral px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-coral-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral"
+                        className="rounded-md border border-ultramarine/30 bg-ultramarine px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-ultramarine-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ultramarine"
                       >
                         Verify Check
                       </button>
@@ -538,10 +538,10 @@ export function ChallengesHub() {
 
         {/* Empty State */}
         {filteredMissions.length === 0 && (
-          <div className="rounded-2xl border border-indigo/10 bg-white p-12 text-center shadow-sm">
-            <Trophy className="mx-auto h-8 w-8 text-indigo/30" />
-            <h3 className="mt-3 text-sm font-semibold text-indigo">No missions found</h3>
-            <p className="mt-1 text-xs text-indigo/60">
+          <div className="rounded-2xl border border-navy/10 bg-white p-12 text-center shadow-sm">
+            <Trophy className="mx-auto h-8 w-8 text-navy/30" />
+            <h3 className="mt-3 text-sm font-semibold text-navy">No missions found</h3>
+            <p className="mt-1 text-xs text-navy/60">
               Adjust your filters or reset to view all available engineering challenges.
             </p>
           </div>
@@ -549,7 +549,7 @@ export function ChallengesHub() {
       </section>
 
       {/* Reset State Option */}
-      <div className="flex items-center justify-between border-t border-indigo/10 pt-6 text-xs text-indigo/60">
+      <div className="flex items-center justify-between border-t border-navy/10 pt-6 text-xs text-navy/60">
         <span>PromptForge local storage engine • Safe sandbox execution</span>
         <button
           type="button"
@@ -559,7 +559,7 @@ export function ChallengesHub() {
               setVerificationFeedback({});
             }
           }}
-          className="inline-flex items-center gap-1 hover:text-coral focus-visible:outline-none"
+          className="inline-flex items-center gap-1 hover:text-ultramarine focus-visible:outline-none"
         >
           <RotateCcw className="h-3 w-3" />
           <span>Reset Challenge Data</span>
@@ -625,7 +625,7 @@ export function ChallengesHub() {
                 <button
                   type="button"
                   onClick={() => setUnlockModalBadge(null)}
-                  className="w-full rounded-lg bg-gradient-to-r from-ember-500 to-amber-500 py-2 text-xs font-semibold text-black transition-transform hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
+                  className="w-full rounded-lg bg-gradient-to-r from-ember-500 to-amber-500 py-2 text-xs font-semibold text-navy transition-transform hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember-500"
                 >
                   Claim Badge
                 </button>

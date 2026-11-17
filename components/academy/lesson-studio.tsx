@@ -165,25 +165,25 @@ export function LessonStudio({
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-cream text-indigo">
+    <div className="flex min-h-screen flex-col bg-daylight text-navy">
       {/* Studio Top Navigation Bar */}
-      <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-indigo-950/10 bg-cream/95 px-4 sm:px-6 backdrop-blur-md">
+      <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-navy/10 bg-daylight/95 px-4 sm:px-6 backdrop-blur-md">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm min-w-0 flex-1 mr-2 sm:mr-4">
           <Link
             href="/academy"
-            className="flex items-center gap-1.5 text-indigo-900/70 hover:text-indigo font-semibold shrink-0"
+            className="flex items-center gap-1.5 text-navy/70 hover:text-navy font-semibold shrink-0"
             title="Back to Academy"
           >
             <ArrowLeft className="h-4 w-4" />
             <span className="hidden sm:inline">Academy</span>
           </Link>
-          <span className="text-indigo-900/30 shrink-0 hidden sm:inline">/</span>
-          <span className="font-mono text-xs text-indigo-900/60 hidden md:inline shrink-0 font-bold">
+          <span className="text-navy/30 shrink-0 hidden sm:inline">/</span>
+          <span className="font-mono text-xs text-navy/60 hidden md:inline shrink-0 font-bold">
             Mod {module.number.toString().padStart(2, "0")}
           </span>
-          <span className="text-indigo-900/30 hidden md:inline shrink-0">/</span>
-          <span className="font-bold text-indigo truncate max-w-[150px] sm:max-w-[280px]">
+          <span className="text-navy/30 hidden md:inline shrink-0">/</span>
+          <span className="font-bold text-navy truncate max-w-[150px] sm:max-w-[280px]">
             {lesson.title}
           </span>
         </div>
@@ -197,7 +197,7 @@ export function LessonStudio({
               strokeWidth={3}
               accent="amber"
             />
-            <span className="text-xs font-mono text-indigo-900/60 hidden md:inline">
+            <span className="text-xs font-mono text-navy/60 hidden md:inline">
               {completedInModule}/{module.lessons.length} done
             </span>
           </div>
@@ -206,10 +206,10 @@ export function LessonStudio({
             variant="outline"
             size="sm"
             onClick={() => setIsModalOpen(true)}
-            className="h-8 px-2 sm:px-3 text-xs flex items-center gap-1.5"
+            className="h-8 px-2 sm:px-3 text-xs flex items-center gap-1.5 border-navy/15 text-navy hover:bg-white hover:border-navy/25"
             title="Export or Import Progress"
           >
-            <FileJson className="h-3.5 w-3.5 text-coral" />
+            <FileJson className="h-3.5 w-3.5 text-ultramarine" />
             <span className="hidden sm:inline">Progress sync</span>
           </Button>
 
@@ -220,8 +220,8 @@ export function LessonStudio({
             className={cn(
               "h-8 px-2.5 sm:px-3 text-xs flex items-center gap-1.5 font-bold transition-all",
               isCurrentLessonComplete
-                ? "border-teal/30 text-teal bg-teal/10 hover:bg-teal/20"
-                : "bg-coral hover:bg-coral-600 text-white shadow-coral-glow"
+                ? "border-mint/40 text-navy bg-mint/20 hover:bg-mint/30"
+                : "bg-ultramarine hover:bg-ultramarine/90 text-white shadow-xs"
             )}
           >
             <CheckCircle className="h-3.5 w-3.5 shrink-0" />
@@ -231,15 +231,15 @@ export function LessonStudio({
       </header>
 
       {/* Mobile Screen Tab Navigation (< 1024px) */}
-      <div className="lg:hidden sticky top-16 z-20 flex border-b border-indigo-950/10 bg-white">
+      <div className="lg:hidden sticky top-16 z-20 flex border-b border-navy/10 bg-white">
         <button
           type="button"
           onClick={() => setMobileTab("outline")}
           className={cn(
             "flex-1 py-2.5 text-xs font-bold uppercase tracking-wider text-center border-b-2 transition-colors",
             mobileTab === "outline"
-              ? "border-coral text-coral bg-cream"
-              : "border-transparent text-indigo-900/60 hover:text-indigo"
+              ? "border-ultramarine text-ultramarine bg-daylight"
+              : "border-transparent text-navy/60 hover:text-navy"
           )}
         >
           1. Outline
@@ -250,8 +250,8 @@ export function LessonStudio({
           className={cn(
             "flex-1 py-2.5 text-xs font-bold uppercase tracking-wider text-center border-b-2 transition-colors",
             mobileTab === "center"
-              ? "border-coral text-coral bg-cream"
-              : "border-transparent text-indigo-900/60 hover:text-indigo"
+              ? "border-ultramarine text-ultramarine bg-daylight"
+              : "border-transparent text-navy/60 hover:text-navy"
           )}
         >
           2. Lesson & Video
@@ -262,8 +262,8 @@ export function LessonStudio({
           className={cn(
             "flex-1 py-2.5 text-xs font-bold uppercase tracking-wider text-center border-b-2 transition-colors",
             mobileTab === "right"
-              ? "border-coral text-coral bg-cream"
-              : "border-transparent text-indigo-900/60 hover:text-indigo"
+              ? "border-ultramarine text-ultramarine bg-daylight"
+              : "border-transparent text-navy/60 hover:text-navy"
           )}
         >
           3. Lab & Notes
@@ -276,30 +276,30 @@ export function LessonStudio({
           {/* PANEL 1 (LEFT): Module Curriculum & Chapter List (Cols: 3/12) */}
           <aside
             className={cn(
-              "lg:col-span-3 rounded-2xl border border-indigo-950/10 bg-white p-6 space-y-6 shadow-card lg:sticky lg:top-24",
+              "lg:col-span-3 rounded-2xl border border-navy/10 bg-white p-6 space-y-6 shadow-sm lg:sticky lg:top-24",
               mobileTab !== "outline" && "hidden lg:block"
             )}
           >
-            <div className="space-y-2 border-b border-indigo-950/10 pb-4">
+            <div className="space-y-2 border-b border-navy/10 pb-4">
               <div className="flex items-center justify-between">
-                <span className="rounded-full bg-cream px-3 py-1 font-mono text-xs font-bold text-indigo border border-indigo-950/10">
+                <span className="rounded-full bg-daylight px-3 py-1 font-mono text-xs font-bold text-navy border border-navy/10">
                   Module {module.number}
                 </span>
-                <span className="text-xs font-mono text-indigo-900/60">
+                <span className="text-xs font-mono text-navy/60">
                   {module.duration}
                 </span>
               </div>
-              <h2 className="text-base font-bold text-indigo leading-snug">
+              <h2 className="text-base font-bold text-navy leading-snug">
                 {module.title}
               </h2>
               <div className="flex items-center gap-2 pt-2">
-                <div className="flex-1 h-2 bg-indigo-950/10 rounded-full overflow-hidden">
+                <div className="flex-1 h-2 bg-navy/10 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-coral transition-all duration-500"
+                    className="h-full bg-ultramarine transition-all duration-500"
                     style={{ width: `${modulePercent}%` }}
                   />
                 </div>
-                <span className="text-xs font-mono text-indigo-900/70 font-semibold">
+                <span className="text-xs font-mono text-navy/70 font-semibold">
                   {modulePercent}%
                 </span>
               </div>
@@ -307,7 +307,7 @@ export function LessonStudio({
 
             {/* Lessons List in Module */}
             <div className="space-y-2">
-              <div className="text-[11px] font-mono uppercase tracking-wider text-indigo-900/50 font-bold px-1">
+              <div className="text-[11px] font-mono uppercase tracking-wider text-navy/50 font-bold px-1">
                 Lessons in this module
               </div>
 
@@ -322,8 +322,8 @@ export function LessonStudio({
                       className={cn(
                         "group flex items-center justify-between rounded-xl p-2.5 transition-all border",
                         isActive
-                          ? "bg-coral/10 border-coral/40 text-coral font-bold shadow-sm"
-                          : "bg-cream/40 border-indigo-950/5 hover:bg-cream hover:border-indigo-950/15"
+                          ? "bg-ultramarine/10 border-ultramarine/40 text-ultramarine font-bold shadow-xs"
+                          : "bg-daylight/50 border-navy/5 hover:bg-daylight hover:border-navy/15"
                       )}
                     >
                       <button
@@ -332,7 +332,7 @@ export function LessonStudio({
                           e.stopPropagation();
                           toggleLesson(les.id);
                         }}
-                        className="shrink-0 p-1 text-indigo-900/40 hover:text-teal transition-colors"
+                        className="shrink-0 p-1 text-navy/40 hover:text-navy transition-colors"
                         title={isComplete ? "Mark incomplete" : "Mark complete"}
                         aria-label={
                           isComplete
@@ -341,9 +341,9 @@ export function LessonStudio({
                         }
                       >
                         {isComplete ? (
-                          <CheckCircle className="h-4 w-4 text-teal" />
+                          <CheckCircle className="h-4 w-4 text-mint-700" />
                         ) : (
-                          <Circle className="h-4 w-4 text-indigo-900/30" />
+                          <Circle className="h-4 w-4 text-navy/30" />
                         )}
                       </button>
 
@@ -356,16 +356,16 @@ export function LessonStudio({
                             className={cn(
                               "text-xs truncate leading-tight font-sans font-semibold",
                               isActive
-                                ? "text-coral font-bold"
-                                : "text-indigo group-hover/link:text-coral"
+                                ? "text-ultramarine font-bold"
+                                : "text-navy group-hover/link:text-ultramarine"
                             )}
                           >
                             {idx + 1}. {les.title}
                           </div>
-                          <div className="flex items-center gap-2 text-[10px] text-indigo-900/50 mt-0.5 font-mono">
+                          <div className="flex items-center gap-2 text-[10px] text-navy/50 mt-0.5 font-mono">
                             <span>{les.chapters.length} chapters</span>
                             {score !== undefined && (
-                              <span className="text-teal font-bold font-mono">
+                              <span className="text-mint-700 font-bold font-mono">
                                 Quiz: {score}/{les.quiz.length}
                               </span>
                             )}
@@ -376,8 +376,8 @@ export function LessonStudio({
                           className={cn(
                             "h-4 w-4 shrink-0 transition-transform ml-1",
                             isActive
-                              ? "text-coral translate-x-0.5"
-                              : "text-indigo-900/30 group-hover/link:text-coral"
+                              ? "text-ultramarine translate-x-0.5"
+                              : "text-navy/30 group-hover/link:text-ultramarine"
                           )}
                         />
                       </Link>
@@ -385,18 +385,18 @@ export function LessonStudio({
 
                     {/* Expandable Chapters */}
                     {isActive && (
-                      <div className="ml-6 border-l-2 border-coral/30 pl-3 py-1 space-y-1">
+                      <div className="ml-6 border-l-2 border-ultramarine/30 pl-3 py-1 space-y-1">
                         {les.chapters.map((chap, cIdx) => (
                           <button
                             key={cIdx}
                             type="button"
                             onClick={() => handleSeek(chap.time)}
-                            className="flex w-full items-center justify-between text-left text-xs text-indigo-900/70 hover:text-coral py-1 transition-colors group"
+                            className="flex w-full items-center justify-between text-left text-xs text-navy/70 hover:text-ultramarine py-1 transition-colors group"
                           >
                             <span className="truncate pr-1 group-hover:underline">
                               {chap.label}
                             </span>
-                            <span className="font-mono text-[10px] text-indigo-900/50 shrink-0">
+                            <span className="font-mono text-[10px] text-navy/50 shrink-0">
                               {Math.floor(chap.time / 60)}:
                               {(chap.time % 60).toString().padStart(2, "0")}
                             </span>
@@ -410,8 +410,8 @@ export function LessonStudio({
             </div>
 
             {/* Progression Footer */}
-            <div className="border-t border-indigo-950/10 pt-4 space-y-2">
-              <div className="text-[11px] font-bold uppercase tracking-wider text-indigo-900/60 font-mono px-1">
+            <div className="border-t border-navy/10 pt-4 space-y-2">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-navy/60 font-mono px-1">
                 Progression
               </div>
               <div className="grid grid-cols-2 gap-2">
@@ -483,24 +483,24 @@ export function LessonStudio({
                   </Badge>
                 )}
               </div>
-              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-indigo font-sans">
+              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-navy font-sans">
                 {lesson.title}
               </h1>
             </div>
 
             {/* Before you watch (2 plain-English lines, no jargon) */}
             {lesson.beforeYouWatch && lesson.beforeYouWatch.length > 0 && (
-              <div className="rounded-2xl border border-indigo-950/10 bg-[#fdfbf7] p-5 shadow-card space-y-2.5">
+              <div className="rounded-2xl border border-navy/10 bg-white p-5 shadow-sm space-y-2.5">
                 <div className="flex items-center gap-2">
-                  <Compass className="h-4 w-4 text-coral" />
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900/70 font-mono">
+                  <Compass className="h-4 w-4 text-ultramarine" />
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-navy/70 font-mono">
                     Before you watch
                   </h3>
                 </div>
-                <div className="space-y-1.5 text-xs sm:text-sm text-indigo-900/80 leading-[1.65]">
+                <div className="space-y-1.5 text-xs sm:text-sm text-navy/80 leading-[1.65]">
                   {lesson.beforeYouWatch.map((line, idx) => (
                     <p key={idx} className="flex items-start gap-2">
-                      <span className="text-coral select-none font-bold text-sm leading-tight">•</span>
+                      <span className="text-ultramarine select-none font-bold text-sm leading-tight">•</span>
                       <span>{line}</span>
                     </p>
                   ))}
@@ -524,7 +524,7 @@ export function LessonStudio({
                   href={`https://www.youtube.com/watch?v=${activeVideoId}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-indigo-900/60 hover:text-coral transition-colors underline-offset-4 hover:underline"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-navy/60 hover:text-ultramarine transition-colors underline-offset-4 hover:underline"
                   title="Open video on YouTube in a new tab"
                 >
                   <ExternalLink className="h-3 w-3" />
@@ -535,11 +535,11 @@ export function LessonStudio({
 
             {/* Active Video Metadata Card with Honest Coverage (Covers vs Related) & Watch Time */}
             {activeVideo && activeVideoStatus === "ok" && (
-              <div className="rounded-2xl border border-indigo-950/10 bg-white p-4 shadow-card space-y-3">
+              <div className="rounded-2xl border border-navy/10 bg-white p-4 shadow-sm space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <Film className="h-4 w-4 text-coral" />
-                    <span className="text-xs font-bold text-indigo font-sans">
+                    <Film className="h-4 w-4 text-ultramarine" />
+                    <span className="text-xs font-bold text-navy font-sans">
                       {activeVideo.channel || "Course Video"}
                     </span>
                   </div>
@@ -549,7 +549,7 @@ export function LessonStudio({
                         Optional deep dive ({activeVideo.minutes} min)
                       </span>
                     ) : activeVideo.minutes ? (
-                      <span className="text-[11px] font-mono font-semibold text-indigo-900/60 bg-cream/70 border border-indigo-950/10 px-2 py-0.5 rounded-md flex items-center gap-1">
+                      <span className="text-[11px] font-mono font-semibold text-navy/60 bg-daylight/70 border border-navy/10 px-2 py-0.5 rounded-md flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         {activeVideo.minutes} min
                       </span>
@@ -562,7 +562,7 @@ export function LessonStudio({
                             ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
                             : activeVideo.level === "intermediate"
                             ? "bg-sky-50 text-sky-800 border border-sky-200"
-                            : "bg-indigo-50 text-indigo-800 border border-indigo-200"
+                            : "bg-daylight text-navy border border-navy/20"
                         )}
                       >
                         {activeVideo.level}
@@ -574,7 +574,7 @@ export function LessonStudio({
                 {/* Honest Coverage Tags: Covers vs Related */}
                 {((activeVideo.covers && activeVideo.covers.length > 0) ||
                   (activeVideo.relatedTo && activeVideo.relatedTo.length > 0)) && (
-                  <div className="space-y-2 pt-2 border-t border-indigo-950/5">
+                  <div className="space-y-2 pt-2 border-t border-navy/5">
                     {activeVideo.covers && activeVideo.covers.length > 0 && (
                       <div className="flex items-start gap-2 flex-wrap text-xs">
                         <span className="font-mono font-bold text-[11px] uppercase tracking-wider text-emerald-800 bg-emerald-100/90 border border-emerald-300 px-2 py-0.5 rounded shrink-0 shadow-xs">
@@ -623,15 +623,15 @@ export function LessonStudio({
 
             {/* More videos for this lesson row (shown when lesson has multiple video options) */}
             {sortedVideos.length > 1 && (
-              <div className="rounded-2xl border border-indigo-950/10 bg-white p-5 shadow-card space-y-3">
+              <div className="rounded-2xl border border-navy/10 bg-white p-5 shadow-sm space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Film className="h-4 w-4 text-coral" />
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900/70 font-mono">
+                    <Film className="h-4 w-4 text-ultramarine" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-navy/70 font-mono">
                       More videos for this lesson ({sortedVideos.length})
                     </h3>
                   </div>
-                  <span className="text-[11px] font-mono text-indigo-900/50">
+                  <span className="text-[11px] font-mono text-navy/50">
                     Click to switch video
                   </span>
                 </div>
@@ -658,10 +658,10 @@ export function LessonStudio({
                         className={cn(
                           "group relative flex items-start gap-3 rounded-xl p-2.5 text-left transition-all border",
                           isCurrent
-                            ? "bg-coral/5 border-coral/50 shadow-sm ring-1 ring-coral/20"
+                            ? "bg-ultramarine/5 border-ultramarine/50 shadow-sm ring-1 ring-ultramarine/20"
                             : isUnavailable
-                            ? "opacity-60 bg-cream/30 border-indigo-950/5 cursor-not-allowed"
-                            : "bg-cream/40 border-indigo-950/10 hover:bg-cream hover:border-indigo-950/20"
+                            ? "opacity-60 bg-daylight/30 border-navy/5 cursor-not-allowed"
+                            : "bg-daylight/40 border-navy/10 hover:bg-daylight hover:border-navy/20"
                         )}
                         title={
                           isUnavailable
@@ -670,7 +670,7 @@ export function LessonStudio({
                         }
                       >
                         {/* Thumbnail */}
-                        <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg bg-indigo-950/10 border border-indigo-950/10">
+                        <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg bg-navy/10 border border-navy/10">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={thumbUrl}
@@ -683,7 +683,7 @@ export function LessonStudio({
                             }}
                           />
                           {vid.minutes && (
-                            <span className="absolute bottom-1 right-1 rounded bg-black/80 px-1 py-0.5 text-[9px] font-mono font-bold text-white">
+                            <span className="absolute bottom-1 right-1 rounded bg-navy/85 px-1 py-0.5 text-[9px] font-mono font-bold text-white">
                               {vid.minutes}m
                             </span>
                           )}
@@ -700,7 +700,7 @@ export function LessonStudio({
                                   ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
                                   : vid.level === "intermediate"
                                   ? "bg-sky-50 text-sky-800 border border-sky-200"
-                                  : "bg-indigo-50 text-indigo-800 border border-indigo-200"
+                                  : "bg-daylight text-navy border border-navy/20"
                               )}
                             >
                               {vid.level}
@@ -711,7 +711,7 @@ export function LessonStudio({
                               </span>
                             )}
                             {isCurrent && (
-                              <span className="text-[10px] font-mono font-bold text-coral">
+                              <span className="text-[10px] font-mono font-bold text-ultramarine">
                                 • Active
                               </span>
                             )}
@@ -724,13 +724,13 @@ export function LessonStudio({
                           <p
                             className={cn(
                               "text-xs font-semibold leading-tight line-clamp-2",
-                              isCurrent ? "text-coral font-bold" : "text-indigo"
+                              isCurrent ? "text-ultramarine font-bold" : "text-navy"
                             )}
                           >
                             {vid.title}
                           </p>
                           {vid.channel && (
-                            <p className="text-[10px] font-mono text-indigo-900/50 truncate">
+                            <p className="text-[10px] font-mono text-navy/50 truncate">
                               {vid.channel}
                             </p>
                           )}
@@ -755,19 +755,19 @@ export function LessonStudio({
 
             {/* Check yourself (1 question after the video) */}
             {lesson.checkYourself && (
-              <div className="rounded-2xl border border-indigo-950/10 bg-white p-5 shadow-card space-y-3">
+              <div className="rounded-2xl border border-navy/10 bg-white p-5 shadow-sm space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <HelpCircle className="h-4 w-4 text-teal" />
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900/70 font-mono">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-navy/70 font-mono">
                       Check yourself
                     </h3>
                   </div>
-                  <span className="text-[11px] font-mono text-indigo-900/50">
+                  <span className="text-[11px] font-mono text-navy/50">
                     Concept check
                   </span>
                 </div>
-                <p className="text-sm font-semibold text-indigo leading-snug">
+                <p className="text-sm font-semibold text-navy leading-snug">
                   {lesson.checkYourself.question}
                 </p>
 
@@ -784,10 +784,10 @@ export function LessonStudio({
                   </button>
 
                   {showCheckAnswer && (
-                    <div className="mt-2.5 rounded-xl bg-teal/5 border border-teal/20 p-3.5 text-xs text-indigo-900/80 space-y-1.5">
-                      <p className="font-semibold text-indigo">{lesson.checkYourself.answer}</p>
+                    <div className="mt-2.5 rounded-xl bg-teal/5 border border-teal/20 p-3.5 text-xs text-navy/80 space-y-1.5">
+                      <p className="font-semibold text-navy">{lesson.checkYourself.answer}</p>
                       {lesson.checkYourself.hint && (
-                        <p className="text-[11px] text-indigo-900/60 font-sans italic">
+                        <p className="text-[11px] text-navy/60 font-sans italic">
                           Hint: {lesson.checkYourself.hint}
                         </p>
                       )}
@@ -798,7 +798,7 @@ export function LessonStudio({
             )}
 
             {/* Timestamp Chips that seek player */}
-            <div className="rounded-2xl border border-indigo-950/10 bg-white p-6 shadow-card">
+            <div className="rounded-2xl border border-navy/10 bg-white p-6 shadow-sm">
               <TimestampChips
                 chapters={lesson.chapters}
                 currentTime={currentPlaybackSecond}
@@ -807,25 +807,25 @@ export function LessonStudio({
             </div>
 
             {/* Lesson Summary */}
-            <div className="rounded-2xl border border-indigo-950/10 bg-white p-6 shadow-card space-y-2">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900/60 font-mono">
+            <div className="rounded-2xl border border-navy/10 bg-white p-6 shadow-sm space-y-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-navy/60 font-mono">
                 Lesson Overview
               </h3>
-              <p className="text-sm text-indigo-900/80 leading-[1.7]">
+              <p className="text-sm text-navy/80 leading-[1.7]">
                 {lesson.summary}
               </p>
             </div>
 
             {/* Key Concepts */}
             <div className="space-y-2">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900/60 font-mono">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-navy/60 font-mono">
                 Key Concepts
               </h3>
               <div className="flex flex-wrap gap-2">
                 {lesson.keyConcepts.map((concept, idx) => (
                   <span
                     key={idx}
-                    className="inline-flex items-center rounded-xl border border-indigo-950/10 bg-white px-3 py-1.5 text-xs font-semibold text-indigo shadow-sm"
+                    className="inline-flex items-center rounded-xl border border-navy/10 bg-white px-3 py-1.5 text-xs font-semibold text-navy shadow-sm"
                   >
                     {concept}
                   </span>
@@ -834,11 +834,11 @@ export function LessonStudio({
             </div>
 
             {/* Practice Challenge Card */}
-            <div className="rounded-2xl border border-indigo-950/10 bg-white p-6 shadow-card space-y-4">
+            <div className="rounded-2xl border border-navy/10 bg-white p-6 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Terminal className="h-4 w-4 text-coral" />
-                  <h3 className="text-sm font-bold text-indigo font-sans">
+                  <Terminal className="h-4 w-4 text-ultramarine" />
+                  <h3 className="text-sm font-bold text-navy font-sans">
                     Practice Challenge: {lesson.practiceChallenge.title}
                   </h3>
                 </div>
@@ -847,18 +847,18 @@ export function LessonStudio({
                 </Badge>
               </div>
 
-              <p className="text-xs sm:text-sm text-indigo-900/75 leading-[1.7]">
+              <p className="text-xs sm:text-sm text-navy/75 leading-[1.7]">
                 {lesson.practiceChallenge.instructions}
               </p>
 
               {lesson.practiceChallenge.starterPrompt && (
-                <div className="rounded-xl bg-cream p-4 font-mono text-[11px] text-indigo border border-indigo-950/10 overflow-x-auto leading-relaxed">
+                <div className="rounded-xl bg-daylight p-4 font-mono text-[11px] text-navy border border-navy/10 overflow-x-auto leading-relaxed">
                   {lesson.practiceChallenge.starterPrompt}
                 </div>
               )}
 
               <div className="flex items-center justify-between pt-1">
-                <span className="text-xs text-indigo-900/60 italic font-sans">
+                <span className="text-xs text-navy/60 italic font-sans">
                   Execute inside right panel sandbox
                 </span>
                 <Button
@@ -876,13 +876,13 @@ export function LessonStudio({
           {/* PANEL 3 (RIGHT): Tabbed Notes, Lab Slot & Quiz (Cols: 4/12) */}
           <aside
             className={cn(
-              "lg:col-span-4 rounded-2xl border border-indigo-950/10 bg-white p-6 space-y-6 shadow-card lg:sticky lg:top-24",
+              "lg:col-span-4 rounded-2xl border border-navy/10 bg-white p-6 space-y-6 shadow-sm lg:sticky lg:top-24",
               mobileTab !== "right" && "hidden lg:block"
             )}
           >
             {/* Panel Tabs Header */}
             <div
-              className="flex border border-indigo-950/10 bg-cream rounded-xl p-1"
+              className="flex border border-navy/10 bg-daylight rounded-xl p-1"
               role="tablist"
               aria-label="Lesson workspace panels"
             >
@@ -897,8 +897,8 @@ export function LessonStudio({
                 className={cn(
                   "flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all font-sans",
                   rightTab === "notes"
-                    ? "bg-white text-indigo shadow-card"
-                    : "text-indigo-900/60 hover:text-indigo"
+                    ? "bg-white text-navy shadow-sm"
+                    : "text-navy/60 hover:text-navy"
                 )}
               >
                 <BookOpen className="h-3.5 w-3.5 text-violet" />
@@ -916,11 +916,11 @@ export function LessonStudio({
                 className={cn(
                   "flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all font-sans",
                   rightTab === "lab"
-                    ? "bg-white text-indigo shadow-card"
-                    : "text-indigo-900/60 hover:text-indigo"
+                    ? "bg-white text-navy shadow-sm"
+                    : "text-navy/60 hover:text-navy"
                 )}
               >
-                <Terminal className="h-3.5 w-3.5 text-coral" />
+                <Terminal className="h-3.5 w-3.5 text-ultramarine" />
                 <span>Lab</span>
               </button>
 
@@ -935,8 +935,8 @@ export function LessonStudio({
                 className={cn(
                   "flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-lg transition-all font-sans",
                   rightTab === "quiz"
-                    ? "bg-white text-indigo shadow-card"
-                    : "text-indigo-900/60 hover:text-indigo"
+                    ? "bg-white text-navy shadow-sm"
+                    : "text-navy/60 hover:text-navy"
                 )}
               >
                 <HelpCircle className="h-3.5 w-3.5 text-teal" />

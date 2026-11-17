@@ -116,8 +116,8 @@ export function ReactVisualizer() {
               }}
               className={`rounded-lg px-3 py-1.5 font-mono text-xs transition-all ${
                 selectedScenarioId === s.id
-                  ? "bg-coral text-white font-bold shadow-card"
-                  : "border border-indigo-950/10 bg-white text-indigo hover:border-coral/30"
+                  ? "bg-ultramarine text-white font-bold shadow-sm"
+                  : "border border-navy/10 bg-white text-navy hover:border-ultramarine"
               }`}
             >
               {s.title}
@@ -127,13 +127,13 @@ export function ReactVisualizer() {
 
         {/* Stepper Controls */}
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xs text-indigo-900/60 mr-1">
+          <span className="font-mono text-xs text-navy/70 mr-1">
             Step {visibleStepCount} of {totalSteps}
           </span>
           <button
             type="button"
             onClick={handleReset}
-            className="flex items-center gap-1 rounded-lg border border-indigo-950/10 bg-white px-2.5 py-1.5 font-mono text-xs text-indigo-900/60 hover:text-indigo"
+            className="flex items-center gap-1 rounded-lg border border-navy/10 bg-white px-2.5 py-1.5 font-mono text-xs text-navy/70 hover:text-navy"
             title="Reset to step 1"
           >
             <RotateCcw className="h-3 w-3" />
@@ -143,7 +143,7 @@ export function ReactVisualizer() {
             type="button"
             onClick={handleStepBack}
             disabled={visibleStepCount <= 1}
-            className="rounded-lg border border-indigo-950/10 bg-white px-2.5 py-1.5 font-mono text-xs text-indigo disabled:opacity-40"
+            className="rounded-lg border border-navy/10 bg-white px-2.5 py-1.5 font-mono text-xs text-navy disabled:opacity-40"
           >
             ← Prev
           </button>
@@ -167,7 +167,7 @@ export function ReactVisualizer() {
           <button
             type="button"
             onClick={handleRevealAll}
-            className="rounded-lg border border-indigo-950/10 bg-white px-2.5 py-1.5 font-mono text-xs text-indigo-900/60 hover:text-indigo"
+            className="rounded-lg border border-navy/10 bg-white px-2.5 py-1.5 font-mono text-xs text-navy/70 hover:text-navy"
           >
             All Steps
           </button>
@@ -175,11 +175,11 @@ export function ReactVisualizer() {
       </div>
 
       {/* Target Question Banner */}
-      <div className="rounded-xl border border-indigo-950/10 bg-white p-4 font-mono text-xs shadow-card">
+      <div className="rounded-xl border border-navy/10 bg-white p-4 font-mono text-xs shadow-sm">
         <span className="text-[10px] uppercase tracking-wider text-teal font-bold block mb-1">
           Target Prompt / Operational Task
         </span>
-        <p className="text-indigo leading-relaxed">{scenario.task}</p>
+        <p className="text-navy leading-relaxed">{scenario.task}</p>
       </div>
 
       {/* Alternating Step Timeline */}
@@ -193,21 +193,21 @@ export function ReactVisualizer() {
           return (
             <div
               key={step.stepNumber}
-              className={`rounded-xl border p-4 shadow-card transition-all ${
+              className={`rounded-xl border p-4 shadow-sm transition-all ${
                 isThought
-                  ? "border-coral/40 bg-coral/5"
+                  ? "border-ultramarine/30 bg-ultramarine/10"
                   : isAction
                   ? "border-teal/40 bg-white"
                   : isObservation
                   ? "border-teal/40 bg-teal/5"
-                  : "border-coral bg-coral/10 ring-1 ring-coral"
+                  : "border-ultramarine bg-ultramarine/10 ring-1 ring-ultramarine"
               }`}
             >
               {/* Step Header */}
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   {isThought && (
-                    <Badge className="bg-coral/20 text-coral border border-coral/40 font-mono text-[10px] font-bold">
+                    <Badge className="bg-ultramarine/10 text-ultramarine border border-ultramarine/30 font-mono text-[10px] font-bold">
                       THOUGHT (SUMMARY)
                     </Badge>
                   )}
@@ -224,24 +224,24 @@ export function ReactVisualizer() {
                     </Badge>
                   )}
                   {isFinish && (
-                    <Badge className="bg-coral text-white font-mono text-[10px] font-bold">
+                    <Badge className="bg-ultramarine text-white font-mono text-[10px] font-bold">
                       ★ FINAL ANSWER
                     </Badge>
                   )}
-                  <span className="font-mono text-xs font-semibold text-indigo">
+                  <span className="font-mono text-xs font-semibold text-navy">
                     {step.title}
                   </span>
                 </div>
-                <span className="font-mono text-[10px] text-indigo-900/60">
+                <span className="font-mono text-[10px] text-navy/70">
                   +{step.timestamp}ms
                 </span>
               </div>
 
               {/* Step Content */}
-              <div className="font-mono text-xs text-indigo leading-relaxed pl-1 whitespace-pre-wrap">
+              <div className="font-mono text-xs text-navy leading-relaxed pl-1 whitespace-pre-wrap">
                 {isAction ? (
-                  <div className="rounded border border-indigo-950/10 bg-cream/70 p-2.5 text-teal font-mono text-xs">
-                    <span className="text-indigo-900/40 select-none">{"> "}</span>
+                  <div className="rounded border border-navy/10 bg-daylight p-2.5 text-teal font-mono text-xs">
+                    <span className="text-navy/70 select-none">{"> "}</span>
                     {step.content}
                   </div>
                 ) : isObservation ? (
@@ -295,7 +295,7 @@ export function ReactVisualizer() {
                 className={`flex-1 rounded-lg border p-2 font-mono text-xs flex items-center justify-center gap-1.5 transition-colors ${
                   testTool === "calculator"
                     ? "border-teal bg-teal/10 text-teal font-bold"
-                    : "border-indigo-950/10 bg-white text-indigo-900/60"
+                    : "border-navy/10 bg-white text-navy/70"
                 }`}
               >
                 <Calculator className="h-3.5 w-3.5" />
@@ -310,8 +310,8 @@ export function ReactVisualizer() {
                 }}
                 className={`flex-1 rounded-lg border p-2 font-mono text-xs flex items-center justify-center gap-1.5 transition-colors ${
                   testTool === "lookup"
-                    ? "border-coral bg-coral/10 text-coral font-bold"
-                    : "border-indigo-950/10 bg-white text-indigo-900/60"
+                    ? "border-ultramarine bg-ultramarine/10 text-ultramarine font-bold"
+                    : "border-navy/10 bg-white text-navy/70"
                 }`}
               >
                 <Search className="h-3.5 w-3.5" />
@@ -321,7 +321,7 @@ export function ReactVisualizer() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-mono uppercase tracking-wider text-indigo-900/60 block">
+            <label className="text-[10px] font-mono uppercase tracking-wider text-navy/70 block">
               Tool Input
             </label>
             <div className="flex gap-2">
@@ -334,7 +334,7 @@ export function ReactVisualizer() {
                     ? "(450 * 12) + 300"
                     : "cloud egress, argon2id, etc."
                 }
-                className="flex-1 rounded-md border border-indigo-950/10 bg-cream/70 px-3 py-1.5 font-mono text-xs text-indigo focus:border-teal focus:outline-none"
+                className="flex-1 rounded-md border border-navy/10 bg-daylight px-3 py-1.5 font-mono text-xs text-navy focus:border-teal focus:outline-none"
               />
               <button
                 type="button"
@@ -347,10 +347,10 @@ export function ReactVisualizer() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-mono uppercase tracking-wider text-indigo-900/60 block">
+            <label className="text-[10px] font-mono uppercase tracking-wider text-navy/70 block">
               Tool Output Result
             </label>
-            <div className="min-h-[38px] rounded-md border border-indigo-950/10 bg-cream/70 px-3 py-2 font-mono text-xs text-teal">
+            <div className="min-h-[38px] rounded-md border border-navy/10 bg-daylight px-3 py-2 font-mono text-xs text-teal">
               {testOutput ? (
                 testOutput
               ) : (

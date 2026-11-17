@@ -13,13 +13,13 @@ export function ScanAnimation({
 }: ScanAnimationProps) {
   const colorClass =
     variant === "red"
-      ? "from-coral/0 via-coral/30 to-coral/0 border-coral/40 text-coral"
+      ? "from-coral/0 via-coral/30 to-coral/0 border-ultramarine/30 text-ultramarine"
       : variant === "blue"
       ? "from-teal/0 via-teal/30 to-teal/0 border-teal/40 text-teal-600"
       : "from-coral/0 via-violet/20 to-teal/0 border-teal/40 text-teal-700";
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-indigo/10 bg-white p-4 font-mono text-xs shadow-sm">
+    <div className="relative overflow-hidden rounded-xl border border-navy/10 bg-white p-4 font-mono text-xs shadow-sm">
       {/* Moving scanning beam */}
       <div
         className="pointer-events-none absolute inset-x-0 -top-full h-full bg-gradient-to-b from-transparent via-teal-400/20 to-transparent animate-[scan_2s_ease-in-out_infinite]"
@@ -34,20 +34,20 @@ export function ScanAnimation({
           <span className="relative flex h-2 w-2">
             <span
               className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${
-                variant === "red" ? "bg-coral" : "bg-teal-500"
+                variant === "red" ? "bg-ultramarine" : "bg-teal-500"
               }`}
             />
             <span
               className={`relative inline-flex h-2 w-2 rounded-full ${
-                variant === "red" ? "bg-coral" : "bg-teal-600"
+                variant === "red" ? "bg-ultramarine" : "bg-teal-600"
               }`}
             />
           </span>
-          <span className="font-semibold tracking-wider uppercase text-indigo">
+          <span className="font-semibold tracking-wider uppercase text-navy">
             {label}
           </span>
         </div>
-        <span className="text-[10px] text-indigo/60">
+        <span className="text-[10px] text-navy/60">
           TOKEN_STREAM_ACTIVE [ISOLATED_SANDBOX]
         </span>
       </div>

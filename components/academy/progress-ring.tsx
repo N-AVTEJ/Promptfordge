@@ -30,7 +30,7 @@ export function ProgressRing({
     amber: {
       stroke: "var(--coral)",
       bg: "rgba(255, 107, 74, 0.1)",
-      text: "text-coral",
+      text: "text-ultramarine",
     },
     cyan: {
       stroke: "var(--teal)",
@@ -85,7 +85,7 @@ export function ProgressRing({
       {showLabel && (
         <span
           className={cn(
-            "absolute font-mono font-bold leading-none select-none text-indigo",
+            "absolute font-mono font-bold leading-none select-none text-navy",
             size >= 64 ? "text-sm" : size >= 40 ? "text-xs" : "text-[10px]"
           )}
         >

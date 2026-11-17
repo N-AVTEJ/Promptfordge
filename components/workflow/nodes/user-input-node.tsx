@@ -22,10 +22,10 @@ export const UserInputNode = memo(function UserInputNode({
   };
 
   const statusColors = {
-    idle: "border-indigo-950/10 bg-white shadow-card",
+    idle: "border-navy/10 bg-white shadow-sm",
     running: "border-teal bg-teal/10 ring-1 ring-teal animate-pulse",
     done: "border-teal/70 bg-teal/10",
-    failed: "border-coral bg-coral/10 ring-1 ring-coral",
+    failed: "border-ultramarine bg-ultramarine/10 ring-1 ring-ultramarine",
   };
 
   return (
@@ -72,10 +72,10 @@ export const UserInputNode = memo(function UserInputNode({
           value={inputVal}
           onChange={handleChange}
           placeholder="Enter prompt input or parameters..."
-          className="w-full resize-none rounded-md border border-indigo-950/10 bg-cream/70 px-2.5 py-1.5 font-mono text-xs text-indigo placeholder:text-indigo-900/40 focus:border-teal focus:outline-none"
+          className="w-full resize-none rounded-md border border-navy/10 bg-daylight px-2.5 py-1.5 font-mono text-xs text-navy placeholder:text-navy/40 focus:border-teal focus:outline-none"
         />
         {data.educationalNote && (
-          <p className="text-[10px] text-indigo-900/60 italic leading-tight">
+          <p className="text-[10px] text-navy/70 italic leading-tight">
             {data.educationalNote}
           </p>
         )}
@@ -99,7 +99,7 @@ export const UserInputNode = memo(function UserInputNode({
 
       {/* Error message */}
       {data.error && (
-        <div className="mt-2 rounded border border-coral/30 bg-coral/10 p-2 text-[10px] text-coral font-mono">
+        <div className="mt-2 rounded border border-ultramarine/30 bg-ultramarine/10 p-2 text-[10px] text-ultramarine font-mono">
           {data.error}
         </div>
       )}

@@ -115,24 +115,24 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-indigo-950/40 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/40 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="progress-modal-title"
     >
-      <div className="relative w-full max-w-lg rounded-2xl border border-indigo-950/10 bg-white shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-lg rounded-2xl border border-navy/10 bg-white shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-indigo-950/10 px-6 py-4">
+        <div className="flex items-center justify-between border-b border-navy/10 px-6 py-4">
           <div className="flex items-center gap-2">
-            <FileJson className="h-5 w-5 text-coral" />
-            <h3 id="progress-modal-title" className="text-base font-bold text-indigo">
+            <FileJson className="h-5 w-5 text-ultramarine" />
+            <h3 id="progress-modal-title" className="text-base font-bold text-navy">
               Curriculum Progress Management
             </h3>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-indigo-900/60 hover:bg-indigo-950/5 hover:text-indigo"
+            className="rounded-lg p-1.5 text-navy/60 hover:bg-navy/5 hover:text-navy"
             aria-label="Close modal"
           >
             <X className="h-5 w-5" />
@@ -140,7 +140,7 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
         </div>
 
         {/* Tab Selection */}
-        <div className="flex border-b border-indigo-950/10 bg-cream/50 px-6 pt-2">
+        <div className="flex border-b border-navy/10 bg-daylight/50 px-6 pt-2">
           <button
             type="button"
             onClick={() => {
@@ -150,8 +150,8 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
             className={cn(
               "px-4 py-2 text-xs font-semibold uppercase tracking-wider border-b-2 transition-colors",
               activeTab === "export"
-                ? "border-coral text-coral"
-                : "border-transparent text-indigo-900/60 hover:text-indigo"
+                ? "border-ultramarine text-ultramarine"
+                : "border-transparent text-navy/60 hover:text-navy"
             )}
           >
             Export Progress
@@ -165,8 +165,8 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
             className={cn(
               "px-4 py-2 text-xs font-semibold uppercase tracking-wider border-b-2 transition-colors",
               activeTab === "import"
-                ? "border-coral text-coral"
-                : "border-transparent text-indigo-900/60 hover:text-indigo"
+                ? "border-ultramarine text-ultramarine"
+                : "border-transparent text-navy/60 hover:text-navy"
             )}
           >
             Import Progress
@@ -181,7 +181,7 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
               "px-4 py-2 text-xs font-semibold uppercase tracking-wider border-b-2 transition-colors",
               activeTab === "reset"
                 ? "border-rose-500 text-rose-600"
-                : "border-transparent text-indigo-900/60 hover:text-indigo"
+                : "border-transparent text-navy/60 hover:text-navy"
             )}
           >
             Reset
@@ -210,11 +210,11 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
 
           {activeTab === "export" && (
             <div className="space-y-4">
-              <p className="text-indigo-900/70 leading-relaxed">
+              <p className="text-navy/70 leading-relaxed">
                 Save your completed lesson checkmarks and quiz scores into a lightweight JSON file or copy raw text to restore on another device.
               </p>
 
-              <div className="rounded-xl bg-cream p-4 font-mono text-[11px] text-indigo border border-indigo-950/10 space-y-1">
+              <div className="rounded-xl bg-daylight p-4 font-mono text-[11px] text-navy border border-navy/10 space-y-1">
                 <div>Completed lessons: {progress.completedLessonIds.length}</div>
                 <div>Quiz results recorded: {Object.keys(progress.quizScores || {}).length}</div>
                 <div>Last updated: {new Date(progress.lastActiveTimestamp || Date.now()).toLocaleString()}</div>
@@ -252,14 +252,14 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
 
           {activeTab === "import" && (
             <div className="space-y-4">
-              <p className="text-indigo-900/70 leading-relaxed">
+              <p className="text-navy/70 leading-relaxed">
                 Restore your previous progress by uploading a backup file or pasting JSON content.
               </p>
 
               <div>
                 <label
                   htmlFor="progress-file-input"
-                  className="block text-xs font-semibold text-indigo mb-1.5"
+                  className="block text-xs font-semibold text-navy mb-1.5"
                 >
                   Upload JSON File
                 </label>
@@ -268,14 +268,14 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
                   type="file"
                   accept=".json,application/json"
                   onChange={handleFileUpload}
-                  className="w-full text-xs text-indigo-900/70 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-coral file:text-white hover:file:bg-coral-600 cursor-pointer"
+                  className="w-full text-xs text-navy/70 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-ultramarine file:text-white hover:file:bg-ultramarine-600 cursor-pointer"
                 />
               </div>
 
               <div className="space-y-1.5">
                 <label
                   htmlFor="paste-json-input"
-                  className="block text-xs font-semibold text-indigo"
+                  className="block text-xs font-semibold text-navy"
                 >
                   Or Paste JSON Directly
                 </label>
@@ -285,7 +285,7 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
                   value={pasteJsonInput}
                   onChange={(e) => setPasteJsonInput(e.target.value)}
                   placeholder='{"completedLessonIds": [...], "quizScores": {...}}'
-                  className="w-full rounded-xl border border-indigo-950/15 bg-cream p-3 font-mono text-[11px] text-indigo placeholder:text-indigo-900/40 focus:border-coral focus:outline-none"
+                  className="w-full rounded-xl border border-navy/10 bg-daylight p-3 font-mono text-[11px] text-navy placeholder:text-navy-900/40 focus:border-ultramarine focus:outline-none"
                 />
               </div>
 
@@ -306,7 +306,7 @@ export function ProgressModal({ isOpen, onClose }: ProgressModalProps) {
                 <div className="space-y-1">
                   <span className="font-bold block">Caution: Irreversible Action</span>
                   <p className="text-xs text-rose-700 leading-relaxed">
-                    This will clear all completed lesson records, saved quiz scores, and telemetry timestamps stored in this browser session.
+                    This will clear all completed lesson records, saved quiz scores, and session timestamps stored in this browser session.
                   </p>
                 </div>
               </div>

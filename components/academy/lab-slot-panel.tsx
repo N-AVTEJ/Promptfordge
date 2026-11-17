@@ -59,13 +59,13 @@ export function LabSlotPanel({
   return (
     <div className={cn("space-y-4", className)}>
       {/* Lab Header */}
-      <div className="flex items-center justify-between border-b border-indigo-950/10 pb-3">
+      <div className="flex items-center justify-between border-b border-navy/10 pb-3">
         <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-coral/10 text-coral">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-ultramarine/10 text-ultramarine">
             <Terminal className="h-4 w-4" />
           </div>
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-indigo-900/60 font-mono">
+            <span className="text-xs font-bold uppercase tracking-wider text-navy/60 font-mono">
               Interactive Lab Studio
             </span>
             <span className="ml-2 font-mono text-xs text-teal font-semibold">
@@ -90,7 +90,7 @@ export function LabSlotPanel({
             <Button
               variant="outline"
               size="sm"
-              className="h-8 px-2.5 text-xs text-indigo-900/70 hover:text-indigo flex items-center gap-1"
+              className="h-8 px-2.5 text-xs text-navy/70 hover:text-navy flex items-center gap-1"
             >
               <span className="hidden sm:inline">{labTarget.label}</span>
               <ExternalLink className="h-3.5 w-3.5 text-teal" />
@@ -100,28 +100,28 @@ export function LabSlotPanel({
       </div>
 
       {/* Challenge Objective Banner */}
-      <div className="rounded-xl border border-indigo-950/10 bg-cream p-4 space-y-2">
+      <div className="rounded-xl border border-navy/10 bg-daylight p-4 space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-indigo flex items-center gap-1.5">
-            <Sparkles className="h-3.5 w-3.5 text-coral" />
+          <span className="text-xs font-bold text-navy flex items-center gap-1.5">
+            <Sparkles className="h-3.5 w-3.5 text-ultramarine" />
             {lesson.practiceChallenge.title}
           </span>
           <Badge variant="outline" className="text-[10px] font-mono">
             Lab Exercise
           </Badge>
         </div>
-        <p className="text-xs text-indigo-900/75 leading-relaxed">
+        <p className="text-xs text-navy-900/75 leading-relaxed">
           {lesson.practiceChallenge.instructions}
         </p>
         {lesson.practiceChallenge.hint && (
-          <div className="rounded-lg bg-white p-2.5 text-[11px] text-indigo-900/80 border border-indigo-950/10">
+          <div className="rounded-lg bg-white p-2.5 text-[11px] text-navy-900/80 border border-navy/10">
             <strong className="text-teal font-bold">Hint:</strong> {lesson.practiceChallenge.hint}
           </div>
         )}
       </div>
 
       {/* Live PromptPlayground Component Slot */}
-      <div className="rounded-2xl border border-indigo-950/10 bg-white p-2 shadow-card">
+      <div className="rounded-2xl border border-navy/10 bg-white p-2 shadow-card">
         <PromptPlayground
           initialPrompt={activePrompt}
           initialSystem={`You are an expert AI engineering assistant specializing in ${lesson.title}. Follow strict schema contracts and negative constraints.`}

@@ -13,10 +13,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 const LabLoadingSkeleton = () => (
-  <div className="min-h-[500px] w-full rounded-2xl border border-indigo/10 bg-white p-8 flex flex-col items-center justify-center space-y-4 animate-pulse shadow-sm">
-    <div className="h-8 w-48 rounded bg-indigo/5" />
-    <div className="h-4 w-96 rounded bg-indigo/5" />
-    <div className="h-64 w-full rounded-xl bg-indigo/5 mt-6" />
+  <div className="min-h-[500px] w-full rounded-2xl border border-navy/10 bg-white p-8 flex flex-col items-center justify-center space-y-4 animate-pulse shadow-sm">
+    <div className="h-8 w-48 rounded bg-navy/5" />
+    <div className="h-4 w-96 rounded bg-navy/5" />
+    <div className="h-64 w-full rounded-xl bg-navy/5 mt-6" />
   </div>
 );
 
@@ -183,7 +183,7 @@ export function LabsHub() {
                 <span>Live Playground</span>
               </h3>
               <p className="mt-1.5 text-xs text-forge-muted leading-relaxed">
-                Execute prompts against live Gemini & OpenAI providers with latency telemetry, LRU caching, and cost estimation.
+                Execute prompts against live Gemini & OpenAI providers with latency metrics, LRU caching, and cost estimation.
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-forge-border/60 flex items-center justify-between text-xs font-mono">

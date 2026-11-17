@@ -28,10 +28,10 @@ export const PromptTemplateNode = memo(function PromptTemplateNode({
   };
 
   const statusColors = {
-    idle: "border-indigo-950/10 bg-white shadow-card",
-    running: "border-coral bg-coral/10 ring-1 ring-coral animate-pulse",
+    idle: "border-navy/10 bg-white shadow-sm",
+    running: "border-ultramarine bg-ultramarine/10 ring-1 ring-ultramarine animate-pulse",
     done: "border-teal/70 bg-teal/10",
-    failed: "border-coral bg-coral/10 ring-1 ring-coral",
+    failed: "border-ultramarine bg-ultramarine/10 ring-1 ring-ultramarine",
   };
 
   return (
@@ -91,7 +91,7 @@ export const PromptTemplateNode = memo(function PromptTemplateNode({
           value={templateVal}
           onChange={handleChange}
           placeholder="System role... {{input}} ...constraints"
-          className="w-full resize-none rounded-md border border-indigo-950/10 bg-cream/70 px-2.5 py-1.5 font-mono text-xs text-indigo placeholder:text-indigo-900/40 focus:border-coral focus:outline-none"
+          className="w-full resize-none rounded-md border border-navy/10 bg-daylight px-2.5 py-1.5 font-mono text-xs text-navy placeholder:text-navy/40 focus:border-ultramarine focus:outline-none"
         />
 
         {/* Detected Variables Chips */}
@@ -149,7 +149,7 @@ export const PromptTemplateNode = memo(function PromptTemplateNode({
         isConnectable={isConnectable}
         data-datatype="template"
         title="Output: prompt template"
-        className="!h-3 !w-3 !rounded-full !border-2 !border-white !bg-coral hover:!scale-125 transition-transform"
+        className="!h-3 !w-3 !rounded-full !border-2 !border-white !bg-ultramarine hover:!scale-125 transition-transform"
       />
     </div>
   );

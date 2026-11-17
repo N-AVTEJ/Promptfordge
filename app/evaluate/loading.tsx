@@ -1,12 +1,12 @@
 export default function EvaluateLoading() {
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="min-h-screen bg-daylight">
       <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28 space-y-8 animate-pulse">
         {/* Evaluate Header Skeleton */}
         <div className="space-y-3">
-          <div className="h-4 w-36 rounded-full bg-indigo-950/10" />
-          <div className="h-8 w-72 rounded-xl bg-indigo-950/15" />
-          <div className="h-4 w-full max-w-2xl rounded bg-indigo-950/5" />
+          <div className="h-4 w-36 rounded-full bg-navy/5" />
+          <div className="h-8 w-72 rounded-xl bg-navy/5" />
+          <div className="h-4 w-full max-w-2xl rounded bg-navy/5" />
         </div>
 
         {/* Metrics Grid Skeleton */}
@@ -14,17 +14,17 @@ export default function EvaluateLoading() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="h-44 rounded-2xl border border-indigo-950/10 bg-white p-8 space-y-3"
+              className="h-44 rounded-2xl border border-navy/10 bg-white p-8 space-y-3"
             >
-              <div className="h-5 w-28 rounded bg-indigo-950/10" />
-              <div className="h-3 w-full rounded bg-indigo-950/5" />
-              <div className="h-3 w-3/4 rounded bg-indigo-950/5" />
+              <div className="h-5 w-28 rounded bg-navy/5" />
+              <div className="h-3 w-full rounded bg-navy/5" />
+              <div className="h-3 w-3/4 rounded bg-navy/5" />
             </div>
           ))}
         </div>
 
         {/* Benchmark Suite Details Skeleton */}
-        <div className="h-72 w-full rounded-2xl border border-indigo-950/10 bg-white" />
+        <div className="h-72 w-full rounded-2xl border border-navy/10 bg-white" />
       </div>
     </div>
   );

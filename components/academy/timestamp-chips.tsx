@@ -35,8 +35,8 @@ export function TimestampChips({
 
   return (
     <div className={cn("space-y-3", className)}>
-      <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-indigo-900/60 font-mono">
-        <Clock className="h-4 w-4 text-coral" />
+      <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-navy/70 font-mono">
+        <Clock className="h-4 w-4 text-ultramarine" />
         <span>Video Chapters & Jump Points</span>
       </div>
 
@@ -53,8 +53,8 @@ export function TimestampChips({
               className={cn(
                 "group inline-flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-coral min-h-[36px]",
                 isActive
-                  ? "bg-coral text-white shadow-coral-glow"
-                  : "bg-cream text-indigo-900/80 border border-indigo-950/10 hover:bg-white hover:text-indigo"
+                  ? "bg-ultramarine text-white shadow-coral-glow"
+                  : "bg-daylight text-navy/70 border border-navy/10 hover:bg-white hover:text-navy"
               )}
               title={`Seek video to ${formatted} (${chap.label})`}
             >

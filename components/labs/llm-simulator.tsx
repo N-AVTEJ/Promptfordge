@@ -299,8 +299,8 @@ export function LlmSimulatorLab() {
           onClick={() => setShowCostLens((prev) => !prev)}
           className={`gap-2 ${
             showCostLens
-              ? "bg-coral text-white font-semibold"
-              : "border-indigo/15 hover:border-coral/50 text-coral"
+              ? "bg-ultramarine text-white font-semibold"
+              : "border-navy/15 hover:border-ultramarine text-ultramarine"
           }`}
         >
           <DollarSign className="h-4 w-4" />
@@ -317,17 +317,17 @@ export function LlmSimulatorLab() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <Card className="border border-indigo/10 bg-white p-6 space-y-6 shadow-sm">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-indigo/10 pb-4">
+            <Card className="border border-navy/10 bg-white p-6 space-y-6 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-navy/10 pb-4">
                 <div className="flex items-center gap-2">
-                  <div className="rounded-lg bg-coral/10 border border-coral/20 p-2 text-coral">
+                  <div className="rounded-lg bg-ultramarine/10 border border-ultramarine/30 p-2 text-ultramarine">
                     <Globe2 className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-indigo font-mono">
+                    <h3 className="text-base font-bold text-navy font-mono">
                       Tokenizer Cost Lens: The Multilingual Token Tax
                     </h3>
-                    <p className="text-xs text-indigo/70">
+                    <p className="text-xs text-navy/70">
                       Compare how the exact same text is tokenized across 3 different generations of LLM vocabularies.
                     </p>
                   </div>
@@ -335,7 +335,7 @@ export function LlmSimulatorLab() {
 
                 <Badge
                   variant="outline"
-                  className="border-indigo/15 bg-cream text-indigo self-start sm:self-center font-mono text-xs"
+                  className="border-navy/15 bg-daylight text-navy self-start sm:self-center font-mono text-xs"
                 >
                   Real in-browser BPE
                 </Badge>
@@ -343,7 +343,7 @@ export function LlmSimulatorLab() {
 
               {/* Multilingual Presets Toolbar */}
               <div className="space-y-2">
-                <span className="text-xs font-mono uppercase tracking-wider text-indigo/60">
+                <span className="text-xs font-mono uppercase tracking-wider text-navy/60">
                   Multilingual benchmark presets:
                 </span>
                 <div className="flex flex-wrap gap-2">
@@ -356,8 +356,8 @@ export function LlmSimulatorLab() {
                       }}
                       className={`rounded-lg px-3 py-1.5 text-xs font-mono transition-all ${
                         selectedMultilingualPreset === idx
-                          ? "border border-coral bg-coral/10 text-coral font-bold"
-                          : "border border-indigo/10 bg-cream text-indigo/70 hover:border-coral/40 hover:text-indigo"
+                          ? "border border-ultramarine bg-ultramarine/10 text-ultramarine font-bold"
+                          : "border border-navy/10 bg-daylight text-navy/70 hover:border-ultramarine hover:text-navy"
                       }`}
                     >
                       {preset.label}
@@ -372,7 +372,7 @@ export function LlmSimulatorLab() {
                   value={costLensText}
                   onChange={(e) => setCostLensText(e.target.value)}
                   rows={2}
-                  className="w-full rounded-xl border border-indigo/15 bg-cream/60 p-3 font-mono text-xs leading-relaxed text-indigo focus:border-coral focus:outline-none"
+                  className="w-full rounded-xl border border-navy/15 bg-daylight p-3 font-mono text-xs leading-relaxed text-navy focus:border-ultramarine focus:outline-none"
                   placeholder="Type any multilingual sentence to inspect its tokenization tax..."
                 />
               </div>
@@ -441,7 +441,7 @@ export function LlmSimulatorLab() {
                         {item.tokens.map((chunk, idx) => (
                           <span
                             key={idx}
-                            className="rounded border border-indigo/10 bg-cream/70 px-1.5 py-0.5 font-mono text-[10px] text-indigo"
+                            className="rounded border border-navy/10 bg-daylight px-1.5 py-0.5 font-mono text-[10px] text-navy"
                           >
                             {chunk.replace(/\n/g, "\\n")}
                           </span>
@@ -453,10 +453,10 @@ export function LlmSimulatorLab() {
               </div>
 
               {/* Multilingual Insight Callout */}
-              <div className="flex items-start gap-3 rounded-lg border border-coral/20 bg-coral/5 p-4 text-xs text-indigo/80">
-                <Info className="h-5 w-5 text-coral shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 rounded-lg border border-ultramarine/30 bg-ultramarine/10 p-4 text-xs text-navy/80">
+                <Info className="h-5 w-5 text-ultramarine shrink-0 mt-0.5" />
                 <div className="space-y-1">
-                  <span className="font-semibold text-indigo">
+                  <span className="font-semibold text-navy">
                     Why does non-English text cost more?
                   </span>
                   <p className="leading-relaxed">
@@ -489,33 +489,33 @@ export function LlmSimulatorLab() {
               onClick={() => jumpToStage(idx)}
               className={`flex flex-col text-left rounded-xl border p-3.5 transition-all duration-200 ${
                 isActive
-                  ? "border-coral bg-coral/15 shadow-md shadow-coral/10 scale-[1.02]"
+                  ? "border-ultramarine bg-ultramarine/10 shadow-md shadow-coral/10 scale-[1.02]"
                   : isPassed
-                  ? "border-indigo/10 bg-white hover:bg-cream text-indigo/70 hover:text-indigo"
-                  : "border-indigo/10 bg-cream/40 hover:bg-white text-indigo/60"
+                  ? "border-navy/10 bg-white hover:bg-daylight text-navy/70 hover:text-navy"
+                  : "border-navy/10 bg-daylight hover:bg-white text-navy/60"
               }`}
             >
               <div className="flex items-center justify-between">
                 <span
                   className={`font-mono text-[11px] font-bold ${
-                    isActive ? "text-coral" : isPassed ? "text-teal-700" : "text-indigo/50"
+                    isActive ? "text-ultramarine" : isPassed ? "text-teal-700" : "text-navy/50"
                   }`}
                 >
                   0{stage.number}
                 </span>
                 {isPassed && <Check className="h-3.5 w-3.5 text-teal" />}
                 {isActive && (
-                  <div className="h-2 w-2 rounded-full bg-coral animate-pulse" />
+                  <div className="h-2 w-2 rounded-full bg-ultramarine animate-pulse" />
                 )}
               </div>
               <span
                 className={`mt-1 font-semibold text-xs truncate ${
-                  isActive ? "text-indigo font-bold" : "text-indigo/70"
+                  isActive ? "text-navy font-bold" : "text-navy/70"
                 }`}
               >
                 {stage.shortTitle}
               </span>
-              <span className="text-[10px] text-indigo/50 line-clamp-1 mt-0.5">
+              <span className="text-[10px] text-navy/50 line-clamp-1 mt-0.5">
                 {stage.badgeLabel.split("·")[1]?.trim() || stage.title}
               </span>
             </button>
@@ -524,7 +524,7 @@ export function LlmSimulatorLab() {
       </div>
 
       {/* 5. INTERACTIVE PLAYBACK & STEPPER CONTROLS */}
-      <Card className="flex flex-wrap items-center justify-between gap-4 border-indigo/10 bg-white p-4 shadow-sm">
+      <Card className="flex flex-wrap items-center justify-between gap-4 border-navy/10 bg-white p-4 shadow-sm">
         {/* Playback Button Group */}
         <div className="flex items-center gap-2">
           {/* Step Back */}
@@ -533,7 +533,7 @@ export function LlmSimulatorLab() {
             size="sm"
             onClick={stepBackward}
             disabled={currentStageIndex === 0 && activeGenStep === 0}
-            className="border-indigo/15 text-indigo hover:bg-cream"
+            className="border-navy/15 text-navy hover:bg-daylight"
             title="Step Backward (ArrowLeft)"
             aria-label="Step Backward"
           >
@@ -544,7 +544,7 @@ export function LlmSimulatorLab() {
           <Button
             onClick={togglePlay}
             size="sm"
-            className="gap-2 font-semibold shadow-sm bg-coral text-white hover:bg-coral-hover"
+            className="gap-2 font-semibold shadow-sm bg-ultramarine text-white hover:bg-ultramarine-hover"
             title="Play / Pause (Spacebar)"
             aria-label={isPlaying ? "Pause simulation" : "Play simulation"}
           >
@@ -593,15 +593,15 @@ export function LlmSimulatorLab() {
           <span className="text-xs font-mono text-forge-muted uppercase tracking-wider">
             Speed:
           </span>
-          <div className="flex items-center rounded-lg border border-indigo/10 bg-cream p-0.5">
+          <div className="flex items-center rounded-lg border border-navy/10 bg-daylight p-0.5">
             {[0.5, 1.0, 2.0, 4.0].map((speed) => (
               <button
                 key={speed}
                 onClick={() => setPlaybackSpeed(speed)}
                 className={`rounded px-2.5 py-1 text-xs font-mono transition-colors ${
                   playbackSpeed === speed
-                    ? "bg-coral text-white font-bold"
-                    : "text-indigo/70 hover:text-indigo"
+                    ? "bg-ultramarine text-white font-bold"
+                    : "text-navy/70 hover:text-navy"
                 }`}
               >
                 {speed}x
@@ -611,21 +611,21 @@ export function LlmSimulatorLab() {
         </div>
 
         {/* Keyboard Shortcuts Hint */}
-        <div className="hidden lg:flex items-center gap-3 text-xs font-mono text-indigo/60">
+        <div className="hidden lg:flex items-center gap-3 text-xs font-mono text-navy/60">
           <span className="flex items-center gap-1">
-            <kbd className="rounded border border-indigo/10 bg-cream px-1.5 py-0.5 text-[10px]">
+            <kbd className="rounded border border-navy/10 bg-daylight px-1.5 py-0.5 text-[10px]">
               Space
             </kbd>
             <span>Play/Pause</span>
           </span>
           <span className="flex items-center gap-1">
-            <kbd className="rounded border border-indigo/10 bg-cream px-1.5 py-0.5 text-[10px]">
+            <kbd className="rounded border border-navy/10 bg-daylight px-1.5 py-0.5 text-[10px]">
               ←/→
             </kbd>
             <span>Step</span>
           </span>
           <span className="flex items-center gap-1">
-            <kbd className="rounded border border-indigo/10 bg-cream px-1.5 py-0.5 text-[10px]">
+            <kbd className="rounded border border-navy/10 bg-daylight px-1.5 py-0.5 text-[10px]">
               1-6
             </kbd>
             <span>Jump</span>
@@ -676,11 +676,11 @@ export function LlmSimulatorLab() {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 rows={5}
-                className="w-full rounded-xl border border-indigo/15 bg-cream/60 p-4 font-mono text-sm leading-relaxed text-indigo focus:border-coral focus:outline-none"
+                className="w-full rounded-xl border border-navy/15 bg-daylight p-4 font-mono text-sm leading-relaxed text-navy focus:border-ultramarine focus:outline-none"
                 placeholder="Enter prompt text to simulate..."
               />
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-mono text-indigo/60">Quick Inputs:</span>
+                <span className="text-xs font-mono text-navy/60">Quick Inputs:</span>
                 {[
                   "You are a friendly Python teacher. Explain loops to high school students.",
                   "Summarize quantum computing in three clear bullet points.",
@@ -689,7 +689,7 @@ export function LlmSimulatorLab() {
                   <button
                     key={idx}
                     onClick={() => setInputText(sample)}
-                    className="rounded-lg border border-indigo/10 bg-cream px-2 py-1 text-[11px] font-mono text-indigo/70 hover:border-coral/40 hover:text-indigo"
+                    className="rounded-lg border border-navy/10 bg-daylight px-2 py-1 text-[11px] font-mono text-navy/70 hover:border-ultramarine hover:text-navy"
                   >
                     Sample {idx + 1}
                   </button>
@@ -697,8 +697,8 @@ export function LlmSimulatorLab() {
               </div>
             </Card>
 
-            <Card className="lg:col-span-5 border-indigo/10 bg-white p-5 space-y-3 shadow-sm">
-              <span className="font-mono text-xs uppercase tracking-wider text-indigo/60 block border-b border-indigo/10 pb-3">
+            <Card className="lg:col-span-5 border-navy/10 bg-white p-5 space-y-3 shadow-sm">
+              <span className="font-mono text-xs uppercase tracking-wider text-navy/60 block border-b border-navy/10 pb-3">
                 Byte Stream Inspection (Unicode Points & Hex)
               </span>
               <div className="max-h-[220px] overflow-y-auto space-y-1 font-mono text-xs pr-2">
@@ -708,7 +708,7 @@ export function LlmSimulatorLab() {
                   return (
                     <div
                       key={idx}
-                      className="flex items-center justify-between rounded-lg border border-indigo/10 bg-cream/50 px-2.5 py-1 text-indigo/70"
+                      className="flex items-center justify-between rounded-lg border border-navy/10 bg-daylight px-2.5 py-1 text-navy/70"
                     >
                       <span className="text-forge-text font-bold">
                         {char === " " ? "[SPACE]" : char === "\n" ? "[NEWLINE]" : char}
@@ -750,10 +750,10 @@ export function LlmSimulatorLab() {
 
             {/* Interactive Bidirectional Highlight Area */}
             <div className="space-y-2">
-              <span className="text-[11px] font-mono uppercase tracking-wider text-indigo/60 block">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-navy/60 block">
                 Bidirectional Text Mapping (Hover tokens below to inspect exact character boundaries):
               </span>
-              <div className="rounded-xl border border-indigo/10 bg-cream/60 p-4 font-mono text-xs leading-relaxed">
+              <div className="rounded-xl border border-navy/10 bg-daylight p-4 font-mono text-xs leading-relaxed">
                 {tokens.map((t) => {
                   const isHovered = hoveredTokenIndex === t.index;
                   return (
@@ -775,7 +775,7 @@ export function LlmSimulatorLab() {
             </div>
 
             {/* Token Chips Array */}
-            <div className="flex flex-wrap gap-2 p-4 rounded-xl border border-indigo/10 bg-cream/40 min-h-[120px]">
+            <div className="flex flex-wrap gap-2 p-4 rounded-xl border border-navy/10 bg-daylight min-h-[120px]">
               {tokens.map((token) => {
                 const isHovered = hoveredTokenIndex === token.index;
                 return (
@@ -805,35 +805,35 @@ export function LlmSimulatorLab() {
 
             {/* Token Statistics Readout */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
-              <div className="rounded-xl border border-indigo/10 bg-cream/50 p-3">
-                <span className="text-[10px] font-mono uppercase text-indigo/60 block">
+              <div className="rounded-xl border border-navy/10 bg-daylight p-3">
+                <span className="text-[10px] font-mono uppercase text-navy/60 block">
                   Total Tokens
                 </span>
-                <span className="text-xl font-bold font-mono text-coral">
+                <span className="text-xl font-bold font-mono text-ultramarine">
                   {tokens.length}
                 </span>
               </div>
-              <div className="rounded-xl border border-indigo/10 bg-cream/50 p-3">
-                <span className="text-[10px] font-mono uppercase text-indigo/60 block">
+              <div className="rounded-xl border border-navy/10 bg-daylight p-3">
+                <span className="text-[10px] font-mono uppercase text-navy/60 block">
                   Character Length
                 </span>
-                <span className="text-xl font-bold font-mono text-indigo">
+                <span className="text-xl font-bold font-mono text-navy">
                   {inputText.length}
                 </span>
               </div>
-              <div className="rounded-xl border border-indigo/10 bg-cream/50 p-3">
-                <span className="text-[10px] font-mono uppercase text-indigo/60 block">
+              <div className="rounded-xl border border-navy/10 bg-daylight p-3">
+                <span className="text-[10px] font-mono uppercase text-navy/60 block">
                   Compression Ratio
                 </span>
                 <span className="text-xl font-bold font-mono text-teal-700">
                   {(inputText.length / Math.max(1, tokens.length)).toFixed(2)} c/t
                 </span>
               </div>
-              <div className="rounded-xl border border-indigo/10 bg-cream/50 p-3">
-                <span className="text-[10px] font-mono uppercase text-indigo/60 block">
+              <div className="rounded-xl border border-navy/10 bg-daylight p-3">
+                <span className="text-[10px] font-mono uppercase text-navy/60 block">
                   Vocabulary Ceiling
                 </span>
-                <span className="text-xl font-bold font-mono text-indigo">100k IDs</span>
+                <span className="text-xl font-bold font-mono text-navy">100k IDs</span>
               </div>
             </div>
           </Card>
@@ -871,17 +871,17 @@ export function LlmSimulatorLab() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
                 {/* Token A Selector */}
-                <div className="flex items-center gap-2 bg-cream/60 rounded-xl p-2.5 border border-indigo/10">
-                  <span className="text-[10px] font-mono text-indigo/60 uppercase">
+                <div className="flex items-center gap-2 bg-daylight rounded-xl p-2.5 border border-navy/10">
+                  <span className="text-[10px] font-mono text-navy/60 uppercase">
                     Token A:
                   </span>
                   <select
                     value={selectedTokenA}
                     onChange={(e) => setSelectedTokenA(parseInt(e.target.value, 10))}
-                    className="bg-transparent font-mono text-xs text-indigo focus:outline-none flex-1"
+                    className="bg-transparent font-mono text-xs text-navy focus:outline-none flex-1"
                   >
                     {tokens.map((t) => (
-                      <option key={t.index} value={t.index} className="bg-cream text-indigo">
+                      <option key={t.index} value={t.index} className="bg-daylight text-navy">
                         #{t.index}: &quot;{t.cleanText}&quot;
                       </option>
                     ))}
@@ -889,17 +889,17 @@ export function LlmSimulatorLab() {
                 </div>
 
                 {/* Token B Selector */}
-                <div className="flex items-center gap-2 bg-cream/60 rounded-xl p-2.5 border border-indigo/10">
-                  <span className="text-[10px] font-mono text-indigo/60 uppercase">
+                <div className="flex items-center gap-2 bg-daylight rounded-xl p-2.5 border border-navy/10">
+                  <span className="text-[10px] font-mono text-navy/60 uppercase">
                     Token B:
                   </span>
                   <select
                     value={selectedTokenB}
                     onChange={(e) => setSelectedTokenB(parseInt(e.target.value, 10))}
-                    className="bg-transparent font-mono text-xs text-indigo focus:outline-none flex-1"
+                    className="bg-transparent font-mono text-xs text-navy focus:outline-none flex-1"
                   >
                     {tokens.map((t) => (
-                      <option key={t.index} value={t.index} className="bg-cream text-indigo">
+                      <option key={t.index} value={t.index} className="bg-daylight text-navy">
                         #{t.index}: &quot;{t.cleanText}&quot;
                       </option>
                     ))}
@@ -908,8 +908,8 @@ export function LlmSimulatorLab() {
 
                 {/* Mathematical Result */}
                 <div className="flex items-center justify-between bg-lavender/40 rounded-xl p-3 border border-violet/20">
-                  <div className="text-[11px] font-mono text-indigo/70">
-                    Dot: <span className="text-indigo font-bold">{embeddingSimilarity.dot}</span>
+                  <div className="text-[11px] font-mono text-navy/70">
+                    Dot: <span className="text-navy font-bold">{embeddingSimilarity.dot}</span>
                   </div>
                   <div className="font-mono text-sm font-bold text-violet">
                     Similarity: {(embeddingSimilarity.cosine * 100).toFixed(1)}%
@@ -924,7 +924,7 @@ export function LlmSimulatorLab() {
                 {embeddings.map((emb) => (
                   <div
                     key={emb.token.index}
-                    className="flex items-center gap-3 rounded-xl border border-indigo/10 bg-cream/50 p-2.5"
+                    className="flex items-center gap-3 rounded-xl border border-navy/10 bg-daylight p-2.5"
                   >
                     <div className="w-24 shrink-0 font-mono text-xs">
                       <span className="font-bold text-forge-text truncate block">
@@ -1008,7 +1008,7 @@ export function LlmSimulatorLab() {
                       className={`px-2 py-0.5 rounded text-[10px] ${
                         harmonicIndex === h
                           ? "bg-teal text-white font-bold"
-                          : "border border-indigo/10 hover:bg-cream text-indigo/70"
+                          : "border border-navy/10 hover:bg-daylight text-navy/70"
                       }`}
                     >
                       i={h}
@@ -1108,7 +1108,7 @@ export function LlmSimulatorLab() {
               {positional.map((pos) => (
                 <div
                   key={pos.positionIndex}
-                  className="flex items-center gap-4 rounded-xl border border-indigo/10 bg-cream/50 p-3"
+                  className="flex items-center gap-4 rounded-xl border border-navy/10 bg-daylight p-3"
                 >
                   <div className="w-28 shrink-0 font-mono text-xs">
                     <span className="text-[10px] text-cyan-400 block font-bold">
@@ -1169,15 +1169,15 @@ export function LlmSimulatorLab() {
               </div>
 
               {/* Head Selector Tabs */}
-              <div className="flex items-center rounded-lg border border-indigo/10 bg-cream p-0.5 self-start sm:self-center">
+              <div className="flex items-center rounded-lg border border-navy/10 bg-daylight p-0.5 self-start sm:self-center">
                 {attentionHeads.map((head, idx) => (
                   <button
                     key={head.id}
                     onClick={() => setActiveHeadIndex(idx)}
                     className={`rounded px-3 py-1 text-xs font-mono transition-colors ${
                       activeHeadIndex === idx
-                        ? "bg-coral text-white font-bold shadow-sm"
-                        : "text-indigo/70 hover:text-indigo"
+                        ? "bg-ultramarine text-white font-bold shadow-sm"
+                        : "text-navy/70 hover:text-navy"
                     }`}
                   >
                     Head {idx + 1}
@@ -1186,7 +1186,7 @@ export function LlmSimulatorLab() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-coral/20 bg-coral/5 p-3 text-xs text-coral">
+            <div className="rounded-lg border border-ultramarine/30 bg-ultramarine/10 p-3 text-xs text-ultramarine">
               <span className="font-bold">
                 {attentionHeads[activeHeadIndex]?.name}:
               </span>{" "}
@@ -1195,7 +1195,7 @@ export function LlmSimulatorLab() {
 
             {/* Interactive Token Strip: Click to set Query Token */}
             <div>
-              <span className="text-[11px] font-mono uppercase tracking-wider text-indigo/60 block mb-2">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-navy/60 block mb-2">
                 Tokens (Click any token to set as Active Query $q_i$):
               </span>
               <div className="flex flex-wrap gap-2">
@@ -1210,14 +1210,14 @@ export function LlmSimulatorLab() {
                       onClick={() => setSelectedQueryTokenIndex(idx)}
                       className={`relative flex flex-col rounded-lg border px-3 py-2 text-left font-mono transition-all ${
                         isQuery
-                          ? "border-coral bg-coral/20 text-coral ring-2 ring-coral/50 scale-105 shadow-md"
-                          : "border-indigo/10 bg-cream/60 text-indigo hover:border-coral/40"
+                          ? "border-ultramarine bg-ultramarine/10 text-ultramarine ring-2 ring-ultramarine/50 scale-105 shadow-md"
+                          : "border-navy/10 bg-daylight text-navy hover:border-ultramarine"
                       }`}
                     >
-                      <div className="flex items-center justify-between text-[10px] text-indigo/60">
+                      <div className="flex items-center justify-between text-[10px] text-navy/60">
                         <span>#{idx}</span>
                         {isQuery && (
-                          <span className="rounded bg-coral text-white px-1 font-bold text-[9px]">
+                          <span className="rounded bg-ultramarine text-white px-1 font-bold text-[9px]">
                             QUERY
                           </span>
                         )}
@@ -1245,7 +1245,7 @@ export function LlmSimulatorLab() {
                 </span>
               </div>
 
-              <div className="relative rounded-xl border border-indigo-950/10 bg-white p-4 shadow-card overflow-hidden">
+              <div className="relative rounded-xl border border-navy/10 bg-white p-4 shadow-sm overflow-hidden">
                 {/* SVG Routing Arcs Canvas */}
                 <svg
                   viewBox="0 0 1000 280"
@@ -1494,7 +1494,7 @@ export function LlmSimulatorLab() {
             </div>
 
             {/* Generated Text Window */}
-            <div className="rounded-xl border border-indigo/10 bg-cream/60 p-5 space-y-2">
+            <div className="rounded-xl border border-navy/10 bg-daylight p-5 space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-wider text-forge-muted">
                 Emitted Sequence So Far:
               </span>
@@ -1528,7 +1528,7 @@ export function LlmSimulatorLab() {
                       className={`flex items-center gap-4 rounded-xl border p-3 font-mono text-xs transition-all ${
                         isSelected
                           ? "border-teal/50 bg-mint/30 text-teal-800 shadow-sm font-semibold"
-                          : "border-indigo/10 bg-cream/50 text-indigo/70"
+                          : "border-navy/10 bg-daylight text-navy/70"
                       }`}
                     >
                       <span className="w-6 font-bold">#{cand.rank}</span>

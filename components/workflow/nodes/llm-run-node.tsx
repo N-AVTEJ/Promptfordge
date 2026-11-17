@@ -33,10 +33,10 @@ export const LlmRunNode = memo(function LlmRunNode({
   };
 
   const statusColors = {
-    idle: "border-indigo-950/10 bg-white shadow-card",
-    running: "border-coral bg-coral/10 ring-1 ring-coral animate-pulse",
+    idle: "border-navy/10 bg-white shadow-sm",
+    running: "border-ultramarine bg-ultramarine/10 ring-1 ring-ultramarine animate-pulse",
     done: "border-teal/70 bg-teal/10",
-    failed: "border-coral bg-coral/10 ring-1 ring-coral",
+    failed: "border-ultramarine bg-ultramarine/10 ring-1 ring-ultramarine",
   };
 
   return (
@@ -53,7 +53,7 @@ export const LlmRunNode = memo(function LlmRunNode({
         isConnectable={isConnectable}
         data-datatype="template"
         title="Input: prompt template or text"
-        className="!h-3 !w-3 !rounded-full !border-2 !border-white !bg-coral hover:!scale-125 transition-transform"
+        className="!h-3 !w-3 !rounded-full !border-2 !border-white !bg-ultramarine hover:!scale-125 transition-transform"
       />
 
       {/* Node Header */}
@@ -94,7 +94,7 @@ export const LlmRunNode = memo(function LlmRunNode({
             <select
               value={model}
               onChange={handleModelChange}
-              className="mt-0.5 w-full rounded border border-indigo-950/10 bg-cream/70 px-2 py-1 font-mono text-[11px] text-indigo focus:border-teal focus:outline-none"
+              className="mt-0.5 w-full rounded border border-navy/10 bg-daylight px-2 py-1 font-mono text-[11px] text-navy focus:border-teal focus:outline-none"
             >
               <option value="gemini-1.5-flash">gemini-1.5-flash</option>
               <option value="gemini-1.5-pro">gemini-1.5-pro</option>
@@ -132,7 +132,7 @@ export const LlmRunNode = memo(function LlmRunNode({
 
       {/* Telemetry bar when done */}
       {data.metrics && data.status === "done" && (
-        <div className="mt-2.5 flex items-center justify-between rounded border border-indigo-950/10 bg-cream/70 px-2 py-1 text-[10px] font-mono text-indigo-900/60">
+        <div className="mt-2.5 flex items-center justify-between rounded border border-navy/10 bg-daylight px-2 py-1 text-[10px] font-mono text-navy/70">
           <span className="flex items-center gap-1 text-cyan-400">
             <Clock className="h-2.5 w-2.5" />
             {data.metrics.latencyMs || 0}ms

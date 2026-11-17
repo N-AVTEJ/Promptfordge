@@ -42,7 +42,7 @@ export function ReasoningLab() {
           onClick={() => setActiveTab("tot")}
           className={`flex items-center gap-2 rounded-lg px-4 py-2 font-mono text-xs font-semibold transition-all ${
             activeTab === "tot"
-              ? "bg-cyan-500 text-black shadow-lg"
+              ? "bg-cyan-500 text-navy shadow-lg"
               : "border border-forge-border bg-forge-surface text-forge-muted hover:text-forge-text"
           }`}
         >
@@ -55,7 +55,7 @@ export function ReasoningLab() {
           onClick={() => setActiveTab("react")}
           className={`flex items-center gap-2 rounded-lg px-4 py-2 font-mono text-xs font-semibold transition-all ${
             activeTab === "react"
-              ? "bg-ember-500 text-black shadow-lg"
+              ? "bg-ember-500 text-navy shadow-lg"
               : "border border-forge-border bg-forge-surface text-forge-muted hover:text-forge-text"
           }`}
         >

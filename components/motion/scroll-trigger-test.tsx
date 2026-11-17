@@ -61,18 +61,18 @@ export function ScrollTriggerTest() {
     <div
       ref={triggerRef}
       id="scroll-trigger-verifier"
-      className="relative rounded-2xl border border-indigo-950/10 bg-white p-8 shadow-card transition-all"
+      className="relative rounded-2xl border border-navy/10 bg-white p-8 shadow-sm transition-all"
     >
-      <div className="flex flex-col justify-between gap-4 border-b border-indigo-950/10 pb-5 sm:flex-row sm:items-center">
+      <div className="flex flex-col justify-between gap-4 border-b border-navy/10 pb-5 sm:flex-row sm:items-center">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-teal/30 bg-teal/10 text-teal">
             <Gauge className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="font-sans text-base font-bold text-indigo">
+            <h3 className="font-sans text-base font-bold text-navy">
               GSAP ScrollTrigger Sync Telemetry
             </h3>
-            <p className="font-mono text-xs text-indigo-900/60">
+            <p className="font-mono text-xs text-navy/70">
               Lenis Smooth Scroll + GSAP Single-RAF Integration Test
             </p>
           </div>
@@ -85,7 +85,7 @@ export function ScrollTriggerTest() {
               ? "border-teal/30 bg-teal/10 text-teal"
               : fireCount > 1
                 ? "border-rose-300 bg-rose-50 text-rose-700"
-                : "border-indigo-950/10 bg-cream text-indigo-900/60"
+                : "border-navy/10 bg-daylight text-navy/70"
           }`}
         >
           {fireCount === 1 ? (
@@ -102,17 +102,17 @@ export function ScrollTriggerTest() {
       </div>
 
       <div className="mt-6 space-y-4">
-        <div className="flex items-center justify-between font-mono text-xs text-indigo-900/60">
+        <div className="flex items-center justify-between font-mono text-xs text-navy/70">
           <span>Scroll-Driven Forge Igniter</span>
           <span className="font-semibold text-teal">
             {isActive ? "CALIBRATED & SYNCHRONIZED" : "STANDBY"}
           </span>
         </div>
 
-        <div className="h-2 w-full overflow-hidden rounded-full border border-indigo-950/10 bg-cream">
+        <div className="h-2 w-full overflow-hidden rounded-full border border-navy/10 bg-daylight">
           <div
             ref={barRef}
-            className="h-full w-full origin-left rounded-full bg-coral"
+            className="h-full w-full origin-left rounded-full bg-ultramarine"
             style={{
               transform: isActive && prefersReduced ? "scaleX(1)" : "scaleX(0)",
               opacity: isActive && prefersReduced ? 1 : 0,
@@ -121,22 +121,22 @@ export function ScrollTriggerTest() {
         </div>
 
         <div className="grid grid-cols-1 gap-3 pt-2 font-mono text-xs sm:grid-cols-3">
-          <div className="rounded-xl border border-indigo-950/10 bg-cream p-3">
-            <span className="block text-[10px] text-indigo-900/50">TICKER</span>
-            <span className="font-bold text-indigo">
+          <div className="rounded-xl border border-navy/10 bg-daylight p-3">
+            <span className="block text-[10px] text-navy/70">TICKER</span>
+            <span className="font-bold text-navy">
               gsap.ticker (Single RAF)
             </span>
           </div>
-          <div className="rounded-xl border border-indigo-950/10 bg-cream p-3">
-            <span className="block text-[10px] text-indigo-900/50">
+          <div className="rounded-xl border border-navy/10 bg-daylight p-3">
+            <span className="block text-[10px] text-navy/70">
               LAG SMOOTHING
             </span>
-            <span className="font-bold text-indigo">
+            <span className="font-bold text-navy">
               0 (Zero Stutter)
             </span>
           </div>
-          <div className="rounded-xl border border-indigo-950/10 bg-cream p-3">
-            <span className="block text-[10px] text-indigo-900/50">
+          <div className="rounded-xl border border-navy/10 bg-daylight p-3">
+            <span className="block text-[10px] text-navy/70">
               TRIGGER COUNT
             </span>
             <span
@@ -144,7 +144,7 @@ export function ScrollTriggerTest() {
               className={
                 fireCount === 1
                   ? "font-bold text-teal"
-                  : "font-bold text-coral"
+                  : "font-bold text-ultramarine"
               }
             >
               {fireCount} / 1 required

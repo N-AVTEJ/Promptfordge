@@ -436,7 +436,7 @@ export function TokenStory() {
                 onClick={() => setForceInteractive(true)}
                 className="rounded-lg bg-white px-3.5 py-1.5 font-mono text-xs font-bold text-ultramarine shadow-sm hover:bg-white/90 transition-all"
               >
-                Launch interactive scroll story →
+                Launch interactive scroll story
               </button>
               <span className="font-mono text-xs border border-white/30 rounded px-2.5 py-1 bg-white/10 text-white/90">
                 {SIMULATION_BADGE}

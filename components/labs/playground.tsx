@@ -402,7 +402,7 @@ export function PromptPlayground({
                   placeholder="Paste your Gemini or OpenAI key (optional)..."
                   value={byokKey}
                   onChange={(e) => setByokKey(e.target.value)}
-                  className="mt-2 w-full rounded border border-indigo/15 bg-cream/60 px-3 py-1.5 font-mono text-xs text-indigo focus:border-coral focus:outline-none"
+                  className="mt-2 w-full rounded border border-navy/15 bg-daylight px-3 py-1.5 font-mono text-xs text-navy focus:border-ultramarine focus:outline-none"
                 />
                 <p className="mt-1 text-[11px] text-forge-subtle">
                   Transmitted securely via{" "}
@@ -466,16 +466,16 @@ export function PromptPlayground({
             <Button
               onClick={handleRun}
               disabled={isLoading || !prompt.trim()}
-              className="min-w-[140px] gap-2 font-mono bg-ember-500 hover:bg-ember-600 text-black font-semibold"
+              className="min-w-[140px] gap-2 font-mono bg-ultramarine hover:bg-ultramarine/90 text-white font-semibold"
             >
               {isLoading ? (
                 <>
-                  <RotateCcw className="h-4 w-4 animate-spin text-black" />
+                  <RotateCcw className="h-4 w-4 animate-spin text-navy" />
                   Synthesizing...
                 </>
               ) : (
                 <>
-                  <Play className="h-4 w-4 fill-black text-black" />
+                  <Play className="h-4 w-4 fill-navy text-navy" />
                   Run Prompt
                 </>
               )}
@@ -543,7 +543,7 @@ export function PromptPlayground({
           {/* Result Card */}
           <Card
             className={cn(
-              "relative flex flex-col border border-indigo-950/10 bg-white shadow-card",
+              "relative flex flex-col border border-navy/10 bg-white shadow-sm",
               compact ? "min-h-[280px]" : "min-h-[460px]"
             )}
           >
@@ -599,7 +599,7 @@ export function PromptPlayground({
 
               {/* Metrics Strip */}
               {result && (
-                <div className="mt-3 grid grid-cols-4 gap-2 rounded-xl border border-indigo/10 bg-cream/60 p-2.5 font-mono text-xs">
+                <div className="mt-3 grid grid-cols-4 gap-2 rounded-xl border border-navy/10 bg-daylight p-2.5 font-mono text-xs">
                   <div>
                     <span className="block text-[10px] text-forge-subtle">
                       Latency
