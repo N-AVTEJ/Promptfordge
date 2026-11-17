@@ -53,20 +53,36 @@ export function LessonStudio({
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [customLabPrompt, setCustomLabPrompt] = React.useState<string | undefined>(undefined);
   const [selectedVideoId, setSelectedVideoId] = React.useState<string | undefined>(undefined);
+  const [showCheckAnswer, setShowCheckAnswer] = React.useState(false);
+
+  // Videos sorted beginner first
+  const sortedVideos = React.useMemo(() => {
+    if (!lesson.videos) return [];
+    const rank: Record<string, number> = {
+      beginner: 1,
+      intermediate: 2,
+      advanced: 3,
+    };
+    return [...lesson.videos].sort((a, b) => {
+      const rA = rank[a.level] ?? 2;
+      const rB = rank[b.level] ?? 2;
+      return rA - rB;
+    });
+  }, [lesson.videos]);
 
   // Active Video resolution
   const activeVideo = React.useMemo(() => {
-    if (selectedVideoId && lesson.videos) {
-      const found = lesson.videos.find((v) => v.id === selectedVideoId);
+    if (selectedVideoId && sortedVideos.length > 0) {
+      const found = sortedVideos.find((v) => v.id === selectedVideoId);
       if (found) return found;
     }
-    if (lesson.videos && lesson.videos.length > 0) {
-      const okVideo = lesson.videos.find((v) => v.status === "ok");
+    if (sortedVideos.length > 0) {
+      const okVideo = sortedVideos.find((v) => v.status === "ok");
       if (okVideo) return okVideo;
-      return lesson.videos[0];
+      return sortedVideos[0];
     }
     return undefined;
-  }, [selectedVideoId, lesson.videos]);
+  }, [selectedVideoId, sortedVideos]);
 
   const activeVideoId = activeVideo?.id ?? lesson.youtubeId;
   const activeVideoStatus = activeVideo?.status ?? lesson.status ?? (activeVideoId ? "ok" : "slot");
