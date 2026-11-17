@@ -1,8 +1,17 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
-import { Flame, ShieldCheck, Terminal, ArrowRight } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Flame, ShieldCheck, Terminal } from "lucide-react";
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // The landing page at "/" renders its dedicated Phase 2 Footer component
+  if (pathname === "/") {
+    return null;
+  }
   return (
     <footer className="w-full border-t border-indigo-950/10 bg-cream py-16 text-indigo-900/70">
       <div className="mx-auto max-w-6xl px-6">
@@ -86,7 +95,6 @@ export function Footer() {
                   className="inline-flex items-center gap-1 font-semibold text-coral transition-colors hover:text-coral-600"
                 >
                   <span>Go to Dashboard</span>
-                  <ArrowRight className="h-3 w-3" />
                 </Link>
               </li>
               <li>

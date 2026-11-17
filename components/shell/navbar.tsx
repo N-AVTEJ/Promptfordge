@@ -30,6 +30,11 @@ export function Navbar() {
   const prefersReduced = useReducedMotion();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  // The landing page at "/" renders its dedicated Phase 2 Nav component
+  if (pathname === "/") {
+    return null;
+  }
+
   return (
     <>
       <header className="sticky top-0 z-40 w-full border-b border-indigo-950/10 bg-cream/90 backdrop-blur-md">

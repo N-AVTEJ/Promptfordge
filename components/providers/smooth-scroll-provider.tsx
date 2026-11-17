@@ -14,6 +14,11 @@ import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
+if (typeof window !== "undefined") {
+  (window as unknown as { ScrollTrigger: typeof ScrollTrigger }).ScrollTrigger =
+    ScrollTrigger;
+}
+
 interface SmoothScrollContextType {
   lenis: Lenis | null;
 }

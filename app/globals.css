@@ -3,35 +3,43 @@
 @tailwind utilities;
 
 :root {
-  --background: #FBF6EE;
-  --foreground: #1E1B4B;
-  --cream: #FBF6EE;
-  --indigo: #1E1B4B;
+  --background: #F2F5FF;
+  --foreground: #121A52;
+  --daylight: #F2F5FF;
+  --navy: #121A52;
+  --ultramarine: #2438F0;
+  --marigold: #FFC21A;
+  --mint: #7ED9B8;
+  --lilac: #C7B5FF;
+  --rose: #FF9DB5;
+  --sky: #9FD3FF;
+  --cream: #F2F5FF;
+  --indigo: #121A52;
   --coral: #FF6B4A;
   --violet: #7C5CFF;
   --teal: #12B5A6;
   --lavender: #EEE9FF;
   --butter: #FFF2C7;
-  --mint: #DDF6EC;
   --forge-surface: #FFFFFF;
   --forge-elevated: #FFFFFF;
-  --forge-border: #E7DFD5;
+  --forge-border: #D8DFFA;
 }
 
 html {
-  background-color: #FBF6EE;
-  color: #1E1B4B;
+  background-color: #F2F5FF;
+  color: #121A52;
   color-scheme: light;
   font-size: 18px;
-  line-height: 1.7;
+  line-height: 1.65;
 }
 
 body {
-  background-color: #FBF6EE;
-  color: #1E1B4B;
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  background-color: #F2F5FF;
+  color: #121A52;
+  font-family: var(--font-bricolage), var(--font-geist-sans), system-ui, sans-serif;
   font-size: 18px;
-  line-height: 1.7;
+  line-height: 1.65;
+  font-optical-sizing: auto;
   overflow-x: clip;
   min-height: 100vh;
 }
@@ -66,7 +74,7 @@ kbd {
 
 /* Global Accessible Focus-Visible Ring */
 :focus-visible {
-  outline: 2px solid #FF6B4A;
+  outline: 2px solid #2438F0;
   outline-offset: 2px;
 }
 

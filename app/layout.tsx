@@ -1,10 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/shell/navbar";
 import { Footer } from "@/components/shell/footer";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
+
+const bricolageGrotesque = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-bricolage",
+  display: "swap",
+  axes: ["opsz"],
+});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,7 +43,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FBF6EE",
+  themeColor: "#F2F5FF",
   width: "device-width",
   initialScale: 1,
 };
@@ -49,11 +56,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${jetbrainsMono.variable}`}
+      className={`${bricolageGrotesque.variable} ${geistSans.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-screen bg-cream font-sans text-indigo text-base antialiased selection:bg-coral/20 selection:text-indigo">
+      <body className="min-h-screen bg-daylight font-sans text-navy text-base antialiased selection:bg-ultramarine/20 selection:text-navy">
         <SmoothScrollProvider>
-          <div className="relative flex min-h-screen flex-col bg-cream text-indigo">
+          <div className="relative flex min-h-screen flex-col bg-daylight text-navy">
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
