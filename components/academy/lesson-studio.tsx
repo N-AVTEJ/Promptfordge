@@ -140,6 +140,7 @@ export function LessonStudio({
     setCustomLabPrompt(undefined);
     setCurrentPlaybackSecond(0);
     setSelectedVideoId(undefined);
+    setShowCheckAnswer(false);
   }, [module.id, lesson.id, visitLesson]);
 
   const handleSeek = (seconds: number) => {
@@ -484,6 +485,26 @@ export function LessonStudio({
               </h1>
             </div>
 
+            {/* Before you watch (2 plain-English lines, no jargon) */}
+            {lesson.beforeYouWatch && lesson.beforeYouWatch.length > 0 && (
+              <div className="rounded-2xl border border-indigo-950/10 bg-[#fdfbf7] p-5 shadow-card space-y-2.5">
+                <div className="flex items-center gap-2">
+                  <Compass className="h-4 w-4 text-coral" />
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900/70 font-mono">
+                    Before you watch
+                  </h3>
+                </div>
+                <div className="space-y-1.5 text-xs sm:text-sm text-indigo-900/80 leading-[1.65]">
+                  {lesson.beforeYouWatch.map((line, idx) => (
+                    <p key={idx} className="flex items-start gap-2">
+                      <span className="text-coral select-none font-bold text-sm leading-tight">•</span>
+                      <span>{line}</span>
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Official YouTube Embed (using youtube-nocookie.com, lazy loaded, 16:9, rounded) */}
             <YouTubeEmbed
               ref={playerRef}
@@ -493,14 +514,58 @@ export function LessonStudio({
               onTimeUpdate={(sec) => setCurrentPlaybackSecond(sec)}
             />
 
+            {/* Check yourself (1 question after the video) */}
+            {lesson.checkYourself && (
+              <div className="rounded-2xl border border-indigo-950/10 bg-white p-5 shadow-card space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <HelpCircle className="h-4 w-4 text-teal" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900/70 font-mono">
+                      Check yourself
+                    </h3>
+                  </div>
+                  <span className="text-[11px] font-mono text-indigo-900/50">
+                    Concept check
+                  </span>
+                </div>
+                <p className="text-sm font-semibold text-indigo leading-snug">
+                  {lesson.checkYourself.question}
+                </p>
+
+                <div className="pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setShowCheckAnswer(!showCheckAnswer)}
+                    className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-teal hover:text-teal/80 transition-colors"
+                  >
+                    <span>{showCheckAnswer ? "Hide answer" : "Show answer"}</span>
+                    <ChevronRight
+                      className={cn("h-3.5 w-3.5 transition-transform", showCheckAnswer && "rotate-90")}
+                    />
+                  </button>
+
+                  {showCheckAnswer && (
+                    <div className="mt-2.5 rounded-xl bg-teal/5 border border-teal/20 p-3.5 text-xs text-indigo-900/80 space-y-1.5">
+                      <p className="font-semibold text-indigo">{lesson.checkYourself.answer}</p>
+                      {lesson.checkYourself.hint && (
+                        <p className="text-[11px] text-indigo-900/60 font-sans italic">
+                          Hint: {lesson.checkYourself.hint}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* More videos for this lesson row */}
-            {lesson.videos && lesson.videos.length > 0 && (
+            {sortedVideos.length > 0 && (
               <div className="rounded-2xl border border-indigo-950/10 bg-white p-5 shadow-card space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Film className="h-4 w-4 text-coral" />
                     <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900/70 font-mono">
-                      More videos for this lesson ({lesson.videos.length})
+                      More videos for this lesson ({sortedVideos.length})
                     </h3>
                   </div>
                   <span className="text-[11px] font-mono text-indigo-900/50">
@@ -509,7 +574,7 @@ export function LessonStudio({
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                  {lesson.videos.map((vid) => {
+                  {sortedVideos.map((vid) => {
                     const isCurrent = vid.id === activeVideoId;
                     const isUnavailable = vid.status === "unavailable";
                     const thumbUrl =
@@ -560,15 +625,18 @@ export function LessonStudio({
                         {/* Meta */}
                         <div className="min-w-0 flex-1 space-y-1">
                           <div className="flex items-center gap-1.5 flex-wrap">
+                            {/* Level badge */}
                             <span
                               className={cn(
-                                "text-[10px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded",
-                                vid.role === "core"
-                                  ? "bg-amber-100 text-amber-900 border border-amber-300"
-                                  : "bg-indigo-100 text-indigo-800 border border-indigo-200"
+                                "text-[10px] font-mono font-bold capitalize px-1.5 py-0.5 rounded",
+                                vid.level === "beginner"
+                                  ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                                  : vid.level === "intermediate"
+                                  ? "bg-sky-50 text-sky-800 border border-sky-200"
+                                  : "bg-indigo-50 text-indigo-800 border border-indigo-200"
                               )}
                             >
-                              {vid.role}
+                              {vid.level}
                             </span>
                             {isCurrent && (
                               <span className="text-[10px] font-mono font-bold text-coral">

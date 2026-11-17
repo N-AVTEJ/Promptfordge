@@ -164,7 +164,7 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
             />
           ) : (
             /* Friendly "Video coming soon" Card with Thumbnail Placeholder */
-            <div className="absolute inset-0 flex flex-col justify-between bg-gradient-to-br from-butter/60 via-cream to-lavender/40 p-6 sm:p-8 select-none">
+            <div className="absolute inset-0 flex flex-col justify-between bg-[#fbf9f5] border border-indigo-950/10 p-6 sm:p-8 select-none">
               {/* Top Bar */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -178,8 +178,8 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
                   </div>
                 </div>
 
-                <div className="inline-flex items-center gap-1.5 rounded-full border border-violet/30 bg-violet/10 px-3 py-1 text-xs font-semibold text-violet">
-                  <Clock className="h-3.5 w-3.5" />
+                <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-950/10 bg-white px-3 py-1 text-xs font-semibold text-indigo shadow-sm">
+                  <Clock className="h-3.5 w-3.5 text-coral" />
                   <span>
                     {status === "unavailable"
                       ? "Video temporarily unavailable"
@@ -193,7 +193,7 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
                 <button
                   type="button"
                   onClick={() => setIsPlaying(!isPlaying)}
-                  className="group relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-coral text-white shadow-coral-glow transition-transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-coral"
+                  className="group relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-coral text-white shadow-card transition-transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-coral"
                   aria-label={isPlaying ? "Pause simulated walkthrough" : "Play simulated walkthrough"}
                 >
                   {isPlaying ? (
@@ -214,8 +214,8 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
                 </p>
 
                 {seekFeedback && (
-                  <div className="mt-3 inline-flex items-center gap-1 rounded-full border border-coral/30 bg-coral/10 px-3 py-1 font-mono text-xs font-semibold text-coral animate-pulse">
-                    <Sparkles className="h-3.5 w-3.5" />
+                  <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-indigo-950/10 bg-white px-3 py-1 font-mono text-xs font-semibold text-indigo shadow-sm">
+                    <Clock className="h-3.5 w-3.5 text-coral" />
                     <span>{seekFeedback}</span>
                   </div>
                 )}
