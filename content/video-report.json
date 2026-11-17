@@ -1,23 +1,337 @@
 {
-  "generatedAt": "2026-11-17T07:41:44.830Z",
-  "totalOk": 53,
+  "generatedAt": "2026-11-17T11:30:35.256Z",
+  "pass": "Pass 3 (Surgical edits and honest reporting)",
+  "totalOk": 59,
   "totalUnavailable": 0,
-  "totalSlots": 0,
+  "totalSlots": 1,
   "everyModuleHasPlayableVideo": true,
   "coveragePerModule": {
     "mod-01": 1,
-    "mod-02": 0.88,
-    "mod-03": 0.8,
+    "mod-02": 1,
+    "mod-03": 1,
     "mod-04": 1,
-    "mod-05": 0.83,
+    "mod-05": 1,
     "mod-06": 1,
     "mod-07": 1,
     "mod-08": 1,
     "mod-09": 1,
-    "mod-10": 1,
+    "mod-10": 0.8,
     "mod-11": 1,
-    "mod-12": 0.6
+    "mod-12": 1
   },
+  "changedClaims": [
+    {
+      "claimId": "C1",
+      "targetVideo": "uDIW34h8cmM",
+      "field": "covers / chapters",
+      "oldValue": "covers: ['Basics of prompts', 'Basic prompt structures', 'Zero-shot', 'One-shot', 'Few-shot', 'Role based', 'Tree-of-Thoughts', 'ReAct', 'APE']",
+      "newValue": "covers: ['Basics of prompts', 'Basic prompt structures', 'Zero-shot', 'One-shot', 'Few-shot', 'Role based', 'Tree-of-Thoughts', 'ReAct']; APE removed. Chapters recorded: Tree of Thought at 1429s (23:49), ReAct at 1618s (26:58); APE absent.",
+      "reason": "Claim Check B1: Video chapters and transcript inspected. Tree-of-Thoughts and ReAct have dedicated chapters; APE is completely absent. APE removed from covers and resolved with Andrei Muresanu (OmTdkNEr2nU)."
+    },
+    {
+      "claimId": "C2",
+      "targetVideo": "J51oZYcNvP8 in M6",
+      "field": "covers -> relatedTo",
+      "oldValue": "covers: ['What is Multimodal AI?', 'Cross-model AI interaction']",
+      "newValue": "covers: ['What is Multimodal AI?', 'Multimodal architectures']; relatedTo: ['Cross-model AI interaction']",
+      "reason": "Claim Check B2: Video teaches multimodal foundation concepts, not multi-LLM orchestration. Cross-model interaction moved to relatedTo and resolved with IBM Technology (sWH0T4Zez6I)."
+    },
+    {
+      "claimId": "C3",
+      "targetVideo": "7j1t3UZA1TY in M11",
+      "field": "covers",
+      "oldValue": "covers: ['MCP vs API', 'Memory and tool protocols', 'Memory']",
+      "newValue": "covers: ['MCP vs API', 'Tool protocols and MCP discovery']; 'Memory' removed",
+      "reason": "Claim Check B3: Description and chapters cover MCP primitives, dynamic discovery, and API integration, but no agent memory. Memory removed and resolved with Martin Keen (BacJ6sEhqMo)."
+    },
+    {
+      "claimId": "C4",
+      "targetVideo": "_9x-mAHGgC4 & gZTQNb0NGjM in M8",
+      "field": "covers -> relatedTo",
+      "oldValue": "_9x-mAHGgC4 and gZTQNb0NGjM claimed 'Safe prompt design'",
+      "newValue": "covers: ['AI attack surface overview'] and ['Mitigation strategies']; 'Safe prompt design' moved to relatedTo",
+      "reason": "Claim Check B4: Neither video demonstrates defensive prompt construction or prompt structuring against injection. Resolved with Probably Private (q-4zKTR9m3g)."
+    },
+    {
+      "claimId": "C5",
+      "targetVideo": "g5h-piquf_k in M10",
+      "field": "covers -> relatedTo",
+      "oldValue": "covers: ['Expert prompting']",
+      "newValue": "relatedTo: ['Expert prompting']; notes: 'Critical perspective on expert personas'",
+      "reason": "Claim Check B5: Video explores token space mechanics and questions whether expert persona prompting actually works; moved to relatedTo with critical perspective note."
+    }
+  ],
+  "reviewedVideos": [
+    {
+      "id": "jC4v5AS4RIM",
+      "moduleId": "mod-02",
+      "moduleNumber": 2,
+      "title": "Master the Perfect ChatGPT Prompt Formula (in just 8 minutes)!",
+      "channel": "Jeff Su",
+      "minutes": 8,
+      "whyThisVideo": "Walks through the core formula for clear AI instructions covering task, context, and format.",
+      "reviewed": true
+    },
+    {
+      "id": "ugxPshXr7Ro",
+      "moduleId": "mod-02",
+      "moduleNumber": 2,
+      "title": "Constrained Generation for Better LLM Prompting Results",
+      "channel": "Matthew Esposito | AI",
+      "minutes": 5,
+      "whyThisVideo": "Tutorial breaking down 5 types of constraints and practical techniques for implementing limitations that enhance precision when prompting large language models.",
+      "reviewed": true
+    },
+    {
+      "id": "7vJluo_FI3I",
+      "moduleId": "mod-03",
+      "moduleNumber": 3,
+      "title": "Understanding In-Context Learning: What It Is and How It Works",
+      "channel": "AppliedAI",
+      "minutes": 4,
+      "whyThisVideo": "Explores in-context learning as a fundamental prompting technique that enables models to adapt to context.",
+      "reviewed": true
+    },
+    {
+      "id": "zrp3Lr5eeFc",
+      "moduleId": "mod-03",
+      "moduleNumber": 3,
+      "title": "XML Tags, Delimiters & Complex Prompt Structure",
+      "channel": "Fortivance Academy",
+      "minutes": 8,
+      "whyThisVideo": "Explains how headings, delimiters and semantic XML tags create clear boundaries, reduce ambiguity and make complex prompts easier to build, inspect and maintain.",
+      "reviewed": true
+    },
+    {
+      "id": "OEQPss-UXhA",
+      "moduleId": "mod-03",
+      "moduleNumber": 3,
+      "title": "AI Prompt Engineering - Multistep Prompting",
+      "channel": "SivamX",
+      "minutes": 9,
+      "whyThisVideo": "Teaches how to structure complex tasks into multistep prompt interactions and orchestrate workflows step by step.",
+      "reviewed": true
+    },
+    {
+      "id": "KwC8bUZrUKA",
+      "moduleId": "mod-04",
+      "moduleNumber": 4,
+      "title": "Prompt Chaining Explained | LangChain Tutorial for Building Smarter AI Workflows 🚀",
+      "channel": "Micro Learning",
+      "minutes": 8,
+      "whyThisVideo": "Explores how multiple Large Language Model prompts can be connected into intelligent workflows where each output becomes the next input.",
+      "reviewed": true
+    },
+    {
+      "id": "3SPnv0ufR8Y",
+      "moduleId": "mod-05",
+      "moduleNumber": 5,
+      "title": "Iterative Refinement: How to Improve AI Prompts Step by Step",
+      "channel": "FreeAcademy AI",
+      "minutes": 6,
+      "whyThisVideo": "Walks through the iteration cycle, common refinement patterns, and systematic ways to improve prompts step by step.",
+      "reviewed": true
+    },
+    {
+      "id": "yu27PWzJI_Y",
+      "moduleId": "mod-05",
+      "moduleNumber": 5,
+      "title": "What is Prompt Tuning?",
+      "channel": "IBM Technology",
+      "minutes": 9,
+      "whyThisVideo": "Explains prompt tuning as an efficient, low-cost method of adapting an AI foundation model to downstream tasks without retraining weights.",
+      "reviewed": true
+    },
+    {
+      "id": "RTaZqGflrJ8",
+      "moduleId": "mod-05",
+      "moduleNumber": 5,
+      "title": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+      "channel": "AI Academy ",
+      "minutes": 7,
+      "whyThisVideo": "Breaks down LLM evaluation for beginners with simple examples of BLEU, ROUGE, and BERTScore across the evaluation pipeline.",
+      "reviewed": true
+    },
+    {
+      "id": "ZFKvTIADp0k",
+      "moduleId": "mod-05",
+      "moduleNumber": 5,
+      "title": "Tuning Your AI Model to Reduce Hallucinations",
+      "channel": "IBM Technology",
+      "minutes": 9,
+      "whyThisVideo": "IBM Distinguished Engineer Suj Perepa explains why AI hallucination occurs and demonstrates prompting techniques to contain it.",
+      "reviewed": true
+    },
+    {
+      "id": "sWH0T4Zez6I",
+      "moduleId": "mod-06",
+      "moduleNumber": 6,
+      "title": "Multi Agent Systems Explained: How AI Agents & LLMs Work Together",
+      "channel": "IBM Technology",
+      "minutes": 8,
+      "whyThisVideo": "Explains how multiple LLMs and AI agents collaborate, exchange state, and divide work across systems.",
+      "reviewed": true
+    },
+    {
+      "id": "zn2ukSnDqSg",
+      "moduleId": "mod-08",
+      "moduleNumber": 8,
+      "title": "ChatGPT Jailbreak - Computerphile",
+      "channel": "Computerphile",
+      "minutes": 12,
+      "whyThisVideo": "Security researcher Dr Tim Muller explores how large language models can be jailbroken and manipulated for unintended purposes.",
+      "reviewed": true
+    },
+    {
+      "id": "q-4zKTR9m3g",
+      "moduleId": "mod-08",
+      "moduleNumber": 8,
+      "title": "AI Security Mini-Course: Defending against Prompt Injections (spotlighting, alignment checks, etc)",
+      "channel": "Probably Private",
+      "minutes": 22,
+      "whyThisVideo": "Explores defense strategies against prompt injection including spotlighting, instruction hierarchy, and guardrails.",
+      "reviewed": true
+    },
+    {
+      "id": "GxlOoKI0zxg",
+      "moduleId": "mod-09",
+      "moduleNumber": 9,
+      "title": "Prompt Engineering for Teachers",
+      "channel": "Town Square for Teachers",
+      "minutes": 11,
+      "whyThisVideo": "Demonstrates proven prompt engineering principles and structured formulas tailored for teachers and educational workflows.",
+      "reviewed": true
+    },
+    {
+      "id": "QRgayVF5PyM",
+      "moduleId": "mod-09",
+      "moduleNumber": 9,
+      "title": "Prompt Engineering for Business: Automate Workflows With AI",
+      "channel": "Tuff University",
+      "minutes": 30,
+      "whyThisVideo": "Breaks down how to design prompts that drive consistent results, trigger automated actions, and scale business operations.",
+      "reviewed": true
+    },
+    {
+      "id": "U8zrqWrTYdc",
+      "moduleId": "mod-09",
+      "moduleNumber": 9,
+      "title": "How to use ChatGPT for Research - Literature Review, Research Paper Writing & Publication",
+      "channel": "WiseUp Communications",
+      "minutes": 9,
+      "whyThisVideo": "Provides actionable prompt templates for academic research from literature reviews to methodology drafting.",
+      "reviewed": true
+    },
+    {
+      "id": "wcmLgy1-9aQ",
+      "moduleId": "mod-10",
+      "moduleNumber": 10,
+      "title": "Active Prompting Explained: Boost AI Reasoning with Less Human Effort",
+      "channel": "Micro Learning",
+      "minutes": 8,
+      "whyThisVideo": "Explores how Active Prompting improves AI reasoning by identifying model uncertainty and selectively requesting human examples.",
+      "reviewed": true
+    },
+    {
+      "id": "g5h-piquf_k",
+      "moduleId": "mod-10",
+      "moduleNumber": 10,
+      "title": "Should you tell your LLM it's an 'expert' before prompting?",
+      "channel": "AI and Search with Mark Williams-Cook",
+      "minutes": 7,
+      "whyThisVideo": "Dives into token space mechanics to evaluate whether telling an LLM it is an expert persona measurably improves response quality.",
+      "reviewed": true
+    },
+    {
+      "id": "OmTdkNEr2nU",
+      "moduleId": "mod-10",
+      "moduleNumber": 10,
+      "title": "Large Language Models Are Human-Level Prompt Engineers (Automatic Prompt Engineer - APE)",
+      "channel": "Andrei Muresanu",
+      "minutes": 5,
+      "whyThisVideo": "Paper author explains the Automatic Prompt Engineer (APE) framework for automated instruction generation and selection.",
+      "reviewed": true
+    },
+    {
+      "id": "MKqg6wzOySA",
+      "moduleId": "mod-11",
+      "moduleNumber": 11,
+      "title": "Key 5 - AI Agents Explained: Plan, Act, Observe Loop & Real Risks",
+      "channel": "Duke Center for Computational Thinking",
+      "minutes": 16,
+      "whyThisVideo": "Explains what makes a system agentic through the foundational Plan, Act, Observe loop.",
+      "reviewed": true
+    },
+    {
+      "id": "BacJ6sEhqMo",
+      "moduleId": "mod-11",
+      "moduleNumber": 11,
+      "title": "The Four Types of Memory Every AI Agent Needs",
+      "channel": "IBM Technology",
+      "minutes": 11,
+      "whyThisVideo": "Martin Keen explains the four types of memory AI agents use, from short-term context buffers to long-term memory.",
+      "reviewed": true
+    },
+    {
+      "id": "zYGDpG-pTho",
+      "moduleId": "mod-12",
+      "moduleNumber": 12,
+      "title": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
+      "channel": "IBM Technology",
+      "minutes": 13,
+      "whyThisVideo": "Martin Keen compares RAG, fine-tuning, and prompt engineering to guide when to extend knowledge versus refine responses.",
+      "reviewed": true
+    },
+    {
+      "id": "DNmIqNjbKoM",
+      "moduleId": "mod-12",
+      "moduleNumber": 12,
+      "title": "Prompt Versioning & Testing Strategies — Reliable LLM Development | Uplatz",
+      "channel": "Uplatz",
+      "minutes": 6,
+      "whyThisVideo": "Explores how to version, test, and validate prompts in production AI so outputs remain stable and reproducible.",
+      "reviewed": true
+    },
+    {
+      "id": "u57EnkQaUTY",
+      "moduleId": "mod-12",
+      "moduleNumber": 12,
+      "title": "What is Prompt Caching? Optimize LLM Latency with AI Transformers",
+      "channel": "IBM Technology",
+      "minutes": 9,
+      "whyThisVideo": "Explains how prompt caching works with AI transformers to cut cost and reduce LLM inference latency.",
+      "reviewed": true
+    },
+    {
+      "id": "l5K4r_TJz_8",
+      "moduleId": "mod-12",
+      "moduleNumber": 12,
+      "title": "How to implement LLM guardrails for RAG applications",
+      "channel": "IBM Developer",
+      "minutes": 7,
+      "whyThisVideo": "Demonstrates how to implement contextual grounding checks and guardrails to detect hallucinations in production applications.",
+      "reviewed": true
+    },
+    {
+      "id": "yh-3WU1FKrk",
+      "moduleId": "mod-12",
+      "moduleNumber": 12,
+      "title": "What is Responsible AI? A Guide to AI Governance",
+      "channel": "IBM Technology",
+      "minutes": 6,
+      "whyThisVideo": "Provides an essential guide to Responsible AI principles, risk minimization, and AI governance frameworks.",
+      "reviewed": true
+    }
+  ],
+  "droppedVideos": [],
+  "topicsWithoutVideo": [
+    {
+      "moduleId": "mod-10",
+      "moduleNumber": 10,
+      "topic": "Expert prompting",
+      "reason": "No confirmed video with this topic in 'covers' (may have relatedTo video or remain as gap)"
+    }
+  ],
   "modules": [
     {
       "moduleId": "mod-01",
@@ -27,7 +341,7 @@
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 107,
+      "totalWatchMinutes": 318,
       "coverage": 1,
       "coverageRatio": "6/6",
       "coveredTopicsCount": 6,
@@ -51,10 +365,7 @@
       "videos": [
         {
           "id": "LPZh9BOjkQs",
-          "moduleId": "mod-01",
-          "moduleNumber": 1,
-          "moduleTitle": "Introduction to Prompt Engineering",
-          "expectedTitle": "Large Language Models explained briefly",
+          "title": "Large Language Models explained briefly",
           "channel": "3Blue1Brown",
           "minutes": 8,
           "covers": [
@@ -62,21 +373,17 @@
             "Fundamentals of LLMs"
           ],
           "level": "beginner",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Large Language Models explained briefly",
           "authorName": "3Blue1Brown",
           "thumbnailUrl": "https://i.ytimg.com/vi/LPZh9BOjkQs/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:29.694Z"
+          "verifiedAt": "2026-11-17T11:30:35.253Z",
+          "relatedTo": []
         },
         {
           "id": "ZHCB09O6zUk",
-          "moduleId": "mod-01",
-          "moduleNumber": 1,
-          "moduleTitle": "Introduction to Prompt Engineering",
-          "expectedTitle": "A Brief History of AI: From Machine Learning to Gen AI to Agentic AI",
+          "title": "A Brief History of AI: From Machine Learning to Gen AI to Agentic AI",
           "channel": "IBM Technology",
           "minutes": 13,
           "covers": [
@@ -84,124 +391,169 @@
             "History of AI"
           ],
           "level": "beginner",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "A Brief History of AI: From Machine Learning to Gen AI to Agentic AI",
           "authorName": "IBM Technology",
           "thumbnailUrl": "https://i.ytimg.com/vi/ZHCB09O6zUk/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:29.949Z"
-        },
-        {
-          "id": "uDIW34h8cmM",
-          "moduleId": "mod-01",
-          "moduleNumber": 1,
-          "moduleTitle": "Introduction to Prompt Engineering",
-          "expectedTitle": "Prompt Engineering Guide, Beginner to Advanced",
-          "channel": "Matthew Berman",
-          "minutes": 33,
-          "covers": [
-            "Basics of prompts and structures",
-            "Basic prompt structures"
-          ],
-          "level": "beginner",
-          "role": "core",
-          "resolvedBy": "seed",
-          "title": "Prompt Engineering Guide - From Beginner to Advanced",
-          "authorName": "Matthew Berman",
-          "thumbnailUrl": "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg",
-          "status": "ok",
-          "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:30.140Z"
+          "verifiedAt": "2026-11-17T11:30:35.254Z",
+          "relatedTo": []
         },
         {
           "id": "wjZofJX0v4M",
-          "moduleId": "mod-01",
-          "moduleNumber": 1,
-          "moduleTitle": "Introduction to Prompt Engineering",
-          "expectedTitle": "Transformers, the tech behind LLMs | Deep Learning Chapter 5",
+          "title": "Transformers, the tech behind LLMs | Deep Learning Chapter 5",
           "channel": "3Blue1Brown",
           "minutes": 27,
           "covers": [
-            "Transformer architecture",
-            "Fundamentals of LLMs"
+            "Fundamentals of LLMs",
+            "Transformer architecture"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Transformers, the tech behind LLMs | Deep Learning Chapter 5",
           "authorName": "3Blue1Brown",
           "thumbnailUrl": "https://i.ytimg.com/vi/wjZofJX0v4M/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:30.375Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         },
         {
           "id": "eMlx5fFNoYc",
-          "moduleId": "mod-01",
-          "moduleNumber": 1,
-          "moduleTitle": "Introduction to Prompt Engineering",
-          "expectedTitle": "Attention in transformers, step-by-step | Deep Learning Chapter 6",
+          "title": "Attention in transformers, step-by-step | Deep Learning Chapter 6",
           "channel": "3Blue1Brown",
           "minutes": 26,
           "covers": [
             "Transformer architecture",
+            "Attention mechanism",
             "Working of LLMs (tokens, training, inference)"
           ],
           "level": "advanced",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Attention in transformers, step-by-step | Deep Learning Chapter 6",
           "authorName": "3Blue1Brown",
           "thumbnailUrl": "https://i.ytimg.com/vi/eMlx5fFNoYc/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:30.689Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         },
         {
           "id": "7xTGNNLPyMI",
-          "moduleId": "mod-01",
-          "moduleNumber": 1,
-          "moduleTitle": "Introduction to Prompt Engineering",
-          "expectedTitle": "Deep Dive into LLMs like ChatGPT",
+          "title": "Deep Dive into LLMs like ChatGPT",
           "channel": "Andrej Karpathy",
           "minutes": 211,
           "covers": [
-            "Working of LLMs (tokens, training, inference)",
-            "Fundamentals of LLMs"
+            "Tokens, training, inference",
+            "Working of LLMs",
+            "Basics of prompts"
           ],
           "level": "advanced",
-          "role": "optional",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Deep Dive into LLMs like ChatGPT",
           "authorName": "Andrej Karpathy",
           "thumbnailUrl": "https://i.ytimg.com/vi/7xTGNNLPyMI/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:30.891Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
+        },
+        {
+          "id": "uDIW34h8cmM",
+          "title": "Prompt Engineering Guide - From Beginner to Advanced",
+          "channel": "Matthew Berman",
+          "minutes": 33,
+          "covers": [
+            "Basics of prompts",
+            "Foundational prompting",
+            "Basic prompt structures",
+            "Prompt architecture"
+          ],
+          "level": "beginner",
+          "status": "ok",
+          "resolvedBy": "seed",
+          "chapters": [
+            {
+              "time": 0,
+              "label": "Intro"
+            },
+            {
+              "time": 20,
+              "label": "Prompt Engineering Basics"
+            },
+            {
+              "time": 63,
+              "label": "What is Prompt Engineering"
+            },
+            {
+              "time": 123,
+              "label": "Output Length"
+            },
+            {
+              "time": 259,
+              "label": "Sampling Controls (Top K & Top P)"
+            },
+            {
+              "time": 480,
+              "label": "Zero Shot Prompting"
+            },
+            {
+              "time": 556,
+              "label": "One Shot Prompting"
+            },
+            {
+              "time": 689,
+              "label": "System Messages & Role Assignment"
+            },
+            {
+              "time": 879,
+              "label": "Step Back Prompting"
+            },
+            {
+              "time": 1042,
+              "label": "Chain of Thought Reasoning"
+            },
+            {
+              "time": 1249,
+              "label": "Self Consistency"
+            },
+            {
+              "time": 1429,
+              "label": "Tree of Thought"
+            },
+            {
+              "time": 1618,
+              "label": "ReAct Framework"
+            },
+            {
+              "time": 1860,
+              "label": "Best Practices & Wrap-up"
+            }
+          ],
+          "authorName": "Matthew Berman",
+          "thumbnailUrl": "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         }
-      ],
-      "slots": []
+      ]
     },
     {
       "moduleId": "mod-02",
       "moduleNumber": 2,
       "moduleTitle": "Example and Instruction Based Prompts",
-      "okCount": 7,
+      "okCount": 8,
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 59,
-      "coverage": 0.88,
-      "coverageRatio": "7/8",
-      "coveredTopicsCount": 7,
+      "totalWatchMinutes": 67,
+      "coverage": 1,
+      "coverageRatio": "8/8",
+      "coveredTopicsCount": 8,
       "totalTopicsCount": 8,
       "coveredTopics": [
         "Zero-shot",
         "One-shot",
         "Few-shot",
         "Chain of Thought",
+        "Instruction based",
         "Role based",
         "Constraint based",
         "Persona"
@@ -218,36 +570,8 @@
       ],
       "videos": [
         {
-          "id": "T-w_5T-j-dA",
-          "moduleId": "mod-02",
-          "moduleNumber": 2,
-          "moduleTitle": "Example and Instruction Based Prompts",
-          "expectedTitle": "Large Language Models Are Zero Shot Reasoners",
-          "channel": "IBM Technology",
-          "minutes": 8,
-          "covers": [
-            "Zero-shot",
-            "Chain of Thought"
-          ],
-          "relatedTo": [
-            "Instruction based"
-          ],
-          "level": "intermediate",
-          "role": "core",
-          "resolvedBy": "seed",
-          "title": "Large Language Models Are Zero Shot Reasoners",
-          "authorName": "IBM Technology",
-          "thumbnailUrl": "https://i.ytimg.com/vi/T-w_5T-j-dA/hqdefault.jpg",
-          "status": "ok",
-          "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:31.145Z"
-        },
-        {
           "id": "Vl4hH_L5-3Q",
-          "moduleId": "mod-02",
-          "moduleNumber": 2,
-          "moduleTitle": "Example and Instruction Based Prompts",
-          "expectedTitle": "Zero-shot, One-shot and Few-shot Prompting Techniques Explained",
+          "title": "Zero-shot, One-shot and Few-shot Prompting Techniques Explained | Prompt Engineering | Generative AI",
           "channel": "At A Glance!",
           "minutes": 9,
           "covers": [
@@ -256,66 +580,119 @@
             "Few-shot"
           ],
           "level": "beginner",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Zero-shot, One-shot and Few-shot Prompting Techniques Explained | Prompt Engineering | Generative AI",
+          "role": "core",
           "authorName": "At A Glance!",
           "thumbnailUrl": "https://i.ytimg.com/vi/Vl4hH_L5-3Q/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:31.379Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         },
         {
           "id": "uDIW34h8cmM",
-          "moduleId": "mod-02",
-          "moduleNumber": 2,
-          "moduleTitle": "Example and Instruction Based Prompts",
-          "expectedTitle": "Prompt Engineering Guide - From Beginner to Advanced",
+          "title": "Prompt Engineering Guide - From Beginner to Advanced",
           "channel": "Matthew Berman",
           "minutes": 33,
           "covers": [
             "Zero-shot",
             "One-shot",
             "Few-shot",
-            "Role based"
+            "Role based",
+            "Persona prompting"
           ],
           "level": "beginner",
-          "role": "optional",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Prompt Engineering Guide - From Beginner to Advanced",
+          "role": "optional",
+          "chapters": [
+            {
+              "time": 0,
+              "label": "Intro"
+            },
+            {
+              "time": 20,
+              "label": "Prompt Engineering Basics"
+            },
+            {
+              "time": 63,
+              "label": "What is Prompt Engineering"
+            },
+            {
+              "time": 123,
+              "label": "Output Length"
+            },
+            {
+              "time": 259,
+              "label": "Sampling Controls (Top K & Top P)"
+            },
+            {
+              "time": 480,
+              "label": "Zero Shot Prompting"
+            },
+            {
+              "time": 556,
+              "label": "One Shot Prompting"
+            },
+            {
+              "time": 689,
+              "label": "System Messages & Role Assignment"
+            },
+            {
+              "time": 879,
+              "label": "Step Back Prompting"
+            },
+            {
+              "time": 1042,
+              "label": "Chain of Thought Reasoning"
+            },
+            {
+              "time": 1249,
+              "label": "Self Consistency"
+            },
+            {
+              "time": 1429,
+              "label": "Tree of Thought"
+            },
+            {
+              "time": 1618,
+              "label": "ReAct Framework"
+            },
+            {
+              "time": 1860,
+              "label": "Best Practices & Wrap-up"
+            }
+          ],
           "authorName": "Matthew Berman",
           "thumbnailUrl": "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:31.585Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         },
         {
-          "id": "b210W3JWOxw",
-          "moduleId": "mod-02",
-          "moduleNumber": 2,
-          "moduleTitle": "Example and Instruction Based Prompts",
-          "expectedTitle": "ChatGPT Chain-of-Thought Prompt Explained",
-          "channel": "1littlecoder",
-          "minutes": 10,
+          "id": "T-w_5T-j-dA",
+          "title": "Large Language Models Are Zero Shot Reasoners",
+          "channel": "IBM Technology",
+          "minutes": 8,
           "covers": [
+            "Zero-shot",
             "Chain of Thought"
           ],
-          "level": "beginner",
-          "role": "core",
-          "resolvedBy": "seed",
-          "title": "ChatGPT Chain-of-Thought Prompt Explained - LLM Chain of Thoughts for Beginners",
-          "authorName": "1littlecoder",
-          "thumbnailUrl": "https://i.ytimg.com/vi/b210W3JWOxw/hqdefault.jpg",
+          "level": "intermediate",
           "status": "ok",
+          "resolvedBy": "seed",
+          "role": "core",
+          "authorName": "IBM Technology",
+          "thumbnailUrl": "https://i.ytimg.com/vi/T-w_5T-j-dA/hqdefault.jpg",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:31.799Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": [
+            "Instruction based"
+          ]
         },
         {
           "id": "b2t4pa9lOIc",
-          "moduleId": "mod-02",
-          "moduleNumber": 2,
-          "moduleTitle": "Example and Instruction Based Prompts",
-          "expectedTitle": "Prompt Engineering Explained: Zero, Few, CoT, Self Consistency, Persona",
+          "title": "Prompt Engineering Explained – Zero, Few, CoT, Self Consistency, Persona | Chapter 2 | Episode 1",
           "channel": "Loop Kaka",
           "minutes": 15,
           "covers": [
@@ -324,21 +701,56 @@
             "Persona"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Prompt Engineering Explained – Zero, Few, CoT, Self Consistency, Persona | Chapter 2 | Episode 1",
+          "role": "core",
           "authorName": "Loop Kaka",
           "thumbnailUrl": "https://i.ytimg.com/vi/b2t4pa9lOIc/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:32.023Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
+        },
+        {
+          "id": "b210W3JWOxw",
+          "title": "ChatGPT Chain-of-Thought Prompt Explained - LLM Chain of Thoughts for Beginners",
+          "channel": "1littlecoder",
+          "minutes": 10,
+          "covers": [
+            "Chain of Thought"
+          ],
+          "level": "beginner",
+          "status": "ok",
+          "resolvedBy": "seed",
+          "role": "core",
+          "authorName": "1littlecoder",
+          "thumbnailUrl": "https://i.ytimg.com/vi/b210W3JWOxw/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
+        },
+        {
+          "id": "jC4v5AS4RIM",
+          "title": "Master the Perfect ChatGPT Prompt Formula (in just 8 minutes)!",
+          "channel": "Jeff Su",
+          "minutes": 8,
+          "covers": [
+            "Instruction based"
+          ],
+          "level": "beginner",
+          "status": "ok",
+          "resolvedBy": "agent-search",
+          "role": "core",
+          "whyThisVideo": "Walks through the core formula for clear AI instructions covering task, context, and format.",
+          "reviewed": true,
+          "authorName": "Jeff Su",
+          "thumbnailUrl": "https://i.ytimg.com/vi/jC4v5AS4RIM/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         },
         {
           "id": "cnww-CvDoRk",
-          "moduleId": "mod-02",
-          "moduleNumber": 2,
-          "moduleTitle": "Example and Instruction Based Prompts",
-          "expectedTitle": "Advanced Prompt Engineering Techniques",
+          "title": "Advanced Prompt Engineering Techniques",
           "channel": "Sai Ram Penjarla",
           "minutes": 12,
           "covers": [
@@ -346,53 +758,52 @@
             "Few-shot"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Advanced Prompt Engineering Techniques",
+          "role": "core",
           "authorName": "Sai Ram Penjarla",
           "thumbnailUrl": "https://i.ytimg.com/vi/cnww-CvDoRk/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:32.323Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         },
         {
           "id": "ugxPshXr7Ro",
-          "moduleId": "mod-02",
-          "moduleNumber": 2,
-          "moduleTitle": "Example and Instruction Based Prompts",
-          "expectedTitle": "Constrained Generation for Better LLM Prompting Results",
+          "title": "Constrained Generation for Better LLM Prompting Results",
           "channel": "Matthew Esposito | AI",
           "minutes": 5,
           "covers": [
             "Constraint based"
           ],
-          "level": "intermediate",
-          "role": "core",
+          "level": "beginner",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "Constrained Generation for Better LLM Prompting Results",
+          "role": "core",
+          "whyThisVideo": "Tutorial breaking down 5 types of constraints and practical techniques for implementing limitations that enhance precision when prompting large language models.",
+          "reviewed": true,
           "authorName": "Matthew Esposito | AI",
           "thumbnailUrl": "https://i.ytimg.com/vi/ugxPshXr7Ro/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:32.618Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         }
-      ],
-      "slots": []
+      ]
     },
     {
       "moduleId": "mod-03",
       "moduleNumber": 3,
       "moduleTitle": "Context Based and Interaction Based Prompts",
-      "okCount": 3,
+      "okCount": 4,
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 29,
-      "coverage": 0.8,
-      "coverageRatio": "4/5",
-      "coveredTopicsCount": 4,
+      "totalWatchMinutes": 33,
+      "coverage": 1,
+      "coverageRatio": "5/5",
+      "coveredTopicsCount": 5,
       "totalTopicsCount": 5,
       "coveredTopics": [
+        "Contextual",
         "Delimiter based",
         "Structured prompts",
         "Multi-prompt",
@@ -407,11 +818,28 @@
       ],
       "videos": [
         {
+          "id": "7vJluo_FI3I",
+          "title": "Understanding In-Context Learning: What It Is and How It Works",
+          "channel": "AppliedAI",
+          "minutes": 4,
+          "covers": [
+            "Contextual"
+          ],
+          "level": "beginner",
+          "status": "ok",
+          "resolvedBy": "agent-search",
+          "role": "core",
+          "whyThisVideo": "Explores in-context learning as a fundamental prompting technique that enables models to adapt to context.",
+          "reviewed": true,
+          "authorName": "AppliedAI",
+          "thumbnailUrl": "https://i.ytimg.com/vi/7vJluo_FI3I/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
+        },
+        {
           "id": "cnww-CvDoRk",
-          "moduleId": "mod-03",
-          "moduleNumber": 3,
-          "moduleTitle": "Context Based and Interaction Based Prompts",
-          "expectedTitle": "Advanced Prompt Engineering Techniques",
+          "title": "Advanced Prompt Engineering Techniques",
           "channel": "Sai Ram Penjarla",
           "minutes": 12,
           "covers": [
@@ -422,21 +850,17 @@
             "Structured prompts"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Advanced Prompt Engineering Techniques",
+          "role": "core",
           "authorName": "Sai Ram Penjarla",
           "thumbnailUrl": "https://i.ytimg.com/vi/cnww-CvDoRk/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:32.916Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z"
         },
         {
           "id": "zrp3Lr5eeFc",
-          "moduleId": "mod-03",
-          "moduleNumber": 3,
-          "moduleTitle": "Context Based and Interaction Based Prompts",
-          "expectedTitle": "XML Tags, Delimiters & Complex Prompt Structure",
+          "title": "XML Tags, Delimiters & Complex Prompt Structure",
           "channel": "Fortivance Academy",
           "minutes": 8,
           "covers": [
@@ -444,38 +868,38 @@
             "Structured prompts"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "XML Tags, Delimiters & Complex Prompt Structure",
+          "role": "core",
+          "whyThisVideo": "Explains how headings, delimiters and semantic XML tags create clear boundaries, reduce ambiguity and make complex prompts easier to build, inspect and maintain.",
+          "reviewed": true,
           "authorName": "Fortivance Academy",
           "thumbnailUrl": "https://i.ytimg.com/vi/zrp3Lr5eeFc/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:33.259Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         },
         {
           "id": "OEQPss-UXhA",
-          "moduleId": "mod-03",
-          "moduleNumber": 3,
-          "moduleTitle": "Context Based and Interaction Based Prompts",
-          "expectedTitle": "AI Prompt Engineering - Multistep Prompting",
+          "title": "AI Prompt Engineering - Multistep Prompting",
           "channel": "SivamX",
           "minutes": 9,
           "covers": [
             "Multi-prompt"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "AI Prompt Engineering - Multistep Prompting",
+          "role": "core",
+          "whyThisVideo": "Teaches how to structure complex tasks into multistep prompt interactions and orchestrate workflows step by step.",
+          "reviewed": true,
           "authorName": "SivamX",
           "thumbnailUrl": "https://i.ytimg.com/vi/OEQPss-UXhA/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:33.533Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         }
-      ],
-      "slots": []
+      ]
     },
     {
       "moduleId": "mod-04",
@@ -503,10 +927,7 @@
       "videos": [
         {
           "id": "3TGqlQxpuU0",
-          "moduleId": "mod-04",
-          "moduleNumber": 4,
-          "moduleTitle": "Advanced Prompt Techniques",
-          "expectedTitle": "LangChain prompt templates, chat history, multi-turn",
+          "title": "Prompts in LangChain | Generative AI using LangChain | Video 4 | CampusX",
           "channel": "CampusX",
           "minutes": 18,
           "covers": [
@@ -514,53 +935,51 @@
             "Dynamic prompt templates"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Prompts in LangChain | Generative AI using LangChain | Video 4 | CampusX",
           "authorName": "CampusX",
           "thumbnailUrl": "https://i.ytimg.com/vi/3TGqlQxpuU0/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:33.838Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         },
         {
           "id": "KwC8bUZrUKA",
-          "moduleId": "mod-04",
-          "moduleNumber": 4,
-          "moduleTitle": "Advanced Prompt Techniques",
-          "expectedTitle": "Prompt Chaining Explained | LangChain Tutorial for Building Smarter AI Workflows 🚀",
+          "title": "Prompt Chaining Explained | LangChain Tutorial for Building Smarter AI Workflows 🚀",
           "channel": "Micro Learning",
           "minutes": 8,
           "covers": [
             "Prompt chaining and pipelines"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "Prompt Chaining Explained | LangChain Tutorial for Building Smarter AI Workflows 🚀",
+          "role": "core",
+          "whyThisVideo": "Explores how multiple Large Language Model prompts can be connected into intelligent workflows where each output becomes the next input.",
+          "reviewed": true,
           "authorName": "Micro Learning",
           "thumbnailUrl": "https://i.ytimg.com/vi/KwC8bUZrUKA/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:34.165Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         }
-      ],
-      "slots": []
+      ]
     },
     {
       "moduleId": "mod-05",
       "moduleNumber": 5,
       "moduleTitle": "Prompt Optimization Techniques",
-      "okCount": 5,
+      "okCount": 6,
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 67,
-      "coverage": 0.83,
-      "coverageRatio": "5/6",
-      "coveredTopicsCount": 5,
+      "totalWatchMinutes": 73,
+      "coverage": 1,
+      "coverageRatio": "6/6",
+      "coveredTopicsCount": 6,
       "totalTopicsCount": 6,
       "coveredTopics": [
+        "Iterative refinement",
         "Measuring response quality",
         "Performance evaluation",
         "Prompt tuning fundamentals",
@@ -577,77 +996,28 @@
       ],
       "videos": [
         {
-          "id": "yu27PWzJI_Y",
-          "moduleId": "mod-05",
-          "moduleNumber": 5,
-          "moduleTitle": "Prompt Optimization Techniques",
-          "expectedTitle": "What is Prompt Tuning?",
-          "channel": "IBM Technology",
-          "minutes": 9,
+          "id": "3SPnv0ufR8Y",
+          "title": "Iterative Refinement: How to Improve AI Prompts Step by Step",
+          "channel": "FreeAcademy AI",
+          "minutes": 6,
           "covers": [
-            "Prompt tuning fundamentals",
-            "Soft prompts"
+            "Iterative refinement"
           ],
           "level": "beginner",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "What is Prompt Tuning?",
-          "authorName": "IBM Technology",
-          "thumbnailUrl": "https://i.ytimg.com/vi/yu27PWzJI_Y/hqdefault.jpg",
-          "status": "ok",
-          "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:34.477Z"
-        },
-        {
-          "id": "ZFKvTIADp0k",
-          "moduleId": "mod-05",
-          "moduleNumber": 5,
-          "moduleTitle": "Prompt Optimization Techniques",
-          "expectedTitle": "Tuning Your AI Model to Reduce Hallucinations",
-          "channel": "IBM Technology",
-          "minutes": 9,
-          "covers": [
-            "Hallucination detection",
-            "Measuring response quality"
-          ],
-          "level": "beginner",
           "role": "core",
-          "resolvedBy": "agent-search",
-          "title": "Tuning Your AI Model to Reduce Hallucinations",
-          "authorName": "IBM Technology",
-          "thumbnailUrl": "https://i.ytimg.com/vi/ZFKvTIADp0k/hqdefault.jpg",
-          "status": "ok",
+          "whyThisVideo": "Walks through the iteration cycle, common refinement patterns, and systematic ways to improve prompts step by step.",
+          "reviewed": true,
+          "authorName": "FreeAcademy AI",
+          "thumbnailUrl": "https://i.ytimg.com/vi/3SPnv0ufR8Y/hqdefault.jpg",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:34.787Z"
-        },
-        {
-          "id": "vBJF2sy1Pyw",
-          "moduleId": "mod-05",
-          "moduleNumber": 5,
-          "moduleTitle": "Prompt Optimization Techniques",
-          "expectedTitle": "The challenges with using LLM as a Judge",
-          "channel": "Qdrant Vector Space Talks",
-          "minutes": 42,
-          "covers": [
-            "Measuring response quality",
-            "Performance evaluation"
-          ],
-          "level": "advanced",
-          "role": "core",
-          "resolvedBy": "seed",
-          "title": "The challenges in using LLM-as-a-Judge - Sourabh Agrawal | Vector Space Talk #013",
-          "authorName": "Qdrant Vector Search",
-          "thumbnailUrl": "https://i.ytimg.com/vi/vBJF2sy1Pyw/hqdefault.jpg",
-          "status": "ok",
-          "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:35.590Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         },
         {
           "id": "LZJTrAXcyFM",
-          "moduleId": "mod-05",
-          "moduleNumber": 5,
-          "moduleTitle": "Prompt Optimization Techniques",
-          "expectedTitle": "Community Paper Reading: LLMs-as-Judges",
+          "title": "Community Paper Reading: LLMs-as-Judges",
           "channel": "Arize AI",
           "minutes": 54,
           "covers": [
@@ -657,48 +1027,104 @@
             "Iterative refinement"
           ],
           "level": "advanced",
-          "role": "optional",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Community Paper Reading: LLMs-as-Judges",
+          "role": "optional",
           "authorName": "Arize AI",
           "thumbnailUrl": "https://i.ytimg.com/vi/LZJTrAXcyFM/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:37.214Z"
+          "verifiedAt": "2026-11-17T11:30:35.255Z"
+        },
+        {
+          "id": "vBJF2sy1Pyw",
+          "title": "The challenges in using LLM-as-a-Judge - Sourabh Agrawal | Vector Space Talk #013",
+          "channel": "Qdrant Vector Search",
+          "minutes": 42,
+          "covers": [
+            "Measuring response quality",
+            "Performance evaluation",
+            "LLM-as-a-judge"
+          ],
+          "level": "advanced",
+          "status": "ok",
+          "resolvedBy": "seed",
+          "authorName": "Qdrant Vector Search",
+          "thumbnailUrl": "https://i.ytimg.com/vi/vBJF2sy1Pyw/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
+        },
+        {
+          "id": "yu27PWzJI_Y",
+          "title": "What is Prompt Tuning?",
+          "channel": "IBM Technology",
+          "minutes": 9,
+          "covers": [
+            "Prompt tuning fundamentals",
+            "Soft prompts"
+          ],
+          "level": "beginner",
+          "status": "ok",
+          "resolvedBy": "agent-search",
+          "whyThisVideo": "Explains prompt tuning as an efficient, low-cost method of adapting an AI foundation model to downstream tasks without retraining weights.",
+          "reviewed": true,
+          "authorName": "IBM Technology",
+          "thumbnailUrl": "https://i.ytimg.com/vi/yu27PWzJI_Y/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.255Z",
+          "relatedTo": []
         },
         {
           "id": "RTaZqGflrJ8",
-          "moduleId": "mod-05",
-          "moduleNumber": 5,
-          "moduleTitle": "Prompt Optimization Techniques",
-          "expectedTitle": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
-          "channel": "AI Academy",
+          "title": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+          "channel": "AI Academy ",
           "minutes": 7,
           "covers": [
             "BLEU, ROUGE, BERTScore"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+          "role": "core",
+          "whyThisVideo": "Breaks down LLM evaluation for beginners with simple examples of BLEU, ROUGE, and BERTScore across the evaluation pipeline.",
+          "reviewed": true,
           "authorName": "AI Academy ",
           "thumbnailUrl": "https://i.ytimg.com/vi/RTaZqGflrJ8/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:37.898Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
+        },
+        {
+          "id": "ZFKvTIADp0k",
+          "title": "Tuning Your AI Model to Reduce Hallucinations",
+          "channel": "IBM Technology",
+          "minutes": 9,
+          "covers": [
+            "Hallucination detection",
+            "Grounding and temperature"
+          ],
+          "level": "beginner",
+          "status": "ok",
+          "resolvedBy": "agent-search",
+          "whyThisVideo": "IBM Distinguished Engineer Suj Perepa explains why AI hallucination occurs and demonstrates prompting techniques to contain it.",
+          "reviewed": true,
+          "authorName": "IBM Technology",
+          "thumbnailUrl": "https://i.ytimg.com/vi/ZFKvTIADp0k/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         }
-      ],
-      "slots": []
+      ]
     },
     {
       "moduleId": "mod-06",
       "moduleNumber": 6,
       "moduleTitle": "Multi-Model Prompting",
-      "okCount": 2,
+      "okCount": 3,
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 17,
+      "totalWatchMinutes": 25,
       "coverage": 1,
       "coverageRatio": "3/3",
       "coveredTopicsCount": 3,
@@ -716,50 +1142,63 @@
       "videos": [
         {
           "id": "J51oZYcNvP8",
-          "moduleId": "mod-06",
-          "moduleNumber": 6,
-          "moduleTitle": "Multi-Model Prompting",
-          "expectedTitle": "What is Multimodal AI?",
+          "title": "What is Multimodal AI? How LLMs Process Text, Images, and More",
           "channel": "IBM Technology",
           "minutes": 8,
           "covers": [
             "Intro to multi-model prompting",
-            "Cross-model AI interaction"
+            "What is Multimodal AI?"
           ],
           "level": "beginner",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "What is Multimodal AI? How LLMs Process Text, Images, and More",
           "authorName": "IBM Technology",
           "thumbnailUrl": "https://i.ytimg.com/vi/J51oZYcNvP8/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:38.406Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": [
+            "Cross-model AI interaction"
+          ]
         },
         {
           "id": "lOD_EE96jhM",
-          "moduleId": "mod-06",
-          "moduleNumber": 6,
-          "moduleTitle": "Multi-Model Prompting",
-          "expectedTitle": "Vision Language Models Enable Image Understanding",
+          "title": "What Are Vision Language Models? How AI Sees & Understands Images",
           "channel": "IBM Technology",
           "minutes": 9,
           "covers": [
-            "Text + image prompts",
-            "Vision Language Models Enable Image Understanding"
+            "Vision Language Models Enable Image Understanding",
+            "Text + image prompts"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "What Are Vision Language Models? How AI Sees & Understands Images",
           "authorName": "IBM Technology",
           "thumbnailUrl": "https://i.ytimg.com/vi/lOD_EE96jhM/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:38.625Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
+        },
+        {
+          "id": "sWH0T4Zez6I",
+          "title": "Multi Agent Systems Explained: How AI Agents & LLMs Work Together",
+          "channel": "IBM Technology",
+          "minutes": 8,
+          "covers": [
+            "Cross-model AI interaction"
+          ],
+          "level": "intermediate",
+          "status": "ok",
+          "resolvedBy": "agent-search",
+          "role": "core",
+          "whyThisVideo": "Explains how multiple LLMs and AI agents collaborate, exchange state, and divide work across systems.",
+          "reviewed": true,
+          "authorName": "IBM Technology",
+          "thumbnailUrl": "https://i.ytimg.com/vi/sWH0T4Zez6I/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         }
-      ],
-      "slots": []
+      ]
     },
     {
       "moduleId": "mod-07",
@@ -769,7 +1208,7 @@
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 17,
+      "totalWatchMinutes": 27,
       "coverage": 1,
       "coverageRatio": "4/4",
       "coveredTopicsCount": 4,
@@ -789,103 +1228,88 @@
       "videos": [
         {
           "id": "h8gMhXYAv1k",
-          "moduleId": "mod-07",
-          "moduleNumber": 7,
-          "moduleTitle": "Tool-Augmented Prompting",
-          "expectedTitle": "Tool Calling: Traditional vs Embedded Approaches",
+          "title": "What is Tool Calling? Connecting LLMs to Your Data",
           "channel": "IBM Technology",
           "minutes": 5,
           "covers": [
-            "Function calling",
-            "API-based prompting"
+            "Tool Calling: Traditional vs Embedded Approaches",
+            "API-based prompting",
+            "Function calling"
           ],
           "level": "beginner",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "What is Tool Calling? Connecting LLMs to Your Data",
           "authorName": "IBM Technology",
           "thumbnailUrl": "https://i.ytimg.com/vi/h8gMhXYAv1k/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:38.812Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "gosZ_vqXkMI",
-          "moduleId": "mod-07",
-          "moduleNumber": 7,
-          "moduleTitle": "Tool-Augmented Prompting",
-          "expectedTitle": "Orchestrating LLM-Powered Tool Calls",
+          "title": "AI Tool Calling via Natural Language: LLMs, APIs & Docker in Action",
           "channel": "IBM Technology",
           "minutes": 4,
           "covers": [
-            "Plug-in tool integration",
-            "API-based prompting"
+            "Orchestrating LLM-Powered Tool Calls",
+            "Plug-in tool integration"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "AI Tool Calling via Natural Language: LLMs, APIs & Docker in Action",
           "authorName": "IBM Technology",
           "thumbnailUrl": "https://i.ytimg.com/vi/gosZ_vqXkMI/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:39.062Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
+        },
+        {
+          "id": "0z9_MhcYvcY",
+          "title": "What is Agentic RAG?",
+          "channel": "IBM Technology",
+          "minutes": 10,
+          "covers": [
+            "Plug-in tool integration",
+            "What is Agentic RAG?",
+            "Retrieval Augmented Generation"
+          ],
+          "level": "intermediate",
+          "status": "ok",
+          "resolvedBy": "seed",
+          "authorName": "IBM Technology",
+          "thumbnailUrl": "https://i.ytimg.com/vi/0z9_MhcYvcY/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "cDn7bf84LsM",
-          "moduleId": "mod-07",
-          "moduleNumber": 7,
-          "moduleTitle": "Tool-Augmented Prompting",
-          "expectedTitle": "LangChain Retrieval-Augmented Generation Demo",
+          "title": "LangChain RAG: Optimizing AI Models for Accurate Responses",
           "channel": "IBM Technology",
           "minutes": 8,
           "covers": [
             "Retrieval Augmented Generation"
           ],
           "level": "beginner",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "LangChain RAG: Optimizing AI Models for Accurate Responses",
           "authorName": "IBM Technology",
           "thumbnailUrl": "https://i.ytimg.com/vi/cDn7bf84LsM/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:39.269Z"
-        },
-        {
-          "id": "0z9_MhcYvcY",
-          "moduleId": "mod-07",
-          "moduleNumber": 7,
-          "moduleTitle": "Tool-Augmented Prompting",
-          "expectedTitle": "What is Agentic RAG?",
-          "channel": "IBM Technology",
-          "minutes": 10,
-          "covers": [
-            "Retrieval Augmented Generation",
-            "Plug-in tool integration"
-          ],
-          "level": "intermediate",
-          "role": "optional",
-          "resolvedBy": "seed",
-          "title": "What is Agentic RAG?",
-          "authorName": "IBM Technology",
-          "thumbnailUrl": "https://i.ytimg.com/vi/0z9_MhcYvcY/hqdefault.jpg",
-          "status": "ok",
-          "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:39.484Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         }
-      ],
-      "slots": []
+      ]
     },
     {
       "moduleId": "mod-08",
       "moduleNumber": 8,
       "moduleTitle": "Security in Prompt Engineering",
-      "okCount": 4,
+      "okCount": 5,
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 28,
+      "totalWatchMinutes": 56,
       "coverage": 1,
       "coverageRatio": "4/4",
       "coveredTopicsCount": 4,
@@ -905,10 +1329,7 @@
       "videos": [
         {
           "id": "_9x-mAHGgC4",
-          "moduleId": "mod-08",
-          "moduleNumber": 8,
-          "moduleTitle": "Security in Prompt Engineering",
-          "expectedTitle": "Six Major Adversarial AI Attack Types",
+          "title": "Artificial Intelligence: The new attack surface",
           "channel": "IBM Technology",
           "minutes": 9,
           "covers": [
@@ -920,82 +1341,93 @@
             "Safe prompt design"
           ],
           "level": "beginner",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Artificial Intelligence: The new attack surface",
+          "role": "core",
           "authorName": "IBM Technology",
           "thumbnailUrl": "https://i.ytimg.com/vi/_9x-mAHGgC4/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:39.723Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z"
+        },
+        {
+          "id": "yNIlm9IfcgA",
+          "title": "Secure AI Systems: Understanding and Preventing Prompt Injection",
+          "channel": "ChatBotKit",
+          "minutes": 6,
+          "covers": [
+            "Prompt injection",
+            "Understanding and Preventing Prompt Injection",
+            "Mitigation strategies"
+          ],
+          "level": "intermediate",
+          "status": "ok",
+          "resolvedBy": "seed",
+          "role": "core",
+          "authorName": "ChatBotKit",
+          "thumbnailUrl": "https://i.ytimg.com/vi/yNIlm9IfcgA/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "zn2ukSnDqSg",
-          "moduleId": "mod-08",
-          "moduleNumber": 8,
-          "moduleTitle": "Security in Prompt Engineering",
-          "expectedTitle": "ChatGPT Jailbreak - Computerphile",
+          "title": "ChatGPT Jailbreak - Computerphile",
           "channel": "Computerphile",
           "minutes": 12,
           "covers": [
             "Jailbreak techniques"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "ChatGPT Jailbreak - Computerphile",
+          "whyThisVideo": "Security researcher Dr Tim Muller explores how large language models can be jailbroken and manipulated for unintended purposes.",
+          "reviewed": true,
           "authorName": "Computerphile",
           "thumbnailUrl": "https://i.ytimg.com/vi/zn2ukSnDqSg/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:39.933Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "gZTQNb0NGjM",
-          "moduleId": "mod-08",
-          "moduleNumber": 8,
-          "moduleTitle": "Security in Prompt Engineering",
-          "expectedTitle": "Hypnotized AI and Large Language Model Security",
+          "title": "Hypnotized AI and Large Language Model Security",
           "channel": "IBM Technology",
           "minutes": 7,
           "covers": [
-            "Prompt injection",
-            "Safe prompt design"
-          ],
-          "level": "intermediate",
-          "role": "core",
-          "resolvedBy": "seed",
-          "title": "Hypnotized AI and Large Language Model Security",
-          "authorName": "IBM Technology",
-          "thumbnailUrl": "https://i.ytimg.com/vi/gZTQNb0NGjM/hqdefault.jpg",
-          "status": "ok",
-          "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:40.136Z"
-        },
-        {
-          "id": "yNIlm9IfcgA",
-          "moduleId": "mod-08",
-          "moduleNumber": 8,
-          "moduleTitle": "Security in Prompt Engineering",
-          "expectedTitle": "Understanding and Preventing Prompt Injection",
-          "channel": "ChatBotKit",
-          "minutes": 6,
-          "covers": [
-            "Prompt injection",
             "Mitigation strategies"
           ],
           "level": "intermediate",
-          "role": "optional",
-          "resolvedBy": "seed",
-          "title": "Secure AI Systems: Understanding and Preventing Prompt Injection",
-          "authorName": "ChatBotKit",
-          "thumbnailUrl": "https://i.ytimg.com/vi/yNIlm9IfcgA/hqdefault.jpg",
           "status": "ok",
+          "resolvedBy": "seed",
+          "relatedTo": [
+            "Safe prompt design"
+          ],
+          "authorName": "IBM Technology",
+          "thumbnailUrl": "https://i.ytimg.com/vi/gZTQNb0NGjM/hqdefault.jpg",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:40.384Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z"
+        },
+        {
+          "id": "q-4zKTR9m3g",
+          "title": "AI Security Mini-Course: Defending against Prompt Injections (spotlighting, alignment checks, etc)",
+          "channel": "Probably Private",
+          "minutes": 22,
+          "covers": [
+            "Safe prompt design"
+          ],
+          "level": "intermediate",
+          "status": "ok",
+          "resolvedBy": "agent-search",
+          "role": "core",
+          "whyThisVideo": "Explores defense strategies against prompt injection including spotlighting, instruction hierarchy, and guardrails.",
+          "reviewed": true,
+          "authorName": "Probably Private",
+          "thumbnailUrl": "https://i.ytimg.com/vi/q-4zKTR9m3g/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         }
-      ],
-      "slots": []
+      ]
     },
     {
       "moduleId": "mod-09",
@@ -1025,130 +1457,119 @@
       "videos": [
         {
           "id": "LAF-lACf2QY",
-          "moduleId": "mod-09",
-          "moduleNumber": 9,
-          "moduleTitle": "Domain-Specific Prompt Engineering",
-          "expectedTitle": "Prompt engineering essentials: Getting better results from LLMs",
+          "title": "Prompt engineering essentials: Getting better results from LLMs | Tutorial",
           "channel": "GitHub",
           "minutes": 24,
           "covers": [
-            "Coding"
+            "Coding",
+            "Prompt engineering essentials"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Prompt engineering essentials: Getting better results from LLMs | Tutorial",
           "authorName": "GitHub",
           "thumbnailUrl": "https://i.ytimg.com/vi/LAF-lACf2QY/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:40.627Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "--XpNP6NsqE",
-          "moduleId": "mod-09",
-          "moduleNumber": 9,
-          "moduleTitle": "Domain-Specific Prompt Engineering",
-          "expectedTitle": "How to Write Better AI Prompts as a Software Developer in 2026",
+          "title": "How to Write Better AI Prompts as a Software Developer in 2026",
           "channel": "JetBrains",
           "minutes": 28,
           "covers": [
-            "Coding"
+            "Coding",
+            "Prompt engineering for developers"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "How to Write Better AI Prompts as a Software Developer in 2026",
           "authorName": "JetBrains",
           "thumbnailUrl": "https://i.ytimg.com/vi/--XpNP6NsqE/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:40.850Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "GxlOoKI0zxg",
-          "moduleId": "mod-09",
-          "moduleNumber": 9,
-          "moduleTitle": "Domain-Specific Prompt Engineering",
-          "expectedTitle": "Prompt Engineering for Teachers",
+          "title": "Prompt Engineering for Teachers",
           "channel": "Town Square for Teachers",
           "minutes": 11,
           "covers": [
             "Education and tutoring"
           ],
           "level": "beginner",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "Prompt Engineering for Teachers",
+          "role": "core",
+          "whyThisVideo": "Demonstrates proven prompt engineering principles and structured formulas tailored for teachers and educational workflows.",
+          "reviewed": true,
           "authorName": "Town Square for Teachers",
           "thumbnailUrl": "https://i.ytimg.com/vi/GxlOoKI0zxg/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:41.056Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "QRgayVF5PyM",
-          "moduleId": "mod-09",
-          "moduleNumber": 9,
-          "moduleTitle": "Domain-Specific Prompt Engineering",
-          "expectedTitle": "Prompt Engineering for Business: Automate Workflows With AI",
+          "title": "Prompt Engineering for Business: Automate Workflows With AI",
           "channel": "Tuff University",
           "minutes": 30,
           "covers": [
             "Business automation"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "Prompt Engineering for Business: Automate Workflows With AI",
+          "role": "core",
+          "whyThisVideo": "Breaks down how to design prompts that drive consistent results, trigger automated actions, and scale business operations.",
+          "reviewed": true,
           "authorName": "Tuff University",
           "thumbnailUrl": "https://i.ytimg.com/vi/QRgayVF5PyM/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:41.254Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "U8zrqWrTYdc",
-          "moduleId": "mod-09",
-          "moduleNumber": 9,
-          "moduleTitle": "Domain-Specific Prompt Engineering",
-          "expectedTitle": "How to use ChatGPT for Research - Literature Review, Research Paper Writing & Publication",
+          "title": "How to use ChatGPT for Research - Literature Review, Research Paper Writing & Publication",
           "channel": "WiseUp Communications",
           "minutes": 9,
           "covers": [
             "Research assistance"
           ],
           "level": "beginner",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "How to use ChatGPT for Research - Literature Review, Research Paper Writing & Publication",
+          "role": "core",
+          "whyThisVideo": "Provides actionable prompt templates for academic research from literature reviews to methodology drafting.",
+          "reviewed": true,
           "authorName": "WiseUp Communications",
           "thumbnailUrl": "https://i.ytimg.com/vi/U8zrqWrTYdc/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:41.454Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         }
-      ],
-      "slots": []
+      ]
     },
     {
       "moduleId": "mod-10",
       "moduleNumber": 10,
       "moduleTitle": "Advanced Prompt Engineering",
-      "okCount": 5,
+      "okCount": 6,
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 125,
-      "coverage": 1,
-      "coverageRatio": "5/5",
-      "coveredTopicsCount": 5,
+      "totalWatchMinutes": 130,
+      "coverage": 0.8,
+      "coverageRatio": "4/5",
+      "coveredTopicsCount": 4,
       "totalTopicsCount": 5,
       "coveredTopics": [
         "Tree-of-Thoughts",
         "Active prompting",
         "ReAct",
-        "Expert prompting",
         "APE"
       ],
       "totalTopics": [
@@ -1161,121 +1582,185 @@
       "videos": [
         {
           "id": "uDIW34h8cmM",
-          "moduleId": "mod-10",
-          "moduleNumber": 10,
-          "moduleTitle": "Advanced Prompt Engineering",
-          "expectedTitle": "Prompt Engineering Guide - From Beginner to Advanced",
+          "title": "Prompt Engineering Guide - From Beginner to Advanced",
           "channel": "Matthew Berman",
           "minutes": 33,
           "covers": [
             "ToT, ReAct, APE overview"
           ],
           "level": "beginner",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Prompt Engineering Guide - From Beginner to Advanced",
+          "chapters": [
+            {
+              "time": 0,
+              "label": "Intro"
+            },
+            {
+              "time": 20,
+              "label": "Prompt Engineering Basics"
+            },
+            {
+              "time": 63,
+              "label": "What is Prompt Engineering"
+            },
+            {
+              "time": 123,
+              "label": "Output Length"
+            },
+            {
+              "time": 259,
+              "label": "Sampling Controls (Top K & Top P)"
+            },
+            {
+              "time": 480,
+              "label": "Zero Shot Prompting"
+            },
+            {
+              "time": 556,
+              "label": "One Shot Prompting"
+            },
+            {
+              "time": 689,
+              "label": "System Messages & Role Assignment"
+            },
+            {
+              "time": 879,
+              "label": "Step Back Prompting"
+            },
+            {
+              "time": 1042,
+              "label": "Chain of Thought Reasoning"
+            },
+            {
+              "time": 1249,
+              "label": "Self Consistency"
+            },
+            {
+              "time": 1429,
+              "label": "Tree of Thought"
+            },
+            {
+              "time": 1618,
+              "label": "ReAct Framework"
+            },
+            {
+              "time": 1860,
+              "label": "Best Practices & Wrap-up"
+            }
+          ],
           "authorName": "Matthew Berman",
           "thumbnailUrl": "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:41.708Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "ut5kp56wW_4",
-          "moduleId": "mod-10",
-          "moduleNumber": 10,
-          "moduleTitle": "Advanced Prompt Engineering",
-          "expectedTitle": "Tree of Thoughts: Deliberate Problem Solving with LLMs",
+          "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models (Full Paper Review)",
           "channel": "Yannic Kilcher",
           "minutes": 29,
           "covers": [
-            "Tree-of-Thoughts"
+            "Tree of Thoughts: Deliberate Problem Solving with LLMs"
           ],
           "level": "advanced",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models (Full Paper Review)",
           "authorName": "Yannic Kilcher",
           "thumbnailUrl": "https://i.ytimg.com/vi/ut5kp56wW_4/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:41.898Z"
-        },
-        {
-          "id": "QX-p-vsDoiQ",
-          "moduleId": "mod-10",
-          "moduleNumber": 10,
-          "moduleTitle": "Advanced Prompt Engineering",
-          "expectedTitle": "ReAct paper reading",
-          "channel": "Arize AI",
-          "minutes": 48,
-          "covers": [
-            "ReAct"
-          ],
-          "level": "advanced",
-          "role": "core",
-          "resolvedBy": "seed",
-          "title": "Keys to Understanding ReAct: Synergizing Reasoning and Acting in Language Models",
-          "authorName": "Arize AI",
-          "thumbnailUrl": "https://i.ytimg.com/vi/QX-p-vsDoiQ/hqdefault.jpg",
-          "status": "ok",
-          "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:42.119Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "wcmLgy1-9aQ",
-          "moduleId": "mod-10",
-          "moduleNumber": 10,
-          "moduleTitle": "Advanced Prompt Engineering",
-          "expectedTitle": "Active Prompting Explained: Boost AI Reasoning with Less Human Effort",
+          "title": "Active Prompting Explained: Boost AI Reasoning with Less Human Effort",
           "channel": "Micro Learning",
           "minutes": 8,
           "covers": [
             "Active prompting"
           ],
           "level": "advanced",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "Active Prompting Explained: Boost AI Reasoning with Less Human Effort",
+          "role": "core",
+          "whyThisVideo": "Explores how Active Prompting improves AI reasoning by identifying model uncertainty and selectively requesting human examples.",
+          "reviewed": true,
           "authorName": "Micro Learning",
           "thumbnailUrl": "https://i.ytimg.com/vi/wcmLgy1-9aQ/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:42.361Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
+        },
+        {
+          "id": "QX-p-vsDoiQ",
+          "title": "Keys to Understanding ReAct: Synergizing Reasoning and Acting in Language Models",
+          "channel": "Arize AI",
+          "minutes": 48,
+          "covers": [
+            "ReAct paper reading"
+          ],
+          "level": "advanced",
+          "status": "ok",
+          "resolvedBy": "seed",
+          "authorName": "Arize AI",
+          "thumbnailUrl": "https://i.ytimg.com/vi/QX-p-vsDoiQ/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "g5h-piquf_k",
-          "moduleId": "mod-10",
-          "moduleNumber": 10,
-          "moduleTitle": "Advanced Prompt Engineering",
-          "expectedTitle": "Should you tell your LLM it's an 'expert' before prompting?",
+          "title": "Should you tell your LLM it's an 'expert' before prompting?",
           "channel": "AI and Search with Mark Williams-Cook",
           "minutes": 7,
-          "covers": [
+          "covers": [],
+          "level": "advanced",
+          "status": "ok",
+          "resolvedBy": "agent-search",
+          "role": "core",
+          "relatedTo": [
             "Expert prompting"
           ],
-          "level": "advanced",
-          "role": "core",
-          "resolvedBy": "agent-search",
-          "title": "Should you tell your LLM it's an 'expert' before prompting?",
+          "notes": "Critical perspective on expert personas",
+          "whyThisVideo": "Dives into token space mechanics to evaluate whether telling an LLM it is an expert persona measurably improves response quality.",
+          "reviewed": true,
           "authorName": "AI and Search with Mark Williams-Cook",
           "thumbnailUrl": "https://i.ytimg.com/vi/g5h-piquf_k/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:42.625Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z"
+        },
+        {
+          "id": "OmTdkNEr2nU",
+          "title": "Large Language Models Are Human-Level Prompt Engineers (Automatic Prompt Engineer - APE)",
+          "channel": "Andrei Muresanu",
+          "minutes": 5,
+          "covers": [
+            "APE"
+          ],
+          "level": "advanced",
+          "status": "ok",
+          "resolvedBy": "agent-search",
+          "role": "core",
+          "whyThisVideo": "Paper author explains the Automatic Prompt Engineer (APE) framework for automated instruction generation and selection.",
+          "reviewed": true,
+          "authorName": "Andrei Muresanu",
+          "thumbnailUrl": "https://i.ytimg.com/vi/OmTdkNEr2nU/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         }
-      ],
-      "slots": []
+      ]
     },
     {
       "moduleId": "mod-11",
       "moduleNumber": 11,
       "moduleTitle": "AI Agents, Context Engineering and MCP",
-      "okCount": 5,
+      "okCount": 7,
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 95,
+      "totalWatchMinutes": 155,
       "coverage": 1,
       "coverageRatio": "5/5",
       "coveredTopicsCount": 5,
@@ -1296,11 +1781,28 @@
       ],
       "videos": [
         {
+          "id": "MKqg6wzOySA",
+          "title": "Key 5 - AI Agents Explained: Plan, Act, Observe Loop & Real Risks",
+          "channel": "Duke Center for Computational Thinking",
+          "minutes": 16,
+          "covers": [
+            "Agent loops (plan, act, observe)"
+          ],
+          "level": "beginner",
+          "status": "ok",
+          "resolvedBy": "agent-search",
+          "role": "core",
+          "whyThisVideo": "Explains what makes a system agentic through the foundational Plan, Act, Observe loop.",
+          "reviewed": true,
+          "authorName": "Duke Center for Computational Thinking",
+          "thumbnailUrl": "https://i.ytimg.com/vi/MKqg6wzOySA/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
+        },
+        {
           "id": "eur8dUO9mvE",
-          "moduleId": "mod-11",
-          "moduleNumber": 11,
-          "moduleTitle": "AI Agents, Context Engineering and MCP",
-          "expectedTitle": "What is MCP?",
+          "title": "What is MCP? Integrate AI Agents with Databases & APIs",
           "channel": "IBM Technology",
           "minutes": 4,
           "covers": [
@@ -1311,123 +1813,129 @@
             "Agent loops (plan, act, observe)"
           ],
           "level": "beginner",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "What is MCP? Integrate AI Agents with Databases & APIs",
+          "role": "core",
           "authorName": "IBM Technology",
           "thumbnailUrl": "https://i.ytimg.com/vi/eur8dUO9mvE/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:42.847Z"
-        },
-        {
-          "id": "vD0E3EUb8-8",
-          "moduleId": "mod-11",
-          "moduleNumber": 11,
-          "moduleTitle": "AI Agents, Context Engineering and MCP",
-          "expectedTitle": "Context Engineering vs. Prompt Engineering: Smarter AI with RAG & Agents",
-          "channel": "IBM Technology",
-          "minutes": 6,
-          "covers": [
-            "Context windows and context engineering vs prompt engineering",
-            "Agentic RAG"
-          ],
-          "level": "beginner",
-          "role": "core",
-          "resolvedBy": "seed",
-          "title": "Context Engineering vs. Prompt Engineering: Smarter AI with RAG & Agents",
-          "authorName": "IBM Technology",
-          "thumbnailUrl": "https://i.ytimg.com/vi/vD0E3EUb8-8/hqdefault.jpg",
-          "status": "ok",
-          "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:43.048Z"
-        },
-        {
-          "id": "7j1t3UZA1TY",
-          "moduleId": "mod-11",
-          "moduleNumber": 11,
-          "moduleTitle": "AI Agents, Context Engineering and MCP",
-          "expectedTitle": "MCP vs API: Simplifying AI Agent Integration with External Data",
-          "channel": "IBM Technology",
-          "minutes": 7,
-          "covers": [
-            "MCP vs API",
-            "Memory and tool protocols"
-          ],
-          "level": "beginner",
-          "role": "core",
-          "resolvedBy": "seed",
-          "title": "MCP vs API: Simplifying AI Agent Integration with External Data",
-          "authorName": "IBM Technology",
-          "thumbnailUrl": "https://i.ytimg.com/vi/7j1t3UZA1TY/hqdefault.jpg",
-          "status": "ok",
-          "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:43.293Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z"
         },
         {
           "id": "kQmXtrmQ5Zg",
-          "moduleId": "mod-11",
-          "moduleNumber": 11,
-          "moduleTitle": "AI Agents, Context Engineering and MCP",
-          "expectedTitle": "Building Agents with Model Context Protocol - Full Workshop with Mahesh Murag of Anthropic",
+          "title": "Building Agents with Model Context Protocol - Full Workshop with Mahesh Murag of Anthropic",
           "channel": "AI Engineer",
           "minutes": 78,
           "covers": [
             "Agent loops (plan, act, observe)",
+            "MCP workshop Mahesh Murag",
             "Memory and tool protocols"
           ],
           "level": "advanced",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Building Agents with Model Context Protocol - Full Workshop with Mahesh Murag of Anthropic",
+          "role": "core",
           "authorName": "AI Engineer",
           "thumbnailUrl": "https://i.ytimg.com/vi/kQmXtrmQ5Zg/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:43.483Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
+        },
+        {
+          "id": "vD0E3EUb8-8",
+          "title": "Context Engineering vs. Prompt Engineering: Smarter AI with RAG & Agents",
+          "channel": "IBM Technology",
+          "minutes": 6,
+          "covers": [
+            "Context Engineering vs. Prompt Engineering",
+            "Agentic RAG"
+          ],
+          "level": "beginner",
+          "status": "ok",
+          "resolvedBy": "seed",
+          "authorName": "IBM Technology",
+          "thumbnailUrl": "https://i.ytimg.com/vi/vD0E3EUb8-8/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
+        },
+        {
+          "id": "7j1t3UZA1TY",
+          "title": "MCP vs API: Simplifying AI Agent Integration with External Data",
+          "channel": "IBM Technology",
+          "minutes": 7,
+          "covers": [
+            "MCP vs API",
+            "Tool protocols and MCP discovery",
+            "MCP (hosts, clients, servers)"
+          ],
+          "level": "beginner",
+          "status": "ok",
+          "resolvedBy": "seed",
+          "authorName": "IBM Technology",
+          "thumbnailUrl": "https://i.ytimg.com/vi/7j1t3UZA1TY/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
+        },
+        {
+          "id": "BacJ6sEhqMo",
+          "title": "The Four Types of Memory Every AI Agent Needs",
+          "channel": "IBM Technology",
+          "minutes": 11,
+          "covers": [
+            "Memory and tool protocols"
+          ],
+          "level": "intermediate",
+          "status": "ok",
+          "resolvedBy": "agent-search",
+          "role": "core",
+          "whyThisVideo": "Martin Keen explains the four types of memory AI agents use, from short-term context buffers to long-term memory.",
+          "reviewed": true,
+          "authorName": "IBM Technology",
+          "thumbnailUrl": "https://i.ytimg.com/vi/BacJ6sEhqMo/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "Yq29bZ8Hlrc",
-          "moduleId": "mod-11",
-          "moduleNumber": 11,
-          "moduleTitle": "AI Agents, Context Engineering and MCP",
-          "expectedTitle": "Optimize RAG with AI Agents & Vector Databases",
+          "title": "Optimize RAG with AI Agents & Vector Databases",
           "channel": "IBM Technology",
           "minutes": 33,
           "covers": [
-            "Agentic RAG",
             "Optimize RAG with AI Agents and Vector Databases"
           ],
           "level": "advanced",
-          "role": "optional",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Optimize RAG with AI Agents & Vector Databases",
           "authorName": "IBM Technology",
           "thumbnailUrl": "https://i.ytimg.com/vi/Yq29bZ8Hlrc/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:43.688Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         }
-      ],
-      "slots": []
+      ]
     },
     {
       "moduleId": "mod-12",
       "moduleNumber": 12,
       "moduleTitle": "Production Prompt Engineering and Responsible AI",
-      "okCount": 5,
+      "okCount": 9,
       "unavailableCount": 0,
       "slotCount": 0,
       "hasPlayableVideo": true,
-      "totalWatchMinutes": 35,
-      "coverage": 0.6,
-      "coverageRatio": "3/5",
-      "coveredTopicsCount": 3,
+      "totalWatchMinutes": 70,
+      "coverage": 1,
+      "coverageRatio": "5/5",
+      "coveredTopicsCount": 5,
       "totalTopicsCount": 5,
       "coveredTopics": [
         "Prompting vs RAG vs fine-tuning",
+        "LLM-as-judge in production",
         "Prompt versioning and regression tests",
-        "Guardrails, cost, latency, caching"
+        "Guardrails, cost, latency, caching",
+        "Bias, safety, governance"
       ],
       "totalTopics": [
         "Prompting vs RAG vs fine-tuning",
@@ -1439,31 +1947,102 @@
       "videos": [
         {
           "id": "zYGDpG-pTho",
-          "moduleId": "mod-12",
-          "moduleNumber": 12,
-          "moduleTitle": "Production Prompt Engineering and Responsible AI",
-          "expectedTitle": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
+          "title": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
           "channel": "IBM Technology",
           "minutes": 13,
           "covers": [
             "Prompting vs RAG vs fine-tuning"
           ],
           "level": "beginner",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
+          "whyThisVideo": "Martin Keen compares RAG, fine-tuning, and prompt engineering to guide when to extend knowledge versus refine responses.",
+          "reviewed": true,
           "authorName": "IBM Technology",
           "thumbnailUrl": "https://i.ytimg.com/vi/zYGDpG-pTho/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:43.920Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
+        },
+        {
+          "id": "vBJF2sy1Pyw",
+          "title": "The challenges in using LLM-as-a-Judge - Sourabh Agrawal | Vector Space Talk #013",
+          "channel": "Qdrant Vector Search",
+          "minutes": 20,
+          "covers": [
+            "LLM-as-judge in production"
+          ],
+          "level": "advanced",
+          "status": "ok",
+          "resolvedBy": "seed",
+          "role": "core",
+          "authorName": "Qdrant Vector Search",
+          "thumbnailUrl": "https://i.ytimg.com/vi/vBJF2sy1Pyw/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
+        },
+        {
+          "id": "LZJTrAXcyFM",
+          "title": "Community Paper Reading: LLMs-as-Judges",
+          "channel": "Arize AI",
+          "minutes": 15,
+          "covers": [
+            "LLM-as-judge in production"
+          ],
+          "level": "advanced",
+          "status": "ok",
+          "resolvedBy": "seed",
+          "role": "optional",
+          "authorName": "Arize AI",
+          "thumbnailUrl": "https://i.ytimg.com/vi/LZJTrAXcyFM/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
+        },
+        {
+          "id": "DNmIqNjbKoM",
+          "title": "Prompt Versioning & Testing Strategies — Reliable LLM Development | Uplatz",
+          "channel": "Uplatz",
+          "minutes": 6,
+          "covers": [
+            "Prompt versioning and regression tests"
+          ],
+          "level": "intermediate",
+          "status": "ok",
+          "resolvedBy": "agent-search",
+          "role": "core",
+          "whyThisVideo": "Explores how to version, test, and validate prompts in production AI so outputs remain stable and reproducible.",
+          "reviewed": true,
+          "authorName": "Uplatz",
+          "thumbnailUrl": "https://i.ytimg.com/vi/DNmIqNjbKoM/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
+        },
+        {
+          "id": "u57EnkQaUTY",
+          "title": "What is Prompt Caching? Optimize LLM Latency with AI Transformers",
+          "channel": "IBM Technology",
+          "minutes": 9,
+          "covers": [
+            "Guardrails, cost, latency, caching"
+          ],
+          "level": "intermediate",
+          "status": "ok",
+          "resolvedBy": "agent-search",
+          "role": "core",
+          "whyThisVideo": "Explains how prompt caching works with AI transformers to cut cost and reduce LLM inference latency.",
+          "reviewed": true,
+          "authorName": "IBM Technology",
+          "thumbnailUrl": "https://i.ytimg.com/vi/u57EnkQaUTY/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "l5K4r_TJz_8",
-          "moduleId": "mod-12",
-          "moduleNumber": 12,
-          "moduleTitle": "Production Prompt Engineering and Responsible AI",
-          "expectedTitle": "How to implement LLM guardrails for RAG applications",
+          "title": "How to implement LLM guardrails for RAG applications",
           "channel": "IBM Developer",
           "minutes": 7,
           "covers": [
@@ -1471,21 +2050,20 @@
             "Guardrails, cost, latency, caching"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "agent-search",
-          "title": "How to implement LLM guardrails for RAG applications",
+          "role": "core",
+          "whyThisVideo": "Demonstrates how to implement contextual grounding checks and guardrails to detect hallucinations in production applications.",
+          "reviewed": true,
           "authorName": "IBM Developer",
           "thumbnailUrl": "https://i.ytimg.com/vi/l5K4r_TJz_8/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:44.163Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "HdafI0t3sEY",
-          "moduleId": "mod-12",
-          "moduleNumber": 12,
-          "moduleTitle": "Production Prompt Engineering and Responsible AI",
-          "expectedTitle": "RAG vs. CAG: Solving Knowledge Gaps in AI Models",
+          "title": "RAG vs. CAG: Solving Knowledge Gaps in AI Models",
           "channel": "IBM Technology",
           "minutes": 9,
           "covers": [
@@ -1495,21 +2073,37 @@
             "Guardrails, cost, latency, caching"
           ],
           "level": "intermediate",
-          "role": "core",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "RAG vs. CAG: Solving Knowledge Gaps in AI Models",
+          "role": "core",
           "authorName": "IBM Technology",
           "thumbnailUrl": "https://i.ytimg.com/vi/HdafI0t3sEY/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:44.343Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z"
+        },
+        {
+          "id": "yh-3WU1FKrk",
+          "title": "What is Responsible AI? A Guide to AI Governance",
+          "channel": "IBM Technology",
+          "minutes": 6,
+          "covers": [
+            "Bias, safety, governance"
+          ],
+          "level": "beginner",
+          "status": "ok",
+          "resolvedBy": "agent-search",
+          "role": "core",
+          "whyThisVideo": "Provides an essential guide to Responsible AI principles, risk minimization, and AI governance frameworks.",
+          "reviewed": true,
+          "authorName": "IBM Technology",
+          "thumbnailUrl": "https://i.ytimg.com/vi/yh-3WU1FKrk/hqdefault.jpg",
+          "httpStatus": 200,
+          "verifiedAt": "2026-11-17T11:30:35.256Z",
+          "relatedTo": []
         },
         {
           "id": "7xTGNNLPyMI",
-          "moduleId": "mod-12",
-          "moduleNumber": 12,
-          "moduleTitle": "Production Prompt Engineering and Responsible AI",
-          "expectedTitle": "Deep Dive into LLMs like ChatGPT",
+          "title": "Deep Dive into LLMs like ChatGPT",
           "channel": "Andrej Karpathy",
           "minutes": 211,
           "covers": [
@@ -1519,249 +2113,15 @@
             "Bias, safety, governance"
           ],
           "level": "advanced",
-          "role": "optional",
+          "status": "ok",
           "resolvedBy": "seed",
-          "title": "Deep Dive into LLMs like ChatGPT",
+          "role": "optional",
           "authorName": "Andrej Karpathy",
           "thumbnailUrl": "https://i.ytimg.com/vi/7xTGNNLPyMI/hqdefault.jpg",
-          "status": "ok",
           "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:44.539Z"
-        },
-        {
-          "id": "DNmIqNjbKoM",
-          "moduleId": "mod-12",
-          "moduleNumber": 12,
-          "moduleTitle": "Production Prompt Engineering and Responsible AI",
-          "expectedTitle": "Prompt Versioning & Testing Strategies — Reliable LLM Development | Uplatz",
-          "channel": "Uplatz",
-          "minutes": 6,
-          "covers": [
-            "Prompt versioning and regression tests"
-          ],
-          "level": "intermediate",
-          "role": "core",
-          "resolvedBy": "agent-search",
-          "title": "Prompt Versioning & Testing Strategies — Reliable LLM Development | Uplatz",
-          "authorName": "Uplatz",
-          "thumbnailUrl": "https://i.ytimg.com/vi/DNmIqNjbKoM/hqdefault.jpg",
-          "status": "ok",
-          "httpStatus": 200,
-          "verifiedAt": "2026-11-17T07:41:44.740Z"
+          "verifiedAt": "2026-11-17T11:30:35.256Z"
         }
-      ],
-      "slots": []
+      ]
     }
-  ],
-  "resolvedTopics": [
-    {
-      "topicNumber": 1,
-      "moduleId": "mod-01",
-      "moduleNumber": 1,
-      "topicName": "Evolution of AI and LLMs",
-      "searchQuery": "history of AI and large language models explained",
-      "outcome": "resolved",
-      "chosenVideoId": "ZHCB09O6zUk",
-      "chosenVideoTitle": "A Brief History of AI: From Machine Learning to Gen AI to Agentic AI",
-      "chosenChannel": "IBM Technology",
-      "chosenMinutes": 13,
-      "reason": "13 minutes long (>=4m), published 2024, passes oEmbed with HTTP 200, highly accessible beginner primer on the 70-year timeline of AI."
-    },
-    {
-      "topicNumber": 2,
-      "moduleId": "mod-02",
-      "moduleNumber": 2,
-      "topicName": "Constraint based prompting",
-      "searchQuery": "constrained generation for better LLM prompting results",
-      "outcome": "resolved",
-      "chosenVideoId": "ugxPshXr7Ro",
-      "chosenVideoTitle": "Constrained Generation for Better LLM Prompting Results",
-      "chosenChannel": "Matthew Esposito | AI",
-      "chosenMinutes": 5,
-      "reason": "5-minute tutorial published 2025, passes oEmbed HTTP 200, teaches 5 categories of prompt constraints (structure, quantity, language, logic) with concrete LLM examples."
-    },
-    {
-      "topicNumber": 3,
-      "moduleId": "mod-03",
-      "moduleNumber": 3,
-      "topicName": "Delimiter based and structured prompts",
-      "searchQuery": "XML Tags Delimiters Complex Prompt Structure",
-      "outcome": "resolved",
-      "chosenVideoId": "zrp3Lr5eeFc",
-      "chosenVideoTitle": "XML Tags, Delimiters & Complex Prompt Structure",
-      "chosenChannel": "Fortivance Academy",
-      "chosenMinutes": 8,
-      "reason": "8-minute dedicated lesson published 2026, passes oEmbed HTTP 200, teaches XML tags, delimiters, semantic boundaries, and structured prompt formatting."
-    },
-    {
-      "topicNumber": 4,
-      "moduleId": "mod-03",
-      "moduleNumber": 3,
-      "topicName": "Multi-prompt interaction",
-      "searchQuery": "AI Prompt Engineering Multistep Prompting",
-      "outcome": "resolved",
-      "chosenVideoId": "OEQPss-UXhA",
-      "chosenVideoTitle": "AI Prompt Engineering - Multistep Prompting",
-      "chosenChannel": "SivamX",
-      "chosenMinutes": 9,
-      "reason": "9-minute tutorial published 2025, passes oEmbed HTTP 200, teaches multi-step prompt design, decomposing complex asks, and orchestrating sequential workflows."
-    },
-    {
-      "topicNumber": 5,
-      "moduleId": "mod-04",
-      "moduleNumber": 4,
-      "topicName": "Prompt chaining and pipelines",
-      "searchQuery": "Prompt Chaining Explained LangChain Tutorial for Building Smarter AI Workflows",
-      "outcome": "resolved",
-      "chosenVideoId": "KwC8bUZrUKA",
-      "chosenVideoTitle": "Prompt Chaining Explained | LangChain Tutorial for Building Smarter AI Workflows 🚀",
-      "chosenChannel": "Micro Learning",
-      "chosenMinutes": 8,
-      "reason": "8-minute guide published 2026, passes oEmbed HTTP 200, teaches prompt chaining architectures and step-by-step pipeline execution."
-    },
-    {
-      "topicNumber": 6,
-      "moduleId": "mod-05",
-      "moduleNumber": 5,
-      "topicName": "Prompt tuning fundamentals",
-      "searchQuery": "prompt tuning soft prompts explained",
-      "outcome": "resolved",
-      "chosenVideoId": "yu27PWzJI_Y",
-      "chosenVideoTitle": "What is Prompt Tuning?",
-      "chosenChannel": "IBM Technology",
-      "chosenMinutes": 9,
-      "reason": "9 minutes, published 2024, passes oEmbed HTTP 200, explains soft prompts vs full fine-tuning with clear visual diagrams."
-    },
-    {
-      "topicNumber": 7,
-      "moduleId": "mod-05",
-      "moduleNumber": 5,
-      "topicName": "BLEU, ROUGE, BERTScore",
-      "searchQuery": "LLM Evaluation Explained BLEU ROUGE BERTScore",
-      "outcome": "resolved",
-      "chosenVideoId": "RTaZqGflrJ8",
-      "chosenVideoTitle": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
-      "chosenChannel": "AI Academy",
-      "chosenMinutes": 7,
-      "reason": "Evaluated per instructions: 7-minute instructional video published 2025, passes oEmbed HTTP 200, explains n-gram overlap in BLEU, recall in ROUGE, and embedding similarity in BERTScore."
-    },
-    {
-      "topicNumber": 8,
-      "moduleId": "mod-05",
-      "moduleNumber": 5,
-      "topicName": "Hallucination detection",
-      "searchQuery": "LLM hallucination detection explained",
-      "outcome": "resolved",
-      "chosenVideoId": "ZFKvTIADp0k",
-      "chosenVideoTitle": "Tuning Your AI Model to Reduce Hallucinations",
-      "chosenChannel": "IBM Technology",
-      "chosenMinutes": 9,
-      "reason": "9 minutes long (>=4m), published 2024, passes oEmbed HTTP 200, covers core hallucination causes and mitigation techniques."
-    },
-    {
-      "topicNumber": 9,
-      "moduleId": "mod-08",
-      "moduleNumber": 8,
-      "topicName": "Jailbreak techniques",
-      "searchQuery": "ChatGPT jailbreak Computerphile",
-      "outcome": "resolved",
-      "chosenVideoId": "zn2ukSnDqSg",
-      "chosenVideoTitle": "ChatGPT Jailbreak - Computerphile",
-      "chosenChannel": "Computerphile",
-      "chosenMinutes": 12,
-      "reason": "12 minutes, passes oEmbed HTTP 200, classic and definitive exploration of semantic jailbreaks and model safety boundaries."
-    },
-    {
-      "topicNumber": 10,
-      "moduleId": "mod-09",
-      "moduleNumber": 9,
-      "topicName": "Education and tutoring prompts",
-      "searchQuery": "Prompt Engineering for Teachers",
-      "outcome": "resolved",
-      "chosenVideoId": "GxlOoKI0zxg",
-      "chosenVideoTitle": "Prompt Engineering for Teachers",
-      "chosenChannel": "Town Square for Teachers",
-      "chosenMinutes": 11,
-      "reason": "11-minute educational guide published 2025, passes oEmbed HTTP 200, teaches Socratic prompting, curriculum scaffolding, and interactive tutoring techniques."
-    },
-    {
-      "topicNumber": 11,
-      "moduleId": "mod-09",
-      "moduleNumber": 9,
-      "topicName": "Business automation prompts",
-      "searchQuery": "Prompt Engineering for Business Automate Workflows With AI",
-      "outcome": "resolved",
-      "chosenVideoId": "QRgayVF5PyM",
-      "chosenVideoTitle": "Prompt Engineering for Business: Automate Workflows With AI",
-      "chosenChannel": "Tuff University",
-      "chosenMinutes": 30,
-      "reason": "30-minute comprehensive lecture published 2026, passes oEmbed HTTP 200, teaches enterprise document extraction, classification prompts, and automated business workflows."
-    },
-    {
-      "topicNumber": 12,
-      "moduleId": "mod-09",
-      "moduleNumber": 9,
-      "topicName": "Research assistance prompts",
-      "searchQuery": "How to use ChatGPT for Research Literature Review",
-      "outcome": "resolved",
-      "chosenVideoId": "U8zrqWrTYdc",
-      "chosenVideoTitle": "How to use ChatGPT for Research - Literature Review, Research Paper Writing & Publication",
-      "chosenChannel": "WiseUp Communications",
-      "chosenMinutes": 9,
-      "reason": "9-minute tutorial published 2025, passes oEmbed HTTP 200, teaches literature review synthesis, paper section structuring, and citation grounding prompts."
-    },
-    {
-      "topicNumber": 13,
-      "moduleId": "mod-10",
-      "moduleNumber": 10,
-      "topicName": "Active prompting",
-      "searchQuery": "Active Prompting Explained Boost AI Reasoning with Less Human Effort",
-      "outcome": "resolved",
-      "chosenVideoId": "wcmLgy1-9aQ",
-      "chosenVideoTitle": "Active Prompting Explained: Boost AI Reasoning with Less Human Effort",
-      "chosenChannel": "Micro Learning",
-      "chosenMinutes": 8,
-      "reason": "8-minute lesson published 2026, passes oEmbed HTTP 200, teaches active prompting methodology: uncertainty estimation, human-in-the-loop exemplar annotation, and CoT reasoning."
-    },
-    {
-      "topicNumber": 14,
-      "moduleId": "mod-10",
-      "moduleNumber": 10,
-      "topicName": "Expert prompting",
-      "searchQuery": "Should you tell your LLM it's an expert before prompting",
-      "outcome": "resolved",
-      "chosenVideoId": "g5h-piquf_k",
-      "chosenVideoTitle": "Should you tell your LLM it's an 'expert' before prompting?",
-      "chosenChannel": "AI and Search with Mark Williams-Cook",
-      "chosenMinutes": 7,
-      "reason": "7-minute empirical investigation published 2026, passes oEmbed HTTP 200, teaches expert persona conditioning, prompt framing nuance, and benchmarked output effects."
-    },
-    {
-      "topicNumber": 15,
-      "moduleId": "mod-12",
-      "moduleNumber": 12,
-      "topicName": "Prompting vs RAG vs fine-tuning",
-      "searchQuery": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
-      "outcome": "resolved",
-      "chosenVideoId": "zYGDpG-pTho",
-      "chosenVideoTitle": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
-      "chosenChannel": "IBM Technology",
-      "chosenMinutes": 13,
-      "reason": "13 minutes, passes oEmbed HTTP 200, directly addresses the prompt vs RAG vs fine-tuning architectural spectrum. Augmented by l5K4r_TJz_8 (IBM Developer, 7m, guardrails for RAG)."
-    },
-    {
-      "topicNumber": 16,
-      "moduleId": "mod-12",
-      "moduleNumber": 12,
-      "topicName": "Prompt versioning and regression tests",
-      "searchQuery": "Prompt Versioning Testing Strategies Reliable LLM Development",
-      "outcome": "resolved",
-      "chosenVideoId": "DNmIqNjbKoM",
-      "chosenVideoTitle": "Prompt Versioning & Testing Strategies — Reliable LLM Development | Uplatz",
-      "chosenChannel": "Uplatz",
-      "chosenMinutes": 6,
-      "reason": "6-minute production engineering guide published 2025, passes oEmbed HTTP 200, teaches prompt version control, golden dataset regression testing, and CI/CD evaluation gates."
-    }
-  ],
-  "topicsWithoutVideo": []
+  ]
 }

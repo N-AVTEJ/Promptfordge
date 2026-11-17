@@ -38,6 +38,10 @@ export interface VideoSource {
   role?: "core" | "optional";
   source?: "external" | "own";
   thumbnailUrl?: string;
+  whyThisVideo?: string;
+  reviewed?: boolean;
+  notes?: string;
+  chapters?: Chapter[];
 }
 
 export interface CheckYourself {
@@ -722,7 +726,65 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "chapters": [
+              {
+                "time": 0,
+                "label": "Intro"
+              },
+              {
+                "time": 20,
+                "label": "Prompt Engineering Basics"
+              },
+              {
+                "time": 63,
+                "label": "What is Prompt Engineering"
+              },
+              {
+                "time": 123,
+                "label": "Output Length"
+              },
+              {
+                "time": 259,
+                "label": "Sampling Controls (Top K & Top P)"
+              },
+              {
+                "time": 480,
+                "label": "Zero Shot Prompting"
+              },
+              {
+                "time": 556,
+                "label": "One Shot Prompting"
+              },
+              {
+                "time": 689,
+                "label": "System Messages & Role Assignment"
+              },
+              {
+                "time": 879,
+                "label": "Step Back Prompting"
+              },
+              {
+                "time": 1042,
+                "label": "Chain of Thought Reasoning"
+              },
+              {
+                "time": 1249,
+                "label": "Self Consistency"
+              },
+              {
+                "time": 1429,
+                "label": "Tree of Thought"
+              },
+              {
+                "time": 1618,
+                "label": "ReAct Framework"
+              },
+              {
+                "time": 1860,
+                "label": "Best Practices & Wrap-up"
+              }
+            ]
           },
           {
             "id": "7xTGNNLPyMI",
@@ -850,7 +912,65 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "chapters": [
+              {
+                "time": 0,
+                "label": "Intro"
+              },
+              {
+                "time": 20,
+                "label": "Prompt Engineering Basics"
+              },
+              {
+                "time": 63,
+                "label": "What is Prompt Engineering"
+              },
+              {
+                "time": 123,
+                "label": "Output Length"
+              },
+              {
+                "time": 259,
+                "label": "Sampling Controls (Top K & Top P)"
+              },
+              {
+                "time": 480,
+                "label": "Zero Shot Prompting"
+              },
+              {
+                "time": 556,
+                "label": "One Shot Prompting"
+              },
+              {
+                "time": 689,
+                "label": "System Messages & Role Assignment"
+              },
+              {
+                "time": 879,
+                "label": "Step Back Prompting"
+              },
+              {
+                "time": 1042,
+                "label": "Chain of Thought Reasoning"
+              },
+              {
+                "time": 1249,
+                "label": "Self Consistency"
+              },
+              {
+                "time": 1429,
+                "label": "Tree of Thought"
+              },
+              {
+                "time": 1618,
+                "label": "ReAct Framework"
+              },
+              {
+                "time": 1860,
+                "label": "Best Practices & Wrap-up"
+              }
+            ]
           }
         ],
         "chapters": [
@@ -967,7 +1087,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Confidently implement zero-shot, few-shot, chain-of-thought, and persona-driven prompts to achieve robust, high-fidelity results across diverse reasoning tasks.",
     "duration": "75 mins",
     "lessonCount": 8,
-    "videoCount": 7,
+    "videoCount": 8,
     "level": "Foundational",
     "tags": [
       "Zero-Shot",
@@ -1084,7 +1204,65 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "beginner",
             "status": "ok",
             "resolvedBy": "seed",
-            "role": "optional"
+            "role": "optional",
+            "chapters": [
+              {
+                "time": 0,
+                "label": "Intro"
+              },
+              {
+                "time": 20,
+                "label": "Prompt Engineering Basics"
+              },
+              {
+                "time": 63,
+                "label": "What is Prompt Engineering"
+              },
+              {
+                "time": 123,
+                "label": "Output Length"
+              },
+              {
+                "time": 259,
+                "label": "Sampling Controls (Top K & Top P)"
+              },
+              {
+                "time": 480,
+                "label": "Zero Shot Prompting"
+              },
+              {
+                "time": 556,
+                "label": "One Shot Prompting"
+              },
+              {
+                "time": 689,
+                "label": "System Messages & Role Assignment"
+              },
+              {
+                "time": 879,
+                "label": "Step Back Prompting"
+              },
+              {
+                "time": 1042,
+                "label": "Chain of Thought Reasoning"
+              },
+              {
+                "time": 1249,
+                "label": "Self Consistency"
+              },
+              {
+                "time": 1429,
+                "label": "Tree of Thought"
+              },
+              {
+                "time": 1618,
+                "label": "ReAct Framework"
+              },
+              {
+                "time": 1860,
+                "label": "Best Practices & Wrap-up"
+              }
+            ]
           },
           {
             "id": "T-w_5T-j-dA",
@@ -1231,7 +1409,65 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "beginner",
             "status": "ok",
             "resolvedBy": "seed",
-            "role": "optional"
+            "role": "optional",
+            "chapters": [
+              {
+                "time": 0,
+                "label": "Intro"
+              },
+              {
+                "time": 20,
+                "label": "Prompt Engineering Basics"
+              },
+              {
+                "time": 63,
+                "label": "What is Prompt Engineering"
+              },
+              {
+                "time": 123,
+                "label": "Output Length"
+              },
+              {
+                "time": 259,
+                "label": "Sampling Controls (Top K & Top P)"
+              },
+              {
+                "time": 480,
+                "label": "Zero Shot Prompting"
+              },
+              {
+                "time": 556,
+                "label": "One Shot Prompting"
+              },
+              {
+                "time": 689,
+                "label": "System Messages & Role Assignment"
+              },
+              {
+                "time": 879,
+                "label": "Step Back Prompting"
+              },
+              {
+                "time": 1042,
+                "label": "Chain of Thought Reasoning"
+              },
+              {
+                "time": 1249,
+                "label": "Self Consistency"
+              },
+              {
+                "time": 1429,
+                "label": "Tree of Thought"
+              },
+              {
+                "time": 1618,
+                "label": "ReAct Framework"
+              },
+              {
+                "time": 1860,
+                "label": "Best Practices & Wrap-up"
+              }
+            ]
           }
         ],
         "chapters": [
@@ -1363,7 +1599,65 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "beginner",
             "status": "ok",
             "resolvedBy": "seed",
-            "role": "optional"
+            "role": "optional",
+            "chapters": [
+              {
+                "time": 0,
+                "label": "Intro"
+              },
+              {
+                "time": 20,
+                "label": "Prompt Engineering Basics"
+              },
+              {
+                "time": 63,
+                "label": "What is Prompt Engineering"
+              },
+              {
+                "time": 123,
+                "label": "Output Length"
+              },
+              {
+                "time": 259,
+                "label": "Sampling Controls (Top K & Top P)"
+              },
+              {
+                "time": 480,
+                "label": "Zero Shot Prompting"
+              },
+              {
+                "time": 556,
+                "label": "One Shot Prompting"
+              },
+              {
+                "time": 689,
+                "label": "System Messages & Role Assignment"
+              },
+              {
+                "time": 879,
+                "label": "Step Back Prompting"
+              },
+              {
+                "time": 1042,
+                "label": "Chain of Thought Reasoning"
+              },
+              {
+                "time": 1249,
+                "label": "Self Consistency"
+              },
+              {
+                "time": 1429,
+                "label": "Tree of Thought"
+              },
+              {
+                "time": 1618,
+                "label": "ReAct Framework"
+              },
+              {
+                "time": 1860,
+                "label": "Best Practices & Wrap-up"
+              }
+            ]
           },
           {
             "id": "b2t4pa9lOIc",
@@ -1621,9 +1915,24 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-02-les-05",
         "title": "Instruction based",
-        "youtubeId": "T-w_5T-j-dA",
+        "youtubeId": "jC4v5AS4RIM",
         "status": "ok",
         "videos": [
+          {
+            "id": "jC4v5AS4RIM",
+            "title": "Master the Perfect ChatGPT Prompt Formula (in just 8 minutes)!",
+            "channel": "Jeff Su",
+            "minutes": 8,
+            "covers": [
+              "Instruction based"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core",
+            "whyThisVideo": "Walks through the core formula for clear AI instructions covering task, context, and format.",
+            "reviewed": true
+          },
           {
             "id": "T-w_5T-j-dA",
             "title": "Large Language Models Are Zero Shot Reasoners",
@@ -1758,7 +2067,65 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "beginner",
             "status": "ok",
             "resolvedBy": "seed",
-            "role": "optional"
+            "role": "optional",
+            "chapters": [
+              {
+                "time": 0,
+                "label": "Intro"
+              },
+              {
+                "time": 20,
+                "label": "Prompt Engineering Basics"
+              },
+              {
+                "time": 63,
+                "label": "What is Prompt Engineering"
+              },
+              {
+                "time": 123,
+                "label": "Output Length"
+              },
+              {
+                "time": 259,
+                "label": "Sampling Controls (Top K & Top P)"
+              },
+              {
+                "time": 480,
+                "label": "Zero Shot Prompting"
+              },
+              {
+                "time": 556,
+                "label": "One Shot Prompting"
+              },
+              {
+                "time": 689,
+                "label": "System Messages & Role Assignment"
+              },
+              {
+                "time": 879,
+                "label": "Step Back Prompting"
+              },
+              {
+                "time": 1042,
+                "label": "Chain of Thought Reasoning"
+              },
+              {
+                "time": 1249,
+                "label": "Self Consistency"
+              },
+              {
+                "time": 1429,
+                "label": "Tree of Thought"
+              },
+              {
+                "time": 1618,
+                "label": "ReAct Framework"
+              },
+              {
+                "time": 1860,
+                "label": "Best Practices & Wrap-up"
+              }
+            ]
           },
           {
             "id": "cnww-CvDoRk",
@@ -1885,10 +2252,12 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "covers": [
               "Constraint based"
             ],
-            "level": "intermediate",
+            "level": "beginner",
             "status": "ok",
             "resolvedBy": "agent-search",
-            "role": "core"
+            "role": "core",
+            "whyThisVideo": "Tutorial breaking down 5 types of constraints and practical techniques for implementing limitations that enhance precision when prompting large language models.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -2003,7 +2372,65 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "chapters": [
+              {
+                "time": 0,
+                "label": "Intro"
+              },
+              {
+                "time": 20,
+                "label": "Prompt Engineering Basics"
+              },
+              {
+                "time": 63,
+                "label": "What is Prompt Engineering"
+              },
+              {
+                "time": 123,
+                "label": "Output Length"
+              },
+              {
+                "time": 259,
+                "label": "Sampling Controls (Top K & Top P)"
+              },
+              {
+                "time": 480,
+                "label": "Zero Shot Prompting"
+              },
+              {
+                "time": 556,
+                "label": "One Shot Prompting"
+              },
+              {
+                "time": 689,
+                "label": "System Messages & Role Assignment"
+              },
+              {
+                "time": 879,
+                "label": "Step Back Prompting"
+              },
+              {
+                "time": 1042,
+                "label": "Chain of Thought Reasoning"
+              },
+              {
+                "time": 1249,
+                "label": "Self Consistency"
+              },
+              {
+                "time": 1429,
+                "label": "Tree of Thought"
+              },
+              {
+                "time": 1618,
+                "label": "ReAct Framework"
+              },
+              {
+                "time": 1860,
+                "label": "Best Practices & Wrap-up"
+              }
+            ]
           },
           {
             "id": "b2t4pa9lOIc",
@@ -2115,7 +2542,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "59m watch"
+    "totalWatchTime": "1h 7m watch"
   },
   {
     "id": "mod-03",
@@ -2132,7 +2559,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Architect context-rich, delimiter-isolated prompts and self-reflective critique loops that prevent hallucination and maintain rock-solid data formatting.",
     "duration": "55 mins",
     "lessonCount": 5,
-    "videoCount": 3,
+    "videoCount": 4,
     "level": "Core",
     "tags": [
       "Context",
@@ -2141,7 +2568,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       "Reflection",
       "Self-Correction"
     ],
-    "youtubeVideoId": "cnww-CvDoRk",
+    "youtubeVideoId": "7vJluo_FI3I",
     "accent": "cyan",
     "keyTakeaway": "Context without delimiters is an invitation to confusion; structural boundaries and self-reflection loops turn raw completions into verifiable systems.",
     "keyConcepts": [
@@ -2219,9 +2646,24 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-03-les-01",
         "title": "Contextual",
-        "youtubeId": "cnww-CvDoRk",
+        "youtubeId": "7vJluo_FI3I",
         "status": "ok",
         "videos": [
+          {
+            "id": "7vJluo_FI3I",
+            "title": "Understanding In-Context Learning: What It Is and How It Works",
+            "channel": "AppliedAI",
+            "minutes": 4,
+            "covers": [
+              "Contextual"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core",
+            "whyThisVideo": "Explores in-context learning as a fundamental prompting technique that enables models to adapt to context.",
+            "reviewed": true
+          },
           {
             "id": "cnww-CvDoRk",
             "title": "Advanced Prompt Engineering Techniques",
@@ -2354,7 +2796,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "intermediate",
             "status": "ok",
             "resolvedBy": "agent-search",
-            "role": "core"
+            "role": "core",
+            "whyThisVideo": "Explains how headings, delimiters and semantic XML tags create clear boundaries, reduce ambiguity and make complex prompts easier to build, inspect and maintain.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -2471,7 +2915,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "intermediate",
             "status": "ok",
             "resolvedBy": "agent-search",
-            "role": "core"
+            "role": "core",
+            "whyThisVideo": "Explains how headings, delimiters and semantic XML tags create clear boundaries, reduce ambiguity and make complex prompts easier to build, inspect and maintain.",
+            "reviewed": true
           },
           {
             "id": "cnww-CvDoRk",
@@ -2604,7 +3050,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "intermediate",
             "status": "ok",
             "resolvedBy": "agent-search",
-            "role": "core"
+            "role": "core",
+            "whyThisVideo": "Teaches how to structure complex tasks into multistep prompt interactions and orchestrate workflows step by step.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -2824,7 +3272,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "29m watch"
+    "totalWatchTime": "33m watch"
   },
   {
     "id": "mod-04",
@@ -3057,7 +3505,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "intermediate",
             "status": "ok",
             "resolvedBy": "agent-search",
-            "role": "core"
+            "role": "core",
+            "whyThisVideo": "Explores how multiple Large Language Model prompts can be connected into intelligent workflows where each output becomes the next input.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -3289,7 +3739,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Design quantitative evaluation suites and continuous optimization pipelines that track prompt accuracy, latency, cost, and hallucination rates across model iterations.",
     "duration": "60 mins",
     "lessonCount": 6,
-    "videoCount": 5,
+    "videoCount": 6,
     "level": "Core",
     "tags": [
       "Evaluations",
@@ -3299,7 +3749,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       "Hallucination",
       "Optimization"
     ],
-    "youtubeVideoId": "LZJTrAXcyFM",
+    "youtubeVideoId": "3SPnv0ufR8Y",
     "accent": "amber",
     "keyTakeaway": "You cannot improve what you cannot measure; systematic test datasets and quantitative eval metrics are the difference between a prototype and production software.",
     "keyConcepts": [
@@ -3377,9 +3827,24 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-05-les-01",
         "title": "Iterative refinement",
-        "youtubeId": "LZJTrAXcyFM",
+        "youtubeId": "3SPnv0ufR8Y",
         "status": "ok",
         "videos": [
+          {
+            "id": "3SPnv0ufR8Y",
+            "title": "Iterative Refinement: How to Improve AI Prompts Step by Step",
+            "channel": "FreeAcademy AI",
+            "minutes": 6,
+            "covers": [
+              "Iterative refinement"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core",
+            "whyThisVideo": "Walks through the iteration cycle, common refinement patterns, and systematic ways to improve prompts step by step.",
+            "reviewed": true
+          },
           {
             "id": "LZJTrAXcyFM",
             "title": "Community Paper Reading: LLMs-as-Judges",
@@ -3755,7 +4220,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "agent-search"
+            "resolvedBy": "agent-search",
+            "whyThisVideo": "Explains prompt tuning as an efficient, low-cost method of adapting an AI foundation model to downstream tasks without retraining weights.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -3871,7 +4338,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "intermediate",
             "status": "ok",
             "resolvedBy": "agent-search",
-            "role": "core"
+            "role": "core",
+            "whyThisVideo": "Breaks down LLM evaluation for beginners with simple examples of BLEU, ROUGE, and BERTScore across the evaluation pipeline.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -3991,7 +4460,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "agent-search"
+            "resolvedBy": "agent-search",
+            "whyThisVideo": "IBM Distinguished Engineer Suj Perepa explains why AI hallucination occurs and demonstrates prompting techniques to contain it.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -4095,7 +4566,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "1h 7m watch"
+    "totalWatchTime": "1h 13m watch"
   },
   {
     "id": "mod-06",
@@ -4112,7 +4583,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Design multimodal prompts integrating images and text, extract structured data from visual charts, and route tasks intelligently across multi-model ensembles.",
     "duration": "45 mins",
     "lessonCount": 3,
-    "videoCount": 2,
+    "videoCount": 3,
     "level": "Core",
     "tags": [
       "Multimodal",
@@ -4208,8 +4679,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 8,
             "covers": [
-              "What is Multimodal AI?",
-              "Multimodal architectures"
+              "Intro to multi-model prompting",
+              "What is Multimodal AI?"
             ],
             "level": "beginner",
             "status": "ok",
@@ -4450,12 +4921,28 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "title": "What is Multimodal AI? How LLMs Process Text, Images, and More",
             "channel": "IBM Technology",
             "minutes": 8,
+            "covers": [],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "seed",
+            "relatedTo": [
+              "Cross-model AI interaction"
+            ]
+          },
+          {
+            "id": "sWH0T4Zez6I",
+            "title": "Multi Agent Systems Explained: How AI Agents & LLMs Work Together",
+            "channel": "IBM Technology",
+            "minutes": 8,
             "covers": [
               "Cross-model AI interaction"
             ],
-            "level": "beginner",
+            "level": "intermediate",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "agent-search",
+            "role": "core",
+            "whyThisVideo": "Explains how multiple LLMs and AI agents collaborate, exchange state, and divide work across systems.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -4555,7 +5042,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "17m watch"
+    "totalWatchTime": "25m watch"
   },
   {
     "id": "mod-07",
@@ -5172,7 +5659,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Identify adversarial prompt injection vectors, audit applications for indirect data poisoning, and implement robust defense-in-depth guardrails.",
     "duration": "60 mins",
     "lessonCount": 4,
-    "videoCount": 4,
+    "videoCount": 5,
     "level": "Advanced",
     "tags": [
       "Security",
@@ -5406,7 +5893,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "intermediate",
             "status": "ok",
-            "resolvedBy": "agent-search"
+            "resolvedBy": "agent-search",
+            "whyThisVideo": "Security researcher Dr Tim Muller explores how large language models can be jailbroken and manipulated for unintended purposes.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -5521,12 +6010,14 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 7,
             "covers": [
-              "Mitigation strategies",
-              "Safe prompt design"
+              "Mitigation strategies"
             ],
             "level": "intermediate",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "relatedTo": [
+              "Safe prompt design"
+            ]
           },
           {
             "id": "yNIlm9IfcgA",
@@ -5660,17 +6151,33 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "role": "optional"
           },
           {
-            "id": "gZTQNb0NGjM",
-            "title": "Hypnotized AI and Large Language Model Security",
-            "channel": "IBM Technology",
-            "minutes": 7,
+            "id": "q-4zKTR9m3g",
+            "title": "AI Security Mini-Course: Defending against Prompt Injections (spotlighting, alignment checks, etc)",
+            "channel": "Probably Private",
+            "minutes": 22,
             "covers": [
               "Safe prompt design"
             ],
             "level": "intermediate",
             "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core",
+            "whyThisVideo": "Explores defense strategies against prompt injection including spotlighting, instruction hierarchy, and guardrails.",
+            "reviewed": true
+          },
+          {
+            "id": "gZTQNb0NGjM",
+            "title": "Hypnotized AI and Large Language Model Security",
+            "channel": "IBM Technology",
+            "minutes": 7,
+            "covers": [],
+            "level": "intermediate",
+            "status": "ok",
             "resolvedBy": "seed",
-            "role": "core"
+            "role": "core",
+            "relatedTo": [
+              "Safe prompt design"
+            ]
           }
         ],
         "chapters": [
@@ -5770,7 +6277,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "34m watch"
+    "totalWatchTime": "56m watch"
   },
   {
     "id": "mod-09",
@@ -6017,7 +6524,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "beginner",
             "status": "ok",
             "resolvedBy": "agent-search",
-            "role": "core"
+            "role": "core",
+            "whyThisVideo": "Demonstrates proven prompt engineering principles and structured formulas tailored for teachers and educational workflows.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -6133,7 +6642,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "intermediate",
             "status": "ok",
             "resolvedBy": "agent-search",
-            "role": "core"
+            "role": "core",
+            "whyThisVideo": "Breaks down how to design prompts that drive consistent results, trigger automated actions, and scale business operations.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -6249,7 +6760,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "beginner",
             "status": "ok",
             "resolvedBy": "agent-search",
-            "role": "core"
+            "role": "core",
+            "whyThisVideo": "Provides actionable prompt templates for academic research from literature reviews to methodology drafting.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -6366,7 +6879,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Implement Tree-of-Thoughts search algorithms, construct autonomous ReAct reasoning loops, and automate prompt discovery using optimization frameworks.",
     "duration": "70 mins",
     "lessonCount": 5,
-    "videoCount": 5,
+    "videoCount": 6,
     "level": "Specialized",
     "tags": [
       "Tree-of-Thoughts",
@@ -6466,7 +6979,65 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "chapters": [
+              {
+                "time": 0,
+                "label": "Intro"
+              },
+              {
+                "time": 20,
+                "label": "Prompt Engineering Basics"
+              },
+              {
+                "time": 63,
+                "label": "What is Prompt Engineering"
+              },
+              {
+                "time": 123,
+                "label": "Output Length"
+              },
+              {
+                "time": 259,
+                "label": "Sampling Controls (Top K & Top P)"
+              },
+              {
+                "time": 480,
+                "label": "Zero Shot Prompting"
+              },
+              {
+                "time": 556,
+                "label": "One Shot Prompting"
+              },
+              {
+                "time": 689,
+                "label": "System Messages & Role Assignment"
+              },
+              {
+                "time": 879,
+                "label": "Step Back Prompting"
+              },
+              {
+                "time": 1042,
+                "label": "Chain of Thought Reasoning"
+              },
+              {
+                "time": 1249,
+                "label": "Self Consistency"
+              },
+              {
+                "time": 1429,
+                "label": "Tree of Thought"
+              },
+              {
+                "time": 1618,
+                "label": "ReAct Framework"
+              },
+              {
+                "time": 1860,
+                "label": "Best Practices & Wrap-up"
+              }
+            ]
           },
           {
             "id": "ut5kp56wW_4",
@@ -6594,7 +7165,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "advanced",
             "status": "ok",
             "resolvedBy": "agent-search",
-            "role": "core"
+            "role": "core",
+            "whyThisVideo": "Explores how Active Prompting improves AI reasoning by identifying model uncertainty and selectively requesting human examples.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -6709,7 +7282,65 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "chapters": [
+              {
+                "time": 0,
+                "label": "Intro"
+              },
+              {
+                "time": 20,
+                "label": "Prompt Engineering Basics"
+              },
+              {
+                "time": 63,
+                "label": "What is Prompt Engineering"
+              },
+              {
+                "time": 123,
+                "label": "Output Length"
+              },
+              {
+                "time": 259,
+                "label": "Sampling Controls (Top K & Top P)"
+              },
+              {
+                "time": 480,
+                "label": "Zero Shot Prompting"
+              },
+              {
+                "time": 556,
+                "label": "One Shot Prompting"
+              },
+              {
+                "time": 689,
+                "label": "System Messages & Role Assignment"
+              },
+              {
+                "time": 879,
+                "label": "Step Back Prompting"
+              },
+              {
+                "time": 1042,
+                "label": "Chain of Thought Reasoning"
+              },
+              {
+                "time": 1249,
+                "label": "Self Consistency"
+              },
+              {
+                "time": 1429,
+                "label": "Tree of Thought"
+              },
+              {
+                "time": 1618,
+                "label": "ReAct Framework"
+              },
+              {
+                "time": 1860,
+                "label": "Best Practices & Wrap-up"
+              }
+            ]
           },
           {
             "id": "QX-p-vsDoiQ",
@@ -6831,13 +7462,17 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "title": "Should you tell your LLM it's an 'expert' before prompting?",
             "channel": "AI and Search with Mark Williams-Cook",
             "minutes": 7,
-            "covers": [
-              "Expert prompting"
-            ],
+            "covers": [],
             "level": "advanced",
             "status": "ok",
             "resolvedBy": "agent-search",
-            "role": "core"
+            "role": "core",
+            "relatedTo": [
+              "Expert prompting"
+            ],
+            "notes": "Critical perspective on expert personas",
+            "whyThisVideo": "Dives into token space mechanics to evaluate whether telling an LLM it is an expert persona measurably improves response quality.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -6947,12 +7582,83 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "title": "Prompt Engineering Guide - From Beginner to Advanced",
             "channel": "Matthew Berman",
             "minutes": 33,
-            "covers": [
-              "APE overview"
-            ],
+            "covers": [],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "chapters": [
+              {
+                "time": 0,
+                "label": "Intro"
+              },
+              {
+                "time": 20,
+                "label": "Prompt Engineering Basics"
+              },
+              {
+                "time": 63,
+                "label": "What is Prompt Engineering"
+              },
+              {
+                "time": 123,
+                "label": "Output Length"
+              },
+              {
+                "time": 259,
+                "label": "Sampling Controls (Top K & Top P)"
+              },
+              {
+                "time": 480,
+                "label": "Zero Shot Prompting"
+              },
+              {
+                "time": 556,
+                "label": "One Shot Prompting"
+              },
+              {
+                "time": 689,
+                "label": "System Messages & Role Assignment"
+              },
+              {
+                "time": 879,
+                "label": "Step Back Prompting"
+              },
+              {
+                "time": 1042,
+                "label": "Chain of Thought Reasoning"
+              },
+              {
+                "time": 1249,
+                "label": "Self Consistency"
+              },
+              {
+                "time": 1429,
+                "label": "Tree of Thought"
+              },
+              {
+                "time": 1618,
+                "label": "ReAct Framework"
+              },
+              {
+                "time": 1860,
+                "label": "Best Practices & Wrap-up"
+              }
+            ]
+          },
+          {
+            "id": "OmTdkNEr2nU",
+            "title": "Large Language Models Are Human-Level Prompt Engineers (Automatic Prompt Engineer - APE)",
+            "channel": "Andrei Muresanu",
+            "minutes": 5,
+            "covers": [
+              "APE"
+            ],
+            "level": "advanced",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core",
+            "whyThisVideo": "Paper author explains the Automatic Prompt Engineer (APE) framework for automated instruction generation and selection.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -7056,7 +7762,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "2h 5m watch"
+    "totalWatchTime": "2h 10m watch"
   },
   {
     "id": "mod-11",
@@ -7069,7 +7775,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Architect autonomous agentic workflows, design stateful memory architectures, connect tools via Model Context Protocol (MCP), and build resilient Agentic RAG pipelines.",
     "duration": "75 mins",
     "lessonCount": 5,
-    "videoCount": 5,
+    "videoCount": 7,
     "level": "Specialized",
     "tags": [
       "Agents",
@@ -7078,7 +7784,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       "Memory",
       "Agentic RAG"
     ],
-    "youtubeVideoId": "eur8dUO9mvE",
+    "youtubeVideoId": "MKqg6wzOySA",
     "accent": "amber",
     "keyTakeaway": "Prompt engineering is writing the instruction; context engineering is curating the entire runtime environment, memory, tools, and protocols inside the context window.",
     "keyConcepts": [
@@ -7157,9 +7863,24 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-11-les-01",
         "title": "Agent loops (plan, act, observe)",
-        "youtubeId": "eur8dUO9mvE",
+        "youtubeId": "MKqg6wzOySA",
         "status": "ok",
         "videos": [
+          {
+            "id": "MKqg6wzOySA",
+            "title": "Key 5 - AI Agents Explained: Plan, Act, Observe Loop & Real Risks",
+            "channel": "Duke Center for Computational Thinking",
+            "minutes": 16,
+            "covers": [
+              "Agent loops (plan, act, observe)"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core",
+            "whyThisVideo": "Explains what makes a system agentic through the foundational Plan, Act, Observe loop.",
+            "reviewed": true
+          },
           {
             "id": "eur8dUO9mvE",
             "title": "What is MCP? Integrate AI Agents with Databases & APIs",
@@ -7420,11 +8141,26 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "minutes": 7,
             "covers": [
               "MCP vs API",
-              "Memory and tool protocols"
+              "Tool protocols and MCP discovery"
             ],
             "level": "beginner",
             "status": "ok",
             "resolvedBy": "seed"
+          },
+          {
+            "id": "BacJ6sEhqMo",
+            "title": "The Four Types of Memory Every AI Agent Needs",
+            "channel": "IBM Technology",
+            "minutes": 11,
+            "covers": [
+              "Memory and tool protocols"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core",
+            "whyThisVideo": "Martin Keen explains the four types of memory AI agents use, from short-term context buffers to long-term memory.",
+            "reviewed": true
           },
           {
             "id": "kQmXtrmQ5Zg",
@@ -7793,7 +8529,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "2h 8m watch"
+    "totalWatchTime": "2h 35m watch"
   },
   {
     "id": "mod-12",
@@ -7806,7 +8542,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Evaluate architectural trade-offs between prompting, RAG, and fine-tuning, establish CI/CD prompt regression pipelines, optimize production caching and cost controls, and implement responsible AI governance guardrails.",
     "duration": "65 mins",
     "lessonCount": 5,
-    "videoCount": 6,
+    "videoCount": 9,
     "level": "Specialized",
     "tags": [
       "Production",
@@ -7907,7 +8643,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "agent-search"
+            "resolvedBy": "agent-search",
+            "whyThisVideo": "Martin Keen compares RAG, fine-tuning, and prompt engineering to guide when to extend knowledge versus refine responses.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -8018,15 +8756,29 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         "videos": [
           {
             "id": "vBJF2sy1Pyw",
-            "title": "The challenges in using LLM-as-a-Judge - Sourabh Agrawal | Vector Space Talk #013",
-            "channel": "Qdrant Vector Search",
-            "minutes": 42,
+            "title": "The challenges with using LLM as a Judge",
+            "channel": "Qdrant Vector Space Talks",
+            "minutes": 20,
             "covers": [
               "LLM-as-judge in production"
             ],
             "level": "advanced",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
+          },
+          {
+            "id": "LZJTrAXcyFM",
+            "title": "Building an LLM-as-a-Judge Evaluation Pipeline",
+            "channel": "Prompt Engineering Lab",
+            "minutes": 15,
+            "covers": [
+              "LLM-as-judge in production"
+            ],
+            "level": "advanced",
+            "status": "ok",
+            "resolvedBy": "seed",
+            "role": "optional"
           }
         ],
         "chapters": [
@@ -8142,7 +8894,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "intermediate",
             "status": "ok",
             "resolvedBy": "agent-search",
-            "role": "core"
+            "role": "core",
+            "whyThisVideo": "Explores how to version, test, and validate prompts in production AI so outputs remain stable and reproducible.",
+            "reviewed": true
           }
         ],
         "chapters": [
@@ -8244,9 +8998,24 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-12-les-04",
         "title": "Guardrails, cost, latency, caching",
-        "youtubeId": "l5K4r_TJz_8",
+        "youtubeId": "u57EnkQaUTY",
         "status": "ok",
         "videos": [
+          {
+            "id": "u57EnkQaUTY",
+            "title": "What is Prompt Caching? Optimize LLM Latency with AI Transformers",
+            "channel": "IBM Technology",
+            "minutes": 9,
+            "covers": [
+              "Guardrails, cost, latency, caching"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core",
+            "whyThisVideo": "Explains how prompt caching works with AI transformers to cut cost and reduce LLM inference latency.",
+            "reviewed": true
+          },
           {
             "id": "l5K4r_TJz_8",
             "title": "How to implement LLM guardrails for RAG applications",
@@ -8259,7 +9028,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "level": "intermediate",
             "status": "ok",
             "resolvedBy": "agent-search",
-            "role": "core"
+            "role": "core",
+            "whyThisVideo": "Demonstrates how to implement contextual grounding checks and guardrails to detect hallucinations in production applications.",
+            "reviewed": true
           },
           {
             "id": "HdafI0t3sEY",
@@ -8377,9 +9148,24 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-12-les-05",
         "title": "Bias, safety, governance",
-        "youtubeId": "7xTGNNLPyMI",
+        "youtubeId": "yh-3WU1FKrk",
         "status": "ok",
         "videos": [
+          {
+            "id": "yh-3WU1FKrk",
+            "title": "What is Responsible AI? A Guide to AI Governance",
+            "channel": "IBM Technology",
+            "minutes": 6,
+            "covers": [
+              "Bias, safety, governance"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core",
+            "whyThisVideo": "Provides an essential guide to Responsible AI principles, risk minimization, and AI governance frameworks.",
+            "reviewed": true
+          },
           {
             "id": "7xTGNNLPyMI",
             "title": "Deep Dive into LLMs like ChatGPT",
@@ -8494,7 +9280,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "1h 17m watch"
+    "totalWatchTime": "1h 10m watch"
   }
 ];
 
