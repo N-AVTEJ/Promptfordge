@@ -2,8 +2,12 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { TECHNIQUE_ROWS } from "@/content/landing";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function TechniqueRows() {
   const prefersReduced = useReducedMotion();
@@ -16,6 +20,19 @@ export function TechniqueRows() {
       return;
     }
 
+    const section = sectionRef.current;
+    if (!section) return;
+
+    // Use GSAP ScrollTrigger for precise integration with Lenis
+    const st = ScrollTrigger.create({
+      trigger: section,
+      start: "top 85%",
+      onEnter: () => {
+        setHasEntered(true);
+      },
+    });
+
+    // Fallback observer
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -23,14 +40,14 @@ export function TechniqueRows() {
           observer.disconnect();
         }
       },
-      { threshold: 0.25 }
+      { threshold: 0.15 }
     );
+    observer.observe(section);
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
+    return () => {
+      st.kill();
+      observer.disconnect();
+    };
   }, [prefersReduced]);
 
   return (

@@ -18,20 +18,7 @@ export function TokenStory() {
   const prefersReduced = useReducedMotion();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLDivElement | null>(null);
-
-  // Active stage index (0 to 4) driven deterministically by scroll progress
-  const [activeStage, setActiveStage] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const [activeStageIndex, setActiveStageIndex] = useState(0);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -42,13 +29,61 @@ export function TokenStory() {
     if (prefersReduced) return;
 
     const container = containerRef.current;
-    if (!container) return;
+    const canvas = canvasRef.current;
+    if (!container || !canvas) return;
 
     const ctx = gsap.context(() => {
-      ScrollTrigger.matchMedia({
-        // Desktop breakpoint
-        "(min-width: 769px)": () => {
-          ScrollTrigger.create({
+      const mm = gsap.matchMedia();
+
+      // =======================================================================
+      // DESKTOP BREAKPOINT (min-width: 769px) — 12 Tokens, 5 Stages, 1 GSAP Timeline
+      // =======================================================================
+      mm.add("(min-width: 769px)", () => {
+        const cw = canvas.clientWidth || 640;
+        const ch = canvas.clientHeight || 480;
+
+        // Stage 2 Grid Coordinates (4 columns x 3 rows percentages)
+        const gridCols = [15, 38, 62, 85];
+        const gridRows = [22, 50, 78];
+
+        // 1. Initial GSAP setup for all desktop elements
+        gsap.set(".desktop-sentence-card", {
+          opacity: 1,
+          scale: 1,
+          transformOrigin: "center center",
+        });
+
+        // Set initial positions for each token at Stage 2 Grid
+        DESKTOP_TOKENS.forEach((token, idx) => {
+          const gx = gridCols[idx % 4];
+          const gy = gridRows[Math.floor(idx / 4)];
+          const el = document.querySelector(`.desktop-token-${token.id}`);
+          if (el) {
+            // Position base at grid slot
+            gsap.set(el, {
+              left: `${gx}%`,
+              top: `${gy}%`,
+              x: 0,
+              y: 0,
+              opacity: 0,
+              scale: 0.75,
+            });
+          }
+        });
+
+        gsap.set(".desktop-token-chip", { opacity: 0, y: 6 });
+        gsap.set(".desktop-attn-line", { opacity: 0 });
+        gsap.set(".desktop-attn-label", { opacity: 0, scale: 0.8 });
+        gsap.set(".desktop-output-console", { opacity: 0, y: 30, scale: 0.95 });
+        gsap.set(".desktop-output-word", { opacity: 0, y: 6 });
+
+        // Captions initial states
+        gsap.set(".stage-caption", { opacity: 0, y: 16, pointerEvents: "none" });
+        gsap.set("#stage-caption-0", { opacity: 1, y: 0, pointerEvents: "auto" });
+
+        // 2. Master Scrubbed GSAP Timeline (Duration 100 for percentage scrubbing)
+        const tl = gsap.timeline({
+          scrollTrigger: {
             trigger: container,
             start: "top top",
             end: "+=400%",
@@ -58,25 +93,231 @@ export function TokenStory() {
             invalidateOnRefresh: true,
             onUpdate: (self) => {
               const p = self.progress;
-              setScrollProgress(p);
-              if (p < 0.15) {
-                setActiveStage(0);
-              } else if (p < 0.35) {
-                setActiveStage(1);
-              } else if (p < 0.6) {
-                setActiveStage(2);
-              } else if (p < 0.85) {
-                setActiveStage(3);
-              } else {
-                setActiveStage(4);
-              }
+              if (p < 0.15) setActiveStageIndex(0);
+              else if (p < 0.35) setActiveStageIndex(1);
+              else if (p < 0.6) setActiveStageIndex(2);
+              else if (p < 0.85) setActiveStageIndex(3);
+              else setActiveStageIndex(4);
             },
-          });
-        },
+          },
+        });
 
-        // Mobile breakpoint
-        "(max-width: 768px)": () => {
-          ScrollTrigger.create({
+        // Track Progress Line across 0 -> 100
+        tl.to(".progress-rail-fill", { scaleX: 1, ease: "none", duration: 100 }, 0);
+
+        // ---------------------------------------------------------------------
+        // STAGE 1 -> STAGE 2 Transition (time 12 to 24)
+        // ---------------------------------------------------------------------
+        // Crossfade Captions 0 -> 1
+        tl.to("#stage-caption-0", { opacity: 0, y: -16, duration: 4, ease: "power2.in" }, 12);
+        tl.to("#stage-caption-1", { opacity: 1, y: 0, duration: 4, ease: "power2.out" }, 15);
+
+        // Fade sentence card out
+        tl.to(".desktop-sentence-card", { opacity: 0, scale: 0.9, duration: 5, ease: "power2.in" }, 12);
+
+        // Reveal 12 tokens spreading into grid positions
+        tl.to(
+          ".desktop-token-node",
+          {
+            opacity: 1,
+            scale: 1,
+            stagger: 0.25,
+            duration: 6,
+            ease: "back.out(1.4)",
+          },
+          14
+        );
+
+        // Reveal token ID chips rising above each word
+        tl.to(
+          ".desktop-token-chip",
+          {
+            opacity: 1,
+            y: 0,
+            duration: 4,
+            ease: "power2.out",
+          },
+          17
+        );
+
+        // ---------------------------------------------------------------------
+        // STAGE 2 -> STAGE 3 Transition (time 34 to 56)
+        // ---------------------------------------------------------------------
+        // Crossfade Captions 1 -> 2
+        tl.to("#stage-caption-1", { opacity: 0, y: -16, duration: 4, ease: "power2.in" }, 33);
+        tl.to("#stage-caption-2", { opacity: 1, y: 0, duration: 4, ease: "power2.out" }, 36);
+
+        // Tokens travel smoothly to 2D vector scatter coordinates
+        DESKTOP_TOKENS.forEach((token, idx) => {
+          const gx = gridCols[idx % 4];
+          const gy = gridRows[Math.floor(idx / 4)];
+          const deltaX = (token.scatterDesktop.x - gx) * (cw / 100);
+          const deltaY = (token.scatterDesktop.y - gy) * (ch / 100);
+
+          tl.to(
+            `.desktop-token-${token.id}`,
+            {
+              x: deltaX,
+              y: deltaY,
+              duration: 18,
+              ease: "power2.inOut",
+            },
+            35
+          );
+        });
+
+        // Semantic clustering tokens ("loops", "Python", "teacher") highlight
+        tl.to(
+          [".token-word-Python", ".token-word-teacher"],
+          {
+            borderColor: "var(--marigold)",
+            backgroundColor: "var(--marigold)",
+            color: "var(--navy)",
+            duration: 6,
+            ease: "power2.out",
+          },
+          48
+        );
+
+        // ---------------------------------------------------------------------
+        // STAGE 3 -> STAGE 4 Transition (time 58 to 80)
+        // ---------------------------------------------------------------------
+        // Crossfade Captions 2 -> 3
+        tl.to("#stage-caption-2", { opacity: 0, y: -16, duration: 4, ease: "power2.in" }, 58);
+        tl.to("#stage-caption-3", { opacity: 1, y: 0, duration: 4, ease: "power2.out" }, 61);
+
+        // Target token "loops" scales up with halo
+        tl.to(
+          ".desktop-token-19445",
+          {
+            scale: 1.15,
+            duration: 6,
+            ease: "back.out(1.5)",
+          },
+          60
+        );
+
+        // Attention lines draw from "loops" to each token
+        tl.to(
+          ".desktop-attn-line",
+          {
+            opacity: 0.65,
+            stagger: 0.3,
+            duration: 12,
+            ease: "power1.out",
+          },
+          60
+        );
+
+        // Strongest attention line ("Python") highlights brightly
+        tl.to(
+          ".desktop-attn-strongest",
+          {
+            opacity: 1,
+            strokeWidth: 3.5,
+            duration: 8,
+            ease: "power2.out",
+          },
+          63
+        );
+
+        // Strongest weight badge fades in
+        tl.to(
+          ".desktop-attn-label",
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 5,
+            ease: "back.out(1.7)",
+          },
+          66
+        );
+
+        // ---------------------------------------------------------------------
+        // STAGE 4 -> STAGE 5 Transition (time 81 to 100)
+        // ---------------------------------------------------------------------
+        // Crossfade Captions 3 -> 4
+        tl.to("#stage-caption-3", { opacity: 0, y: -16, duration: 4, ease: "power2.in" }, 81);
+        tl.to("#stage-caption-4", { opacity: 1, y: 0, duration: 4, ease: "power2.out" }, 84);
+
+        // Dim background vector canvas and lines
+        tl.to(
+          [".desktop-tokens-layer", ".desktop-attn-svg"],
+          {
+            opacity: 0.15,
+            scale: 0.96,
+            duration: 6,
+            ease: "power2.inOut",
+          },
+          82
+        );
+
+        // Output stream console ascends into focus
+        tl.to(
+          ".desktop-output-console",
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 7,
+            ease: "power3.out",
+          },
+          83
+        );
+
+        // Stream output tokens sequentially one by one
+        tl.to(
+          ".desktop-output-word",
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.7,
+            duration: 0.8,
+            ease: "power1.out",
+          },
+          87
+        );
+      });
+
+      // =======================================================================
+      // MOBILE BREAKPOINT (max-width: 768px) — 8 Tokens, 5 Stages
+      // =======================================================================
+      mm.add("(max-width: 768px)", () => {
+        const cw = canvas.clientWidth || 340;
+        const ch = canvas.clientHeight || 380;
+
+        const mobileGridCols = [18, 50, 82];
+        const mobileGridRows = [22, 50, 78];
+
+        gsap.set(".mobile-sentence-card", { opacity: 1, scale: 1 });
+
+        MOBILE_TOKENS.forEach((token, idx) => {
+          const gx = mobileGridCols[idx % 3];
+          const gy = mobileGridRows[Math.floor(idx / 3)];
+          const el = document.querySelector(`.mobile-token-${token.id}`);
+          if (el) {
+            gsap.set(el, {
+              left: `${gx}%`,
+              top: `${gy}%`,
+              x: 0,
+              y: 0,
+              opacity: 0,
+              scale: 0.75,
+            });
+          }
+        });
+
+        gsap.set(".mobile-token-chip", { opacity: 0, y: 4 });
+        gsap.set(".mobile-attn-line", { opacity: 0 });
+        gsap.set(".mobile-attn-label", { opacity: 0 });
+        gsap.set(".mobile-output-console", { opacity: 0, y: 20 });
+        gsap.set(".mobile-output-word", { opacity: 0 });
+
+        gsap.set(".stage-caption", { opacity: 0, y: 12 });
+        gsap.set("#stage-caption-0", { opacity: 1, y: 0 });
+
+        const tlMobile = gsap.timeline({
+          scrollTrigger: {
             trigger: container,
             start: "top top",
             end: "+=300%",
@@ -86,26 +327,74 @@ export function TokenStory() {
             invalidateOnRefresh: true,
             onUpdate: (self) => {
               const p = self.progress;
-              setScrollProgress(p);
-              if (p < 0.15) {
-                setActiveStage(0);
-              } else if (p < 0.35) {
-                setActiveStage(1);
-              } else if (p < 0.6) {
-                setActiveStage(2);
-              } else if (p < 0.85) {
-                setActiveStage(3);
-              } else {
-                setActiveStage(4);
-              }
+              if (p < 0.15) setActiveStageIndex(0);
+              else if (p < 0.35) setActiveStageIndex(1);
+              else if (p < 0.6) setActiveStageIndex(2);
+              else if (p < 0.85) setActiveStageIndex(3);
+              else setActiveStageIndex(4);
             },
-          });
-        },
+          },
+        });
+
+        tlMobile.to(".progress-rail-fill", { scaleX: 1, ease: "none", duration: 100 }, 0);
+
+        // Stage 1 -> 2
+        tlMobile.to("#stage-caption-0", { opacity: 0, y: -12, duration: 4 }, 12);
+        tlMobile.to("#stage-caption-1", { opacity: 1, y: 0, duration: 4 }, 15);
+        tlMobile.to(".mobile-sentence-card", { opacity: 0, scale: 0.9, duration: 5 }, 12);
+        tlMobile.to(
+          ".mobile-token-node",
+          { opacity: 1, scale: 1, stagger: 0.25, duration: 6 },
+          14
+        );
+        tlMobile.to(".mobile-token-chip", { opacity: 1, y: 0, duration: 4 }, 17);
+
+        // Stage 2 -> 3
+        tlMobile.to("#stage-caption-1", { opacity: 0, y: -12, duration: 4 }, 33);
+        tlMobile.to("#stage-caption-2", { opacity: 1, y: 0, duration: 4 }, 36);
+
+        MOBILE_TOKENS.forEach((token, idx) => {
+          const gx = mobileGridCols[idx % 3];
+          const gy = mobileGridRows[Math.floor(idx / 3)];
+          const deltaX = ((token.scatterMobile?.x ?? gx) - gx) * (cw / 100);
+          const deltaY = ((token.scatterMobile?.y ?? gy) - gy) * (ch / 100);
+
+          tlMobile.to(
+            `.mobile-token-${token.id}`,
+            { x: deltaX, y: deltaY, duration: 18, ease: "power2.inOut" },
+            35
+          );
+        });
+
+        tlMobile.to(
+          [".token-word-Python", ".token-word-teacher"],
+          {
+            borderColor: "var(--marigold)",
+            backgroundColor: "var(--marigold)",
+            color: "var(--navy)",
+            duration: 6,
+          },
+          48
+        );
+
+        // Stage 3 -> 4
+        tlMobile.to("#stage-caption-2", { opacity: 0, y: -12, duration: 4 }, 58);
+        tlMobile.to("#stage-caption-3", { opacity: 1, y: 0, duration: 4 }, 61);
+        tlMobile.to(".mobile-token-19445", { scale: 1.15, duration: 6 }, 60);
+        tlMobile.to(".mobile-attn-line", { opacity: 0.65, stagger: 0.3, duration: 12 }, 60);
+        tlMobile.to(".mobile-attn-strongest", { opacity: 1, strokeWidth: 3, duration: 8 }, 63);
+        tlMobile.to(".mobile-attn-label", { opacity: 1, duration: 5 }, 66);
+
+        // Stage 4 -> 5
+        tlMobile.to("#stage-caption-3", { opacity: 0, y: -12, duration: 4 }, 81);
+        tlMobile.to("#stage-caption-4", { opacity: 1, y: 0, duration: 4 }, 84);
+        tlMobile.to([".mobile-tokens-layer", ".mobile-attn-svg"], { opacity: 0.15, duration: 6 }, 82);
+        tlMobile.to(".mobile-output-console", { opacity: 1, y: 0, duration: 7 }, 83);
+        tlMobile.to(".mobile-output-word", { opacity: 1, stagger: 0.7, duration: 0.8 }, 87);
       });
 
       ScrollTrigger.refresh();
 
-      // Recalculate pins after font loads
       if (typeof document !== "undefined" && document.fonts?.ready) {
         document.fonts.ready.then(() => {
           ScrollTrigger.refresh();
@@ -118,7 +407,9 @@ export function TokenStory() {
     };
   }, [prefersReduced]);
 
-  // Reduced motion: static vertical presentation with all five stages
+  // ===========================================================================
+  // REDUCED MOTION STATIC VIEW (Accessible static fallback)
+  // ===========================================================================
   if (prefersReduced) {
     return (
       <div
@@ -154,7 +445,6 @@ export function TokenStory() {
                   {s.description}
                 </p>
 
-                {/* Stage Specific Static Visualization */}
                 <div className="mt-6 rounded-xl border border-white/10 bg-navy/60 p-6">
                   {idx === 0 && (
                     <div className="font-mono text-lg text-white">
@@ -252,71 +542,55 @@ export function TokenStory() {
     );
   }
 
-  // Calculate visual values for the 5 stages based on scroll progress
-  // Stage 1 (0 to 0.15): linear sentence with highlighter stripes
-  // Stage 2 (0.15 to 0.35): token split & ID chips reveal
-  // Stage 3 (0.35 to 0.60): travel to 2D scatter coordinates
-  // Stage 4 (0.60 to 0.85): attention lines to loops
-  // Stage 5 (0.85 to 1.0): output tokens reveal one by one
-  const stage2to3Progress = Math.max(
-    0,
-    Math.min(1, (scrollProgress - 0.35) / 0.25)
-  );
-  const stage4Progress = Math.max(
-    0,
-    Math.min(1, (scrollProgress - 0.6) / 0.2)
-  );
-  const stage5Progress = Math.max(
-    0,
-    Math.min(1, (scrollProgress - 0.85) / 0.15)
-  );
-
-  // How many output tokens to display in stage 5
-  const outputTokensCount =
-    activeStage === 4
-      ? Math.max(
-          1,
-          Math.min(
-            OUTPUT_TOKENS.length,
-            Math.floor(stage5Progress * OUTPUT_TOKENS.length)
-          )
-        )
-      : 0;
-  const activeTokens = isMobile ? MOBILE_TOKENS : DESKTOP_TOKENS;
-
+  // ===========================================================================
+  // INTERACTIVE CINEMATIC PINNED SCROLL STORY (Desktop & Mobile)
+  // ===========================================================================
   return (
     <div
       ref={containerRef}
       className="relative w-full bg-ultramarine text-white overflow-hidden"
     >
-      <div className="flex h-screen w-full flex-col justify-between px-6 py-8 md:py-12">
+      <div className="flex h-screen w-full flex-col justify-between px-6 py-6 sm:py-8 max-w-6xl mx-auto">
         {/* Top Header Rail: Progress indicator with semantic sequence numbers */}
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between border-b border-white/15 pb-4">
+        <div className="flex w-full items-center justify-between border-b border-white/15 pb-4">
           <nav
             aria-label="Simulation progress stages"
-            className="flex items-center gap-4 sm:gap-8"
+            className="relative flex items-center gap-3 sm:gap-8"
           >
+            {/* Background continuous track line */}
+            <div
+              className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-white/20 -z-0"
+              aria-hidden="true"
+            >
+              <div
+                className="progress-rail-fill h-full w-full bg-white origin-left transform scale-x-0"
+                aria-hidden="true"
+              />
+            </div>
+
             {STORY_STAGES.map((s, idx) => {
-              const isActive = activeStage === idx;
-              const isPast = activeStage > idx;
+              const isActive = activeStageIndex === idx;
+              const isPast = activeStageIndex > idx;
 
               return (
                 <div
                   key={s.stage}
-                  className={`flex items-center gap-2 transition-opacity ${
+                  className={`relative z-10 flex items-center gap-2 transition-all duration-300 ${
                     isActive
                       ? "opacity-100 font-bold"
                       : isPast
                       ? "opacity-80"
-                      : "opacity-40"
+                      : "opacity-45"
                   }`}
                   aria-current={isActive ? "step" : undefined}
                 >
                   <span
-                    className={`flex h-6 w-6 items-center justify-center rounded-full font-mono text-xs ${
+                    className={`flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full font-mono text-xs transition-colors duration-300 ${
                       isActive
-                        ? "bg-white text-ultramarine font-bold"
-                        : "border border-white/40 text-white"
+                        ? "bg-white text-ultramarine font-bold shadow-md"
+                        : isPast
+                        ? "bg-white/20 text-white border border-white/40"
+                        : "border border-white/40 bg-ultramarine text-white"
                     }`}
                   >
                     {s.stage}
@@ -330,225 +604,263 @@ export function TokenStory() {
           </nav>
 
           {/* Persistent Educational Simulation Badge */}
-          <span className="font-mono text-[11px] sm:text-xs rounded border border-white/20 bg-navy/60 px-2.5 py-1 text-white/80 backdrop-blur-sm">
+          <span className="font-mono text-[10px] sm:text-xs rounded border border-white/20 bg-navy/60 px-2.5 py-1 text-white/80 backdrop-blur-sm">
             {SIMULATION_BADGE}
           </span>
         </div>
 
         {/* Center Main: Left Caption & Right Canvas (Desktop) / Top Caption & Bottom Canvas (Mobile) */}
-        <div className="mx-auto my-auto flex w-full max-w-6xl flex-col lg:flex-row items-center gap-8 lg:gap-14">
-          {/* Left Column: Caption text max 38ch — no eyebrow stacked above heading */}
-          <div className="w-full lg:w-[38ch] shrink-0 text-left">
-            <div className="space-y-4">
-              <h2 className="font-sans text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight">
-                {STORY_STAGES[activeStage]?.caption}
-              </h2>
-              <p className="font-sans text-base sm:text-lg text-white/80 leading-[1.65]">
-                {STORY_STAGES[activeStage]?.description}
-              </p>
-            </div>
+        <div className="my-auto flex w-full flex-col lg:flex-row items-center gap-8 lg:gap-14">
+          {/* Left Column: Stack of 5 Captions */}
+          <div className="w-full lg:w-[38ch] shrink-0 text-left relative min-h-[120px] sm:min-h-[140px] lg:min-h-[180px]">
+            {STORY_STAGES.map((s, idx) => (
+              <div
+                key={s.stage}
+                id={`stage-caption-${idx}`}
+                className="stage-caption absolute inset-0 flex flex-col justify-center space-y-3"
+              >
+                <h2 className="font-sans text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight">
+                  {s.caption}
+                </h2>
+                <p className="font-sans text-base sm:text-lg text-white/80 leading-[1.65]">
+                  {s.description}
+                </p>
+              </div>
+            ))}
           </div>
 
           {/* Right Column: Interactive Token Simulation Canvas */}
           <div
             ref={canvasRef}
-            className="relative w-full h-[380px] sm:h-[420px] lg:h-[480px] rounded-2xl border border-white/20 bg-navy/50 p-6 backdrop-blur-md overflow-hidden flex items-center justify-center shadow-inner"
+            className="relative w-full h-[380px] sm:h-[420px] lg:h-[480px] rounded-2xl border border-white/20 bg-navy/60 p-6 backdrop-blur-md overflow-hidden flex items-center justify-center shadow-inner"
           >
-            {/* Stage 1: The Hero Sentence with Highlighter Stripes Visible */}
-            {activeStage === 0 && (
-              <div className="relative z-10 w-full max-w-xl rounded-xl border border-white/20 bg-navy/60 p-6 sm:p-8 backdrop-blur-md shadow-lg">
-                <div className="font-mono text-base sm:text-lg md:text-xl font-semibold text-white leading-relaxed">
-                  <span className="relative inline-block mr-2.5 my-1">
-                    <span className="relative z-10">Act as a Python teacher.</span>
-                    <span
-                      className="absolute bottom-0 left-0 right-0 h-[40%] rounded-sm bg-marigold/40 border-b-2 border-marigold pointer-events-none"
-                      aria-hidden="true"
-                    />
-                  </span>
-                  <span className="relative inline-block mr-2.5 my-1">
-                    <span className="relative z-10">Explain loops to a beginner.</span>
-                    <span
-                      className="absolute bottom-0 left-0 right-0 h-[40%] rounded-sm bg-mint/45 border-b-2 border-mint pointer-events-none"
-                      aria-hidden="true"
-                    />
-                  </span>
-                  <span className="relative inline-block mr-2.5 my-1">
-                    <span className="relative z-10">Give two examples.</span>
-                    <span
-                      className="absolute bottom-0 left-0 right-0 h-[40%] rounded-sm bg-lilac/45 border-b-2 border-lilac pointer-events-none"
-                      aria-hidden="true"
-                    />
-                  </span>
-                  <span className="relative inline-block my-1">
-                    <span className="relative z-10">Keep it under 100 words.</span>
-                    <span
-                      className="absolute bottom-0 left-0 right-0 h-[40%] rounded-sm bg-rose/40 border-b-2 border-rose pointer-events-none"
-                      aria-hidden="true"
-                    />
-                  </span>
+            {/* ------------------------------------------------------------- */}
+            {/* DESKTOP LAYOUT (Hidden on mobile)                             */}
+            {/* ------------------------------------------------------------- */}
+            <div className="hidden md:block absolute inset-0">
+              {/* Stage 1: Hero Sentence Card */}
+              <div className="desktop-sentence-card absolute inset-0 z-20 flex items-center justify-center p-6">
+                <div className="max-w-xl rounded-xl border border-white/20 bg-navy/80 p-6 sm:p-8 backdrop-blur-md shadow-xl text-center">
+                  <div className="font-mono text-base sm:text-lg md:text-xl font-semibold text-white leading-relaxed">
+                    <span className="relative inline-block mr-2.5 my-1">
+                      <span className="relative z-10">Act as a Python teacher.</span>
+                      <span
+                        className="absolute bottom-0 left-0 right-0 h-[40%] rounded-sm bg-marigold/40 border-b-2 border-marigold pointer-events-none"
+                        aria-hidden="true"
+                      />
+                    </span>
+                    <span className="relative inline-block mr-2.5 my-1">
+                      <span className="relative z-10">Explain loops to a beginner.</span>
+                      <span
+                        className="absolute bottom-0 left-0 right-0 h-[40%] rounded-sm bg-mint/45 border-b-2 border-mint pointer-events-none"
+                        aria-hidden="true"
+                      />
+                    </span>
+                    <span className="relative inline-block mr-2.5 my-1">
+                      <span className="relative z-10">Give two examples.</span>
+                      <span
+                        className="absolute bottom-0 left-0 right-0 h-[40%] rounded-sm bg-lilac/45 border-b-2 border-lilac pointer-events-none"
+                        aria-hidden="true"
+                      />
+                    </span>
+                    <span className="relative inline-block my-1">
+                      <span className="relative z-10">Keep it under 100 words.</span>
+                      <span
+                        className="absolute bottom-0 left-0 right-0 h-[40%] rounded-sm bg-rose/40 border-b-2 border-rose pointer-events-none"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </div>
                 </div>
               </div>
-            )}
 
-            {/* Stage 4: SVG Attention Lines connecting 'loops' (50%, 48%) to other tokens */}
-            <svg
-              className="absolute inset-0 h-full w-full pointer-events-none transition-opacity duration-300"
-              style={{
-                opacity: activeStage === 3 ? stage4Progress : 0,
-              }}
-              aria-hidden="true"
-            >
-              {activeTokens.filter((t) => t.text !== "loops").map((t) => {
-                const isStrong = t.isStrongestAttention;
-                // Target token 'loops' is at (50%, 48%)
-                const x1 = "50%";
-                const y1 = "48%";
-                const x2 = `${isMobile && t.scatterMobile ? t.scatterMobile.x : t.scatterDesktop.x}%`;
-                const y2 = `${isMobile && t.scatterMobile ? t.scatterMobile.y : t.scatterDesktop.y}%`;
+              {/* Stage 4: SVG Attention Lines (loops at 50%, 48%) */}
+              <svg
+                className="desktop-attn-svg absolute inset-0 h-full w-full pointer-events-none z-10"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                {DESKTOP_TOKENS.filter((t) => t.text !== "loops").map((t) => {
+                  const isStrong = t.isStrongestAttention;
+                  return (
+                    <g key={`attn-${t.id}`}>
+                      <line
+                        x1="50"
+                        y1="48"
+                        x2={t.scatterDesktop.x}
+                        y2={t.scatterDesktop.y}
+                        strokeWidth={isStrong ? 3.5 : 1 + t.attentionWeight * 1.5}
+                        strokeDasharray={isStrong ? undefined : "3,3"}
+                        className={`desktop-attn-line ${
+                          isStrong
+                            ? "desktop-attn-strongest stroke-marigold"
+                            : "stroke-white"
+                        }`}
+                      />
+                      {isStrong && (
+                        <text
+                          x={(50 + t.scatterDesktop.x) / 2}
+                          y={(48 + t.scatterDesktop.y) / 2 - 2}
+                          fontSize="3"
+                          fontFamily="monospace"
+                          fontWeight="bold"
+                          textAnchor="middle"
+                          className="desktop-attn-label fill-marigold"
+                        >
+                          weight {t.attentionWeight.toFixed(2)}
+                        </text>
+                      )}
+                    </g>
+                  );
+                })}
+              </svg>
 
-                return (
-                  <g key={`attn-${t.id}`}>
-                    <line
-                      x1={x1}
-                      y1={y1}
-                      x2={x2}
-                      y2={y2}
-                      strokeWidth={isStrong ? 3.5 : 1 + t.attentionWeight * 1.5}
-                      strokeOpacity={
-                        isStrong ? 1.0 : 0.2 + t.attentionWeight * 0.45
-                      }
-                      strokeDasharray={isStrong ? undefined : "3,3"}
-                      className={isStrong ? "stroke-marigold" : "stroke-white"}
-                    />
-                    {isStrong && (
-                      <text
-                        x={`${(50 + (isMobile && t.scatterMobile ? t.scatterMobile.x : t.scatterDesktop.x)) / 2}%`}
-                        y={`${(48 + (isMobile && t.scatterMobile ? t.scatterMobile.y : t.scatterDesktop.y)) / 2 - 2}%`}
-                        fontSize="11"
-                        fontFamily="monospace"
-                        fontWeight="bold"
-                        textAnchor="middle"
-                        className="fill-marigold"
-                      >
-                        weight {t.attentionWeight.toFixed(2)}
-                      </text>
-                    )}
-                  </g>
-                );
-              })}
-            </svg>
-
-            {/* Stages 2 to 4: Input Tokens (Split into tokens with ID chips) */}
-            <div
-              className={`absolute inset-0 p-6 transition-opacity duration-300 ${
-                activeStage === 0
-                  ? "opacity-0 pointer-events-none"
-                  : activeStage === 4
-                  ? "opacity-20 pointer-events-none"
-                  : "opacity-100"
-              }`}
-            >
-              {activeTokens.map((token, idx) => {
-                // Stage 2: Token flow in natural linear coordinates with gaps
-                // Stage 3 & 4: Token flow in 2D scatter coordinates
-                const scatterX = isMobile && token.scatterMobile ? token.scatterMobile.x : token.scatterDesktop.x;
-                const scatterY = isMobile && token.scatterMobile ? token.scatterMobile.y : token.scatterDesktop.y;
-
-                // Approximate initial grid line & column with clear gaps
-                const totalCols = isMobile ? 3 : 4;
-                const row = Math.floor(idx / totalCols);
-                const col = idx % totalCols;
-                const linearX = isMobile ? 20 + col * 30 : 14 + col * 22;
-                const linearY = isMobile ? 22 + row * 26 : 25 + row * 26;
-
-                // Interpolate strictly between linear and scatter positions
-                const currentX =
-                  linearX + (scatterX - linearX) * stage2to3Progress;
-                const currentY =
-                  linearY + (scatterY - linearY) * stage2to3Progress;
-
-                // ID Chip visibility in Stage 2, 3, 4
-                const showChip = activeStage >= 1;
-                const isClusterTarget = ["loops", "Python", "teacher"].includes(
-                  token.text
-                );
-
-                return (
+              {/* Stages 2 to 4: 12 Desktop Tokens */}
+              <div className="desktop-tokens-layer absolute inset-0 z-10 pointer-events-none">
+                {DESKTOP_TOKENS.map((token) => (
                   <div
                     key={token.id}
-                    className="absolute flex flex-col items-center justify-center transition-transform will-change-transform"
-                    style={{
-                      left: `${currentX}%`,
-                      top: `${currentY}%`,
-                      transform: "translate(-50%, -50%)",
-                    }}
+                    className={`desktop-token-node desktop-token-${token.id} absolute flex flex-col items-center justify-center -translate-x-1/2 -translate-y-1/2`}
                   >
-                    {/* Small numeric Token ID chip (Stage 2+) */}
                     <span
-                      className={`mb-1 font-mono text-[10px] rounded px-1.5 py-0.2 bg-white/15 text-white/90 transition-opacity duration-200 ${
-                        showChip ? "opacity-100" : "opacity-0"
-                      }`}
+                      className="desktop-token-chip mb-1 font-mono text-[10px] rounded px-1.5 py-0.5 bg-white/20 text-white/90 shadow-xs"
                       aria-hidden="true"
                     >
-                      {token.id}
+                      ID: {token.id}
                     </span>
-
-                    {/* Token Word Box */}
                     <span
-                      className={`rounded-lg px-2.5 py-1 font-mono text-sm sm:text-base font-semibold transition-all ${
-                        isClusterTarget && activeStage >= 2
-                          ? "border border-marigold bg-marigold text-navy shadow-md"
-                          : token.text === "loops" && activeStage === 3
-                          ? "border-2 border-white bg-white text-ultramarine font-bold"
-                          : "border border-white/20 bg-white/10 text-white"
-                      }`}
+                      className={`token-word-${token.text} rounded-lg px-2.5 py-1 font-mono text-sm lg:text-base font-semibold border border-white/20 bg-white/10 text-white transition-colors`}
                     >
                       {token.text}
                     </span>
                   </div>
-                );
-              })}
-            </div>
+                ))}
+              </div>
 
-            {/* Stage 5: Autoregressive Next-Token Generation Output */}
-            {activeStage === 4 && (
-              <div className="relative z-10 w-full max-w-lg rounded-xl border border-white/20 bg-navy/80 p-6 shadow-xl backdrop-blur-md">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
-                  <span className="font-mono text-xs text-white/60">
-                    Model Output Stream (Autoregressive)
-                  </span>
-                  <span className="font-mono text-xs text-mint">
-                    Tokens: {outputTokensCount} / {OUTPUT_TOKENS.length}
-                  </span>
-                </div>
-
-                <div className="min-h-[100px] font-mono text-base sm:text-lg text-white leading-relaxed">
-                  {OUTPUT_TOKENS.slice(0, outputTokensCount).map((tok, i) => (
-                    <span
-                      key={i}
-                      className="inline-block bg-white/15 text-white px-1 py-0.5 rounded m-0.5"
-                    >
-                      {tok}
+              {/* Stage 5: Autoregressive Model Output Stream */}
+              <div className="desktop-output-console absolute inset-0 z-30 flex items-center justify-center p-6">
+                <div className="w-full max-w-lg rounded-xl border border-white/20 bg-navy/90 p-6 shadow-2xl backdrop-blur-md">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                    <span className="font-mono text-xs text-white/70">
+                      Model Output Stream (Autoregressive)
                     </span>
-                  ))}
-                  {/* Active Caret */}
-                  <span
-                    className="inline-block w-2 h-5 bg-marigold ml-1 align-middle animate-pulse"
-                    aria-hidden="true"
-                  />
+                    <span className="flex items-center gap-1.5 font-mono text-xs text-mint">
+                      <span className="h-2 w-2 rounded-full bg-mint animate-pulse" />
+                      Complete
+                    </span>
+                  </div>
+                  <div className="font-mono text-sm sm:text-base text-white/95 leading-relaxed min-h-[72px]">
+                    {OUTPUT_TOKENS.map((word, wIdx) => (
+                      <span
+                        key={wIdx}
+                        className="desktop-output-word inline-block mr-1.5"
+                      >
+                        {word}
+                      </span>
+                    ))}
+                    <span className="inline-block w-2 h-4 bg-white ml-0.5 align-middle animate-pulse" />
+                  </div>
                 </div>
               </div>
-            )}
-          </div>
-        </div>
+            </div>
 
-        {/* Bottom Rail: Stage Indicator Bar */}
-        <div className="mx-auto w-full max-w-6xl">
-          <div className="h-1 w-full bg-white/15 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-white transition-all duration-150"
-              style={{ width: `${Math.round(scrollProgress * 100)}%` }}
-            />
+            {/* ------------------------------------------------------------- */}
+            {/* MOBILE LAYOUT (Hidden on desktop)                              */}
+            {/* ------------------------------------------------------------- */}
+            <div className="md:hidden absolute inset-0">
+              {/* Stage 1: Mobile Sentence Card */}
+              <div className="mobile-sentence-card absolute inset-0 z-20 flex items-center justify-center p-4">
+                <div className="max-w-xs rounded-xl border border-white/20 bg-navy/80 p-4 text-center">
+                  <p className="font-mono text-sm font-semibold text-white leading-relaxed">
+                    <span className="bg-marigold/30 text-white border-b border-marigold px-1 mr-1">
+                      Act as a Python teacher.
+                    </span>
+                    <span className="bg-mint/30 text-white border-b border-mint px-1 mr-1">
+                      Explain loops.
+                    </span>
+                    <span className="bg-lilac/30 text-white border-b border-lilac px-1 mr-1">
+                      Give examples.
+                    </span>
+                    <span className="bg-rose/30 text-white border-b border-rose px-1">
+                      Keep under 100 words.
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Stage 4: Mobile Attention Lines */}
+              <svg
+                className="mobile-attn-svg absolute inset-0 h-full w-full pointer-events-none z-10"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+              >
+                {MOBILE_TOKENS.filter((t) => t.text !== "loops").map((t) => {
+                  const isStrong = t.isStrongestAttention;
+                  const targetX = t.scatterMobile?.x ?? 50;
+                  const targetY = t.scatterMobile?.y ?? 50;
+                  return (
+                    <g key={`mob-attn-${t.id}`}>
+                      <line
+                        x1="50"
+                        y1="48"
+                        x2={targetX}
+                        y2={targetY}
+                        strokeWidth={isStrong ? 3 : 1}
+                        strokeDasharray={isStrong ? undefined : "2,2"}
+                        className={`mobile-attn-line ${
+                          isStrong
+                            ? "mobile-attn-strongest stroke-marigold"
+                            : "stroke-white"
+                        }`}
+                      />
+                    </g>
+                  );
+                })}
+              </svg>
+
+              {/* Stages 2 to 4: 8 Mobile Tokens */}
+              <div className="mobile-tokens-layer absolute inset-0 z-10 pointer-events-none">
+                {MOBILE_TOKENS.map((token) => (
+                  <div
+                    key={token.id}
+                    className={`mobile-token-node mobile-token-${token.id} absolute flex flex-col items-center justify-center -translate-x-1/2 -translate-y-1/2`}
+                  >
+                    <span
+                      className="mobile-token-chip mb-0.5 font-mono text-[9px] rounded px-1 py-0.2 bg-white/20 text-white/90"
+                      aria-hidden="true"
+                    >
+                      {token.id}
+                    </span>
+                    <span
+                      className={`token-word-${token.text} rounded px-2 py-0.5 font-mono text-xs font-semibold border border-white/20 bg-white/10 text-white`}
+                    >
+                      {token.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Stage 5: Mobile Output Console */}
+              <div className="mobile-output-console absolute inset-0 z-30 flex items-center justify-center p-4">
+                <div className="w-full max-w-xs rounded-xl border border-white/20 bg-navy/90 p-4 shadow-xl">
+                  <span className="font-mono text-[10px] text-white/70 block border-b border-white/10 pb-2 mb-2">
+                    Model Output
+                  </span>
+                  <div className="font-mono text-xs text-white leading-relaxed">
+                    {OUTPUT_TOKENS.map((word, wIdx) => (
+                      <span
+                        key={wIdx}
+                        className="mobile-output-word inline-block mr-1"
+                      >
+                        {word}
+                      </span>
+                    ))}
+                    <span className="inline-block w-1.5 h-3 bg-white ml-0.5 align-middle animate-pulse" />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

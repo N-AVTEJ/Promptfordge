@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSmoothScroll } from "@/components/providers/smooth-scroll-provider";
 
 export function Nav() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { lenis } = useSmoothScroll();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,8 +15,17 @@ export function Nav() {
 
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+
+    if (lenis) {
+      lenis.on("scroll", (e: { scroll: number }) => {
+        setIsScrolled(e.scroll > 80);
+      });
+    }
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lenis]);
 
   return (
     <>
