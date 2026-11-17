@@ -31,6 +31,7 @@ export interface VideoSource {
   channel: string;
   minutes: number;
   covers: string[];
+  relatedTo?: string[];
   level: "beginner" | "intermediate" | "advanced";
   status: "ok" | "unavailable" | "slot";
   resolvedBy: "seed" | "agent-search";
@@ -966,7 +967,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Confidently implement zero-shot, few-shot, chain-of-thought, and persona-driven prompts to achieve robust, high-fidelity results across diverse reasoning tasks.",
     "duration": "75 mins",
     "lessonCount": 8,
-    "videoCount": 6,
+    "videoCount": 7,
     "level": "Foundational",
     "tags": [
       "Zero-Shot",
@@ -975,7 +976,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       "Persona",
       "Constraints"
     ],
-    "youtubeVideoId": "T-w_5T-j-dA",
+    "youtubeVideoId": "Vl4hH_L5-3Q",
     "accent": "amber",
     "keyTakeaway": "Exemplars do not merely provide data; they establish deterministic syntactic and reasoning patterns for the model's in-context attention heads.",
     "keyConcepts": [
@@ -1053,22 +1054,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-02-les-01",
         "title": "Zero-shot",
-        "youtubeId": "T-w_5T-j-dA",
+        "youtubeId": "Vl4hH_L5-3Q",
         "status": "ok",
         "videos": [
-          {
-            "id": "T-w_5T-j-dA",
-            "title": "Large Language Models Are Zero Shot Reasoners",
-            "channel": "IBM Technology",
-            "minutes": 8,
-            "covers": [
-              "Zero-shot",
-              "Instruction based"
-            ],
-            "level": "beginner",
-            "status": "ok",
-            "resolvedBy": "seed"
-          },
           {
             "id": "Vl4hH_L5-3Q",
             "title": "Zero-shot, One-shot and Few-shot Prompting Techniques Explained",
@@ -1079,7 +1067,38 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
+          },
+          {
+            "id": "uDIW34h8cmM",
+            "title": "Prompt Engineering Guide - From Beginner to Advanced",
+            "channel": "Matthew Berman",
+            "minutes": 33,
+            "covers": [
+              "Zero-shot",
+              "One-shot",
+              "Few-shot",
+              "Role based"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "seed",
+            "role": "optional"
+          },
+          {
+            "id": "T-w_5T-j-dA",
+            "title": "Large Language Models Are Zero Shot Reasoners",
+            "channel": "IBM Technology",
+            "minutes": 8,
+            "covers": [
+              "Zero-shot",
+              "Chain of Thought"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "seed",
+            "role": "core"
           }
         ],
         "chapters": [
@@ -1169,8 +1188,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         "relatedLab": "/labs/compare",
         "notesMarkdown": "### Zero-Shot Prompting\n\nZero-shot prompting evaluates the model's raw aligned capability. By leveraging explicit phrasing like 'Think step by step', engineers can elicit latent reasoning without polluting the prompt with voluminous examples.",
         "beforeYouWatch": [
-          "Discover zero-shot prompting: asking an AI to perform a task without giving it any sample solutions.",
-          "Notice when zero-shot works well and when it needs extra guidance."
+          "Observe zero-shot prompting: asking an AI to perform a task with zero prior demonstrations or examples.",
+          "Notice how clear context and direct imperative verbs yield accurate first-attempt answers."
         ],
         "checkYourself": {
           "question": "When is zero-shot prompting sufficient without providing examples?",
@@ -1195,7 +1214,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
           },
           {
             "id": "uDIW34h8cmM",
@@ -1203,11 +1223,15 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Matthew Berman",
             "minutes": 33,
             "covers": [
-              "One-shot"
+              "Zero-shot",
+              "One-shot",
+              "Few-shot",
+              "Role based"
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "optional"
           }
         ],
         "chapters": [
@@ -1322,7 +1346,24 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
+          },
+          {
+            "id": "uDIW34h8cmM",
+            "title": "Prompt Engineering Guide - From Beginner to Advanced",
+            "channel": "Matthew Berman",
+            "minutes": 33,
+            "covers": [
+              "Zero-shot",
+              "One-shot",
+              "Few-shot",
+              "Role based"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "seed",
+            "role": "optional"
           },
           {
             "id": "b2t4pa9lOIc",
@@ -1334,7 +1375,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "intermediate",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
           }
         ],
         "chapters": [
@@ -1449,7 +1491,22 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
+          },
+          {
+            "id": "T-w_5T-j-dA",
+            "title": "Large Language Models Are Zero Shot Reasoners",
+            "channel": "IBM Technology",
+            "minutes": 8,
+            "covers": [
+              "Zero-shot",
+              "Chain of Thought"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "seed",
+            "role": "core"
           },
           {
             "id": "b2t4pa9lOIc",
@@ -1461,7 +1518,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "intermediate",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "optional"
           }
         ],
         "chapters": [
@@ -1572,24 +1630,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 8,
             "covers": [
+              "Zero-shot",
+              "Chain of Thought"
+            ],
+            "relatedTo": [
               "Instruction based"
             ],
-            "level": "beginner",
-            "status": "ok",
-            "resolvedBy": "seed"
-          },
-          {
-            "id": "Cu8QvodkjpU",
-            "title": "Meta Reveals 7 Prompt Techniques",
-            "channel": "Meta",
-            "minutes": 12,
-            "covers": [
-              "Instruction based",
-              "Constraint based"
-            ],
             "level": "intermediate",
-            "status": "unavailable",
-            "resolvedBy": "seed"
+            "status": "ok",
+            "resolvedBy": "seed",
+            "role": "core"
           }
         ],
         "chapters": [
@@ -1700,11 +1750,15 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Matthew Berman",
             "minutes": 33,
             "covers": [
+              "Zero-shot",
+              "One-shot",
+              "Few-shot",
               "Role based"
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "optional"
           },
           {
             "id": "cnww-CvDoRk",
@@ -1712,11 +1766,13 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Sai Ram Penjarla",
             "minutes": 12,
             "covers": [
-              "Role based"
+              "Role based",
+              "Few-shot"
             ],
             "level": "intermediate",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
           }
         ],
         "chapters": [
@@ -1818,9 +1874,23 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-02-les-07",
         "title": "Constraint based",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "ugxPshXr7Ro",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "ugxPshXr7Ro",
+            "title": "Constrained Generation for Better LLM Prompting Results",
+            "channel": "Matthew Esposito | AI",
+            "minutes": 5,
+            "covers": [
+              "Constraint based"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
@@ -2045,7 +2115,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "1h 27m watch"
+    "totalWatchTime": "59m watch"
   },
   {
     "id": "mod-03",
@@ -2062,7 +2132,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Architect context-rich, delimiter-isolated prompts and self-reflective critique loops that prevent hallucination and maintain rock-solid data formatting.",
     "duration": "55 mins",
     "lessonCount": 5,
-    "videoCount": 1,
+    "videoCount": 3,
     "level": "Core",
     "tags": [
       "Context",
@@ -2158,11 +2228,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Sai Ram Penjarla",
             "minutes": 12,
             "covers": [
-              "Contextual"
+              "Reflection-based"
+            ],
+            "relatedTo": [
+              "Contextual",
+              "Structured prompts"
             ],
             "level": "intermediate",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
           }
         ],
         "chapters": [
@@ -2264,9 +2339,24 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-03-les-02",
         "title": "Delimiter based",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "zrp3Lr5eeFc",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "zrp3Lr5eeFc",
+            "title": "XML Tags, Delimiters & Complex Prompt Structure",
+            "channel": "Fortivance Academy",
+            "minutes": 8,
+            "covers": [
+              "Delimiter based",
+              "Structured prompts"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
@@ -2366,20 +2456,39 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-03-les-03",
         "title": "Structured prompts",
-        "youtubeId": "cnww-CvDoRk",
+        "youtubeId": "zrp3Lr5eeFc",
         "status": "ok",
         "videos": [
+          {
+            "id": "zrp3Lr5eeFc",
+            "title": "XML Tags, Delimiters & Complex Prompt Structure",
+            "channel": "Fortivance Academy",
+            "minutes": 8,
+            "covers": [
+              "Delimiter based",
+              "Structured prompts"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core"
+          },
           {
             "id": "cnww-CvDoRk",
             "title": "Advanced Prompt Engineering Techniques",
             "channel": "Sai Ram Penjarla",
             "minutes": 12,
             "covers": [
-              "Structured prompts"
+              "Reflection-based"
+            ],
+            "relatedTo": [
+              "Structured prompts",
+              "Contextual"
             ],
             "level": "intermediate",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "optional"
           }
         ],
         "chapters": [
@@ -2481,9 +2590,23 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-03-les-04",
         "title": "Multi-prompt",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "OEQPss-UXhA",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "OEQPss-UXhA",
+            "title": "AI Prompt Engineering - Multistep Prompting",
+            "channel": "SivamX",
+            "minutes": 9,
+            "covers": [
+              "Multi-prompt"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
@@ -2594,9 +2717,14 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "covers": [
               "Reflection-based"
             ],
+            "relatedTo": [
+              "Contextual",
+              "Structured prompts"
+            ],
             "level": "intermediate",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
           }
         ],
         "chapters": [
@@ -2696,7 +2824,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "12m watch"
+    "totalWatchTime": "29m watch"
   },
   {
     "id": "mod-04",
@@ -2713,7 +2841,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Architect resilient multi-turn chat applications, multi-step prompt pipelines, and dynamic template workflows capable of handling stateful enterprise interactions.",
     "duration": "50 mins",
     "lessonCount": 3,
-    "videoCount": 1,
+    "videoCount": 2,
     "level": "Core",
     "tags": [
       "Multi-Turn",
@@ -2915,9 +3043,23 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-04-les-02",
         "title": "Prompt chaining and pipelines",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "KwC8bUZrUKA",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "KwC8bUZrUKA",
+            "title": "Prompt Chaining Explained | LangChain Tutorial for Building Smarter AI Workflows 🚀",
+            "channel": "Micro Learning",
+            "minutes": 8,
+            "covers": [
+              "Prompt chaining and pipelines"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
@@ -3130,7 +3272,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "18m watch"
+    "totalWatchTime": "26m watch"
   },
   {
     "id": "mod-05",
@@ -3147,7 +3289,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Design quantitative evaluation suites and continuous optimization pipelines that track prompt accuracy, latency, cost, and hallucination rates across model iterations.",
     "duration": "60 mins",
     "lessonCount": 6,
-    "videoCount": 4,
+    "videoCount": 5,
     "level": "Core",
     "tags": [
       "Evaluations",
@@ -3244,11 +3386,15 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Arize AI",
             "minutes": 54,
             "covers": [
+              "LLM-as-judge"
+            ],
+            "relatedTo": [
               "Iterative refinement"
             ],
             "level": "advanced",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "optional"
           }
         ],
         "chapters": [
@@ -3479,7 +3625,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "advanced",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
           },
           {
             "id": "LZJTrAXcyFM",
@@ -3487,11 +3634,12 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Arize AI",
             "minutes": 54,
             "covers": [
-              "Performance evaluation"
+              "LLM-as-judge"
             ],
             "level": "advanced",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "optional"
           }
         ],
         "chapters": [
@@ -3709,9 +3857,23 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-05-les-05",
         "title": "BLEU, ROUGE, BERTScore",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "RTaZqGflrJ8",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "RTaZqGflrJ8",
+            "title": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+            "channel": "AI Academy",
+            "minutes": 7,
+            "covers": [
+              "BLEU, ROUGE, BERTScore"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
@@ -3933,7 +4095,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "1h 54m watch"
+    "totalWatchTime": "1h 7m watch"
   },
   {
     "id": "mod-06",
@@ -5106,12 +5268,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 9,
             "covers": [
-              "Six Major Adversarial AI Attack Types",
-              "Prompt injection"
+              "AI attack surface overview"
+            ],
+            "relatedTo": [
+              "Prompt injection",
+              "Mitigation strategies"
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
           },
           {
             "id": "yNIlm9IfcgA",
@@ -5119,11 +5285,13 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "ChatBotKit",
             "minutes": 6,
             "covers": [
+              "Prompt injection",
               "Understanding and Preventing Prompt Injection"
             ],
             "level": "intermediate",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
           }
         ],
         "chapters": [
@@ -5481,11 +5649,15 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 9,
             "covers": [
+              "AI attack surface overview"
+            ],
+            "relatedTo": [
               "Safe prompt design"
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "optional"
           },
           {
             "id": "gZTQNb0NGjM",
@@ -5497,7 +5669,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "intermediate",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
           }
         ],
         "chapters": [
@@ -5614,7 +5787,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Construct high-fidelity domain prompts for automated software development, pedagogy, enterprise document automation, and scholarly research assistance.",
     "duration": "55 mins",
     "lessonCount": 4,
-    "videoCount": 2,
+    "videoCount": 5,
     "level": "Advanced",
     "tags": [
       "Coding",
@@ -5830,9 +6003,23 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-09-les-02",
         "title": "Education and tutoring",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "GxlOoKI0zxg",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "GxlOoKI0zxg",
+            "title": "Prompt Engineering for Teachers",
+            "channel": "Town Square for Teachers",
+            "minutes": 11,
+            "covers": [
+              "Education and tutoring"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
@@ -5932,9 +6119,23 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-09-les-03",
         "title": "Business automation",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "QRgayVF5PyM",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "QRgayVF5PyM",
+            "title": "Prompt Engineering for Business: Automate Workflows With AI",
+            "channel": "Tuff University",
+            "minutes": 30,
+            "covers": [
+              "Business automation"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
@@ -6034,9 +6235,23 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-09-les-04",
         "title": "Research assistance",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "U8zrqWrTYdc",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "U8zrqWrTYdc",
+            "title": "How to use ChatGPT for Research - Literature Review, Research Paper Writing & Publication",
+            "channel": "WiseUp Communications",
+            "minutes": 9,
+            "covers": [
+              "Research assistance"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
@@ -6134,7 +6349,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "52m watch"
+    "totalWatchTime": "1h 42m watch"
   },
   {
     "id": "mod-10",
@@ -6151,7 +6366,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Implement Tree-of-Thoughts search algorithms, construct autonomous ReAct reasoning loops, and automate prompt discovery using optimization frameworks.",
     "duration": "70 mins",
     "lessonCount": 5,
-    "videoCount": 3,
+    "videoCount": 5,
     "level": "Specialized",
     "tags": [
       "Tree-of-Thoughts",
@@ -6365,9 +6580,23 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-10-les-02",
         "title": "Active prompting",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "wcmLgy1-9aQ",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "wcmLgy1-9aQ",
+            "title": "Active Prompting Explained: Boost AI Reasoning with Less Human Effort",
+            "channel": "Micro Learning",
+            "minutes": 8,
+            "covers": [
+              "Active prompting"
+            ],
+            "level": "advanced",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
@@ -6594,9 +6823,23 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-10-les-04",
         "title": "Expert prompting",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "g5h-piquf_k",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "g5h-piquf_k",
+            "title": "Should you tell your LLM it's an 'expert' before prompting?",
+            "channel": "AI and Search with Mark Williams-Cook",
+            "minutes": 7,
+            "covers": [
+              "Expert prompting"
+            ],
+            "level": "advanced",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
@@ -6813,7 +7056,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "1h 50m watch"
+    "totalWatchTime": "2h 5m watch"
   },
   {
     "id": "mod-11",
@@ -6923,11 +7166,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 4,
             "covers": [
+              "What is MCP?",
+              "MCP (hosts, clients, servers)"
+            ],
+            "relatedTo": [
               "Agent loops (plan, act, observe)"
             ],
             "level": "beginner",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
           },
           {
             "id": "kQmXtrmQ5Zg",
@@ -6940,7 +7188,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "advanced",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
           }
         ],
         "chapters": [
@@ -7557,7 +7806,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Evaluate architectural trade-offs between prompting, RAG, and fine-tuning, establish CI/CD prompt regression pipelines, optimize production caching and cost controls, and implement responsible AI governance guardrails.",
     "duration": "65 mins",
     "lessonCount": 5,
-    "videoCount": 5,
+    "videoCount": 6,
     "level": "Specialized",
     "tags": [
       "Production",
@@ -7879,9 +8128,23 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-12-les-03",
         "title": "Prompt versioning and regression tests",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "DNmIqNjbKoM",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "DNmIqNjbKoM",
+            "title": "Prompt Versioning & Testing Strategies — Reliable LLM Development | Uplatz",
+            "channel": "Uplatz",
+            "minutes": 6,
+            "covers": [
+              "Prompt versioning and regression tests"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "agent-search",
+            "role": "core"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
@@ -7995,7 +8258,8 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             ],
             "level": "intermediate",
             "status": "ok",
-            "resolvedBy": "agent-search"
+            "resolvedBy": "agent-search",
+            "role": "core"
           },
           {
             "id": "HdafI0t3sEY",
@@ -8003,12 +8267,15 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 9,
             "covers": [
-              "Guardrails, cost, latency, caching",
-              "RAG vs CAG"
+              "Caching"
+            ],
+            "relatedTo": [
+              "Guardrails, cost, latency, caching"
             ],
             "level": "intermediate",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "core"
           }
         ],
         "chapters": [
@@ -8119,12 +8386,15 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Andrej Karpathy",
             "minutes": 211,
             "covers": [
-              "Post-training and assistant models",
+              "Post-training and assistant models"
+            ],
+            "relatedTo": [
               "Bias, safety, governance"
             ],
             "level": "advanced",
             "status": "ok",
-            "resolvedBy": "seed"
+            "resolvedBy": "seed",
+            "role": "optional"
           }
         ],
         "chapters": [
@@ -8224,7 +8494,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
-    "totalWatchTime": "4h 42m watch"
+    "totalWatchTime": "1h 17m watch"
   }
 ];
 
