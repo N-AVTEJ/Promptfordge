@@ -22,13 +22,21 @@ export interface PracticeChallenge {
 export interface VideoSource {
   id: string;
   title: string;
-  channel?: string;
-  minutes?: number;
+  channel: string;
+  minutes: number;
   covers: string[];
-  role: "core" | "optional";
-  status: "unverified" | "ok" | "unavailable";
-  source: "external" | "own";
+  level: "beginner" | "intermediate" | "advanced";
+  status: "ok" | "unavailable" | "slot";
+  resolvedBy: "seed" | "agent-search";
+  role?: "core" | "optional";
+  source?: "external" | "own";
   thumbnailUrl?: string;
+}
+
+export interface CheckYourself {
+  question: string;
+  answer: string;
+  hint?: string;
 }
 
 export interface Lesson {
@@ -37,6 +45,8 @@ export interface Lesson {
   youtubeId: string;
   status?: "ok" | "slot" | "unavailable";
   videos?: VideoSource[];
+  beforeYouWatch?: [string, string];
+  checkYourself?: CheckYourself;
   chapters: Chapter[];
   summary: string;
   keyConcepts: string[];
@@ -59,6 +69,7 @@ export interface CurriculumModule {
   duration: string;
   lessonCount: number;
   videoCount: number;
+  totalWatchTime?: string;
   level: "Foundational" | "Core" | "Advanced" | "Specialized";
   tags: string[];
   youtubeVideoId: string;

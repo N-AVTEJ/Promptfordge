@@ -4,7 +4,8 @@ import { M1_M3 } from "./modules-data/m1-m3";
 import { M4_M6 } from "./modules-data/m4-m6";
 import { M7_M9 } from "./modules-data/m7-m9";
 import { M10_M12 } from "./modules-data/m10-m12";
-import type { CurriculumModule } from "./modules-data/types";
+import { LESSON_ENRICHMENT } from "./enrich-curriculum";
+import type { CurriculumModule, VideoSource } from "./modules-data/types";
 
 const ALL_MODULES: CurriculumModule[] = [
   ...M1_M3,
@@ -35,6 +36,12 @@ const EXPECTED_TITLES = [
   "Production Prompt Engineering and Responsible AI",
 ];
 
+const LEVEL_RANK: Record<string, number> = {
+  beginner: 1,
+  intermediate: 2,
+  advanced: 3,
+};
+
 ALL_MODULES.forEach((mod, idx) => {
   const expectedTitle = EXPECTED_TITLES[idx];
   if (mod.title !== expectedTitle) {
@@ -43,26 +50,74 @@ ALL_MODULES.forEach((mod, idx) => {
   if (mod.quiz.length !== 5) {
     throw new Error(`Module ${mod.id} must have 5 quiz questions, got: ${mod.quiz.length}`);
   }
-  mod.lessons.forEach((les, lIdx) => {
+
+  let modTotalMinutes = 0;
+  const uniqueVideoIds = new Set<string>();
+
+  mod.lessons.forEach((les) => {
     if (les.quiz.length !== 5) {
       throw new Error(`Lesson ${les.id} must have 5 quiz questions, got: ${les.quiz.length}`);
     }
     if (les.chapters.length < 2) {
       throw new Error(`Lesson ${les.id} must have at least 2 chapters, got: ${les.chapters.length}`);
     }
+
+    // Apply enrichment
+    const enrichment = LESSON_ENRICHMENT[les.id];
+    if (enrichment) {
+      les.beforeYouWatch = enrichment.beforeYouWatch;
+      les.checkYourself = enrichment.checkYourself;
+      les.videos = enrichment.videos;
+      les.youtubeId = enrichment.youtubeId;
+      les.status = enrichment.status;
+    }
+
+    // Sort videos beginner first
+    if (les.videos && les.videos.length > 0) {
+      les.videos.sort((a, b) => {
+        const rA = LEVEL_RANK[a.level] ?? 2;
+        const rB = LEVEL_RANK[b.level] ?? 2;
+        return rA - rB;
+      });
+
+      // Synchronize primary playable video
+      const firstPlayable = les.videos.find((v) => v.status === "ok");
+      if (firstPlayable) {
+        les.youtubeId = firstPlayable.id;
+        les.status = "ok";
+      } else if (les.videos.some((v) => v.status === "unavailable")) {
+        les.status = "unavailable";
+      } else {
+        les.status = "slot";
+      }
+
+      les.videos.forEach((v) => {
+        if (v.status === "ok" && !uniqueVideoIds.has(v.id)) {
+          uniqueVideoIds.add(v.id);
+          modTotalMinutes += v.minutes || 0;
+        }
+      });
+    }
   });
 
-  // Calculate unique videoCount
-  const videoIds = new Set<string>();
-  mod.lessons.forEach((l) => {
-    l.videos?.forEach((v) => {
-      if (v.status === "ok") {
-        videoIds.add(v.id);
-      }
-    });
-  });
-  mod.videoCount = videoIds.size;
+  mod.videoCount = uniqueVideoIds.size;
   mod.lessonCount = mod.lessons.length;
+
+  if (mod.videoCount < 1) {
+    throw new Error(`Module ${mod.id} does not have at least one playable video!`);
+  }
+
+  // Set module's primary video to first lesson's playable video
+  const firstPlayableInModule = mod.lessons.find((l) => l.youtubeId && l.status === "ok");
+  if (firstPlayableInModule) {
+    mod.youtubeVideoId = firstPlayableInModule.youtubeId;
+  }
+
+  const hours = Math.floor(modTotalMinutes / 60);
+  const remainingMins = modTotalMinutes % 60;
+  mod.totalWatchTime = hours > 0
+    ? `${hours}h ${remainingMins > 0 ? `${remainingMins}m` : ""} watch`
+    : `${modTotalMinutes}m watch`;
 });
 
 // Construct the TypeScript code
@@ -96,13 +151,21 @@ export interface PracticeChallenge {
 export interface VideoSource {
   id: string;
   title: string;
-  channel?: string;
-  minutes?: number;
+  channel: string;
+  minutes: number;
   covers: string[];
-  role: "core" | "optional";
-  status: "unverified" | "ok" | "unavailable";
-  source: "external" | "own";
+  level: "beginner" | "intermediate" | "advanced";
+  status: "ok" | "unavailable" | "slot";
+  resolvedBy: "seed" | "agent-search";
+  role?: "core" | "optional";
+  source?: "external" | "own";
   thumbnailUrl?: string;
+}
+
+export interface CheckYourself {
+  question: string;
+  answer: string;
+  hint?: string;
 }
 
 export interface Lesson {
@@ -111,6 +174,8 @@ export interface Lesson {
   youtubeId: string; // Primary playable ID or empty string for slot
   status?: "ok" | "slot" | "unavailable";
   videos?: VideoSource[];
+  beforeYouWatch: [string, string];
+  checkYourself: CheckYourself;
   chapters: Chapter[];
   summary: string;
   keyConcepts: string[];
@@ -133,6 +198,7 @@ export interface CurriculumModule {
   duration: string;
   lessonCount: number;
   videoCount: number;
+  totalWatchTime?: string;
   level: "Foundational" | "Core" | "Advanced" | "Specialized";
   tags: string[];
   youtubeVideoId: string;

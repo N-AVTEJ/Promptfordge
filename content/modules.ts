@@ -28,13 +28,21 @@ export interface PracticeChallenge {
 export interface VideoSource {
   id: string;
   title: string;
-  channel?: string;
-  minutes?: number;
+  channel: string;
+  minutes: number;
   covers: string[];
-  role: "core" | "optional";
-  status: "unverified" | "ok" | "unavailable";
-  source: "external" | "own";
+  level: "beginner" | "intermediate" | "advanced";
+  status: "ok" | "unavailable" | "slot";
+  resolvedBy: "seed" | "agent-search";
+  role?: "core" | "optional";
+  source?: "external" | "own";
   thumbnailUrl?: string;
+}
+
+export interface CheckYourself {
+  question: string;
+  answer: string;
+  hint?: string;
 }
 
 export interface Lesson {
@@ -43,6 +51,8 @@ export interface Lesson {
   youtubeId: string; // Primary playable ID or empty string for slot
   status?: "ok" | "slot" | "unavailable";
   videos?: VideoSource[];
+  beforeYouWatch: [string, string];
+  checkYourself: CheckYourself;
   chapters: Chapter[];
   summary: string;
   keyConcepts: string[];
@@ -65,6 +75,7 @@ export interface CurriculumModule {
   duration: string;
   lessonCount: number;
   videoCount: number;
+  totalWatchTime?: string;
   level: "Foundational" | "Core" | "Advanced" | "Specialized";
   tags: string[];
   youtubeVideoId: string;
@@ -92,7 +103,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Master the core operational principles of transformers, tokenization trade-offs, and fundamental prompt construction patterns to interact predictably with any generative model.",
     "duration": "65 mins",
     "lessonCount": 6,
-    "videoCount": 4,
+    "videoCount": 6,
     "level": "Foundational",
     "tags": [
       "LLM",
@@ -191,9 +202,22 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
               "Evolution of AI and LLMs",
               "Fundamentals of LLMs"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
+          },
+          {
+            "id": "ZHCB09O6zUk",
+            "title": "A Brief History of AI: From Machine Learning to Gen AI to Agentic AI",
+            "channel": "IBM Technology",
+            "minutes": 13,
+            "covers": [
+              "Evolution of AI and LLMs",
+              "History of AI"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "agent-search"
           }
         ],
         "chapters": [
@@ -285,39 +309,47 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/llm-simulator",
-        "notesMarkdown": "### Evolution of AI and LLMs\n\nModern Generative AI represents a qualitative leap from early symbolic AI. Rather than hand-crafting grammatical rules or feature-engineering classifiers, LLMs are trained on massive text corpora to predict next tokens. As model parameters expanded past billions of connections, models began exhibiting in-context reasoning, enabling users to solve complex tasks simply by supplying clear textual instructions."
+        "notesMarkdown": "### Evolution of AI and LLMs\n\nModern Generative AI represents a qualitative leap from early symbolic AI. Rather than hand-crafting grammatical rules or feature-engineering classifiers, LLMs are trained on massive text corpora to predict next tokens. As model parameters expanded past billions of connections, models began exhibiting in-context reasoning, enabling users to solve complex tasks simply by supplying clear textual instructions.",
+        "beforeYouWatch": [
+          "You will see how computers shifted from rigid human-written rules to learning patterns from large libraries of text.",
+          "Notice how modern language models can solve new tasks simply by reading clear instructions."
+        ],
+        "checkYourself": {
+          "question": "What is the core difference between older rule-based software and modern language models?",
+          "answer": "Traditional software requires humans to manually program every rule, while language models learn statistical language patterns and adapt to instructions in plain text.",
+          "hint": "Think about who defines the rules: a software engineer hand-coding them, or a model learning from text."
+        }
       },
       {
         "id": "mod-01-les-02",
         "title": "Fundamentals of LLMs",
-        "youtubeId": "wjZofJX0v4M",
+        "youtubeId": "LPZh9BOjkQs",
         "status": "ok",
         "videos": [
-          {
-            "id": "wjZofJX0v4M",
-            "title": "Transformers, the tech behind LLMs | Deep Learning Chapter 5",
-            "channel": "3Blue1Brown",
-            "minutes": 27,
-            "covers": [
-              "Transformer architecture",
-              "Fundamentals of LLMs"
-            ],
-            "role": "core",
-            "status": "ok",
-            "source": "external"
-          },
           {
             "id": "LPZh9BOjkQs",
             "title": "Large Language Models explained briefly",
             "channel": "3Blue1Brown",
             "minutes": 8,
             "covers": [
-              "Evolution of AI and LLMs",
               "Fundamentals of LLMs"
             ],
-            "role": "optional",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
+          },
+          {
+            "id": "wjZofJX0v4M",
+            "title": "Transformers, the tech behind LLMs | Deep Learning Chapter 5",
+            "channel": "3Blue1Brown",
+            "minutes": 27,
+            "covers": [
+              "Fundamentals of LLMs",
+              "Transformer architecture"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -405,14 +437,35 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/llm-simulator",
-        "notesMarkdown": "### Fundamentals of LLMs\n\nAt their core, Large Language Models are conditional probability engines. Given sequence $x_1, x_2, \\dots, x_t$, the model calculates $P(x_{t+1} | x_1, \\dots, x_t)$. Understanding the distinction between base models (trained on pure document continuation) and instruction-tuned models (aligned with human feedback) is critical for effective prompt engineering."
+        "notesMarkdown": "### Fundamentals of LLMs\n\nAt their core, Large Language Models are conditional probability engines. Given sequence $x_1, x_2, \\dots, x_t$, the model calculates $P(x_{t+1} | x_1, \\dots, x_t)$. Understanding the distinction between base models (trained on pure document continuation) and instruction-tuned models (aligned with human feedback) is critical for effective prompt engineering.",
+        "beforeYouWatch": [
+          "This video breaks down how language models process words and predict what should come next in a conversation.",
+          "Watch for how context changes the probability of words that the model chooses."
+        ],
+        "checkYourself": {
+          "question": "Why does the context you provide drastically change the quality of an AI's response?",
+          "answer": "The model predicts future words entirely based on the input text you give it; clearer context narrows the mathematical probabilities toward accurate answers.",
+          "hint": "The model has no hidden intentions—it calculates what follows your specific words."
+        }
       },
       {
         "id": "mod-01-les-03",
         "title": "Transformer architecture",
-        "youtubeId": "eMlx5fFNoYc",
+        "youtubeId": "wjZofJX0v4M",
         "status": "ok",
         "videos": [
+          {
+            "id": "wjZofJX0v4M",
+            "title": "Transformers, the tech behind LLMs | Deep Learning Chapter 5",
+            "channel": "3Blue1Brown",
+            "minutes": 27,
+            "covers": [
+              "Transformer architecture"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "seed"
+          },
           {
             "id": "eMlx5fFNoYc",
             "title": "Attention in transformers, step-by-step | Deep Learning Chapter 6",
@@ -420,24 +473,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "minutes": 26,
             "covers": [
               "Transformer architecture",
-              "Working of LLMs (tokens, training, inference)"
+              "Attention mechanism"
             ],
-            "role": "core",
+            "level": "advanced",
             "status": "ok",
-            "source": "external"
-          },
-          {
-            "id": "wjZofJX0v4M",
-            "title": "Transformers, the tech behind LLMs | Deep Learning Chapter 5",
-            "channel": "3Blue1Brown",
-            "minutes": 27,
-            "covers": [
-              "Transformer architecture",
-              "Fundamentals of LLMs"
-            ],
-            "role": "optional",
-            "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -525,40 +565,47 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/llm-simulator",
-        "notesMarkdown": "### Transformer Architecture\n\nThe transformer relies on self-attention to calculate contextual representations without recurrences. The core formula $\\text{Attention}(Q, K, V) = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right)V$ enables dynamic routing of semantic meaning across all tokens in the context window."
+        "notesMarkdown": "### Transformer Architecture\n\nThe transformer relies on self-attention to calculate contextual representations without recurrences. The core formula $\\text{Attention}(Q, K, V) = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right)V$ enables dynamic routing of semantic meaning across all tokens in the context window.",
+        "beforeYouWatch": [
+          "Here you will discover the transformer, the fundamental blueprint that powers modern conversational artificial intelligence.",
+          "Notice how the model looks at every word in a sentence simultaneously instead of reading slowly word-by-word."
+        ],
+        "checkYourself": {
+          "question": "What makes the transformer faster and smarter than earlier language models?",
+          "answer": "It processes entire sentences at once using attention mechanisms rather than reading one word at a time sequentially.",
+          "hint": "Think about reading a whole phrase at a glance versus sounding out each letter individually."
+        }
       },
       {
         "id": "mod-01-les-04",
         "title": "Working of LLMs (tokens, training, inference)",
-        "youtubeId": "7xTGNNLPyMI",
+        "youtubeId": "eMlx5fFNoYc",
         "status": "ok",
         "videos": [
-          {
-            "id": "7xTGNNLPyMI",
-            "title": "Deep Dive into LLMs like ChatGPT",
-            "channel": "Andrej Karpathy",
-            "minutes": 211,
-            "covers": [
-              "Working of LLMs (tokens, training, inference)",
-              "Fundamentals of LLMs",
-              "Basics of prompts"
-            ],
-            "role": "core",
-            "status": "ok",
-            "source": "external"
-          },
           {
             "id": "eMlx5fFNoYc",
             "title": "Attention in transformers, step-by-step | Deep Learning Chapter 6",
             "channel": "3Blue1Brown",
             "minutes": 26,
             "covers": [
-              "Transformer architecture",
               "Working of LLMs (tokens, training, inference)"
             ],
-            "role": "optional",
+            "level": "advanced",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
+          },
+          {
+            "id": "7xTGNNLPyMI",
+            "title": "Deep Dive into LLMs like ChatGPT",
+            "channel": "Andrej Karpathy",
+            "minutes": 211,
+            "covers": [
+              "Tokens, training, inference",
+              "Working of LLMs"
+            ],
+            "level": "advanced",
+            "status": "ok",
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -646,40 +693,47 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/llm-simulator",
-        "notesMarkdown": "### Working of LLMs: Tokens, Training, Inference\n\n1. **Tokenization**: Text is converted to discrete token IDs using algorithms like BPE or SentencePiece.\n2. **Training**: Massive cluster pretraining minimizes cross-entropy loss over billions of sentences.\n3. **Inference**: Autoregressive decoding samples one token at a time while reusing the KV-cache to avoid recomputing previous attention states."
+        "notesMarkdown": "### Working of LLMs: Tokens, Training, Inference\n\n1. **Tokenization**: Text is converted to discrete token IDs using algorithms like BPE or SentencePiece.\n2. **Training**: Massive cluster pretraining minimizes cross-entropy loss over billions of sentences.\n3. **Inference**: Autoregressive decoding samples one token at a time while reusing the KV-cache to avoid recomputing previous attention states.",
+        "beforeYouWatch": [
+          "Explore how raw words turn into number tokens, how models train on data, and how they generate text during inference.",
+          "Pay attention to why models sometimes stumble on simple spelling or character counting tasks."
+        ],
+        "checkYourself": {
+          "question": "Why do AI models think in word chunks called tokens instead of individual letters?",
+          "answer": "Tokens allow the model to process vocabulary efficiently as numerical IDs, though it means the model does not natively see individual letters.",
+          "hint": "A token is usually 3 to 4 characters or a common word chunk."
+        }
       },
       {
         "id": "mod-01-les-05",
         "title": "Basics of prompts",
-        "youtubeId": "7xTGNNLPyMI",
+        "youtubeId": "uDIW34h8cmM",
         "status": "ok",
         "videos": [
+          {
+            "id": "uDIW34h8cmM",
+            "title": "Prompt Engineering Guide - From Beginner to Advanced",
+            "channel": "Matthew Berman",
+            "minutes": 33,
+            "covers": [
+              "Basics of prompts",
+              "Foundational prompting"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "seed"
+          },
           {
             "id": "7xTGNNLPyMI",
             "title": "Deep Dive into LLMs like ChatGPT",
             "channel": "Andrej Karpathy",
             "minutes": 211,
             "covers": [
-              "Working of LLMs (tokens, training, inference)",
-              "Fundamentals of LLMs",
               "Basics of prompts"
             ],
-            "role": "core",
+            "level": "advanced",
             "status": "ok",
-            "source": "external"
-          },
-          {
-            "id": "LPZh9BOjkQs",
-            "title": "Large Language Models explained briefly",
-            "channel": "3Blue1Brown",
-            "minutes": 8,
-            "covers": [
-              "Evolution of AI and LLMs",
-              "Fundamentals of LLMs"
-            ],
-            "role": "optional",
-            "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -767,14 +821,37 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/anatomy",
-        "notesMarkdown": "### Basics of Prompts\n\nPrompting is programming in natural language. High-performing prompts replace conversational ambiguity with explicit instructions, clear context, and strict output contracts."
+        "notesMarkdown": "### Basics of Prompts\n\nPrompting is programming in natural language. High-performing prompts replace conversational ambiguity with explicit instructions, clear context, and strict output contracts.",
+        "beforeYouWatch": [
+          "This practical lesson explains how to write your first clean, predictable prompt for any language model.",
+          "Look for how giving clear instructions and expected output formats prevents confusing replies."
+        ],
+        "checkYourself": {
+          "question": "What is the single most effective way to eliminate vague answers from an AI?",
+          "answer": "Provide explicit constraints on length, tone, and format, alongside the core instruction.",
+          "hint": "Tell the model what good output looks like before it starts writing."
+        }
       },
       {
         "id": "mod-01-les-06",
         "title": "Basic prompt structures",
-        "youtubeId": "",
-        "status": "slot",
-        "videos": [],
+        "youtubeId": "uDIW34h8cmM",
+        "status": "ok",
+        "videos": [
+          {
+            "id": "uDIW34h8cmM",
+            "title": "Prompt Engineering Guide - From Beginner to Advanced",
+            "channel": "Matthew Berman",
+            "minutes": 33,
+            "covers": [
+              "Basic prompt structures",
+              "Prompt architecture"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "seed"
+          }
+        ],
         "chapters": [
           {
             "time": 0,
@@ -860,9 +937,19 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/anatomy",
-        "notesMarkdown": "### Basic Prompt Structures\n\nA resilient prompt template enforces strict separation of concerns:\n- **Role**: Persona and expert perspective.\n- **Context**: Reference background facts.\n- **Task**: The specific action verb to execute.\n- **Constraints**: Length limits, forbidden words, and schema requirements."
+        "notesMarkdown": "### Basic Prompt Structures\n\nA resilient prompt template enforces strict separation of concerns:\n- **Role**: Persona and expert perspective.\n- **Context**: Reference background facts.\n- **Task**: The specific action verb to execute.\n- **Constraints**: Length limits, forbidden words, and schema requirements.",
+        "beforeYouWatch": [
+          "Learn the core anatomy of professional prompts: task, context, reference examples, and output constraints.",
+          "See how organizing your instructions into distinct sections keeps the model focused on your goal."
+        ],
+        "checkYourself": {
+          "question": "What four core elements should every reliable production prompt include?",
+          "answer": "A clear role/task, background context, reference data or examples, and precise output constraints.",
+          "hint": "Remember the blueprint: who, what, with what background, and formatted how."
+        }
       }
-    ]
+    ],
+    "totalWatchTime": "5h 18m watch"
   },
   {
     "id": "mod-02",
@@ -879,7 +966,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Confidently implement zero-shot, few-shot, chain-of-thought, and persona-driven prompts to achieve robust, high-fidelity results across diverse reasoning tasks.",
     "duration": "75 mins",
     "lessonCount": 8,
-    "videoCount": 5,
+    "videoCount": 6,
     "level": "Foundational",
     "tags": [
       "Zero-Shot",
@@ -978,23 +1065,21 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
               "Zero-shot",
               "Instruction based"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           },
           {
             "id": "Vl4hH_L5-3Q",
-            "title": "Zero-shot, One-shot and Few-shot Prompting Techniques Explained | Prompt Engineering | Generative AI",
+            "title": "Zero-shot, One-shot and Few-shot Prompting Techniques Explained",
             "channel": "At A Glance!",
             "minutes": 9,
             "covers": [
-              "Zero-shot",
-              "One-shot",
-              "Few-shot"
+              "Zero-shot"
             ],
-            "role": "optional",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -1082,7 +1167,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/compare",
-        "notesMarkdown": "### Zero-Shot Prompting\n\nZero-shot prompting evaluates the model's raw aligned capability. By leveraging explicit phrasing like 'Think step by step', engineers can elicit latent reasoning without polluting the prompt with voluminous examples."
+        "notesMarkdown": "### Zero-Shot Prompting\n\nZero-shot prompting evaluates the model's raw aligned capability. By leveraging explicit phrasing like 'Think step by step', engineers can elicit latent reasoning without polluting the prompt with voluminous examples.",
+        "beforeYouWatch": [
+          "Discover zero-shot prompting: asking an AI to perform a task without giving it any sample solutions.",
+          "Notice when zero-shot works well and when it needs extra guidance."
+        ],
+        "checkYourself": {
+          "question": "When is zero-shot prompting sufficient without providing examples?",
+          "answer": "When the task is straightforward, well-documented in the model's pretraining data, and does not require a custom format.",
+          "hint": "Common tasks like translating a word or summarizing a news article rarely need examples."
+        }
       },
       {
         "id": "mod-02-les-02",
@@ -1092,17 +1186,28 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         "videos": [
           {
             "id": "Vl4hH_L5-3Q",
-            "title": "Zero-shot, One-shot and Few-shot Prompting Techniques Explained | Prompt Engineering | Generative AI",
+            "title": "Zero-shot, One-shot and Few-shot Prompting Techniques Explained",
             "channel": "At A Glance!",
             "minutes": 9,
             "covers": [
-              "Zero-shot",
               "One-shot",
               "Few-shot"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
+          },
+          {
+            "id": "uDIW34h8cmM",
+            "title": "Prompt Engineering Guide - From Beginner to Advanced",
+            "channel": "Matthew Berman",
+            "minutes": 33,
+            "covers": [
+              "One-shot"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -1190,41 +1295,46 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/compare",
-        "notesMarkdown": "### One-Shot Prompting\n\nOne-shot prompting supplies exactly one demonstration pair $(x_1, y_1)$ before presenting the query $x_2$. It resolves ambiguities in formatting and output structure without incurring the token cost of a full few-shot battery."
+        "notesMarkdown": "### One-Shot Prompting\n\nOne-shot prompting supplies exactly one demonstration pair $(x_1, y_1)$ before presenting the query $x_2$. It resolves ambiguities in formatting and output structure without incurring the token cost of a full few-shot battery.",
+        "beforeYouWatch": [
+          "See how giving just one good demonstration (one-shot) teaches the model your desired format and tone.",
+          "Pay attention to how a single example anchors the style of the answer."
+        ],
+        "checkYourself": {
+          "question": "What immediate advantage does one-shot prompting offer over zero-shot?",
+          "answer": "It illustrates the exact expected formatting, tone, and schema without relying solely on descriptive text.",
+          "hint": "Showing is often clearer than telling."
+        }
       },
       {
         "id": "mod-02-les-03",
         "title": "Few-shot",
-        "youtubeId": "b2t4pa9lOIc",
+        "youtubeId": "Vl4hH_L5-3Q",
         "status": "ok",
         "videos": [
           {
-            "id": "b2t4pa9lOIc",
-            "title": "Prompt Engineering Explained – Zero, Few, CoT, Self Consistency, Persona | Chapter 2 | Episode 1",
-            "channel": "Loop Kaka",
-            "minutes": 15,
-            "covers": [
-              "Few-shot",
-              "Chain of Thought",
-              "Persona"
-            ],
-            "role": "core",
-            "status": "ok",
-            "source": "external"
-          },
-          {
             "id": "Vl4hH_L5-3Q",
-            "title": "Zero-shot, One-shot and Few-shot Prompting Techniques Explained | Prompt Engineering | Generative AI",
+            "title": "Zero-shot, One-shot and Few-shot Prompting Techniques Explained",
             "channel": "At A Glance!",
             "minutes": 9,
             "covers": [
-              "Zero-shot",
-              "One-shot",
               "Few-shot"
             ],
-            "role": "optional",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
+          },
+          {
+            "id": "b2t4pa9lOIc",
+            "title": "Prompt Engineering Explained – Zero, Few, CoT, Self Consistency, Persona",
+            "channel": "Loop Kaka",
+            "minutes": 15,
+            "covers": [
+              "Few-shot"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -1312,7 +1422,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/compare",
-        "notesMarkdown": "### Few-Shot Prompting\n\nFew-shot prompting provides multiple input-output pairs $(x_1, y_1), \\dots, (x_k, y_k)$. It conditions the model's internal activations via in-context learning without requiring gradient updates or fine-tuning weights."
+        "notesMarkdown": "### Few-Shot Prompting\n\nFew-shot prompting provides multiple input-output pairs $(x_1, y_1), \\dots, (x_k, y_k)$. It conditions the model's internal activations via in-context learning without requiring gradient updates or fine-tuning weights.",
+        "beforeYouWatch": [
+          "Learn few-shot prompting, the technique of providing 2 to 5 diverse examples to guide complex classification or formatting.",
+          "Watch how consistent example patterns eliminate ambiguity."
+        ],
+        "checkYourself": {
+          "question": "Why should your few-shot examples represent varied edge cases rather than identical samples?",
+          "answer": "Varied examples teach the model how to handle nuances, edge cases, and exceptions instead of overfitting to one narrow pattern.",
+          "hint": "If all examples look identical, the model will struggle when a slightly different input arrives."
+        }
       },
       {
         "id": "mod-02-les-04",
@@ -1328,23 +1447,21 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "covers": [
               "Chain of Thought"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           },
           {
             "id": "b2t4pa9lOIc",
-            "title": "Prompt Engineering Explained – Zero, Few, CoT, Self Consistency, Persona | Chapter 2 | Episode 1",
+            "title": "Prompt Engineering Explained – Zero, Few, CoT, Self Consistency, Persona",
             "channel": "Loop Kaka",
             "minutes": 15,
             "covers": [
-              "Few-shot",
-              "Chain of Thought",
-              "Persona"
+              "Chain of Thought"
             ],
-            "role": "optional",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -1432,7 +1549,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/compare",
-        "notesMarkdown": "### Chain-of-Thought Prompting\n\nChain-of-thought prompting prompts the model to articulate intermediate reasoning steps before arriving at a final answer. By emitting reasoning tokens, the model expands its effective computational depth."
+        "notesMarkdown": "### Chain-of-Thought Prompting\n\nChain-of-thought prompting prompts the model to articulate intermediate reasoning steps before arriving at a final answer. By emitting reasoning tokens, the model expands its effective computational depth.",
+        "beforeYouWatch": [
+          "Understand Chain-of-Thought prompting, encouraging the AI to work out its reasoning step-by-step before answering.",
+          "See why letting the model 'think out loud' dramatically improves math and logic accuracy."
+        ],
+        "checkYourself": {
+          "question": "Why does asking a model to 'think step by step' reduce logical mistakes?",
+          "answer": "It creates reasoning tokens in its output context, allowing subsequent prediction steps to build directly on earlier verified deductions.",
+          "hint": "Just like humans, jumping straight to a final answer causes careless mental slips."
+        }
       },
       {
         "id": "mod-02-les-05",
@@ -1446,12 +1572,24 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 8,
             "covers": [
-              "Zero-shot",
               "Instruction based"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
+          },
+          {
+            "id": "Cu8QvodkjpU",
+            "title": "Meta Reveals 7 Prompt Techniques",
+            "channel": "Meta",
+            "minutes": 12,
+            "covers": [
+              "Instruction based",
+              "Constraint based"
+            ],
+            "level": "intermediate",
+            "status": "unavailable",
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -1539,14 +1677,35 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/compare",
-        "notesMarkdown": "### Instruction-Based Prompting\n\nInstruction-tuned models are trained specifically to obey imperative directives. Clear sequential ordering (Step 1, Step 2, Step 3) provides a structured reasoning trajectory."
+        "notesMarkdown": "### Instruction-Based Prompting\n\nInstruction-tuned models are trained specifically to obey imperative directives. Clear sequential ordering (Step 1, Step 2, Step 3) provides a structured reasoning trajectory.",
+        "beforeYouWatch": [
+          "Master direct instruction-based prompting: writing commands with clear verbs, strict priorities, and explicit negative rules.",
+          "Observe how ambiguous verbs cause unexpected hallucinations or filler text."
+        ],
+        "checkYourself": {
+          "question": "What is an imperative verb and why is it preferred in prompt instructions?",
+          "answer": "An imperative verb directly states an action (e.g. 'Extract', 'Summarize', 'Validate') leaving zero ambiguity about the expected deliverable.",
+          "hint": "Compare 'Can you maybe look at this?' with 'Extract three bullet points from this text:'"
+        }
       },
       {
         "id": "mod-02-les-06",
         "title": "Role based",
-        "youtubeId": "cnww-CvDoRk",
+        "youtubeId": "uDIW34h8cmM",
         "status": "ok",
         "videos": [
+          {
+            "id": "uDIW34h8cmM",
+            "title": "Prompt Engineering Guide - From Beginner to Advanced",
+            "channel": "Matthew Berman",
+            "minutes": 33,
+            "covers": [
+              "Role based"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "seed"
+          },
           {
             "id": "cnww-CvDoRk",
             "title": "Advanced Prompt Engineering Techniques",
@@ -1555,25 +1714,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "covers": [
               "Role based"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external",
-            "thumbnailUrl": "https://i.ytimg.com/vi/cnww-CvDoRk/hqdefault.jpg"
-          },
-          {
-            "id": "Cu8QvodkjpU",
-            "title": "Meta Reveals 7 Prompt Techniques",
-            "channel": "Meta",
-            "minutes": 12,
-            "covers": [
-              "Instruction based",
-              "Role based",
-              "Constraint based"
-            ],
-            "role": "optional",
-            "status": "unavailable",
-            "source": "external",
-            "thumbnailUrl": "https://i.ytimg.com/vi/Cu8QvodkjpU/hqdefault.jpg"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -1661,7 +1804,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/compare",
-        "notesMarkdown": "### Role-Based Prompting\n\nRole prompting assigns an identity, perspective, or persona to the model. By setting an explicit role ('Senior Systems Engineer') and target audience ('Junior Developer'), you establish clear boundaries for vocabulary and technical depth."
+        "notesMarkdown": "### Role-Based Prompting\n\nRole prompting assigns an identity, perspective, or persona to the model. By setting an explicit role ('Senior Systems Engineer') and target audience ('Junior Developer'), you establish clear boundaries for vocabulary and technical depth.",
+        "beforeYouWatch": [
+          "Learn role-based prompting, where you assign an expert background to prime the model's vocabulary and assumptions.",
+          "See how adopting an auditor or teacher persona tailors depth and terminology."
+        ],
+        "checkYourself": {
+          "question": "How does assigning a role change how the language model calculates its response?",
+          "answer": "It shifts the probability distribution toward technical vocabulary, domain expertise, and standard practices associated with that persona.",
+          "hint": "A pediatric doctor and a financial analyst talk about health insurance very differently."
+        }
       },
       {
         "id": "mod-02-les-07",
@@ -1754,27 +1906,46 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/compare",
-        "notesMarkdown": "### Constraint-Based Prompting\n\nConstraints define the negative space of a prompt. Without constraints, language models default to verbose, conversational pleasantries. Rigid constraints enforce brevity, tone, and structural compliance."
+        "notesMarkdown": "### Constraint-Based Prompting\n\nConstraints define the negative space of a prompt. Without constraints, language models default to verbose, conversational pleasantries. Rigid constraints enforce brevity, tone, and structural compliance.",
+        "beforeYouWatch": [
+          "Explore constraint-based prompting: defining what the model must NOT do, maximum lengths, and strict output boundaries.",
+          "Notice how negative constraints safeguard against verbose or conversational responses."
+        ],
+        "checkYourself": {
+          "question": "Why should negative constraints be paired with an alternative action?",
+          "answer": "Models follow positive instructions more reliably than pure negatives; telling the model what to do instead prevents confusion.",
+          "hint": "Instead of just 'Don't write essays', add 'Provide exactly three bullet points.'"
+        }
       },
       {
         "id": "mod-02-les-08",
         "title": "Persona",
-        "youtubeId": "b2t4pa9lOIc",
+        "youtubeId": "uDIW34h8cmM",
         "status": "ok",
         "videos": [
           {
+            "id": "uDIW34h8cmM",
+            "title": "Prompt Engineering Guide - From Beginner to Advanced",
+            "channel": "Matthew Berman",
+            "minutes": 33,
+            "covers": [
+              "Persona prompting"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "seed"
+          },
+          {
             "id": "b2t4pa9lOIc",
-            "title": "Prompt Engineering Explained – Zero, Few, CoT, Self Consistency, Persona | Chapter 2 | Episode 1",
+            "title": "Prompt Engineering Explained – Zero, Few, CoT, Self Consistency, Persona",
             "channel": "Loop Kaka",
             "minutes": 15,
             "covers": [
-              "Few-shot",
-              "Chain of Thought",
               "Persona"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -1862,9 +2033,19 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/compare",
-        "notesMarkdown": "### Persona-Based Prompting\n\nPersonas establish the emotional resonance, voice, and conversational rhythm of an assistant. Crafting effective personas requires calibrating both what the model *should* sound like and what tropes it must actively avoid."
+        "notesMarkdown": "### Persona-Based Prompting\n\nPersonas establish the emotional resonance, voice, and conversational rhythm of an assistant. Crafting effective personas requires calibrating both what the model *should* sound like and what tropes it must actively avoid.",
+        "beforeYouWatch": [
+          "Understand persona-driven prompting: crafting consistent voice, tone, and empathy levels for user-facing assistants.",
+          "Watch how persona attributes keep customer support interactions calm and helpful."
+        ],
+        "checkYourself": {
+          "question": "What is the key difference between an expert role and a communication persona?",
+          "answer": "An expert role specifies technical knowledge and skills, while a persona defines tone, temperament, and communication style.",
+          "hint": "One defines what the AI knows; the other defines how the AI speaks."
+        }
       }
-    ]
+    ],
+    "totalWatchTime": "1h 27m watch"
   },
   {
     "id": "mod-03",
@@ -1977,13 +2158,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Sai Ram Penjarla",
             "minutes": 12,
             "covers": [
-              "Contextual",
-              "Reflection-based",
-              "Structured prompts"
+              "Contextual"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -2071,7 +2250,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/compare",
-        "notesMarkdown": "### Contextual Prompting\n\nContextual prompting grounds the model in authoritative facts supplied at inference time. By treating the context window as temporary RAM, engineers eliminate hallucinations regarding private or rapidly changing data."
+        "notesMarkdown": "### Contextual Prompting\n\nContextual prompting grounds the model in authoritative facts supplied at inference time. By treating the context window as temporary RAM, engineers eliminate hallucinations regarding private or rapidly changing data.",
+        "beforeYouWatch": [
+          "See how background context acts as working memory for the AI during a conversation.",
+          "Notice how relevant reference documents prevent the model from guessing or inventing facts."
+        ],
+        "checkYourself": {
+          "question": "Where should background context be placed relative to the main task in a prompt?",
+          "answer": "Placing context above or clearly separated from the final instruction ensures the model reads the data before executing the request.",
+          "hint": "Give the model the facts first, then tell it what to do with them."
+        }
       },
       {
         "id": "mod-03-les-02",
@@ -2164,7 +2352,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/compare",
-        "notesMarkdown": "### Delimiter-Based Prompting\n\nDelimiters establish unambiguous structural fences between system directives, reference documents, few-shot examples, and dynamic user inputs."
+        "notesMarkdown": "### Delimiter-Based Prompting\n\nDelimiters establish unambiguous structural fences between system directives, reference documents, few-shot examples, and dynamic user inputs.",
+        "beforeYouWatch": [
+          "Learn how to use delimiters like XML tags or triple quotes to separate instructions from raw user data.",
+          "Observe how clear boundaries stop malicious or accidental prompt injections from altering your instructions."
+        ],
+        "checkYourself": {
+          "question": "Why do AI developers wrap user inputs in tags like `<document>` or `\"\"\"`?",
+          "answer": "Delimiters visually and syntactically isolate external text, preventing the model from confusing user data with system instructions.",
+          "hint": "It acts like a protective fence around untrusted text."
+        }
       },
       {
         "id": "mod-03-les-03",
@@ -2178,13 +2375,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Sai Ram Penjarla",
             "minutes": 12,
             "covers": [
-              "Contextual",
-              "Reflection-based",
               "Structured prompts"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -2272,7 +2467,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/compare",
-        "notesMarkdown": "### Structured Prompts\n\nStructured prompting bridges natural language and deterministic code. By constraining the model's output format to JSON, YAML, or tabular markdown, software systems can reliably parse and automate downstream actions."
+        "notesMarkdown": "### Structured Prompts\n\nStructured prompting bridges natural language and deterministic code. By constraining the model's output format to JSON, YAML, or tabular markdown, software systems can reliably parse and automate downstream actions.",
+        "beforeYouWatch": [
+          "Discover structured prompts: organizing system messages, user tasks, and examples using consistent headings.",
+          "See how repeatable templates make prompt outputs reliable across thousands of requests."
+        ],
+        "checkYourself": {
+          "question": "How does a structured prompt template help software applications that consume AI output?",
+          "answer": "Consistent sections produce predictable, parseable responses that code can easily ingest without formatting errors.",
+          "hint": "Code needs predictable structures, not random narrative variations."
+        }
       },
       {
         "id": "mod-03-les-04",
@@ -2365,7 +2569,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/compare",
-        "notesMarkdown": "### Multi-Prompt Architectures\n\nRather than forcing a single prompt to research, draft, critique, format, and translate, multi-prompt pipelines decouple responsibilities into manageable, independently testable stages."
+        "notesMarkdown": "### Multi-Prompt Architectures\n\nRather than forcing a single prompt to research, draft, critique, format, and translate, multi-prompt pipelines decouple responsibilities into manageable, independently testable stages.",
+        "beforeYouWatch": [
+          "Explore multi-prompt workflows: breaking a giant task into several sequential prompts where each output feeds the next.",
+          "Observe how modular steps improve accuracy over a single overwhelming super-prompt."
+        ],
+        "checkYourself": {
+          "question": "What is the primary benefit of breaking a complex prompt into multiple linked steps?",
+          "answer": "Each step focuses on one clear goal, reducing cognitive load on the model and making bugs easy to isolate and fix.",
+          "hint": "Divide and conquer makes each piece verifiable on its own."
+        }
       },
       {
         "id": "mod-03-les-05",
@@ -2379,13 +2592,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Sai Ram Penjarla",
             "minutes": 12,
             "covers": [
-              "Contextual",
-              "Reflection-based",
-              "Structured prompts"
+              "Reflection-based"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -2473,9 +2684,19 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/compare",
-        "notesMarkdown": "### Reflection-Based Prompting\n\nReflection breaks the single-pass generation limit. By commanding the model to examine its own intermediate output against strict rubrics, systems achieve significant gains in reasoning and accuracy."
+        "notesMarkdown": "### Reflection-Based Prompting\n\nReflection breaks the single-pass generation limit. By commanding the model to examine its own intermediate output against strict rubrics, systems achieve significant gains in reasoning and accuracy.",
+        "beforeYouWatch": [
+          "Learn reflection-based prompting, where the AI reviews its own draft against a rubric before finalizing the answer.",
+          "Notice how self-correction catches overlooked constraints and factual slips."
+        ],
+        "checkYourself": {
+          "question": "How does reflection prompting differ from standard single-pass generation?",
+          "answer": "The model critiques its initial response against specified guidelines, identifying mistakes and rewriting a corrected version before returning output.",
+          "hint": "It mimics proofreading your own essay before handing it in."
+        }
       }
-    ]
+    ],
+    "totalWatchTime": "12m watch"
   },
   {
     "id": "mod-04",
@@ -2590,9 +2811,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
               "Multi-turn conversations",
               "Dynamic prompt templates"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -2680,7 +2901,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Multi-Turn Conversations\n\nStateless LLMs maintain dialogue continuity through sequential message accumulation. Engineering scalable chat requires intelligent context window pruning, sliding windows, and running summaries."
+        "notesMarkdown": "### Multi-Turn Conversations\n\nStateless LLMs maintain dialogue continuity through sequential message accumulation. Engineering scalable chat requires intelligent context window pruning, sliding windows, and running summaries.",
+        "beforeYouWatch": [
+          "Understand how multi-turn conversations maintain chat history and state across several back-and-forth exchanges.",
+          "Watch how conversational context accumulates and how old messages can be summarized to save tokens."
+        ],
+        "checkYourself": {
+          "question": "Why do long chat conversations eventually need message pruning or sliding windows?",
+          "answer": "Language models have finite context windows; accumulating too much chat history increases cost and risks exceeding capacity limits.",
+          "hint": "You cannot send an infinite conversation history with every new message."
+        }
       },
       {
         "id": "mod-04-les-02",
@@ -2773,7 +3003,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Prompt Chaining and Pipelines\n\nPrompt chaining transforms prompt engineering from static text generation into modular software engineering. Chaining enables specialized prompt nodes, validation gates, and conditional branch routing."
+        "notesMarkdown": "### Prompt Chaining and Pipelines\n\nPrompt chaining transforms prompt engineering from static text generation into modular software engineering. Chaining enables specialized prompt nodes, validation gates, and conditional branch routing.",
+        "beforeYouWatch": [
+          "Explore prompt chaining pipelines: passing verified JSON outputs from an extractor into a validator and then into a writer.",
+          "See how pipeline architectures create dependable data processing lines with AI."
+        ],
+        "checkYourself": {
+          "question": "What should you do between stages in a prompt chain to guarantee pipeline stability?",
+          "answer": "Validate the schema of intermediate outputs with code before passing them into the next prompt stage.",
+          "hint": "Never blindly feed unverified model output into downstream dependencies."
+        }
       },
       {
         "id": "mod-04-les-03",
@@ -2787,12 +3026,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "CampusX",
             "minutes": 18,
             "covers": [
-              "Multi-turn conversations",
               "Dynamic prompt templates"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -2880,9 +3118,19 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Dynamic Prompt Templates\n\nPrompt templates parameterize interactions. Rather than hardcoding strings, template engines separate static instructional frameworks from dynamic runtime variables."
+        "notesMarkdown": "### Dynamic Prompt Templates\n\nPrompt templates parameterize interactions. Rather than hardcoding strings, template engines separate static instructional frameworks from dynamic runtime variables.",
+        "beforeYouWatch": [
+          "Learn dynamic prompt templates: using variable placeholders to safely inject live user data into fixed prompt scaffolding.",
+          "See how templates separate system logic from dynamic parameters."
+        ],
+        "checkYourself": {
+          "question": "Why are parameterized templates safer than manually concatenating strings into a prompt?",
+          "answer": "Templates centralize formatting, enforce variable boundaries, and sanitize user variables before runtime execution.",
+          "hint": "Think about parameterized SQL queries preventing SQL injection."
+        }
       }
-    ]
+    ],
+    "totalWatchTime": "18m watch"
   },
   {
     "id": "mod-05",
@@ -2909,7 +3157,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       "Hallucination",
       "Optimization"
     ],
-    "youtubeVideoId": "vBJF2sy1Pyw",
+    "youtubeVideoId": "LZJTrAXcyFM",
     "accent": "amber",
     "keyTakeaway": "You cannot improve what you cannot measure; systematic test datasets and quantitative eval metrics are the difference between a prototype and production software.",
     "keyConcepts": [
@@ -2996,12 +3244,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Arize AI",
             "minutes": 54,
             "covers": [
-              "Iterative refinement",
-              "Prompt tuning fundamentals"
+              "Iterative refinement"
             ],
-            "role": "core",
+            "level": "advanced",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -3089,7 +3336,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/optimize",
-        "notesMarkdown": "### Iterative Refinement\n\nPrompt engineering without evaluations is guessing. Systematic iteration runs prompt candidates against curated test suites, calculating pass rates and measuring regressions before shipping to production."
+        "notesMarkdown": "### Iterative Refinement\n\nPrompt engineering without evaluations is guessing. Systematic iteration runs prompt candidates against curated test suites, calculating pass rates and measuring regressions before shipping to production.",
+        "beforeYouWatch": [
+          "See how engineers systematically refine prompts through test cycles instead of guessing and hoping.",
+          "Watch how logging failures and writing regression cases leads to dependable prompts."
+        ],
+        "checkYourself": {
+          "question": "What is the danger of tweaking a prompt to fix one edge case without running a test suite?",
+          "answer": "Fixing one prompt edge case blindly can silently break accuracy on dozens of previously passing test cases.",
+          "hint": "A fix in one place can cause unexpected regressions somewhere else."
+        }
       },
       {
         "id": "mod-05-les-02",
@@ -3103,13 +3359,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Qdrant Vector Search",
             "minutes": 42,
             "covers": [
-              "Measuring response quality",
-              "Performance evaluation",
-              "LLM-as-judge in production"
+              "Measuring response quality"
             ],
-            "role": "core",
+            "level": "advanced",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -3197,7 +3451,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/optimize",
-        "notesMarkdown": "### Measuring Response Quality\n\nQuality is multi-faceted. Reliable evaluation separates correctness, relevance, tone, and safety into discrete measurable dimensions rather than a single vague score."
+        "notesMarkdown": "### Measuring Response Quality\n\nQuality is multi-faceted. Reliable evaluation separates correctness, relevance, tone, and safety into discrete measurable dimensions rather than a single vague score.",
+        "beforeYouWatch": [
+          "Explore how to measure whether an AI answer is actually good using automated metrics and rubric scoring.",
+          "Notice how subjective human impressions are replaced with objective scoring criteria."
+        ],
+        "checkYourself": {
+          "question": "Why is a clear scoring rubric essential when grading AI outputs at scale?",
+          "answer": "A clear rubric defines unambiguous criteria so automated evaluators or human reviewers score answers consistently.",
+          "hint": "Without explicit scoring rules, different graders will give conflicting scores."
+        }
       },
       {
         "id": "mod-05-les-03",
@@ -3211,13 +3474,24 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Qdrant Vector Search",
             "minutes": 42,
             "covers": [
-              "Measuring response quality",
               "Performance evaluation",
-              "LLM-as-judge in production"
+              "LLM-as-a-judge"
             ],
-            "role": "core",
+            "level": "advanced",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
+          },
+          {
+            "id": "LZJTrAXcyFM",
+            "title": "Community Paper Reading: LLMs-as-Judges",
+            "channel": "Arize AI",
+            "minutes": 54,
+            "covers": [
+              "Performance evaluation"
+            ],
+            "level": "advanced",
+            "status": "ok",
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -3305,26 +3579,35 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/optimize",
-        "notesMarkdown": "### Performance Evaluation\n\nPrompt engineering is bounded by operational reality. Evaluating prompts requires tracking accuracy alongside latency (TTFT, TPS) and token costs across the production lifecycle."
+        "notesMarkdown": "### Performance Evaluation\n\nPrompt engineering is bounded by operational reality. Evaluating prompts requires tracking accuracy alongside latency (TTFT, TPS) and token costs across the production lifecycle.",
+        "beforeYouWatch": [
+          "Discover LLM-as-a-Judge: using a larger foundation model to evaluate and score outputs produced by smaller, faster models.",
+          "Pay attention to positional bias and verbosity bias when models grade other models."
+        ],
+        "checkYourself": {
+          "question": "What is verbosity bias in an LLM evaluator?",
+          "answer": "The tendency of language models to give higher scores to longer, wordier answers regardless of whether they are actually more accurate.",
+          "hint": "Long answers can sound authoritative even when they contain little substance."
+        }
       },
       {
         "id": "mod-05-les-04",
         "title": "Prompt tuning fundamentals",
-        "youtubeId": "LZJTrAXcyFM",
+        "youtubeId": "yu27PWzJI_Y",
         "status": "ok",
         "videos": [
           {
-            "id": "LZJTrAXcyFM",
-            "title": "Community Paper Reading: LLMs-as-Judges",
-            "channel": "Arize AI",
-            "minutes": 54,
+            "id": "yu27PWzJI_Y",
+            "title": "What is Prompt Tuning?",
+            "channel": "IBM Technology",
+            "minutes": 9,
             "covers": [
-              "Iterative refinement",
-              "Prompt tuning fundamentals"
+              "Prompt tuning fundamentals",
+              "Soft prompts"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "agent-search"
           }
         ],
         "chapters": [
@@ -3412,29 +3695,23 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/optimize",
-        "notesMarkdown": "### Prompt Tuning Fundamentals\n\nPrompt tuning bridges manual wordsmithing and automated machine learning. Understanding sampling hyperparameters (temperature, top_p) and programmatic optimizers (DSPy) allows engineers to maximize consistency."
+        "notesMarkdown": "### Prompt Tuning Fundamentals\n\nPrompt tuning bridges manual wordsmithing and automated machine learning. Understanding sampling hyperparameters (temperature, top_p) and programmatic optimizers (DSPy) allows engineers to maximize consistency.",
+        "beforeYouWatch": [
+          "Learn prompt tuning fundamentals: adapting models to specific tasks efficiently without retraining billions of weights.",
+          "See how soft prompt vectors steer pre-trained models with minimal compute."
+        ],
+        "checkYourself": {
+          "question": "How does prompt tuning differ from full parameter fine-tuning?",
+          "answer": "Prompt tuning freezes the original model weights and trains a small set of virtual prompt tokens, saving compute and storage.",
+          "hint": "Instead of rebuilding the whole engine, you adjust a lightweight tuning dial."
+        }
       },
       {
         "id": "mod-05-les-05",
         "title": "BLEU, ROUGE, BERTScore",
-        "youtubeId": "RTaZqGflrJ8",
-        "status": "ok",
-        "videos": [
-          {
-            "id": "RTaZqGflrJ8",
-            "title": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
-            "channel": "AI Academy",
-            "minutes": 9,
-            "covers": [
-              "BLEU, ROUGE, BERTScore",
-              "Performance evaluation"
-            ],
-            "role": "core",
-            "status": "ok",
-            "source": "external",
-            "thumbnailUrl": "https://i.ytimg.com/vi/RTaZqGflrJ8/hqdefault.jpg"
-          }
-        ],
+        "youtubeId": "",
+        "status": "slot",
+        "videos": [],
         "chapters": [
           {
             "time": 0,
@@ -3524,27 +3801,35 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/optimize",
-        "notesMarkdown": "### BLEU, ROUGE, and BERTScore\n\n- **BLEU**: Precision-focused n-gram overlap with brevity penalty.\n- **ROUGE**: Recall-focused evaluation standard for summarization.\n- **BERTScore**: Modern embedding-based semantic similarity."
+        "notesMarkdown": "### BLEU, ROUGE, and BERTScore\n\n- **BLEU**: Precision-focused n-gram overlap with brevity penalty.\n- **ROUGE**: Recall-focused evaluation standard for summarization.\n- **BERTScore**: Modern embedding-based semantic similarity.",
+        "beforeYouWatch": [
+          "Examine traditional NLP scoring metrics: BLEU for word overlap, ROUGE for summary recall, and BERTScore for semantic similarity.",
+          "Notice when simple word-matching metrics fail to capture true factual meaning."
+        ],
+        "checkYourself": {
+          "question": "Why might a paraphrase receive a low BLEU score even though its meaning is completely correct?",
+          "answer": "BLEU strictly measures exact word n-gram matches; using different synonyms conveys the right meaning but misses identical words.",
+          "hint": "Exact vocabulary overlap does not equal semantic correctness."
+        }
       },
       {
         "id": "mod-05-les-06",
         "title": "Hallucination detection",
-        "youtubeId": "xsDNArrmyuo",
+        "youtubeId": "ZFKvTIADp0k",
         "status": "ok",
         "videos": [
           {
-            "id": "xsDNArrmyuo",
-            "title": "LLM Chronicles #6.6: Hallucination Detection and Evaluation for RAG systems (RAGAS, Lynx)",
-            "channel": "Donato Capitella",
-            "minutes": 14,
+            "id": "ZFKvTIADp0k",
+            "title": "Tuning Your AI Model to Reduce Hallucinations",
+            "channel": "IBM Technology",
+            "minutes": 9,
             "covers": [
               "Hallucination detection",
-              "Measuring response quality"
+              "Grounding and temperature"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external",
-            "thumbnailUrl": "https://i.ytimg.com/vi/xsDNArrmyuo/hqdefault.jpg"
+            "resolvedBy": "agent-search"
           }
         ],
         "chapters": [
@@ -3636,9 +3921,19 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/optimize",
-        "notesMarkdown": "### Hallucination Detection\n\nHallucination detection decomposes generated text into verifiable atomic assertions. Automated pipelines score outputs against source grounding data, catching fabrications before they reach users."
+        "notesMarkdown": "### Hallucination Detection\n\nHallucination detection decomposes generated text into verifiable atomic assertions. Automated pipelines score outputs against source grounding data, catching fabrications before they reach users.",
+        "beforeYouWatch": [
+          "Learn why language models hallucinate and explore practical techniques to detect and contain made-up facts.",
+          "Observe how grounding instructions in source documents keeps answers factually anchored."
+        ],
+        "checkYourself": {
+          "question": "What is the most effective prompt constraint to prevent factual hallucinations?",
+          "answer": "Instruct the model to answer strictly from the provided text, and explicitly state 'I do not know' if the answer is missing.",
+          "hint": "Give the model explicit permission to decline answering rather than guessing."
+        }
       }
-    ]
+    ],
+    "totalWatchTime": "1h 54m watch"
   },
   {
     "id": "mod-06",
@@ -3664,7 +3959,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       "Cross-Model",
       "Routing"
     ],
-    "youtubeVideoId": "lOD_EE96jhM",
+    "youtubeVideoId": "J51oZYcNvP8",
     "accent": "cyan",
     "keyTakeaway": "Multimodal models do not just see images; they map visual patches into the same continuous latent space as text tokens, enabling unified spatial reasoning.",
     "keyConcepts": [
@@ -3751,12 +4046,12 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 8,
             "covers": [
-              "Intro to multi-model prompting",
-              "Cross-model AI interaction"
+              "What is Multimodal AI?",
+              "Multimodal architectures"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           },
           {
             "id": "lOD_EE96jhM",
@@ -3764,12 +4059,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 9,
             "covers": [
-              "Text + image prompts",
-              "Intro to multi-model prompting"
+              "Vision Language Models Enable Image Understanding"
             ],
-            "role": "optional",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -3857,7 +4151,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/arena",
-        "notesMarkdown": "### Intro to Multi-Model Prompting\n\nMultimodal models expand generative AI beyond text. By projecting visual patches directly into token embedding space, models perform visual reasoning, document parsing, and chart extraction natively."
+        "notesMarkdown": "### Intro to Multi-Model Prompting\n\nMultimodal models expand generative AI beyond text. By projecting visual patches directly into token embedding space, models perform visual reasoning, document parsing, and chart extraction natively.",
+        "beforeYouWatch": [
+          "Discover multimodal artificial intelligence: models that simultaneously process and reason across text, images, and audio.",
+          "Observe how visual tokens blend with language tokens in a unified attention space."
+        ],
+        "checkYourself": {
+          "question": "How does a multimodal model represent an image alongside text prompt instructions?",
+          "answer": "A vision encoder converts image patches into numerical embedding tokens that sit in the same representation space as words.",
+          "hint": "Pictures become tokens that the model reads just like words."
+        }
       },
       {
         "id": "mod-06-les-02",
@@ -3871,12 +4174,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 9,
             "covers": [
-              "Text + image prompts",
-              "Intro to multi-model prompting"
+              "Text + image prompts"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -3964,7 +4266,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/arena",
-        "notesMarkdown": "### Text + Image Prompts\n\nComposite prompts combine visual assets with instructional guidance. Applications range from automated invoice processing to translating sketches directly into functional user interface code."
+        "notesMarkdown": "### Text + Image Prompts\n\nComposite prompts combine visual assets with instructional guidance. Applications range from automated invoice processing to translating sketches directly into functional user interface code.",
+        "beforeYouWatch": [
+          "Master image prompting: how to direct the model's gaze toward specific diagrams, charts, or visual artifacts.",
+          "Notice how coordinate bounding boxes and step-by-step questions extract precise data from charts."
+        ],
+        "checkYourself": {
+          "question": "When prompting an AI to inspect an image diagram, why should you specify the regions of interest?",
+          "answer": "Explicit visual focal points prevent the model from getting distracted by background clutter or irrelevant visual elements.",
+          "hint": "Guide the AI's eye just like you would guide a human teammate."
+        }
       },
       {
         "id": "mod-06-les-03",
@@ -3978,12 +4289,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 8,
             "covers": [
-              "Intro to multi-model prompting",
               "Cross-model AI interaction"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -4071,9 +4381,19 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/arena",
-        "notesMarkdown": "### Cross-Model AI Interaction\n\nNo single model dominates all domains. Real-world systems route tasks dynamically: lightweight models classify and filter, vision models transcribe, and frontier models tackle complex reasoning."
+        "notesMarkdown": "### Cross-Model AI Interaction\n\nNo single model dominates all domains. Real-world systems route tasks dynamically: lightweight models classify and filter, vision models transcribe, and frontier models tackle complex reasoning.",
+        "beforeYouWatch": [
+          "Explore cross-model interaction: combining specialized vision, audio, and language models to accomplish complex workflows.",
+          "See how handoffs between specialized tools produce richer outcomes than a single generalist model."
+        ],
+        "checkYourself": {
+          "question": "What is the key advantage of routing tasks across multiple specialized models?",
+          "answer": "Each model excels at its specific domain (e.g. OCR, transcription, high-speed coding) while reducing total latency and operating cost.",
+          "hint": "Specialists collaborating together often beat a single expensive generalist."
+        }
       }
-    ]
+    ],
+    "totalWatchTime": "17m watch"
   },
   {
     "id": "mod-07",
@@ -4099,7 +4419,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       "APIs",
       "External Data"
     ],
-    "youtubeVideoId": "cDn7bf84LsM",
+    "youtubeVideoId": "h8gMhXYAv1k",
     "accent": "amber",
     "keyTakeaway": "Language models should not calculate or memorize private databases; they should reason over when and how to call external tools that do.",
     "keyConcepts": [
@@ -4186,12 +4506,12 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 5,
             "covers": [
-              "Function calling",
+              "Tool Calling: Traditional vs Embedded Approaches",
               "API-based prompting"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           },
           {
             "id": "gosZ_vqXkMI",
@@ -4199,12 +4519,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 4,
             "covers": [
-              "Plug-in tool integration",
-              "API-based prompting"
+              "Orchestrating LLM-Powered Tool Calls"
             ],
-            "role": "optional",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -4292,7 +4611,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### API-Based Prompting\n\nAPI-based prompting connects neural models to external web services. The prompt acts as an intelligent compiler, translating messy human intent into deterministic API payloads."
+        "notesMarkdown": "### API-Based Prompting\n\nAPI-based prompting connects neural models to external web services. The prompt acts as an intelligent compiler, translating messy human intent into deterministic API payloads.",
+        "beforeYouWatch": [
+          "See how language models connect to external web APIs to retrieve fresh real-time data and trigger actions.",
+          "Notice how the model decides when it needs to call a tool versus answering from pretraining memory."
+        ],
+        "checkYourself": {
+          "question": "How does a model know when to invoke an API tool rather than guessing an answer?",
+          "answer": "It checks tool descriptions against user queries and outputs a structured tool request when needed information lies outside its weights.",
+          "hint": "Tool descriptions are the menu that tells the AI what external abilities exist."
+        }
       },
       {
         "id": "mod-07-les-02",
@@ -4306,12 +4634,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 5,
             "covers": [
-              "Function calling",
-              "API-based prompting"
+              "Function calling"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -4399,7 +4726,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Function Calling\n\nFunction calling turns generative models into programmatic controllers. By pairing natural language understanding with formal JSON schemas, LLMs reliably trigger deterministic backend operations."
+        "notesMarkdown": "### Function Calling\n\nFunction calling turns generative models into programmatic controllers. By pairing natural language understanding with formal JSON schemas, LLMs reliably trigger deterministic backend operations.",
+        "beforeYouWatch": [
+          "Learn function calling: teaching the model to output strict JSON arguments matching your backend code schemas.",
+          "Observe how type signatures and clear parameter descriptions prevent invalid function calls."
+        ],
+        "checkYourself": {
+          "question": "Does an LLM execute backend function code itself when performing function calling?",
+          "answer": "No, the model generates structured JSON arguments; your application code receives those arguments, runs the function, and returns the result.",
+          "hint": "The AI plans the call, but your server executes the code."
+        }
       },
       {
         "id": "mod-07-les-03",
@@ -4413,12 +4749,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 4,
             "covers": [
-              "Plug-in tool integration",
-              "API-based prompting"
+              "Plug-in tool integration"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           },
           {
             "id": "0z9_MhcYvcY",
@@ -4426,12 +4761,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 10,
             "covers": [
-              "Retrieval Augmented Generation",
               "Plug-in tool integration"
             ],
-            "role": "optional",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -4519,7 +4853,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Plug-in Tool Integration\n\nPlugins extend LLMs to internal enterprise systems. Secure plugin architectures enforce sandboxing, granular permissioning, and human confirmation gates for sensitive actions."
+        "notesMarkdown": "### Plug-in Tool Integration\n\nPlugins extend LLMs to internal enterprise systems. Secure plugin architectures enforce sandboxing, granular permissioning, and human confirmation gates for sensitive actions.",
+        "beforeYouWatch": [
+          "Understand plugin and tool integration: orchestrating multiple tools like calculators, web search, and databases.",
+          "Watch how the AI handles errors when a third-party tool fails or times out."
+        ],
+        "checkYourself": {
+          "question": "How should an application handle a tool error when returning the result back to the model?",
+          "answer": "Pass a clear, informative error message into the conversation so the model can adjust parameters or try an alternative approach.",
+          "hint": "Letting the AI see the error gives it a chance to recover gracefully."
+        }
       },
       {
         "id": "mod-07-les-04",
@@ -4535,9 +4878,9 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "covers": [
               "Retrieval Augmented Generation"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           },
           {
             "id": "0z9_MhcYvcY",
@@ -4545,12 +4888,12 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 10,
             "covers": [
-              "Retrieval Augmented Generation",
-              "Plug-in tool integration"
+              "What is Agentic RAG?",
+              "Retrieval Augmented Generation"
             ],
-            "role": "optional",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -4638,9 +4981,19 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Retrieval Augmented Generation (RAG)\n\nRAG combines retrieval systems with generative foundation models. By fetching relevant document chunks from a vector database and injecting them into the prompt, RAG achieves factual accuracy on proprietary data."
+        "notesMarkdown": "### Retrieval Augmented Generation (RAG)\n\nRAG combines retrieval systems with generative foundation models. By fetching relevant document chunks from a vector database and injecting them into the prompt, RAG achieves factual accuracy on proprietary data.",
+        "beforeYouWatch": [
+          "Explore Retrieval-Augmented Generation (RAG): pulling private company documents into the prompt at runtime.",
+          "See how vector embeddings find relevant paragraphs from thousands of documents in milliseconds."
+        ],
+        "checkYourself": {
+          "question": "Why is RAG preferred over fine-tuning for constantly changing organizational knowledge?",
+          "answer": "RAG updates knowledge instantly by changing database records without requiring expensive model retraining cycles.",
+          "hint": "Updating a database row takes seconds; fine-tuning weights takes hours and compute."
+        }
       }
-    ]
+    ],
+    "totalWatchTime": "27m watch"
   },
   {
     "id": "mod-08",
@@ -4753,12 +5106,12 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 9,
             "covers": [
-              "Prompt injection",
-              "Mitigation strategies"
+              "Six Major Adversarial AI Attack Types",
+              "Prompt injection"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           },
           {
             "id": "yNIlm9IfcgA",
@@ -4766,12 +5119,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "ChatBotKit",
             "minutes": 6,
             "covers": [
-              "Prompt injection",
-              "Mitigation strategies"
+              "Understanding and Preventing Prompt Injection"
             ],
-            "role": "optional",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -4859,7 +5211,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/arena",
-        "notesMarkdown": "### Prompt Injection\n\nPrompt injection represents the #1 vulnerability on the OWASP Top 10 for LLMs. Because models process instructions and data within a single stream, untrusted text can commandeer model behavior unless guarded by architectural boundaries."
+        "notesMarkdown": "### Prompt Injection\n\nPrompt injection represents the #1 vulnerability on the OWASP Top 10 for LLMs. Because models process instructions and data within a single stream, untrusted text can commandeer model behavior unless guarded by architectural boundaries.",
+        "beforeYouWatch": [
+          "Understand prompt injection attacks: how untrusted user input can hijack model instructions to bypass security filters.",
+          "Notice the distinction between direct injections and indirect injections hidden in external websites."
+        ],
+        "checkYourself": {
+          "question": "What is an indirect prompt injection attack?",
+          "answer": "An attack where malicious instructions are hidden inside an external document or webpage that the AI reads while performing a task.",
+          "hint": "The attacker is not chatting with the bot directly; they planted instructions for the bot to find."
+        }
       },
       {
         "id": "mod-08-les-02",
@@ -4871,14 +5232,13 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "id": "zn2ukSnDqSg",
             "title": "ChatGPT Jailbreak - Computerphile",
             "channel": "Computerphile",
-            "minutes": 11,
+            "minutes": 12,
             "covers": [
               "Jailbreak techniques"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external",
-            "thumbnailUrl": "https://i.ytimg.com/vi/zn2ukSnDqSg/hqdefault.jpg"
+            "resolvedBy": "agent-search"
           }
         ],
         "chapters": [
@@ -4970,7 +5330,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/arena",
-        "notesMarkdown": "### Jailbreak Techniques\n\nJailbreaking exploits discrepancies between pre-trained capabilities and post-trained alignment. Understanding adversarial techniques—from roleplay personas to token smuggling—is crucial for engineering resilient defenses."
+        "notesMarkdown": "### Jailbreak Techniques\n\nJailbreaking exploits discrepancies between pre-trained capabilities and post-trained alignment. Understanding adversarial techniques—from roleplay personas to token smuggling—is crucial for engineering resilient defenses.",
+        "beforeYouWatch": [
+          "Examine jailbreak techniques: clever adversarial framing, role-play scenarios, and linguistic tricks used to bypass safety guardrails.",
+          "See why simple keyword blacklists fail against creative semantic workarounds."
+        ],
+        "checkYourself": {
+          "question": "Why do keyword filters fail to stop sophisticated jailbreak prompts?",
+          "answer": "Attackers rephrase forbidden concepts using hypothetical roleplay, ciphers, or metaphors that evade exact keyword matches.",
+          "hint": "Language has infinite ways to express the same prohibited intent."
+        }
       },
       {
         "id": "mod-08-les-03",
@@ -4984,26 +5353,24 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 7,
             "covers": [
-              "Prompt injection",
-              "Safe prompt design",
-              "Mitigation strategies"
+              "Mitigation strategies",
+              "Safe prompt design"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           },
           {
-            "id": "_9x-mAHGgC4",
-            "title": "Artificial Intelligence: The new attack surface",
-            "channel": "IBM Technology",
-            "minutes": 9,
+            "id": "yNIlm9IfcgA",
+            "title": "Secure AI Systems: Understanding and Preventing Prompt Injection",
+            "channel": "ChatBotKit",
+            "minutes": 6,
             "covers": [
-              "Prompt injection",
               "Mitigation strategies"
             ],
-            "role": "optional",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -5091,27 +5458,46 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/arena",
-        "notesMarkdown": "### Mitigation Strategies\n\nSecurity is an engineering discipline. Defending LLM applications requires defense-in-depth: input classifiers, structured delimitations, secret canaries, output filtering, and strict privilege sandboxing."
+        "notesMarkdown": "### Mitigation Strategies\n\nSecurity is an engineering discipline. Defending LLM applications requires defense-in-depth: input classifiers, structured delimitations, secret canaries, output filtering, and strict privilege sandboxing.",
+        "beforeYouWatch": [
+          "Learn defense-in-depth mitigation strategies: input sanitization, dual LLM pattern checks, and output guardrails.",
+          "See why multi-layered defenses are necessary when securing LLM applications."
+        ],
+        "checkYourself": {
+          "question": "What is the Dual LLM security architecture?",
+          "answer": "A pattern where an isolated privileged model handles sensitive tools, while an unprivileged model processes untrusted external data.",
+          "hint": "Separate data interpretation from administrative execution authority."
+        }
       },
       {
         "id": "mod-08-les-04",
         "title": "Safe prompt design",
-        "youtubeId": "gZTQNb0NGjM",
+        "youtubeId": "_9x-mAHGgC4",
         "status": "ok",
         "videos": [
+          {
+            "id": "_9x-mAHGgC4",
+            "title": "Artificial Intelligence: The new attack surface",
+            "channel": "IBM Technology",
+            "minutes": 9,
+            "covers": [
+              "Safe prompt design"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "seed"
+          },
           {
             "id": "gZTQNb0NGjM",
             "title": "Hypnotized AI and Large Language Model Security",
             "channel": "IBM Technology",
             "minutes": 7,
             "covers": [
-              "Prompt injection",
-              "Safe prompt design",
-              "Mitigation strategies"
+              "Safe prompt design"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -5199,9 +5585,19 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/arena",
-        "notesMarkdown": "### Safe Prompt Design\n\nSafe prompt design is proactive defensive architecture. By structuring prompts with clear fences, deterministic refusal codes, and boundary reinforcements, engineers harden systems against emerging threats."
+        "notesMarkdown": "### Safe Prompt Design\n\nSafe prompt design is proactive defensive architecture. By structuring prompts with clear fences, deterministic refusal codes, and boundary reinforcements, engineers harden systems against emerging threats.",
+        "beforeYouWatch": [
+          "Discover safe prompt design principles: structural delimiter enforcement, strict system role pinning, and least-privilege tool execution.",
+          "Notice how architectural boundaries protect sensitive internal business rules."
+        ],
+        "checkYourself": {
+          "question": "Why should internal business instructions never rely on client-side prompt formatting alone?",
+          "answer": "Client-side prompts can be inspected or modified by attackers; safety guardrails and authorization must be enforced on the backend server.",
+          "hint": "Never trust the client to enforce security rules."
+        }
       }
-    ]
+    ],
+    "totalWatchTime": "34m watch"
   },
   {
     "id": "mod-09",
@@ -5314,11 +5710,12 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "GitHub",
             "minutes": 24,
             "covers": [
-              "Coding"
+              "Coding",
+              "Prompt engineering essentials"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           },
           {
             "id": "--XpNP6NsqE",
@@ -5326,11 +5723,12 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "JetBrains",
             "minutes": 28,
             "covers": [
-              "Coding"
+              "Coding",
+              "Prompt engineering for developers"
             ],
-            "role": "optional",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -5418,7 +5816,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Coding Prompts\n\nPrompt engineering for software development requires technical precision. Grounding prompts with framework versions, typing requirements, and test-driven specifications produces robust code."
+        "notesMarkdown": "### Coding Prompts\n\nPrompt engineering for software development requires technical precision. Grounding prompts with framework versions, typing requirements, and test-driven specifications produces robust code.",
+        "beforeYouWatch": [
+          "Learn coding prompt techniques: generating clean functions, writing comprehensive unit tests, and debugging stack traces.",
+          "See how giving the model existing type signatures and code conventions eliminates hallucinated library calls."
+        ],
+        "checkYourself": {
+          "question": "What is the best way to prevent an AI coding assistant from using deprecated or invented APIs?",
+          "answer": "Provide the exact method signatures, library versions, or type definitions in the prompt context.",
+          "hint": "Anchor the model to the exact library version your project uses."
+        }
       },
       {
         "id": "mod-09-les-02",
@@ -5511,7 +5918,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Education and Tutoring\n\nEffective AI tutors do not simply spit out answers. Grounded in pedagogical theory (ZPD, scaffolding), prompt-driven tutors guide learners through active inquiry and concept verification."
+        "notesMarkdown": "### Education and Tutoring\n\nEffective AI tutors do not simply spit out answers. Grounded in pedagogical theory (ZPD, scaffolding), prompt-driven tutors guide learners through active inquiry and concept verification.",
+        "beforeYouWatch": [
+          "Explore prompt engineering for education: designing Socratic tutors that guide students to answers instead of handing them solutions.",
+          "Observe how scaffolding questions encourage deep critical thinking."
+        ],
+        "checkYourself": {
+          "question": "How does a Socratic prompt prevent a student from taking mental shortcuts?",
+          "answer": "It instructs the AI to respond with diagnostic questions that prompt the student to explain their reasoning step-by-step.",
+          "hint": "A great tutor asks guiding questions rather than doing the homework for the student."
+        }
       },
       {
         "id": "mod-09-les-03",
@@ -5604,7 +6020,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Business Automation\n\nEnterprise automation demands determinism. By turning messy invoices, contracts, and emails into strictly verified data records, prompt engineering unlocks automated back-office workflows."
+        "notesMarkdown": "### Business Automation\n\nEnterprise automation demands determinism. By turning messy invoices, contracts, and emails into strictly verified data records, prompt engineering unlocks automated back-office workflows.",
+        "beforeYouWatch": [
+          "Discover enterprise automation prompts: parsing messy invoices, extracting contract dates, and converting emails into CRM actions.",
+          "Notice how schema validation protects downstream business software from data errors."
+        ],
+        "checkYourself": {
+          "question": "Why must business extraction prompts output strictly typed schemas like JSON?",
+          "answer": "Business workflows require predictable key-value fields so databases and automated systems can ingest data without manual cleanup.",
+          "hint": "Databases cannot query conversational paragraphs reliably."
+        }
       },
       {
         "id": "mod-09-les-04",
@@ -5697,9 +6122,19 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Research Assistance\n\nPrompt engineering accelerates scientific discovery when coupled with rigorous evidentiary grounding. Researchers use LLMs for literature indexing, study comparisons, and hypothesis stress-testing."
+        "notesMarkdown": "### Research Assistance\n\nPrompt engineering accelerates scientific discovery when coupled with rigorous evidentiary grounding. Researchers use LLMs for literature indexing, study comparisons, and hypothesis stress-testing.",
+        "beforeYouWatch": [
+          "Learn research assistance prompts: synthesizing scientific papers, cross-referencing citations, and summarizing literature reviews.",
+          "See how requiring paragraph citations prevents fabricated references."
+        ],
+        "checkYourself": {
+          "question": "How can you prevent an AI from inventing plausible-sounding scientific citations?",
+          "answer": "Require the AI to cite only verbatim quotes and exact URLs or DOIs provided within the source text.",
+          "hint": "Never ask a model to recall academic papers from memory without reference text."
+        }
       }
-    ]
+    ],
+    "totalWatchTime": "52m watch"
   },
   {
     "id": "mod-10",
@@ -5725,7 +6160,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       "APE",
       "Reasoning"
     ],
-    "youtubeVideoId": "ut5kp56wW_4",
+    "youtubeVideoId": "uDIW34h8cmM",
     "accent": "amber",
     "keyTakeaway": "Reasoning is not linear token generation; true problem solving requires branching search, deliberate backtracking, and continuous environmental observation.",
     "keyConcepts": [
@@ -5803,20 +6238,32 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-10-les-01",
         "title": "Tree-of-Thoughts",
-        "youtubeId": "ut5kp56wW_4",
+        "youtubeId": "uDIW34h8cmM",
         "status": "ok",
         "videos": [
+          {
+            "id": "uDIW34h8cmM",
+            "title": "Prompt Engineering Guide - From Beginner to Advanced",
+            "channel": "Matthew Berman",
+            "minutes": 33,
+            "covers": [
+              "ToT, ReAct, APE overview"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "seed"
+          },
           {
             "id": "ut5kp56wW_4",
             "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models (Full Paper Review)",
             "channel": "Yannic Kilcher",
             "minutes": 29,
             "covers": [
-              "Tree-of-Thoughts"
+              "Tree of Thoughts: Deliberate Problem Solving with LLMs"
             ],
-            "role": "core",
+            "level": "advanced",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -5904,7 +6351,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/reasoning",
-        "notesMarkdown": "### Tree-of-Thoughts (ToT)\n\nTree-of-Thoughts allows language models to engage in deliberate problem-solving. By generating, evaluating, and searching over diverse thought paths, models explore solution spaces with human-like deliberation."
+        "notesMarkdown": "### Tree-of-Thoughts (ToT)\n\nTree-of-Thoughts allows language models to engage in deliberate problem-solving. By generating, evaluating, and searching over diverse thought paths, models explore solution spaces with human-like deliberation.",
+        "beforeYouWatch": [
+          "Discover Tree-of-Thoughts (ToT): generating multiple reasoning branches, evaluating each path, and backtracking when stuck.",
+          "See how tree exploration solves complex mathematical and algorithmic puzzles that trip up standard linear chains."
+        ],
+        "checkYourself": {
+          "question": "How does Tree-of-Thoughts improve on Chain-of-Thought for complex multi-step problems?",
+          "answer": "ToT generates multiple possible next steps, evaluates their viability, and backtracks from dead ends rather than pursuing only one path.",
+          "hint": "It explores a tree of possibilities instead of following a single straight line."
+        }
       },
       {
         "id": "mod-10-les-02",
@@ -5997,25 +6453,46 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/reasoning",
-        "notesMarkdown": "### Active Prompting\n\nActive Prompting applies active learning to prompt engineering. By diagnosing prediction uncertainty, engineers construct curated exemplar suites that directly remediate the model's blindspots."
+        "notesMarkdown": "### Active Prompting\n\nActive Prompting applies active learning to prompt engineering. By diagnosing prediction uncertainty, engineers construct curated exemplar suites that directly remediate the model's blindspots.",
+        "beforeYouWatch": [
+          "Explore active prompting: measuring model uncertainty across multiple drafts to identify ambiguous steps needing human clarification.",
+          "Notice how uncertainty metrics reveal when the AI is unsure versus confident."
+        ],
+        "checkYourself": {
+          "question": "What does high disagreement across multiple sampled answers tell an engineer about a prompt?",
+          "answer": "It signals high model uncertainty and ambiguity, indicating the prompt needs clearer constraints or few-shot examples.",
+          "hint": "If five runs give five different answers, the question needs clarifying."
+        }
       },
       {
         "id": "mod-10-les-03",
         "title": "ReAct",
-        "youtubeId": "QX-p-vsDoiQ",
+        "youtubeId": "uDIW34h8cmM",
         "status": "ok",
         "videos": [
+          {
+            "id": "uDIW34h8cmM",
+            "title": "Prompt Engineering Guide - From Beginner to Advanced",
+            "channel": "Matthew Berman",
+            "minutes": 33,
+            "covers": [
+              "ToT, ReAct, APE overview"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "seed"
+          },
           {
             "id": "QX-p-vsDoiQ",
             "title": "Keys to Understanding ReAct: Synergizing Reasoning and Acting in Language Models",
             "channel": "Arize AI",
             "minutes": 48,
             "covers": [
-              "ReAct"
+              "ReAct paper reading"
             ],
-            "role": "core",
+            "level": "advanced",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -6103,7 +6580,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/reasoning",
-        "notesMarkdown": "### ReAct: Synergizing Reasoning and Acting\n\nReAct empowers language models to solve multi-hop real-world challenges. By combining linguistic reasoning with tool actions, agents inspect the world, evaluate feedback, and dynamically update plans."
+        "notesMarkdown": "### ReAct: Synergizing Reasoning and Acting\n\nReAct empowers language models to solve multi-hop real-world challenges. By combining linguistic reasoning with tool actions, agents inspect the world, evaluate feedback, and dynamically update plans.",
+        "beforeYouWatch": [
+          "Learn ReAct (Reason + Act): interweaving reasoning steps with external tool actions in a tight observe-and-adjust loop.",
+          "See how the model explains what it learned from tool results before taking its next action."
+        ],
+        "checkYourself": {
+          "question": "What does each step in a ReAct loop consist of?",
+          "answer": "A Thought (reasoning about state), an Action (calling an external tool), and an Observation (reading the tool's response).",
+          "hint": "Think, Act, Observe, Repeat."
+        }
       },
       {
         "id": "mod-10-les-04",
@@ -6196,7 +6682,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/reasoning",
-        "notesMarkdown": "### Expert Prompting\n\nSingle-perspective prompts produce one-dimensional answers. Expert Prompting simulates a collaborative review board of specialized personas, surfacing multi-faceted trade-offs and robust solutions."
+        "notesMarkdown": "### Expert Prompting\n\nSingle-perspective prompts produce one-dimensional answers. Expert Prompting simulates a collaborative review board of specialized personas, surfacing multi-faceted trade-offs and robust solutions.",
+        "beforeYouWatch": [
+          "Discover expert prompting: prompting a committee of virtual specialists who critique, debate, and synthesize a master plan.",
+          "Observe how diverse specialist viewpoints uncover blind spots in complex architectures."
+        ],
+        "checkYourself": {
+          "question": "Why does an ensemble of specialized prompts produce more robust output than one generalized prompt?",
+          "answer": "Different specialist personas bring distinct domain constraints and critical questions to the evaluation table.",
+          "hint": "A security reviewer, a UX designer, and a database architect spot very different flaws."
+        }
       },
       {
         "id": "mod-10-les-05",
@@ -6208,15 +6703,13 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "id": "uDIW34h8cmM",
             "title": "Prompt Engineering Guide - From Beginner to Advanced",
             "channel": "Matthew Berman",
-            "minutes": 20,
+            "minutes": 33,
             "covers": [
-              "APE",
-              "Expert prompting"
+              "APE overview"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external",
-            "thumbnailUrl": "https://i.ytimg.com/vi/uDIW34h8cmM/hqdefault.jpg"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -6308,9 +6801,19 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/reasoning",
-        "notesMarkdown": "### Automatic Prompt Engineer (APE)\n\nHuman prompt intuition has limits. APE automates prompt discovery by treating prompt generation as program synthesis, iteratively testing and refining instructions against quantitative benchmark metrics."
+        "notesMarkdown": "### Automatic Prompt Engineer (APE)\n\nHuman prompt intuition has limits. APE automates prompt discovery by treating prompt generation as program synthesis, iteratively testing and refining instructions against quantitative benchmark metrics.",
+        "beforeYouWatch": [
+          "Learn Automatic Prompt Engineering (APE): using LLMs to automatically generate, test, and optimize candidate prompts against benchmarks.",
+          "Notice how machines discover subtle prompt wording variations that humans would never consider."
+        ],
+        "checkYourself": {
+          "question": "How does an Automatic Prompt Engineering (APE) pipeline evaluate candidate prompts?",
+          "answer": "It executes hundreds of candidate prompt variations against a test dataset and selects the top performers based on objective test scores.",
+          "hint": "It uses systematic experimentation and scoring rather than human guessing."
+        }
       }
-    ]
+    ],
+    "totalWatchTime": "1h 50m watch"
   },
   {
     "id": "mod-11",
@@ -6323,7 +6826,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
     "outcome": "Architect autonomous agentic workflows, design stateful memory architectures, connect tools via Model Context Protocol (MCP), and build resilient Agentic RAG pipelines.",
     "duration": "75 mins",
     "lessonCount": 5,
-    "videoCount": 6,
+    "videoCount": 5,
     "level": "Specialized",
     "tags": [
       "Agents",
@@ -6411,9 +6914,21 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-11-les-01",
         "title": "Agent loops (plan, act, observe)",
-        "youtubeId": "kQmXtrmQ5Zg",
+        "youtubeId": "eur8dUO9mvE",
         "status": "ok",
         "videos": [
+          {
+            "id": "eur8dUO9mvE",
+            "title": "What is MCP? Integrate AI Agents with Databases & APIs",
+            "channel": "IBM Technology",
+            "minutes": 4,
+            "covers": [
+              "Agent loops (plan, act, observe)"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "seed"
+          },
           {
             "id": "kQmXtrmQ5Zg",
             "title": "Building Agents with Model Context Protocol - Full Workshop with Mahesh Murag of Anthropic",
@@ -6421,11 +6936,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "minutes": 78,
             "covers": [
               "Agent loops (plan, act, observe)",
-              "MCP (hosts, clients, servers)"
+              "MCP workshop Mahesh Murag"
             ],
-            "role": "core",
+            "level": "advanced",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -6513,7 +7028,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Agent Loops (Plan, Act, Observe)\n\nAutonomous agents transcend single-turn prompting. By looping through planning, tool execution, and environmental observation, agents solve complex, multi-step real-world objectives."
+        "notesMarkdown": "### Agent Loops (Plan, Act, Observe)\n\nAutonomous agents transcend single-turn prompting. By looping through planning, tool execution, and environmental observation, agents solve complex, multi-step real-world objectives.",
+        "beforeYouWatch": [
+          "Explore autonomous agent loops: how agents plan goals, execute tools, observe consequences, and update their plans dynamically.",
+          "Watch how goal decomposition turns high-level user objectives into concrete terminal commands."
+        ],
+        "checkYourself": {
+          "question": "What prevents an autonomous agent from getting trapped in an infinite loop when a tool keeps failing?",
+          "answer": "A maximum iteration limit, loop detection heuristics, and explicit fallback instructions in the system prompt.",
+          "hint": "Agents must know when to stop and ask the human for assistance."
+        }
       },
       {
         "id": "mod-11-les-02",
@@ -6527,12 +7051,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 6,
             "covers": [
-              "Context windows and context engineering vs prompt engineering"
+              "Context Engineering vs. Prompt Engineering"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external",
-            "thumbnailUrl": "https://i.ytimg.com/vi/vD0E3EUb8-8/hqdefault.jpg"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -6624,7 +7147,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Context Engineering vs Prompt Engineering\n\nPrompt engineering asks: 'What words should I use?' Context engineering asks: 'What information should enter the context window, how should it be structured, what can be cached, and what must be evicted?'"
+        "notesMarkdown": "### Context Engineering vs Prompt Engineering\n\nPrompt engineering asks: 'What words should I use?' Context engineering asks: 'What information should enter the context window, how should it be structured, what can be cached, and what must be evicted?'",
+        "beforeYouWatch": [
+          "Understand context engineering vs prompt engineering: managing entire dynamic context windows, token caches, and document stores.",
+          "See how keeping prompt prefixes stable unlocks ultra-fast, low-cost prompt caching."
+        ],
+        "checkYourself": {
+          "question": "What is the primary difference between prompt engineering and context engineering?",
+          "answer": "Prompt engineering focuses on text instructions, while context engineering optimizes the entire information architecture, caching, and state inside the context window.",
+          "hint": "One is about the words you choose; the other is about how data flows through memory."
+        }
       },
       {
         "id": "mod-11-les-03",
@@ -6638,25 +7170,24 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 7,
             "covers": [
-              "MCP (hosts, clients, servers)",
+              "MCP vs API",
               "Memory and tool protocols"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           },
           {
-            "id": "eur8dUO9mvE",
-            "title": "What is MCP? Integrate AI Agents with Databases & APIs",
-            "channel": "IBM Technology",
-            "minutes": 4,
+            "id": "kQmXtrmQ5Zg",
+            "title": "Building Agents with Model Context Protocol - Full Workshop with Mahesh Murag of Anthropic",
+            "channel": "AI Engineer",
+            "minutes": 78,
             "covers": [
-              "MCP (hosts, clients, servers)",
               "Memory and tool protocols"
             ],
-            "role": "optional",
+            "level": "advanced",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -6744,7 +7275,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Memory and Tool Protocols\n\nAgents without memory are amnesiacs. By separating working memory (context window), episodic memory (interaction history), and semantic memory (knowledge graphs), agents deliver persistent, personalized utility."
+        "notesMarkdown": "### Memory and Tool Protocols\n\nAgents without memory are amnesiacs. By separating working memory (context window), episodic memory (interaction history), and semantic memory (knowledge graphs), agents deliver persistent, personalized utility.",
+        "beforeYouWatch": [
+          "Learn agent memory and tool protocols: maintaining short-term working memory alongside long-term vector recall.",
+          "Notice how standardized tool schemas allow agents to discover new tools on the fly."
+        ],
+        "checkYourself": {
+          "question": "Why should an agent distinguish between short-term working memory and long-term storage?",
+          "answer": "Short-term memory holds active conversation details in the context window, while long-term memory stores durable knowledge in databases for on-demand retrieval.",
+          "hint": "Similar to human RAM and hard drive storage."
+        }
       },
       {
         "id": "mod-11-les-04",
@@ -6758,12 +7298,12 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 4,
             "covers": [
-              "MCP (hosts, clients, servers)",
-              "Memory and tool protocols"
+              "What is MCP?",
+              "MCP (hosts, clients, servers)"
             ],
-            "role": "core",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           },
           {
             "id": "7j1t3UZA1TY",
@@ -6771,12 +7311,12 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "IBM Technology",
             "minutes": 7,
             "covers": [
-              "MCP (hosts, clients, servers)",
-              "Memory and tool protocols"
+              "MCP vs API",
+              "MCP (hosts, clients, servers)"
             ],
-            "role": "optional",
+            "level": "beginner",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -6865,38 +7405,46 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Model Context Protocol (MCP)\n\nMCP establishes an open standard for AI extensibility. By decoupling AI applications (hosts) from tool providers (servers) via JSON-RPC, developers build tool integrations once that work across all compliant AI environments."
+        "notesMarkdown": "### Model Context Protocol (MCP)\n\nMCP establishes an open standard for AI extensibility. By decoupling AI applications (hosts) from tool providers (servers) via JSON-RPC, developers build tool integrations once that work across all compliant AI environments.",
+        "beforeYouWatch": [
+          "Discover Model Context Protocol (MCP): the open standard connecting AI hosts like Claude or Cursor to local servers and databases.",
+          "See how MCP replaces custom one-off API plugins with universal client-server connections."
+        ],
+        "checkYourself": {
+          "question": "What problem does Model Context Protocol (MCP) solve for developers?",
+          "answer": "It provides a standardized protocol so developers write one MCP server that any compatible AI client can connect to and query.",
+          "hint": "Think USB-C for connecting AI models to files, databases, and services."
+        }
       },
       {
         "id": "mod-11-les-05",
         "title": "Agentic RAG",
-        "youtubeId": "Yq29bZ8Hlrc",
+        "youtubeId": "vD0E3EUb8-8",
         "status": "ok",
         "videos": [
+          {
+            "id": "vD0E3EUb8-8",
+            "title": "Context Engineering vs. Prompt Engineering: Smarter AI with RAG & Agents",
+            "channel": "IBM Technology",
+            "minutes": 6,
+            "covers": [
+              "Agentic RAG"
+            ],
+            "level": "beginner",
+            "status": "ok",
+            "resolvedBy": "seed"
+          },
           {
             "id": "Yq29bZ8Hlrc",
             "title": "Optimize RAG with AI Agents & Vector Databases",
             "channel": "IBM Technology",
             "minutes": 33,
             "covers": [
-              "Agentic RAG"
+              "Optimize RAG with AI Agents and Vector Databases"
             ],
-            "role": "core",
+            "level": "advanced",
             "status": "ok",
-            "source": "external"
-          },
-          {
-            "id": "0z9_MhcYvcY",
-            "title": "What is Agentic RAG?",
-            "channel": "IBM Technology",
-            "minutes": 10,
-            "covers": [
-              "Retrieval Augmented Generation",
-              "Plug-in tool integration"
-            ],
-            "role": "optional",
-            "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -6984,9 +7532,19 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/workflow",
-        "notesMarkdown": "### Agentic RAG\n\nStatic RAG pipelines fail when queries are ambiguous or multi-faceted. Agentic RAG introduces autonomy: evaluating retrieved documents, reformulating queries, and coordinating multi-hop information synthesis."
+        "notesMarkdown": "### Agentic RAG\n\nStatic RAG pipelines fail when queries are ambiguous or multi-faceted. Agentic RAG introduces autonomy: evaluating retrieved documents, reformulating queries, and coordinating multi-hop information synthesis.",
+        "beforeYouWatch": [
+          "Explore Agentic RAG: where an agent plans query rewrites, filters retrieved chunks, and loops back if information is incomplete.",
+          "Observe how active query expansion beats naive one-shot vector search."
+        ],
+        "checkYourself": {
+          "question": "How does Agentic RAG improve on traditional naive RAG?",
+          "answer": "It evaluates whether retrieved documents actually answered the query and proactively searches again with refined terms if gaps remain.",
+          "hint": "It reviews its own research and digs deeper if necessary."
+        }
       }
-    ]
+    ],
+    "totalWatchTime": "2h 8m watch"
   },
   {
     "id": "mod-12",
@@ -7008,7 +7566,7 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       "Guardrails",
       "Responsible AI"
     ],
-    "youtubeVideoId": "HdafI0t3sEY",
+    "youtubeVideoId": "zYGDpG-pTho",
     "accent": "cyan",
     "keyTakeaway": "Enterprise prompt engineering is 10% wording and 90% systems engineering: caching, regression gates, cost controls, and ethical governance.",
     "keyConcepts": [
@@ -7087,62 +7645,20 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
       {
         "id": "mod-12-les-01",
         "title": "Prompting vs RAG vs fine-tuning",
-        "youtubeId": "0A4zaEuRmig",
+        "youtubeId": "zYGDpG-pTho",
         "status": "ok",
         "videos": [
           {
-            "id": "0A4zaEuRmig",
-            "title": "Prompt vs RAG vs Fine-Tuning — What’s the Difference?",
-            "channel": "Analytics Vidhya",
-            "minutes": 12,
-            "covers": [
-              "Prompting vs RAG vs fine-tuning"
-            ],
-            "role": "core",
-            "status": "ok",
-            "source": "external",
-            "thumbnailUrl": "https://i.ytimg.com/vi/0A4zaEuRmig/hqdefault.jpg"
-          },
-          {
-            "id": "HdafI0t3sEY",
-            "title": "RAG vs. CAG: Solving Knowledge Gaps in AI Models",
+            "id": "zYGDpG-pTho",
+            "title": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
             "channel": "IBM Technology",
-            "minutes": 9,
-            "covers": [
-              "Prompting vs RAG vs fine-tuning",
-              "Guardrails, cost, latency, caching"
-            ],
-            "role": "core",
-            "status": "ok",
-            "source": "external",
-            "thumbnailUrl": "https://i.ytimg.com/vi/HdafI0t3sEY/hqdefault.jpg"
-          },
-          {
-            "id": "o9jz04bIW0E",
-            "title": "LLM Fine Tuning Tutorial (Free Labs)",
-            "channel": "KodeKloud",
-            "minutes": 24,
+            "minutes": 13,
             "covers": [
               "Prompting vs RAG vs fine-tuning"
             ],
-            "role": "optional",
+            "level": "beginner",
             "status": "ok",
-            "source": "external",
-            "thumbnailUrl": "https://i.ytimg.com/vi/o9jz04bIW0E/hqdefault.jpg"
-          },
-          {
-            "id": "7xTGNNLPyMI",
-            "title": "Deep Dive into LLMs like ChatGPT",
-            "channel": "Andrej Karpathy",
-            "minutes": 211,
-            "covers": [
-              "Prompting vs RAG vs fine-tuning",
-              "Bias, safety, governance"
-            ],
-            "role": "optional",
-            "status": "ok",
-            "source": "external",
-            "thumbnailUrl": "https://i.ytimg.com/vi/7xTGNNLPyMI/hqdefault.jpg"
+            "resolvedBy": "agent-search"
           }
         ],
         "chapters": [
@@ -7234,7 +7750,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/optimize",
-        "notesMarkdown": "### Prompting vs RAG vs Fine-Tuning\n\n- **Prompting**: Fast, zero-infrastructure steering of general capabilities.\n- **RAG**: Dynamic injection of private, frequently changing knowledge.\n- **Fine-Tuning**: Deep conditioning of style, syntax, and specialized behavioral form."
+        "notesMarkdown": "### Prompting vs RAG vs Fine-Tuning\n\n- **Prompting**: Fast, zero-infrastructure steering of general capabilities.\n- **RAG**: Dynamic injection of private, frequently changing knowledge.\n- **Fine-Tuning**: Deep conditioning of style, syntax, and specialized behavioral form.",
+        "beforeYouWatch": [
+          "Learn the architectural tradeoffs between prompt engineering, RAG, and fine-tuning in production software.",
+          "See how cost, latency, data freshness, and maintenance complexity drive the decision for each approach."
+        ],
+        "checkYourself": {
+          "question": "When is fine-tuning justified over prompt engineering or RAG?",
+          "answer": "When you need to embed specialized domain terminology or formatting into model weights while reducing runtime token overhead at high volume.",
+          "hint": "Fine-tuning permanently shapes behavior and style, while RAG supplies fresh facts."
+        }
       },
       {
         "id": "mod-12-les-02",
@@ -7248,13 +7773,11 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Qdrant Vector Search",
             "minutes": 42,
             "covers": [
-              "Measuring response quality",
-              "Performance evaluation",
               "LLM-as-judge in production"
             ],
-            "role": "core",
+            "level": "advanced",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -7342,7 +7865,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/optimize",
-        "notesMarkdown": "### LLM-as-a-Judge in Production\n\nAutomated judging transforms production monitoring from lagging user complaints to proactive real-time alerting. Auditing shadow traffic with unbiased rubrics ensures quality at scale."
+        "notesMarkdown": "### LLM-as-a-Judge in Production\n\nAutomated judging transforms production monitoring from lagging user complaints to proactive real-time alerting. Auditing shadow traffic with unbiased rubrics ensures quality at scale.",
+        "beforeYouWatch": [
+          "Explore running LLM-as-a-judge pipelines in continuous production: monitoring model drift, scoring latency, and setting quality alert gates.",
+          "Notice how automated evaluations catch unexpected regressions before users report them."
+        ],
+        "checkYourself": {
+          "question": "Why should production LLM judge scores be paired with random human audit samples?",
+          "answer": "Automated judges can develop systematic biases or fail to catch subtle real-world user intent mismatches.",
+          "hint": "Human spot-checks keep automated evaluators honest."
+        }
       },
       {
         "id": "mod-12-les-03",
@@ -7435,26 +7967,48 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/optimize",
-        "notesMarkdown": "### Prompt Versioning and Regression Tests\n\nProduction prompts are software artifacts. Integrating prompts into GitOps workflows with automated regression gates ensures that deployments are safe, reproducible, and verifiable."
+        "notesMarkdown": "### Prompt Versioning and Regression Tests\n\nProduction prompts are software artifacts. Integrating prompts into GitOps workflows with automated regression gates ensures that deployments are safe, reproducible, and verifiable.",
+        "beforeYouWatch": [
+          "Discover prompt versioning and regression testing: treating prompts as production code tracked in Git with automated CI/CD checks.",
+          "See how gold-standard evaluation datasets catch subtle prompt regressions before deployment."
+        ],
+        "checkYourself": {
+          "question": "Why should prompt templates be version-controlled in the same repository as application code?",
+          "answer": "It ensures changes to prompts are peer-reviewed, tested against regression datasets, and deployed atomically alongside supporting application logic.",
+          "hint": "Prompts are code and deserve the same CI/CD rigor."
+        }
       },
       {
         "id": "mod-12-les-04",
         "title": "Guardrails, cost, latency, caching",
-        "youtubeId": "HdafI0t3sEY",
+        "youtubeId": "l5K4r_TJz_8",
         "status": "ok",
         "videos": [
+          {
+            "id": "l5K4r_TJz_8",
+            "title": "How to implement LLM guardrails for RAG applications",
+            "channel": "IBM Developer",
+            "minutes": 7,
+            "covers": [
+              "LLM guardrails explained",
+              "Guardrails, cost, latency, caching"
+            ],
+            "level": "intermediate",
+            "status": "ok",
+            "resolvedBy": "agent-search"
+          },
           {
             "id": "HdafI0t3sEY",
             "title": "RAG vs. CAG: Solving Knowledge Gaps in AI Models",
             "channel": "IBM Technology",
             "minutes": 9,
             "covers": [
-              "Prompting vs RAG vs fine-tuning",
-              "Guardrails, cost, latency, caching"
+              "Guardrails, cost, latency, caching",
+              "RAG vs CAG"
             ],
-            "role": "core",
+            "level": "intermediate",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -7542,7 +8096,16 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/optimize",
-        "notesMarkdown": "### Guardrails, Cost, Latency, and Caching\n\nOperational engineering is the backbone of production AI. Implementing strict rate limits, daily hard stops, semantic caching, and prefix reuse ensures reliability and cost sustainability."
+        "notesMarkdown": "### Guardrails, Cost, Latency, and Caching\n\nOperational engineering is the backbone of production AI. Implementing strict rate limits, daily hard stops, semantic caching, and prefix reuse ensures reliability and cost sustainability.",
+        "beforeYouWatch": [
+          "Master production guardrails, cost management, latency budgets, and token caching for enterprise LLM systems.",
+          "Learn how semantic cache layers answer common questions in under 10 milliseconds at zero LLM cost."
+        ],
+        "checkYourself": {
+          "question": "How does semantic response caching dramatically lower LLM operating costs?",
+          "answer": "It stores previous model answers and returns them immediately when a new user query matches the same meaning, bypassing upstream LLM calls.",
+          "hint": "Why pay to recompute an answer you calculated two seconds ago?"
+        }
       },
       {
         "id": "mod-12-les-05",
@@ -7556,12 +8119,12 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
             "channel": "Andrej Karpathy",
             "minutes": 211,
             "covers": [
-              "Prompting vs RAG vs fine-tuning",
+              "Post-training and assistant models",
               "Bias, safety, governance"
             ],
-            "role": "core",
+            "level": "advanced",
             "status": "ok",
-            "source": "external"
+            "resolvedBy": "seed"
           }
         ],
         "chapters": [
@@ -7649,9 +8212,19 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           }
         ],
         "relatedLab": "/labs/optimize",
-        "notesMarkdown": "### Bias, Safety, and Governance\n\nAI without governance is a liability. Responsible prompt engineering audits for demographic fairness, implements safety boundaries, and complies with legal and ethical standards."
+        "notesMarkdown": "### Bias, Safety, and Governance\n\nAI without governance is a liability. Responsible prompt engineering audits for demographic fairness, implements safety boundaries, and complies with legal and ethical standards.",
+        "beforeYouWatch": [
+          "Understand bias mitigation, safety alignment, and responsible AI governance in customer-facing deployments.",
+          "Notice how alignment techniques like RLHF steer models away from harmful, biased, or discriminatory responses."
+        ],
+        "checkYourself": {
+          "question": "What is the primary role of post-training alignment (such as RLHF) in modern language models?",
+          "answer": "It aligns raw token-completion models with human values, encouraging helpful, harmless, and truthful answers.",
+          "hint": "Pretraining teaches language; alignment teaches judgment and ethics."
+        }
       }
-    ]
+    ],
+    "totalWatchTime": "4h 42m watch"
   }
 ];
 
