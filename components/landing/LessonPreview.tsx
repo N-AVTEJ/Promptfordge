@@ -49,12 +49,12 @@ export function LessonPreview() {
           {/* Studio Header Bar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-navy/10 gap-3">
             <div>
-              <span className="font-mono text-xs text-navy/60 font-semibold">
-                Module 01 · Lesson 01
-              </span>
-              <h3 className="font-sans text-xl font-bold text-navy mt-0.5">
+              <h3 className="font-sans text-xl font-bold text-navy">
                 {lesson?.title || "Evolution of AI and LLMs"}
               </h3>
+              <p className="font-mono text-xs text-navy/60 mt-1">
+                Module 01 · Lesson 01
+              </p>
             </div>
             <Link
               href="/academy/mod-01/mod-01-les-01"

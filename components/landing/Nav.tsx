@@ -29,7 +29,7 @@ export function Nav() {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-colors duration-200 ${
           isScrolled
-            ? "border-b border-navy/10 bg-daylight/95 backdrop-blur-md"
+            ? "border-b border-navy/10 bg-daylight shadow-xs"
             : "border-b border-transparent bg-transparent"
         }`}
       >

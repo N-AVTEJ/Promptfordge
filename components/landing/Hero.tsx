@@ -13,8 +13,8 @@ export function Hero() {
     <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 bg-daylight text-navy overflow-hidden">
       <div className="mx-auto max-w-6xl px-6">
         <div className="max-w-3xl">
-          {/* Main Headline — single uniform styling, no accented word */}
-          <h1 className="font-sans text-4xl sm:text-5xl lg:text-[68px] font-bold tracking-tight text-navy leading-[1.08]">
+          {/* Main Headline — single uniform styling, no accented word, up to 88px desktop */}
+          <h1 className="font-sans text-4xl sm:text-6xl lg:text-7xl xl:text-[88px] font-bold tracking-tight text-navy leading-[1.05]">
             Learn to talk to AI by running the experiment.
           </h1>
 

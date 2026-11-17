@@ -232,6 +232,47 @@ describe("Phase 2: Landing Page Data & Motion Verification", () => {
         !content.includes("&rarr;"),
         `${fileName} must not contain '&rarr;' entity`
       );
+
+      // No hardcoded hex color codes (only anchor #main-content allowed)
+      const hexMatches = content.match(/#[0-9a-fA-F]{3,8}\b/g) || [];
+      const nonAnchorHex = hexMatches.filter((h) => !h.startsWith("#main"));
+      assert.strictEqual(
+        nonAnchorHex.length,
+        0,
+        `${fileName} must not contain hardcoded hex color codes: ${nonAnchorHex.join(", ")}`
+      );
     });
+  });
+
+  test("Syllabus employs smooth height expansion with framer-motion", () => {
+    const syllabusPath = path.resolve(
+      process.cwd(),
+      "components/landing/Syllabus.tsx"
+    );
+    const content = fs.readFileSync(syllabusPath, "utf-8");
+    assert.ok(
+      content.includes("framer-motion"),
+      "Syllabus must import framer-motion for smooth height expansion"
+    );
+    assert.ok(
+      content.includes("AnimatePresence"),
+      "Syllabus must use AnimatePresence for height transitions"
+    );
+    assert.ok(
+      content.includes("motion.div"),
+      "Syllabus must use motion.div for transform-safe animation"
+    );
+  });
+
+  test("Hero headline scales up to 88px on large desktop", () => {
+    const heroPath = path.resolve(
+      process.cwd(),
+      "components/landing/Hero.tsx"
+    );
+    const content = fs.readFileSync(heroPath, "utf-8");
+    assert.ok(
+      content.includes("xl:text-[88px]"),
+      "Hero h1 must support scaling up to 88px on large desktop viewports"
+    );
   });
 });

@@ -2,9 +2,12 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { CURRICULUM_MODULES } from "@/content/modules";
 
 export function Syllabus() {
+  const prefersReduced = useReducedMotion();
   const [openModuleId, setOpenModuleId] = useState<string | null>(null);
 
   const toggleRow = (id: string) => {
@@ -78,41 +81,53 @@ export function Syllabus() {
                   </div>
                 </button>
 
-                {/* Expanded Topic List */}
-                {isOpen && (
-                  <div
-                    id={`syllabus-content-${mod.id}`}
-                    className="pb-8 pt-2 pl-8 md:pl-12 pr-4 space-y-6"
-                  >
-                    <p className="font-sans text-base text-navy/80 leading-[1.65] max-w-[65ch]">
-                      {mod.summary || mod.description}
-                    </p>
+                {/* Expanded Topic List (Smooth height via Framer motion) */}
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      id={`syllabus-content-${mod.id}`}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={
+                        prefersReduced
+                          ? { duration: 0 }
+                          : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }
+                      }
+                      className="overflow-hidden"
+                    >
+                      <div className="pb-8 pt-2 pl-8 md:pl-12 pr-4 space-y-6">
+                        <p className="font-sans text-base text-navy/80 leading-[1.65] max-w-[65ch]">
+                          {mod.summary || mod.description}
+                        </p>
 
-                    {/* Topics / Key Concepts */}
-                    {mod.keyConcepts && mod.keyConcepts.length > 0 && (
-                      <div>
-                        <h4 className="font-sans text-sm font-semibold text-navy/90 mb-2">
-                          Core topics covered:
-                        </h4>
-                        <ul className="space-y-1.5 font-sans text-sm text-navy/75 list-disc pl-5">
-                          {mod.keyConcepts.map((concept, i) => (
-                            <li key={i}>{concept}</li>
-                          ))}
-                        </ul>
+                        {/* Topics / Key Concepts */}
+                        {mod.keyConcepts && mod.keyConcepts.length > 0 && (
+                          <div>
+                            <h4 className="font-sans text-sm font-semibold text-navy/90 mb-2">
+                              Core topics covered:
+                            </h4>
+                            <ul className="space-y-1.5 font-sans text-sm text-navy/75 list-disc pl-5">
+                              {mod.keyConcepts.map((concept, i) => (
+                                <li key={i}>{concept}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {/* Direct link to module in academy */}
+                        <div className="pt-2">
+                          <Link
+                            href={`/academy/${mod.id}`}
+                            className="inline-flex items-center justify-center rounded-md border border-navy/20 bg-white px-4 py-2 font-sans text-sm font-medium text-navy hover:bg-navy/5 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ultramarine"
+                          >
+                            Explore module
+                          </Link>
+                        </div>
                       </div>
-                    )}
-
-                    {/* Direct link to module in academy */}
-                    <div className="pt-2">
-                      <Link
-                        href={`/academy/${mod.id}`}
-                        className="inline-flex items-center justify-center rounded-md border border-navy/20 bg-white px-4 py-2 font-sans text-sm font-medium text-navy hover:bg-navy/5 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ultramarine"
-                      >
-                        Explore module
-                      </Link>
-                    </div>
-                  </div>
-                )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             );
           })}

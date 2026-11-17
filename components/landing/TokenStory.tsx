@@ -104,6 +104,13 @@ export function TokenStory() {
       });
 
       ScrollTrigger.refresh();
+
+      // Recalculate pins after font loads
+      if (typeof document !== "undefined" && document.fonts?.ready) {
+        document.fonts.ready.then(() => {
+          ScrollTrigger.refresh();
+        });
+      }
     }, container);
 
     return () => {
@@ -246,30 +253,35 @@ export function TokenStory() {
   }
 
   // Calculate visual values for the 5 stages based on scroll progress
-  // Stage 1 (0 to 0.15): linear sentence
+  // Stage 1 (0 to 0.15): linear sentence with highlighter stripes
   // Stage 2 (0.15 to 0.35): token split & ID chips reveal
   // Stage 3 (0.35 to 0.60): travel to 2D scatter coordinates
   // Stage 4 (0.60 to 0.85): attention lines to loops
   // Stage 5 (0.85 to 1.0): output tokens reveal one by one
-  const stage1to2Progress = Math.max(
-    0,
-    Math.min(1, (scrollProgress - 0.1) / 0.15)
-  );
   const stage2to3Progress = Math.max(
     0,
-    Math.min(1, (scrollProgress - 0.3) / 0.25)
+    Math.min(1, (scrollProgress - 0.35) / 0.25)
   );
   const stage4Progress = Math.max(
     0,
-    Math.min(1, (scrollProgress - 0.58) / 0.22)
+    Math.min(1, (scrollProgress - 0.6) / 0.2)
   );
   const stage5Progress = Math.max(
     0,
-    Math.min(1, (scrollProgress - 0.82) / 0.18)
+    Math.min(1, (scrollProgress - 0.85) / 0.15)
   );
 
   // How many output tokens to display in stage 5
-  const outputTokensCount = Math.floor(stage5Progress * OUTPUT_TOKENS.length);
+  const outputTokensCount =
+    activeStage === 4
+      ? Math.max(
+          1,
+          Math.min(
+            OUTPUT_TOKENS.length,
+            Math.floor(stage5Progress * OUTPUT_TOKENS.length)
+          )
+        )
+      : 0;
   const activeTokens = isMobile ? MOBILE_TOKENS : DESKTOP_TOKENS;
 
   return (
@@ -325,12 +337,9 @@ export function TokenStory() {
 
         {/* Center Main: Left Caption & Right Canvas (Desktop) / Top Caption & Bottom Canvas (Mobile) */}
         <div className="mx-auto my-auto flex w-full max-w-6xl flex-col lg:flex-row items-center gap-8 lg:gap-14">
-          {/* Left Column: Caption text max 38ch */}
+          {/* Left Column: Caption text max 38ch — no eyebrow stacked above heading */}
           <div className="w-full lg:w-[38ch] shrink-0 text-left">
             <div className="space-y-4">
-              <span className="font-mono text-xs font-semibold text-white/70">
-                Stage 0{activeStage + 1} of 05
-              </span>
               <h2 className="font-sans text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight">
                 {STORY_STAGES[activeStage]?.caption}
               </h2>
@@ -345,6 +354,42 @@ export function TokenStory() {
             ref={canvasRef}
             className="relative w-full h-[380px] sm:h-[420px] lg:h-[480px] rounded-2xl border border-white/20 bg-navy/50 p-6 backdrop-blur-md overflow-hidden flex items-center justify-center shadow-inner"
           >
+            {/* Stage 1: The Hero Sentence with Highlighter Stripes Visible */}
+            {activeStage === 0 && (
+              <div className="relative z-10 w-full max-w-xl rounded-xl border border-white/20 bg-navy/60 p-6 sm:p-8 backdrop-blur-md shadow-lg">
+                <div className="font-mono text-base sm:text-lg md:text-xl font-semibold text-white leading-relaxed">
+                  <span className="relative inline-block mr-2.5 my-1">
+                    <span className="relative z-10">Act as a Python teacher.</span>
+                    <span
+                      className="absolute bottom-0 left-0 right-0 h-[40%] rounded-sm bg-marigold/40 border-b-2 border-marigold pointer-events-none"
+                      aria-hidden="true"
+                    />
+                  </span>
+                  <span className="relative inline-block mr-2.5 my-1">
+                    <span className="relative z-10">Explain loops to a beginner.</span>
+                    <span
+                      className="absolute bottom-0 left-0 right-0 h-[40%] rounded-sm bg-mint/45 border-b-2 border-mint pointer-events-none"
+                      aria-hidden="true"
+                    />
+                  </span>
+                  <span className="relative inline-block mr-2.5 my-1">
+                    <span className="relative z-10">Give two examples.</span>
+                    <span
+                      className="absolute bottom-0 left-0 right-0 h-[40%] rounded-sm bg-lilac/45 border-b-2 border-lilac pointer-events-none"
+                      aria-hidden="true"
+                    />
+                  </span>
+                  <span className="relative inline-block my-1">
+                    <span className="relative z-10">Keep it under 100 words.</span>
+                    <span
+                      className="absolute bottom-0 left-0 right-0 h-[40%] rounded-sm bg-rose/40 border-b-2 border-rose pointer-events-none"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </div>
+              </div>
+            )}
+
             {/* Stage 4: SVG Attention Lines connecting 'loops' (50%, 48%) to other tokens */}
             <svg
               className="absolute inset-0 h-full w-full pointer-events-none transition-opacity duration-300"
@@ -368,22 +413,22 @@ export function TokenStory() {
                       y1={y1}
                       x2={x2}
                       y2={y2}
-                      stroke={isStrong ? "#FFC21A" : "#FFFFFF"}
                       strokeWidth={isStrong ? 3.5 : 1 + t.attentionWeight * 1.5}
                       strokeOpacity={
                         isStrong ? 1.0 : 0.2 + t.attentionWeight * 0.45
                       }
-                      strokeDasharray={isStrong ? "none" : "3,3"}
+                      strokeDasharray={isStrong ? undefined : "3,3"}
+                      className={isStrong ? "stroke-marigold" : "stroke-white"}
                     />
                     {isStrong && (
                       <text
                         x={`${(50 + (isMobile && t.scatterMobile ? t.scatterMobile.x : t.scatterDesktop.x)) / 2}%`}
                         y={`${(48 + (isMobile && t.scatterMobile ? t.scatterMobile.y : t.scatterDesktop.y)) / 2 - 2}%`}
-                        fill="#FFC21A"
                         fontSize="11"
                         fontFamily="monospace"
                         fontWeight="bold"
                         textAnchor="middle"
+                        className="fill-marigold"
                       >
                         weight {t.attentionWeight.toFixed(2)}
                       </text>
@@ -393,19 +438,23 @@ export function TokenStory() {
               })}
             </svg>
 
-            {/* Stages 1 to 4: Input Tokens */}
+            {/* Stages 2 to 4: Input Tokens (Split into tokens with ID chips) */}
             <div
               className={`absolute inset-0 p-6 transition-opacity duration-300 ${
-                activeStage === 4 ? "opacity-20 pointer-events-none" : "opacity-100"
+                activeStage === 0
+                  ? "opacity-0 pointer-events-none"
+                  : activeStage === 4
+                  ? "opacity-20 pointer-events-none"
+                  : "opacity-100"
               }`}
             >
               {activeTokens.map((token, idx) => {
-                // Stage 1 & 2: Token flow in natural linear coordinates
+                // Stage 2: Token flow in natural linear coordinates with gaps
                 // Stage 3 & 4: Token flow in 2D scatter coordinates
                 const scatterX = isMobile && token.scatterMobile ? token.scatterMobile.x : token.scatterDesktop.x;
                 const scatterY = isMobile && token.scatterMobile ? token.scatterMobile.y : token.scatterDesktop.y;
 
-                // Approximate initial grid line & column
+                // Approximate initial grid line & column with clear gaps
                 const totalCols = isMobile ? 3 : 4;
                 const row = Math.floor(idx / totalCols);
                 const col = idx % totalCols;
@@ -419,7 +468,7 @@ export function TokenStory() {
                   linearY + (scatterY - linearY) * stage2to3Progress;
 
                 // ID Chip visibility in Stage 2, 3, 4
-                const showChip = stage1to2Progress > 0.4;
+                const showChip = activeStage >= 1;
                 const isClusterTarget = ["loops", "Python", "teacher"].includes(
                   token.text
                 );

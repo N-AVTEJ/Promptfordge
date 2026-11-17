@@ -73,7 +73,20 @@ export function SmoothScrollProvider({
     // Disable GSAP lag smoothing to avoid jumps during heavy scroll
     gsap.ticker.lagSmoothing(0);
 
+    // After font load or full page load, recalculate ScrollTrigger pins to prevent layout shifts
+    if (typeof document !== "undefined" && document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        ScrollTrigger.refresh();
+      });
+    }
+
+    const handleWindowLoad = () => {
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener("load", handleWindowLoad);
+
     return () => {
+      window.removeEventListener("load", handleWindowLoad);
       gsap.ticker.remove(tickerUpdate);
       lenis.destroy();
       lenisRef.current = null;
