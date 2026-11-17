@@ -1,5 +1,4 @@
 import https from 'node:https';
-import fs from 'node:fs';
 
 export function fetchPage(url) {
   return new Promise((resolve, reject) => {
@@ -42,29 +41,42 @@ async function checkVideo(id) {
   if (match) {
     try {
       initialData = JSON.parse(match[1]);
-    } catch (e) {
-      // try fallback parse
+    } catch (e) {}
+  }
+
+  let shortDesc = '';
+  const descMatch = html.match(/"shortDescription":"(.*?)"/);
+  if (descMatch) {
+    try {
+      shortDesc = JSON.parse(`"${descMatch[1]}"`);
+    } catch {
+      shortDesc = descMatch[1];
     }
   }
 
-  // Also check if there are chapters in marker data
+  let title = '';
+  const titleMatch = html.match(/"title":"(.*?)"/);
+  if (titleMatch) {
+    try {
+      title = JSON.parse(`"${titleMatch[1]}"`);
+    } catch {
+      title = titleMatch[1];
+    }
+  }
+
   const chapters = initialData ? findChapters(initialData) : [];
-  return { id, chapters, initialDataFound: !!initialData, html };
+  return { id, title, shortDesc, chapters };
 }
 
 async function main() {
-  const { chapters, html, initialDataFound } = await checkVideo('uDIW34h8cmM');
-  console.log('Initial data found:', initialDataFound);
-  console.log('Chapters found:', chapters.length);
-  if (chapters.length > 0) {
-    console.log(JSON.stringify(chapters, null, 2));
-  } else {
-    // Look for macroMarkersListItemRenderer or chapters in html
-    const markerMatches = [...html.matchAll(/"title":\{"(?:simpleText|runs)":([^}]+)\}.*?"timeRangeStartMillis":(\d+)/g)];
-    console.log('Regex marker matches:', markerMatches.length);
-    for (const m of markerMatches.slice(0, 30)) {
-      console.log(m[1], Math.floor(parseInt(m[2], 10) / 1000) + 's');
-    }
+  const ids = ['7j1t3UZA1TY', '_9x-mAHGgC4', 'gZTQNb0NGjM', 'g5h-piquf_k'];
+  for (const id of ids) {
+    console.log('====================================');
+    console.log('CHECKING ID:', id);
+    const res = await checkVideo(id);
+    console.log('TITLE:', res.title);
+    console.log('DESC:', res.shortDesc.slice(0, 400));
+    console.log('CHAPTERS:', res.chapters.length ? JSON.stringify(res.chapters) : 'None');
   }
 }
 

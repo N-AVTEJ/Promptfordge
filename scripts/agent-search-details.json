@@ -1,0 +1,170 @@
+[
+  {
+    "id": "ZHCB09O6zUk",
+    "title": "A Brief History of AI: From Machine Learning to Gen AI to Agentic AI",
+    "firstLines": [
+      "Ready to become a certified Certified watsonx AI Assistant Engineer? Register now and use code IBMTechYT20 for 20% off of your exam → https://ibm.biz/Bdbmug",
+      "Learn more about The History of AI Here → https://ibm.biz/BdbmuV",
+      "AI didn’t happen overnight 🤖 — it’s been 70 years in the making. Jeff Crume traces the evolution of artificial intelligence from early programming to machine learning, generative AI, and agentic AI. Discover how decades of innovation shaped today’s intelligent systems."
+    ],
+    "fullDescStart": "Ready to become a certified Certified watsonx AI Assistant Engineer? Register now and use code IBMTechYT20 for 20% off of your exam → https://ibm.biz/Bdbmug\n\nLearn more about The History of AI Here → https://ibm.biz/BdbmuV\n\nAI didn’t happen overnight 🤖 — it’s been 70 years in the making. Jeff Crume"
+  },
+  {
+    "id": "ugxPshXr7Ro",
+    "title": "Constrained Generation for Better LLM Prompting Results",
+    "firstLines": [
+      "Discover how constrained generation can dramatically improve your AI prompt results. Learn why setting specific limitations actually enhances creativity and precision when working with large language models. This tutorial breaks down 5 types of constraints and practical techniques for implementing them in your prompts.",
+      "0:00 Introduction to Constrained Generation",
+      "0:31 Four Reasons to Use Constraints"
+    ],
+    "fullDescStart": "Discover how constrained generation can dramatically improve your AI prompt results. Learn why setting specific limitations actually enhances creativity and precision when working with large language models. This tutorial breaks down 5 types of constraints and practical techniques for implementing t"
+  },
+  {
+    "id": "zrp3Lr5eeFc",
+    "title": "XML Tags, Delimiters & Complex Prompt Structure",
+    "firstLines": [
+      "As prompts grow, instructions, examples, context and source material can blur together. Learn how headings, delimiters and semantic tags can create clear boundaries, reduce ambiguity and make complex prompts easier to build, inspect and maintain.",
+      "0:00 XML Tags, Delimiters & Complex Prompt Structure",
+      "0:37 Wall of Text vs Structured Prompt"
+    ],
+    "fullDescStart": "As prompts grow, instructions, examples, context and source material can blur together. Learn how headings, delimiters and semantic tags can create clear boundaries, reduce ambiguity and make complex prompts easier to build, inspect and maintain.\n\n⏱️ CHAPTERS\n0:00 XML Tags, Delimiters & Complex Prom"
+  },
+  {
+    "id": "OEQPss-UXhA",
+    "title": "AI Prompt Engineering - Multistep Prompting",
+    "firstLines": [
+      "Multistep Prompting: Building Intelligence, One Step at a Time",
+      "AI isn’t just about getting one-line answers. It’s about thinking in steps, structuring complexity, and orchestrating workflows inside your prompts.",
+      "In this video, you’ll learn:"
+    ],
+    "fullDescStart": "Multistep Prompting: Building Intelligence, One Step at a Time\n\nAI isn’t just about getting one-line answers. It’s about thinking in steps, structuring complexity, and orchestrating workflows inside your prompts.\n\nIn this video, you’ll learn:\n✅ What Multistep Prompting is\n✅ Why it matters for creato"
+  },
+  {
+    "id": "KwC8bUZrUKA",
+    "title": "Prompt Chaining Explained | LangChain Tutorial for Building Smarter AI Workflows 🚀",
+    "firstLines": [
+      "Want to build AI applications that solve complex tasks step by step instead of relying on a single prompt? 🤖",
+      "In this video, you'll learn Prompt Chaining, one of the most important techniques in modern Prompt Engineering and AI application development. Using the LangChain framework, we'll explore how multiple Large Language Model (LLM) prompts can be connected into intelligent workflows where each output becomes the next input.",
+      "You'll also discover how IBM demonstrates prompt chaining with IBM Granite models, while learning concepts that work with ChatGPT, Claude, Gemini, Llama, Mistral, and other popular LLMs."
+    ],
+    "fullDescStart": "Want to build AI applications that solve complex tasks step by step instead of relying on a single prompt? 🤖\n\nIn this video, you'll learn Prompt Chaining, one of the most important techniques in modern Prompt Engineering and AI application development. Using the LangChain framework, we'll explore h"
+  },
+  {
+    "id": "yu27PWzJI_Y",
+    "title": "What is Prompt Tuning?",
+    "firstLines": [
+      "Explore watsonx → https://ibm.biz/BdvxRp",
+      "Prompt tuning is an efficient, low-cost way of adapting an AI foundation model to new downstream tasks without retraining the model and updating its weights.  In this video, Martin Keen discusses three options for tailoring a pre-trained LLM for specialization, including: fine tuning, prompt engineering, and prompt tuning ... and contemplates a future career as a prompt engineer.",
+      "Get started for free on IBM Cloud → https://ibm.biz/sign-up-now"
+    ],
+    "fullDescStart": "Explore watsonx → https://ibm.biz/BdvxRp\n\nPrompt tuning is an efficient, low-cost way of adapting an AI foundation model to new downstream tasks without retraining the model and updating its weights.  In this video, Martin Keen discusses three options for tailoring a pre-trained LLM for specializati"
+  },
+  {
+    "id": "ZFKvTIADp0k",
+    "title": "Tuning Your AI Model to Reduce Hallucinations",
+    "firstLines": [
+      "Discover watsonx → https://ibm.biz/discover-ibm-watsonx",
+      "You've probably heard a lot about AI hallucination, but is that a permanent flaw with gen AI or can it be diminished or eliminated through prompting techniques?  In this video, IBM Distinguished Engineer Suj Perepa explains what AI hallucination is and why it occurs and provides 5 prompting techniques that can be used to contain it.",
+      "00:00 - Description & examples of AI hallucination"
+    ],
+    "fullDescStart": "Discover watsonx → https://ibm.biz/discover-ibm-watsonx\n\nYou've probably heard a lot about AI hallucination, but is that a permanent flaw with gen AI or can it be diminished or eliminated through prompting techniques?  In this video, IBM Distinguished Engineer Suj Perepa explains what AI hallucinati"
+  },
+  {
+    "id": "RTaZqGflrJ8",
+    "title": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+    "firstLines": [
+      "If you’ve ever wondered how companies actually test AI models, or you’re preparing for an AI/ML interview and need a beginner-friendly guide to llm evaluation, this is the video you’ve been searching for. In this lesson, we break down llm evaluation explained for beginners, with simple examples of BLEU, ROUGE, and BERTScore, and a complete walkthrough of the llm evaluation pipeline step by step. Whether you’re learning NLP for the first time, preparing for interviews, or working on real GenAI projects, this tutorial gives you everything in plain English.",
+      "We start by showing how to evaluate text generation models using both automated and human-in-the-loop methods. You’ll understand how to measure AI model output quality “the way real companies do it,” using long-tail concepts like automated vs human evaluation for llms, best metrics to evaluate generative AI, and how enterprises evaluate AI model quality before deployment. This video is perfect for anyone who has searched for evaluation metrics for NLP text generation, how to benchmark llm output quality, or how to check chatgpt output accuracy.",
+      "Next, we dive into specific metrics. You’ll learn bleu score explained with examples, the easiest way to understand rouge score explained simply, and how bert score meaning and how it works helps capture semantic similarity. If you’ve looked up bleu rouge bertscore tutorial, comparing bleu rouge bertscore, or nlp evaluation metrics made easy, this chapter gives you an incredibly clear walkthrough."
+    ],
+    "fullDescStart": "If you’ve ever wondered how companies actually test AI models, or you’re preparing for an AI/ML interview and need a beginner-friendly guide to llm evaluation, this is the video you’ve been searching for. In this lesson, we break down llm evaluation explained for beginners, with simple examples of B"
+  },
+  {
+    "id": "zn2ukSnDqSg",
+    "title": "ChatGPT Jailbreak - Computerphile",
+    "firstLines": [
+      "With Large Language Models becoming used across all areas of computing, security researcher Dr Tim Muller explores how they can be used for all kinds of unintended purposes.",
+      "This video was filmed and edited by Sean Riley.",
+      "Computer Science at the University of Nottingham: https://bit.ly/nottscomputer"
+    ],
+    "fullDescStart": "With Large Language Models becoming used across all areas of computing, security researcher Dr Tim Muller explores how they can be used for all kinds of unintended purposes.\n\nhttps://www.facebook.com/computerphile\nhttps://twitter.com/computer_phile\n\nThis video was filmed and edited by Sean Riley.\n\nC"
+  },
+  {
+    "id": "GxlOoKI0zxg",
+    "title": "Prompt Engineering for Teachers",
+    "firstLines": [
+      "📚 Free Resource: https://thetownsquare.org",
+      "Prompt Engineering is the craft of writing clear, effective instructions for AI systems. It's a set of tools that combines creative problem-framing with proven principles for writing clear, effective, instructions. Just a few of these skills can supercharge your productivity, inspire creativity, and save you hours of time. I'll show you how to do exactly that in this video.",
+      "✅ PTAR Formula (A proven strategy to get excellent results every time)"
+    ],
+    "fullDescStart": "📚 Free Resource: https://thetownsquare.org\n\nPrompt Engineering is the craft of writing clear, effective instructions for AI systems. It's a set of tools that combines creative problem-framing with proven principles for writing clear, effective, instructions. Just a few of these skills can superchar"
+  },
+  {
+    "id": "QRgayVF5PyM",
+    "title": "Prompt Engineering for Business: Automate Workflows With AI",
+    "firstLines": [
+      "Prompt engineering is the foundation of AI-powered business automation. If you want to automate workflows, customer support, content creation, lead generation, or internal processes, it all starts with how you communicate with AI.",
+      "In this Tuff University lesson, you’ll learn how prompt engineering transforms AI into an automated business assistant. We break down how to design prompts that drive consistent results, trigger automated actions, and scale operations without adding more work.",
+      "In this video, you’ll discover:"
+    ],
+    "fullDescStart": "Prompt engineering is the foundation of AI-powered business automation. If you want to automate workflows, customer support, content creation, lead generation, or internal processes, it all starts with how you communicate with AI.\n\nIn this Tuff University lesson, you’ll learn how prompt engineering "
+  },
+  {
+    "id": "U8zrqWrTYdc",
+    "title": "How to use ChatGPT for Research - Literature Review, Research Paper Writing & Publication",
+    "firstLines": [
+      "In this video,  I have shared all FREE features of AI tool - ChatGPT which will help you in the entire research journey - from literature review, research paper writing, to journal submission. All the prompts I have shared can help you make your research process easy,  be it finding research papers, understanding them, identifying research gap, or writing methodology or research proposals. ChatGPT can also help with data collection, data analysis, generating images and shortlisting journals.",
+      "📝MY RESEARCH WRITING COURSE:",
+      "🔥Join me for my Certification Course on 'A-Z of Research Writing & Presentation updated with AI tools - 2025' 😃: https://wiseupcommunications.com/course/research-writing/"
+    ],
+    "fullDescStart": "In this video,  I have shared all FREE features of AI tool - ChatGPT which will help you in the entire research journey - from literature review, research paper writing, to journal submission. All the prompts I have shared can help you make your research process easy,  be it finding research papers,"
+  },
+  {
+    "id": "wcmLgy1-9aQ",
+    "title": "Active Prompting Explained: Boost AI Reasoning with Less Human Effort",
+    "firstLines": [
+      "How can large language models become better at reasoning without requiring massive amounts of human-labeled data? In this video, we explore Active Prompting, an advanced prompting technique that improves AI performance by focusing human effort only where it's needed most.",
+      "Instead of manually annotating entire datasets, Active Prompting identifies questions where the model is uncertain, inconsistent, or likely to make mistakes. Human experts then provide high-quality reasoning examples for these challenging cases, helping the model learn more effectively while dramatically reducing labeling costs.",
+      "✅ What is Active Prompting?"
+    ],
+    "fullDescStart": "How can large language models become better at reasoning without requiring massive amounts of human-labeled data? In this video, we explore Active Prompting, an advanced prompting technique that improves AI performance by focusing human effort only where it's needed most.\n\nInstead of manually annota"
+  },
+  {
+    "id": "g5h-piquf_k",
+    "title": "Should you tell your LLM it's an 'expert' before prompting?",
+    "firstLines": [
+      "Ever wonder if telling an AI it has \\"
+    ],
+    "fullDescStart": "Ever wonder if telling an AI it has \\"
+  },
+  {
+    "id": "zYGDpG-pTho",
+    "title": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
+    "firstLines": [
+      "Ready to become a certified watsonx AI Assistant Engineer? Register now and use code IBMTechYT20 for 20% off of your exam → https://ibm.biz/BdndTs",
+      "Learn more about RAG vs. Fine-Tuning vs. Prompt Engineering here → https://ibm.biz/BdndTi",
+      "How do AI chatbots deliver better responses? 🤔 Martin Keen explains RAG 🛠️, fine-tuning 🎯, and prompt engineering ✏️—methods that extend knowledge, refine responses, and build domain expertise. Learn how these strategies optimize large language models and improve AI outputs today! 🚀"
+    ],
+    "fullDescStart": "Ready to become a certified watsonx AI Assistant Engineer? Register now and use code IBMTechYT20 for 20% off of your exam → https://ibm.biz/BdndTs\n\nLearn more about RAG vs. Fine-Tuning vs. Prompt Engineering here → https://ibm.biz/BdndTi\n\nHow do AI chatbots deliver better responses? 🤔 Martin Keen e"
+  },
+  {
+    "id": "l5K4r_TJz_8",
+    "title": "How to implement LLM guardrails for RAG applications",
+    "firstLines": [
+      "Learn how to use the contextual grounding checks that come with the guardrails functionality in watsonx Flows Engine. With watsonx Flows Engine, you can build AI applications for several use cases, including retrieval augmented generation (RAG) applications. These checks are designed to detect hallucinations in responses, especially in RAG applications, where the model pulls data from various sources to craft its answers. Guardrails can help you identify responses that are factually incorrect or irrelevant to a user’s query, helping to maintain the reliability of AI-driven applications.",
+      "See the full tutorial:",
+      "____________________________________________"
+    ],
+    "fullDescStart": "Learn how to use the contextual grounding checks that come with the guardrails functionality in watsonx Flows Engine. With watsonx Flows Engine, you can build AI applications for several use cases, including retrieval augmented generation (RAG) applications. These checks are designed to detect hallu"
+  },
+  {
+    "id": "DNmIqNjbKoM",
+    "title": "Prompt Versioning & Testing Strategies — Reliable LLM Development | Uplatz",
+    "firstLines": [
+      "Uplatz Explainer — Prompts evolve over time — and in production AI, every prompt change must be tested, validated, and tracked just like software. That’s where Prompt Versioning and Testing Strategies come in — enabling structured improvements, reproducibility, and quality assurance for GenAI applications.",
+      "In this video, we explore how to version, test, and optimize prompts so LLM outputs remain stable, safe, and reliable across updates.",
+      "🔍 What You Will Learn"
+    ],
+    "fullDescStart": "Uplatz Explainer — Prompts evolve over time — and in production AI, every prompt change must be tested, validated, and tracked just like software. That’s where Prompt Versioning and Testing Strategies come in — enabling structured improvements, reproducibility, and quality assurance for GenAI applic"
+  }
+]
