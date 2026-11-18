@@ -465,6 +465,55 @@ export function computeRougeL(
   };
 }
 
+export interface BleuMetric {
+  score: number;
+  brevityPenalty: number;
+  precision: number;
+  explanation: string;
+}
+
+export function computeBleu(
+  candidateText: string,
+  referenceAnswer: string
+): BleuMetric {
+  if (!referenceAnswer || referenceAnswer.trim().length === 0) {
+    throw new Error("Cannot compute BLEU without a reference answer.");
+  }
+  const candTokens = tokenizeWords(candidateText.toLowerCase());
+  const refTokens = tokenizeWords(referenceAnswer.toLowerCase());
+  if (candTokens.length === 0 || refTokens.length === 0) {
+    return {
+      score: 0,
+      brevityPenalty: 0,
+      precision: 0,
+      explanation: "Empty candidate or reference tokens. BLEU score is 0.00.",
+    };
+  }
+
+  const refCount: Record<string, number> = {};
+  refTokens.forEach((t) => (refCount[t] = (refCount[t] || 0) + 1));
+  let matches = 0;
+  const candCount: Record<string, number> = {};
+  candTokens.forEach((t) => {
+    candCount[t] = (candCount[t] || 0) + 1;
+    if (candCount[t] <= (refCount[t] || 0)) matches++;
+  });
+
+  const precision = matches / candTokens.length;
+  const brevityPenalty =
+    candTokens.length > refTokens.length
+      ? 1
+      : Math.exp(1 - refTokens.length / candTokens.length);
+  const score = Math.round(brevityPenalty * precision * 1000) / 1000;
+
+  return {
+    score,
+    brevityPenalty: Math.round(brevityPenalty * 1000) / 1000,
+    precision: Math.round(precision * 1000) / 1000,
+    explanation: `BLEU-1 Score: ${(score * 100).toFixed(1)}% (Precision: ${(precision * 100).toFixed(1)}%, Brevity Penalty: ${brevityPenalty.toFixed(2)}).`,
+  };
+}
+
 // ---------------------------------------------------------------------------
 // 3. Position-Bias-Resistant LLM Judge Prompt & Rubric
 // ---------------------------------------------------------------------------

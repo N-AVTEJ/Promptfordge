@@ -4,6 +4,7 @@ import { Bricolage_Grotesque, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/shell/navbar";
 import { Footer } from "@/components/shell/footer";
+import { ShortcutsModal } from "@/components/shell/shortcuts-modal";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
 
 const bricolageGrotesque = Bricolage_Grotesque({
@@ -64,6 +65,7 @@ export default function RootLayout({
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
+            <ShortcutsModal />
           </div>
         </SmoothScrollProvider>
       </body>

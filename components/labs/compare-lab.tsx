@@ -37,8 +37,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import {
-  TECHNIQUES,
-  TECHNIQUE_IDS,
+  SYLLABUS_TECHNIQUES,
+  SYLLABUS_TECHNIQUE_IDS,
   TechniqueId,
   generatePromptForTechnique,
 } from "@/lib/techniques";
@@ -117,7 +117,7 @@ export function CompareLab() {
 
   // Techniques Selection & Custom Prompts
   const [selectedTechniqueIds, setSelectedTechniqueIds] = useState<TechniqueId[]>(
-    [...TECHNIQUE_IDS]
+    [...SYLLABUS_TECHNIQUE_IDS]
   );
   const [customPrompts, setCustomPrompts] = useState<Record<string, string>>({});
   const [userEditedPrompts, setUserEditedPrompts] = useState<Record<string, boolean>>({});
@@ -162,7 +162,7 @@ export function CompareLab() {
   useEffect(() => {
     setCustomPrompts((prev) => {
       const next: Record<string, string> = { ...prev };
-      for (const t of TECHNIQUES) {
+      for (const t of SYLLABUS_TECHNIQUES) {
         if (!userEditedPrompts[t.id]) {
           next[t.id] = generatePromptForTechnique(t.id, task);
         }
@@ -181,7 +181,7 @@ export function CompareLab() {
   };
 
   const selectAllTechniques = () => {
-    setSelectedTechniqueIds([...TECHNIQUE_IDS]);
+    setSelectedTechniqueIds([...SYLLABUS_TECHNIQUE_IDS]);
   };
 
   const handleCustomPromptChange = (id: string, value: string) => {
@@ -239,7 +239,7 @@ export function CompareLab() {
 
     try {
       const techniquesPayload = selectedTechniqueIds.map((id) => {
-        const techDef = TECHNIQUES.find((t) => t.id === id);
+        const techDef = SYLLABUS_TECHNIQUES.find((t) => t.id === id);
         return {
           id,
           name: techDef?.name || id,
@@ -347,6 +347,19 @@ export function CompareLab() {
     setStorageItem(STORAGE_KEYS.COMPARE_EXPERIMENTS, updated);
     setSavedExperiments(updated);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+        e.preventDefault();
+        if (!isRunning) {
+          runComparison();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isRunning, task, selectedTechniqueIds, customPrompts, runsPerTechnique, model, temperature, format, referenceAnswer, byokKey]);
 
   // Export Results as JSON
   const exportExperimentJson = () => {
@@ -572,9 +585,14 @@ export function CompareLab() {
       {/* Top Telemetry Header */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-cyan-400">
-            <Layers className="h-4 w-4" />
-            <span>Interactive Comparison Engine · Module 4</span>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/academy/mod-02"
+              className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
+            >
+              <Layers className="h-3.5 w-3.5" />
+              <span>Module 2: Example and Instruction Based Prompts</span>
+            </Link>
           </div>
 
           <div className="flex items-center gap-2">
@@ -893,19 +911,19 @@ export function CompareLab() {
           <Card className="border-forge-border bg-forge-surface p-5 space-y-3">
             <div className="flex items-center justify-between">
               <label className="text-xs font-mono font-bold uppercase tracking-wider text-forge-text">
-                3. Select Techniques ({selectedTechniqueIds.length} / 6)
+                3. Select Techniques ({selectedTechniqueIds.length} / {SYLLABUS_TECHNIQUES.length})
               </label>
               <button
                 type="button"
                 onClick={selectAllTechniques}
                 className="text-xs font-mono text-cyan-400 hover:underline"
               >
-                Select All 6
+                Select All ({SYLLABUS_TECHNIQUES.length})
               </button>
             </div>
 
             <div className="grid grid-cols-2 gap-2 pt-1">
-              {TECHNIQUES.map((tech) => {
+              {SYLLABUS_TECHNIQUES.map((tech) => {
                 const isSelected = selectedTechniqueIds.includes(tech.id);
                 return (
                   <button
@@ -943,7 +961,7 @@ export function CompareLab() {
 
               <div className="mt-2 space-y-2 max-h-56 overflow-y-auto pr-1">
                 {selectedTechniqueIds.map((id) => {
-                  const tech = TECHNIQUES.find((t) => t.id === id);
+                  const tech = SYLLABUS_TECHNIQUES.find((t) => t.id === id);
                   const isExpanded = expandedPromptTech === id;
                   return (
                     <div

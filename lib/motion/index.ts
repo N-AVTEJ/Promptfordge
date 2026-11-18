@@ -222,3 +222,133 @@ export const drawerReducedVariants: Variants = {
     transition: { duration: 0 },
   },
 };
+
+// ---------------------------------------------------------------------------
+// Step 7 Shared Motion Kit: reveal, countUp, edgePulse, checkDraw, shake, ringFill
+// ---------------------------------------------------------------------------
+
+/**
+ * 1. Reveal variants: smooth staged reveal using transform & opacity.
+ */
+export const revealVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 12,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: durations.normal,
+      ease: easings.forge,
+    },
+  },
+};
+
+export const revealReducedVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.1 },
+  },
+};
+
+/**
+ * 2. Shake variant: tactile error/rejection feedback.
+ */
+export const shakeVariants: Variants = {
+  idle: { x: 0 },
+  shake: {
+    x: [0, -8, 8, -6, 6, -3, 3, 0],
+    transition: {
+      duration: 0.45,
+      ease: "easeInOut",
+    },
+  },
+};
+
+export const shakeReducedVariants: Variants = {
+  idle: { opacity: 1 },
+  shake: {
+    opacity: [1, 0.4, 1],
+    transition: { duration: 0.2 },
+  },
+};
+
+/**
+ * 3. CheckDraw variant: SVG path drawing stroke animation.
+ */
+export const checkDrawVariants: Variants = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: {
+    pathLength: 1,
+    opacity: 1,
+    transition: {
+      pathLength: { duration: 0.4, ease: "easeOut" },
+      opacity: { duration: 0.1 },
+    },
+  },
+};
+
+export const checkDrawReducedVariants: Variants = {
+  hidden: { pathLength: 1, opacity: 0 },
+  visible: { pathLength: 1, opacity: 1, transition: { duration: 0.05 } },
+};
+
+/**
+ * 4. EdgePulse variant: animated pulse along workflow graph edges.
+ */
+export const edgePulseVariants: Variants = {
+  idle: {
+    strokeDashoffset: 0,
+    opacity: 0.7,
+  },
+  pulsing: {
+    strokeDashoffset: [0, -40],
+    opacity: [0.7, 1, 0.7],
+    transition: {
+      duration: 1.2,
+      repeat: Infinity,
+      ease: "linear",
+    },
+  },
+};
+
+export const edgePulseReducedVariants: Variants = {
+  idle: { opacity: 0.7 },
+  pulsing: { opacity: 1, transition: { duration: 0 } },
+};
+
+/**
+ * 5. RingFill variant: circular progress fill using strokeDashoffset.
+ */
+export function getRingFillVariants(circumference: number, percentage: number): Variants {
+  const offset = circumference - (Math.min(100, Math.max(0, percentage)) / 100) * circumference;
+  return {
+    hidden: { strokeDashoffset: circumference },
+    visible: {
+      strokeDashoffset: offset,
+      transition: {
+        duration: 0.75,
+        ease: easings.forge,
+      },
+    },
+  };
+}
+
+export function getRingFillReducedVariants(circumference: number, percentage: number): Variants {
+  const offset = circumference - (Math.min(100, Math.max(0, percentage)) / 100) * circumference;
+  return {
+    hidden: { strokeDashoffset: offset },
+    visible: { strokeDashoffset: offset, transition: { duration: 0 } },
+  };
+}
+
+export const reveal = revealVariants;
+export const shake = shakeVariants;
+export const checkDraw = checkDrawVariants;
+export const edgePulse = edgePulseVariants;
+
+export { useCountUp, countUp } from "./use-count-up";
+
+

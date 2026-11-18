@@ -279,9 +279,17 @@ export function LlmSimulatorLab() {
       {/* 2. Top Header & Title */}
       <div className="flex flex-col gap-4 border-b border-forge-border pb-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-ember-400">
-            <Cpu className="h-4 w-4" />
-            <span>Interactive Simulator · Module 1</span>
+          <div className="flex items-center gap-2 mb-2">
+            <Link
+              href="/academy/mod-01"
+              className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
+            >
+              <Cpu className="h-3.5 w-3.5" />
+              <span>Module 1: Introduction to Prompt Engineering</span>
+            </Link>
+            <Badge variant="outline" className="border-navy/20 font-mono text-xs text-navy/70">
+              Full Lab
+            </Badge>
           </div>
           <h1 className="mt-1 text-2xl font-bold tracking-tight text-forge-text sm:text-3xl">
             LLM Processing Simulator

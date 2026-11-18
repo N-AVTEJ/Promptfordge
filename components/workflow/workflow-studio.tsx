@@ -47,7 +47,7 @@ import {
   isValidWorkflowConnection,
   executeWorkflow,
 } from "@/lib/workflow/engine";
-import { STARTER_TEMPLATES } from "@/lib/workflow/templates";
+import { STARTER_TEMPLATES, MODULE_WORKFLOW_TEMPLATES } from "@/lib/workflow/templates";
 import {
   getSavedWorkflows,
   saveWorkflow,
@@ -102,7 +102,9 @@ export function WorkflowStudio() {
   // Handle template selection
   const handleSelectTemplate = useCallback(
     (templateId: string) => {
+      const moduleTemplate = Object.values(MODULE_WORKFLOW_TEMPLATES).find((t) => t.id === templateId);
       const target =
+        moduleTemplate ||
         savedWorkflows.find((t) => t.id === templateId) ||
         templates.find((t) => t.id === templateId);
 
@@ -347,6 +349,20 @@ export function WorkflowStudio() {
     }
   }, [isRunning, nodes, edges, setNodes, setEdges]);
 
+  // Keyboard shortcut listener for Cmd/Ctrl+Enter
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+        e.preventDefault();
+        if (!isRunning) {
+          handleRunWorkflow();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isRunning, handleRunWorkflow]);
+
   // Save current workflow
   const handleSaveCurrentWorkflow = useCallback(() => {
     if (!newWorkflowName.trim()) return;
@@ -437,11 +453,14 @@ export function WorkflowStudio() {
                 <h1 className="font-mono text-sm font-bold text-forge-text">
                   Workflow Builder
                 </h1>
-                <Badge
-                  variant="outline"
-                  className="border-cyan-500/30 text-cyan-400 font-mono text-[10px]"
+                <Link
+                  href="/academy/mod-04"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-2.5 py-0.5 font-mono text-[10px] font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
                 >
-                  Module 4 & 10
+                  <span>Module 4: Advanced Prompt Techniques</span>
+                </Link>
+                <Badge variant="outline" className="border-navy/20 font-mono text-[10px] text-navy/70">
+                  Full Lab
                 </Badge>
               </div>
               <p className="text-[11px] text-forge-muted hidden sm:block">
@@ -453,7 +472,7 @@ export function WorkflowStudio() {
 
         {/* Center: Template Switcher & Add Node Dropdown */}
         <div className="flex items-center gap-2">
-          {/* Starter Template Selector */}
+          {/* Module-Grouped Starter Template Selector */}
           <div className="flex items-center gap-1.5 rounded-lg border border-navy/10 bg-white px-2.5 py-1">
             <span className="text-[10px] font-mono text-navy/70 uppercase">
               Template:
@@ -463,7 +482,32 @@ export function WorkflowStudio() {
               onChange={(e) => handleSelectTemplate(e.target.value)}
               className="bg-transparent font-mono text-xs text-navy focus:outline-none cursor-pointer"
             >
-              <optgroup label="Starter DAG Templates">
+              <optgroup label="Module 4: Advanced Prompt Techniques">
+                <option value="template-m4-chain" className="bg-white text-navy">
+                  M4: Linear Prompt Chain with Variables
+                </option>
+              </optgroup>
+              <optgroup label="Module 3: Context & Interaction">
+                <option value="template-m3-reflection" className="bg-white text-navy">
+                  M3: Reflection & Critique Loop
+                </option>
+              </optgroup>
+              <optgroup label="Module 7: Tool-Augmented Prompting">
+                <option value="template-m7-tool-call" className="bg-white text-navy">
+                  M7: Tool-Augmented Function Call
+                </option>
+              </optgroup>
+              <optgroup label="Module 11: AI Agents & MCP">
+                <option value="template-m11-agent-loop" className="bg-white text-navy">
+                  M11: Autonomous Agent Loop
+                </option>
+              </optgroup>
+              <optgroup label="Module 12: Production & Responsible AI">
+                <option value="template-m12-regression" className="bg-white text-navy">
+                  M12: Production Regression Test Matrix
+                </option>
+              </optgroup>
+              <optgroup label="Baseline DAG Templates">
                 {STARTER_TEMPLATES.map((t) => (
                   <option key={t.id} value={t.id} className="bg-white text-navy">
                     {t.name}

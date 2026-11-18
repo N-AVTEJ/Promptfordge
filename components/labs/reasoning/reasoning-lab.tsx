@@ -21,9 +21,17 @@ export function ReasoningLab() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-ember-400">
-          <Sparkles className="h-4 w-4" />
-          <span>Module 4 · Deliberate Reasoning Studio</span>
+        <div className="flex items-center gap-2 mb-1">
+          <a
+            href="/academy/mod-10"
+            className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            <span>Module 10: Advanced Prompt Engineering</span>
+          </a>
+          <span className="rounded border border-navy/20 bg-daylight px-2 py-0.5 font-mono text-[10px] text-navy/70 uppercase">
+            Full Lab
+          </span>
         </div>
         <h1 className="text-3xl font-extrabold tracking-tight text-forge-text sm:text-4xl">
           Visual Reasoning Playground

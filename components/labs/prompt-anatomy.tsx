@@ -538,11 +538,19 @@ Return strictly valid JSON with no markdown fences or preambles:
   return (
     <div className="space-y-8">
       {/* Top Header & Mode Selector */}
-      <div className="flex flex-col gap-4 border-b border-white/[0.08] pb-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 border-b border-navy/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-cyan-400">
-            <Layers className="h-4 w-4" />
-            <span>Interactive Visualizer · Module 2</span>
+          <div className="flex items-center gap-2 mb-2">
+            <Link
+              href="/academy/mod-01"
+              className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
+            >
+              <Layers className="h-3.5 w-3.5" />
+              <span>Module 1: Introduction to Prompt Engineering</span>
+            </Link>
+            <Badge variant="outline" className="border-navy/20 font-mono text-xs text-navy/70">
+              Full Lab
+            </Badge>
           </div>
           <h1 className="mt-1 text-2xl font-bold tracking-tight text-forge-text font-mono sm:text-3xl">
             Prompt Anatomy Visualizer

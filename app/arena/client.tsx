@@ -45,6 +45,18 @@ export function SecurityArenaClient() {
         <div className="rounded-3xl border border-navy/10 bg-white p-8 sm:p-12 shadow-sm">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="space-y-3">
+              <div className="flex items-center gap-2 mb-1">
+                <a
+                  href="/academy/mod-08"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
+                >
+                  <Layers className="h-3.5 w-3.5" />
+                  <span>Module 8: Security in Prompt Engineering</span>
+                </a>
+                <span className="rounded border border-navy/20 bg-daylight px-2 py-0.5 font-mono text-[10px] text-navy/70 uppercase">
+                  Full Lab
+                </span>
+              </div>
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-ultramarine/30 bg-ultramarine/10 text-ultramarine">
                   <Flame className="h-5 w-5" />
