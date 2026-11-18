@@ -61,6 +61,14 @@ export interface Lesson {
   notesMarkdown?: string;
 }
 
+export interface LabReference {
+  id: string;
+  route: string;
+  title: string;
+  status: "full" | "lite";
+  loadsTask?: string | Record<string, any>;
+}
+
 export interface CurriculumModule {
   id: string;
   number: number;
@@ -77,6 +85,9 @@ export interface CurriculumModule {
   totalWatchTime?: string;
   level: "Foundational" | "Core" | "Advanced" | "Specialized";
   tags: string[];
+  topics: string[];
+  labs: LabReference[];
+  videos?: VideoSource[];
   youtubeVideoId: string;
   accent: "amber" | "cyan";
   keyTakeaway: string;

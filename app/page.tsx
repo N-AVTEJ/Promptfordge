@@ -32,7 +32,7 @@ export default function HomePage() {
         {/* 4. Run it, don't just watch it (Technique Rows) */}
         <TechniqueRows />
 
-        {/* 5. Syllabus (All 12 Modules) */}
+        {/* 5. Syllabus (Curriculum Modules) */}
         <Syllabus />
 
         {/* 6. Lesson Preview (Lesson Studio Mock) */}

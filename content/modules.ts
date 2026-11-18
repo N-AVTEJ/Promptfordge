@@ -67,6 +67,14 @@ export interface Lesson {
   notesMarkdown?: string;
 }
 
+export interface LabReference {
+  id: string;
+  route: string;
+  title: string;
+  status: "full" | "lite";
+  loadsTask?: string | Record<string, any>;
+}
+
 export interface CurriculumModule {
   id: string;
   number: number;
@@ -83,6 +91,9 @@ export interface CurriculumModule {
   totalWatchTime?: string;
   level: "Foundational" | "Core" | "Advanced" | "Specialized";
   tags: string[];
+  topics: string[];
+  labs: LabReference[];
+  videos: VideoSource[];
   youtubeVideoId: string;
   accent: "amber" | "cyan";
   keyTakeaway: string;
@@ -1068,6 +1079,166 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           "answer": "A clear role/task, background context, reference data or examples, and precise output constraints.",
           "hint": "Remember the blueprint: who, what, with what background, and formatted how."
         }
+      }
+    ],
+    "topics": [
+      "Byte-Pair Encoding (BPE)",
+      "Transformer Self-Attention",
+      "Autoregressive Next-Token Sampling",
+      "Prompt Anatomy (Task, Context, Constraints)"
+    ],
+    "labs": [
+      {
+        "id": "m1-anatomy",
+        "route": "/labs/anatomy",
+        "title": "Prompt Anatomy Inspector",
+        "status": "full",
+        "loadsTask": "Deconstruct structured components (context, task, constraints, input, output schema)"
+      },
+      {
+        "id": "m1-llm-simulator",
+        "route": "/labs/llm-simulator",
+        "title": "LLM Processing Simulator",
+        "status": "full",
+        "loadsTask": "Inspect 6-stage transformer pipeline and subword BPE tokenization"
+      }
+    ],
+    "videos": [
+      {
+        "id": "LPZh9BOjkQs",
+        "title": "Large Language Models explained briefly",
+        "channel": "3Blue1Brown",
+        "minutes": 8,
+        "covers": [
+          "Evolution of AI and LLMs",
+          "Fundamentals of LLMs"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "ZHCB09O6zUk",
+        "title": "A Brief History of AI: From Machine Learning to Gen AI to Agentic AI",
+        "channel": "IBM Technology",
+        "minutes": 13,
+        "covers": [
+          "Evolution of AI and LLMs",
+          "History of AI"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "agent-search"
+      },
+      {
+        "id": "wjZofJX0v4M",
+        "title": "Transformers, the tech behind LLMs | Deep Learning Chapter 5",
+        "channel": "3Blue1Brown",
+        "minutes": 27,
+        "covers": [
+          "Fundamentals of LLMs",
+          "Transformer architecture"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "eMlx5fFNoYc",
+        "title": "Attention in transformers, step-by-step | Deep Learning Chapter 6",
+        "channel": "3Blue1Brown",
+        "minutes": 26,
+        "covers": [
+          "Transformer architecture",
+          "Attention mechanism"
+        ],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "7xTGNNLPyMI",
+        "title": "Deep Dive into LLMs like ChatGPT",
+        "channel": "Andrej Karpathy",
+        "minutes": 211,
+        "covers": [
+          "Tokens, training, inference",
+          "Working of LLMs"
+        ],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "uDIW34h8cmM",
+        "title": "Prompt Engineering Guide - From Beginner to Advanced",
+        "channel": "Matthew Berman",
+        "minutes": 33,
+        "covers": [
+          "Basics of prompts",
+          "Foundational prompting"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "chapters": [
+          {
+            "time": 0,
+            "label": "Intro"
+          },
+          {
+            "time": 20,
+            "label": "Prompt Engineering Basics"
+          },
+          {
+            "time": 63,
+            "label": "What is Prompt Engineering"
+          },
+          {
+            "time": 123,
+            "label": "Output Length"
+          },
+          {
+            "time": 259,
+            "label": "Sampling Controls (Top K & Top P)"
+          },
+          {
+            "time": 480,
+            "label": "Zero Shot Prompting"
+          },
+          {
+            "time": 556,
+            "label": "One Shot Prompting"
+          },
+          {
+            "time": 689,
+            "label": "System Messages & Role Assignment"
+          },
+          {
+            "time": 879,
+            "label": "Step Back Prompting"
+          },
+          {
+            "time": 1042,
+            "label": "Chain of Thought Reasoning"
+          },
+          {
+            "time": 1249,
+            "label": "Self Consistency"
+          },
+          {
+            "time": 1429,
+            "label": "Tree of Thought"
+          },
+          {
+            "time": 1618,
+            "label": "ReAct Framework"
+          },
+          {
+            "time": 1860,
+            "label": "Best Practices & Wrap-up"
+          }
+        ]
       }
     ],
     "totalWatchTime": "5h 18m watch"
@@ -2542,6 +2713,194 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
+    "topics": [
+      "Zero-Shot & Few-Shot Directives",
+      "Chain of Thought Reasoning",
+      "Instruction vs Constraint Prompting",
+      "Role & Persona Scaffolding"
+    ],
+    "labs": [
+      {
+        "id": "m2-technique-comparison",
+        "route": "/labs/compare",
+        "title": "Technique Comparison Lab",
+        "status": "full",
+        "loadsTask": "Compare 8 prompting paradigms side-by-side with execution engine"
+      }
+    ],
+    "videos": [
+      {
+        "id": "Vl4hH_L5-3Q",
+        "title": "Zero-shot, One-shot and Few-shot Prompting Techniques Explained",
+        "channel": "At A Glance!",
+        "minutes": 9,
+        "covers": [
+          "Zero-shot"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "core"
+      },
+      {
+        "id": "uDIW34h8cmM",
+        "title": "Prompt Engineering Guide - From Beginner to Advanced",
+        "channel": "Matthew Berman",
+        "minutes": 33,
+        "covers": [
+          "Zero-shot",
+          "One-shot",
+          "Few-shot",
+          "Role based"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "optional",
+        "chapters": [
+          {
+            "time": 0,
+            "label": "Intro"
+          },
+          {
+            "time": 20,
+            "label": "Prompt Engineering Basics"
+          },
+          {
+            "time": 63,
+            "label": "What is Prompt Engineering"
+          },
+          {
+            "time": 123,
+            "label": "Output Length"
+          },
+          {
+            "time": 259,
+            "label": "Sampling Controls (Top K & Top P)"
+          },
+          {
+            "time": 480,
+            "label": "Zero Shot Prompting"
+          },
+          {
+            "time": 556,
+            "label": "One Shot Prompting"
+          },
+          {
+            "time": 689,
+            "label": "System Messages & Role Assignment"
+          },
+          {
+            "time": 879,
+            "label": "Step Back Prompting"
+          },
+          {
+            "time": 1042,
+            "label": "Chain of Thought Reasoning"
+          },
+          {
+            "time": 1249,
+            "label": "Self Consistency"
+          },
+          {
+            "time": 1429,
+            "label": "Tree of Thought"
+          },
+          {
+            "time": 1618,
+            "label": "ReAct Framework"
+          },
+          {
+            "time": 1860,
+            "label": "Best Practices & Wrap-up"
+          }
+        ]
+      },
+      {
+        "id": "T-w_5T-j-dA",
+        "title": "Large Language Models Are Zero Shot Reasoners",
+        "channel": "IBM Technology",
+        "minutes": 8,
+        "covers": [
+          "Zero-shot",
+          "Chain of Thought"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "core"
+      },
+      {
+        "id": "b2t4pa9lOIc",
+        "title": "Prompt Engineering Explained – Zero, Few, CoT, Self Consistency, Persona",
+        "channel": "Loop Kaka",
+        "minutes": 15,
+        "covers": [
+          "Few-shot"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "core"
+      },
+      {
+        "id": "b210W3JWOxw",
+        "title": "ChatGPT Chain-of-Thought Prompt Explained - LLM Chain of Thoughts for Beginners",
+        "channel": "1littlecoder",
+        "minutes": 10,
+        "covers": [
+          "Chain of Thought"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "core"
+      },
+      {
+        "id": "jC4v5AS4RIM",
+        "title": "Master the Perfect ChatGPT Prompt Formula (in just 8 minutes)!",
+        "channel": "Jeff Su",
+        "minutes": 8,
+        "covers": [
+          "Instruction based"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Walks through the core formula for clear AI instructions covering task, context, and format.",
+        "reviewed": true
+      },
+      {
+        "id": "cnww-CvDoRk",
+        "title": "Advanced Prompt Engineering Techniques",
+        "channel": "Sai Ram Penjarla",
+        "minutes": 12,
+        "covers": [
+          "Role based",
+          "Few-shot"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "core"
+      },
+      {
+        "id": "ugxPshXr7Ro",
+        "title": "Constrained Generation for Better LLM Prompting Results",
+        "channel": "Matthew Esposito | AI",
+        "minutes": 5,
+        "covers": [
+          "Constraint based"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Tutorial breaking down 5 types of constraints and practical techniques for implementing limitations that enhance precision when prompting large language models.",
+        "reviewed": true
+      }
+    ],
     "totalWatchTime": "1h 7m watch"
   },
   {
@@ -3272,6 +3631,86 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
+    "topics": [
+      "Contextual Document Grounding",
+      "Delimiter Scoping & Boundary Enclosures",
+      "Structured Data Wrappers",
+      "Reflection Critique Loops"
+    ],
+    "labs": [
+      {
+        "id": "m3-context-builder",
+        "route": "/labs/context-builder",
+        "title": "Context Builder & Reflection Lab",
+        "status": "full",
+        "loadsTask": "Contextual, delimiter, structured modes & reflection loops"
+      }
+    ],
+    "videos": [
+      {
+        "id": "7vJluo_FI3I",
+        "title": "Understanding In-Context Learning: What It Is and How It Works",
+        "channel": "AppliedAI",
+        "minutes": 4,
+        "covers": [
+          "Contextual"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Explores in-context learning as a fundamental prompting technique that enables models to adapt to context.",
+        "reviewed": true
+      },
+      {
+        "id": "cnww-CvDoRk",
+        "title": "Advanced Prompt Engineering Techniques",
+        "channel": "Sai Ram Penjarla",
+        "minutes": 12,
+        "covers": [
+          "Reflection-based"
+        ],
+        "relatedTo": [
+          "Contextual",
+          "Structured prompts"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "core"
+      },
+      {
+        "id": "zrp3Lr5eeFc",
+        "title": "XML Tags, Delimiters & Complex Prompt Structure",
+        "channel": "Fortivance Academy",
+        "minutes": 8,
+        "covers": [
+          "Delimiter based",
+          "Structured prompts"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Explains how headings, delimiters and semantic XML tags create clear boundaries, reduce ambiguity and make complex prompts easier to build, inspect and maintain.",
+        "reviewed": true
+      },
+      {
+        "id": "OEQPss-UXhA",
+        "title": "AI Prompt Engineering - Multistep Prompting",
+        "channel": "SivamX",
+        "minutes": 9,
+        "covers": [
+          "Multi-prompt"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Teaches how to structure complex tasks into multistep prompt interactions and orchestrate workflows step by step.",
+        "reviewed": true
+      }
+    ],
     "totalWatchTime": "33m watch"
   },
   {
@@ -3720,6 +4159,51 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           "answer": "Templates centralize formatting, enforce variable boundaries, and sanitize user variables before runtime execution.",
           "hint": "Think about parameterized SQL queries preventing SQL injection."
         }
+      }
+    ],
+    "topics": [
+      "Dynamic Template Variable Interpolation",
+      "Multi-Turn Conversation Simulation",
+      "Linear Prompt Chains",
+      "DAG Workflow Orchestration"
+    ],
+    "labs": [
+      {
+        "id": "m4-workflow-builder",
+        "route": "/workflow",
+        "title": "Workflow Builder & Conversation Simulator",
+        "status": "full",
+        "loadsTask": "Multi-turn simulator, dynamic variables, and chain pipelines"
+      }
+    ],
+    "videos": [
+      {
+        "id": "3TGqlQxpuU0",
+        "title": "Prompts in LangChain | Generative AI using LangChain | Video 4 | CampusX",
+        "channel": "CampusX",
+        "minutes": 18,
+        "covers": [
+          "Multi-turn conversations",
+          "Dynamic prompt templates"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "KwC8bUZrUKA",
+        "title": "Prompt Chaining Explained | LangChain Tutorial for Building Smarter AI Workflows 🚀",
+        "channel": "Micro Learning",
+        "minutes": 8,
+        "covers": [
+          "Prompt chaining and pipelines"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Explores how multiple Large Language Model prompts can be connected into intelligent workflows where each output becomes the next input.",
+        "reviewed": true
       }
     ],
     "totalWatchTime": "26m watch"
@@ -4566,6 +5050,111 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
+    "topics": [
+      "Iterative Refinement & Prompt Diffs",
+      "ROUGE-L & BLEU Syntactic Metrics",
+      "BERTScore Embedding Similarity",
+      "LLM-as-a-Judge Rubrics & Automated Tuning"
+    ],
+    "labs": [
+      {
+        "id": "m5-optimizer-eval",
+        "route": "/labs/optimize",
+        "title": "Optimizer & Evaluation Center",
+        "status": "full",
+        "loadsTask": "Iterative prompt refinement, ROUGE-L/BLEU, BERTScore concept, hallucination judge"
+      }
+    ],
+    "videos": [
+      {
+        "id": "3SPnv0ufR8Y",
+        "title": "Iterative Refinement: How to Improve AI Prompts Step by Step",
+        "channel": "FreeAcademy AI",
+        "minutes": 6,
+        "covers": [
+          "Iterative refinement"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Walks through the iteration cycle, common refinement patterns, and systematic ways to improve prompts step by step.",
+        "reviewed": true
+      },
+      {
+        "id": "LZJTrAXcyFM",
+        "title": "Community Paper Reading: LLMs-as-Judges",
+        "channel": "Arize AI",
+        "minutes": 54,
+        "covers": [
+          "LLM-as-judge"
+        ],
+        "relatedTo": [
+          "Iterative refinement"
+        ],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "optional"
+      },
+      {
+        "id": "vBJF2sy1Pyw",
+        "title": "The challenges in using LLM-as-a-Judge - Sourabh Agrawal | Vector Space Talk #013",
+        "channel": "Qdrant Vector Search",
+        "minutes": 42,
+        "covers": [
+          "Measuring response quality"
+        ],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "yu27PWzJI_Y",
+        "title": "What is Prompt Tuning?",
+        "channel": "IBM Technology",
+        "minutes": 9,
+        "covers": [
+          "Prompt tuning fundamentals",
+          "Soft prompts"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "whyThisVideo": "Explains prompt tuning as an efficient, low-cost method of adapting an AI foundation model to downstream tasks without retraining weights.",
+        "reviewed": true
+      },
+      {
+        "id": "RTaZqGflrJ8",
+        "title": "LLM Evaluation Explained: BLEU, ROUGE, BERTScore & the Full Pipeline (Simple Guide)",
+        "channel": "AI Academy",
+        "minutes": 7,
+        "covers": [
+          "BLEU, ROUGE, BERTScore"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Breaks down LLM evaluation for beginners with simple examples of BLEU, ROUGE, and BERTScore across the evaluation pipeline.",
+        "reviewed": true
+      },
+      {
+        "id": "ZFKvTIADp0k",
+        "title": "Tuning Your AI Model to Reduce Hallucinations",
+        "channel": "IBM Technology",
+        "minutes": 9,
+        "covers": [
+          "Hallucination detection",
+          "Grounding and temperature"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "whyThisVideo": "IBM Distinguished Engineer Suj Perepa explains why AI hallucination occurs and demonstrates prompting techniques to contain it.",
+        "reviewed": true
+      }
+    ],
     "totalWatchTime": "1h 13m watch"
   },
   {
@@ -5040,6 +5629,63 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           "answer": "Each model excels at its specific domain (e.g. OCR, transcription, high-speed coding) while reducing total latency and operating cost.",
           "hint": "Specialists collaborating together often beat a single expensive generalist."
         }
+      }
+    ],
+    "topics": [
+      "Multi-Model Output Comparison",
+      "Multimodal Vision & Text Prompts",
+      "Model Latency & Token Cost Variances",
+      "Provider Fallback Strategies"
+    ],
+    "labs": [
+      {
+        "id": "m6-multimodal-arena",
+        "route": "/labs/multimodal",
+        "title": "Multi-Model Arena",
+        "status": "lite",
+        "loadsTask": "Dual Gemini & OpenAI side-by-side comparison with multimodal input"
+      }
+    ],
+    "videos": [
+      {
+        "id": "J51oZYcNvP8",
+        "title": "What is Multimodal AI? How LLMs Process Text, Images, and More",
+        "channel": "IBM Technology",
+        "minutes": 8,
+        "covers": [
+          "Intro to multi-model prompting",
+          "What is Multimodal AI?"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "lOD_EE96jhM",
+        "title": "What Are Vision Language Models? How AI Sees & Understands Images",
+        "channel": "IBM Technology",
+        "minutes": 9,
+        "covers": [
+          "Vision Language Models Enable Image Understanding"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "sWH0T4Zez6I",
+        "title": "Multi Agent Systems Explained: How AI Agents & LLMs Work Together",
+        "channel": "IBM Technology",
+        "minutes": 8,
+        "covers": [
+          "Cross-model AI interaction"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Explains how multiple LLMs and AI agents collaborate, exchange state, and divide work across systems.",
+        "reviewed": true
       }
     ],
     "totalWatchTime": "25m watch"
@@ -5640,6 +6286,72 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           "answer": "RAG updates knowledge instantly by changing database records without requiring expensive model retraining cycles.",
           "hint": "Updating a database row takes seconds; fine-tuning weights takes hours and compute."
         }
+      }
+    ],
+    "topics": [
+      "Function Calling & JSON Schemas",
+      "Tool Sandbox Execution",
+      "In-Memory Document Retrieval (RAG)",
+      "Chunk Inspection & Source Grounding"
+    ],
+    "labs": [
+      {
+        "id": "m7-tool-lab",
+        "route": "/labs/tool-lab",
+        "title": "Tool-Augmented Prompting & RAG Lab",
+        "status": "lite",
+        "loadsTask": "Function-calling sandbox with mock tools and in-memory RAG document retrieval"
+      }
+    ],
+    "videos": [
+      {
+        "id": "h8gMhXYAv1k",
+        "title": "What is Tool Calling? Connecting LLMs to Your Data",
+        "channel": "IBM Technology",
+        "minutes": 5,
+        "covers": [
+          "Tool Calling: Traditional vs Embedded Approaches",
+          "API-based prompting"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "gosZ_vqXkMI",
+        "title": "AI Tool Calling via Natural Language: LLMs, APIs & Docker in Action",
+        "channel": "IBM Technology",
+        "minutes": 4,
+        "covers": [
+          "Orchestrating LLM-Powered Tool Calls"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "0z9_MhcYvcY",
+        "title": "What is Agentic RAG?",
+        "channel": "IBM Technology",
+        "minutes": 10,
+        "covers": [
+          "Plug-in tool integration"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "cDn7bf84LsM",
+        "title": "LangChain RAG: Optimizing AI Models for Accurate Responses",
+        "channel": "IBM Technology",
+        "minutes": 8,
+        "covers": [
+          "Retrieval Augmented Generation"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "seed"
       }
     ],
     "totalWatchTime": "27m watch"
@@ -6277,6 +6989,98 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
+    "topics": [
+      "Direct & Indirect Injection Attacks",
+      "Jailbreak Framing & Token Smuggling",
+      "System Prompt Leakage Prevention",
+      "Multi-Tier Defensive Guardrails"
+    ],
+    "labs": [
+      {
+        "id": "m8-security-arena",
+        "route": "/arena",
+        "title": "Prompt Security Arena",
+        "status": "full",
+        "loadsTask": "Defend against prompt injection, jailbreaks, and system prompt leakage"
+      }
+    ],
+    "videos": [
+      {
+        "id": "_9x-mAHGgC4",
+        "title": "Artificial Intelligence: The new attack surface",
+        "channel": "IBM Technology",
+        "minutes": 9,
+        "covers": [
+          "AI attack surface overview"
+        ],
+        "relatedTo": [
+          "Prompt injection",
+          "Mitigation strategies"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "core"
+      },
+      {
+        "id": "yNIlm9IfcgA",
+        "title": "Secure AI Systems: Understanding and Preventing Prompt Injection",
+        "channel": "ChatBotKit",
+        "minutes": 6,
+        "covers": [
+          "Prompt injection",
+          "Understanding and Preventing Prompt Injection"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "core"
+      },
+      {
+        "id": "zn2ukSnDqSg",
+        "title": "ChatGPT Jailbreak - Computerphile",
+        "channel": "Computerphile",
+        "minutes": 12,
+        "covers": [
+          "Jailbreak techniques"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "whyThisVideo": "Security researcher Dr Tim Muller explores how large language models can be jailbroken and manipulated for unintended purposes.",
+        "reviewed": true
+      },
+      {
+        "id": "gZTQNb0NGjM",
+        "title": "Hypnotized AI and Large Language Model Security",
+        "channel": "IBM Technology",
+        "minutes": 7,
+        "covers": [
+          "Mitigation strategies"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "relatedTo": [
+          "Safe prompt design"
+        ]
+      },
+      {
+        "id": "q-4zKTR9m3g",
+        "title": "AI Security Mini-Course: Defending against Prompt Injections (spotlighting, alignment checks, etc)",
+        "channel": "Probably Private",
+        "minutes": 22,
+        "covers": [
+          "Safe prompt design"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Explores defense strategies against prompt injection including spotlighting, instruction hierarchy, and guardrails.",
+        "reviewed": true
+      }
+    ],
     "totalWatchTime": "56m watch"
   },
   {
@@ -6860,6 +7664,94 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           "answer": "Require the AI to cite only verbatim quotes and exact URLs or DOIs provided within the source text.",
           "hint": "Never ask a model to recall academic papers from memory without reference text."
         }
+      }
+    ],
+    "topics": [
+      "Software Engineering & Refactoring",
+      "Pedagogical Socratic Scaffolding",
+      "Business Automation & Action Items",
+      "Scientific Synthesis & Research Probing"
+    ],
+    "labs": [
+      {
+        "id": "m9-domain-prompt-lab",
+        "route": "/labs/domain-lab",
+        "title": "Domain Prompt Lab",
+        "status": "lite",
+        "loadsTask": "Domain-tuned templates for coding, education, business automation, and research"
+      }
+    ],
+    "videos": [
+      {
+        "id": "LAF-lACf2QY",
+        "title": "Prompt engineering essentials: Getting better results from LLMs | Tutorial",
+        "channel": "GitHub",
+        "minutes": 24,
+        "covers": [
+          "Coding",
+          "Prompt engineering essentials"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "--XpNP6NsqE",
+        "title": "How to Write Better AI Prompts as a Software Developer in 2026",
+        "channel": "JetBrains",
+        "minutes": 28,
+        "covers": [
+          "Coding",
+          "Prompt engineering for developers"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "GxlOoKI0zxg",
+        "title": "Prompt Engineering for Teachers",
+        "channel": "Town Square for Teachers",
+        "minutes": 11,
+        "covers": [
+          "Education and tutoring"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Demonstrates proven prompt engineering principles and structured formulas tailored for teachers and educational workflows.",
+        "reviewed": true
+      },
+      {
+        "id": "QRgayVF5PyM",
+        "title": "Prompt Engineering for Business: Automate Workflows With AI",
+        "channel": "Tuff University",
+        "minutes": 30,
+        "covers": [
+          "Business automation"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Breaks down how to design prompts that drive consistent results, trigger automated actions, and scale business operations.",
+        "reviewed": true
+      },
+      {
+        "id": "U8zrqWrTYdc",
+        "title": "How to use ChatGPT for Research - Literature Review, Research Paper Writing & Publication",
+        "channel": "WiseUp Communications",
+        "minutes": 9,
+        "covers": [
+          "Research assistance"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Provides actionable prompt templates for academic research from literature reviews to methodology drafting.",
+        "reviewed": true
       }
     ],
     "totalWatchTime": "1h 42m watch"
@@ -7762,6 +8654,164 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
+    "topics": [
+      "Tree of Thoughts (ToT) Branching",
+      "ReAct Paradigm (Reason + Act)",
+      "Active Uncertainty Prompting",
+      "Automatic Prompt Engineer (APE)"
+    ],
+    "labs": [
+      {
+        "id": "m10-reasoning-playground",
+        "route": "/labs/reasoning",
+        "title": "Reasoning Playground",
+        "status": "full",
+        "loadsTask": "Tree of Thoughts, ReAct, active prompting, expert prompting, and APE"
+      }
+    ],
+    "videos": [
+      {
+        "id": "uDIW34h8cmM",
+        "title": "Prompt Engineering Guide - From Beginner to Advanced",
+        "channel": "Matthew Berman",
+        "minutes": 33,
+        "covers": [
+          "ToT, ReAct, APE overview"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "chapters": [
+          {
+            "time": 0,
+            "label": "Intro"
+          },
+          {
+            "time": 20,
+            "label": "Prompt Engineering Basics"
+          },
+          {
+            "time": 63,
+            "label": "What is Prompt Engineering"
+          },
+          {
+            "time": 123,
+            "label": "Output Length"
+          },
+          {
+            "time": 259,
+            "label": "Sampling Controls (Top K & Top P)"
+          },
+          {
+            "time": 480,
+            "label": "Zero Shot Prompting"
+          },
+          {
+            "time": 556,
+            "label": "One Shot Prompting"
+          },
+          {
+            "time": 689,
+            "label": "System Messages & Role Assignment"
+          },
+          {
+            "time": 879,
+            "label": "Step Back Prompting"
+          },
+          {
+            "time": 1042,
+            "label": "Chain of Thought Reasoning"
+          },
+          {
+            "time": 1249,
+            "label": "Self Consistency"
+          },
+          {
+            "time": 1429,
+            "label": "Tree of Thought"
+          },
+          {
+            "time": 1618,
+            "label": "ReAct Framework"
+          },
+          {
+            "time": 1860,
+            "label": "Best Practices & Wrap-up"
+          }
+        ]
+      },
+      {
+        "id": "ut5kp56wW_4",
+        "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models (Full Paper Review)",
+        "channel": "Yannic Kilcher",
+        "minutes": 29,
+        "covers": [
+          "Tree of Thoughts: Deliberate Problem Solving with LLMs"
+        ],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "wcmLgy1-9aQ",
+        "title": "Active Prompting Explained: Boost AI Reasoning with Less Human Effort",
+        "channel": "Micro Learning",
+        "minutes": 8,
+        "covers": [
+          "Active prompting"
+        ],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Explores how Active Prompting improves AI reasoning by identifying model uncertainty and selectively requesting human examples.",
+        "reviewed": true
+      },
+      {
+        "id": "QX-p-vsDoiQ",
+        "title": "Keys to Understanding ReAct: Synergizing Reasoning and Acting in Language Models",
+        "channel": "Arize AI",
+        "minutes": 48,
+        "covers": [
+          "ReAct paper reading"
+        ],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "g5h-piquf_k",
+        "title": "Should you tell your LLM it's an 'expert' before prompting?",
+        "channel": "AI and Search with Mark Williams-Cook",
+        "minutes": 7,
+        "covers": [],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "relatedTo": [
+          "Expert prompting"
+        ],
+        "notes": "Critical perspective on expert personas",
+        "whyThisVideo": "Dives into token space mechanics to evaluate whether telling an LLM it is an expert persona measurably improves response quality.",
+        "reviewed": true
+      },
+      {
+        "id": "OmTdkNEr2nU",
+        "title": "Large Language Models Are Human-Level Prompt Engineers (Automatic Prompt Engineer - APE)",
+        "channel": "Andrei Muresanu",
+        "minutes": 5,
+        "covers": [
+          "APE"
+        ],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Paper author explains the Automatic Prompt Engineer (APE) framework for automated instruction generation and selection.",
+        "reviewed": true
+      }
+    ],
     "totalWatchTime": "2h 10m watch"
   },
   {
@@ -8529,6 +9579,121 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
         }
       }
     ],
+    "topics": [
+      "Autonomous Loop (Plan, Act, Observe)",
+      "Context Window Budgeting & Compaction",
+      "Model Context Protocol (MCP) Architecture",
+      "Tool Orchestration & Handoffs"
+    ],
+    "labs": [
+      {
+        "id": "m11-agent-lab",
+        "route": "/labs/agent-lab",
+        "title": "AI Agent & Context Engineering Lab",
+        "status": "lite",
+        "loadsTask": "Autonomous loop visualizer (plan-act-observe), context window meter, MCP explorer"
+      }
+    ],
+    "videos": [
+      {
+        "id": "MKqg6wzOySA",
+        "title": "Key 5 - AI Agents Explained: Plan, Act, Observe Loop & Real Risks",
+        "channel": "Duke Center for Computational Thinking",
+        "minutes": 16,
+        "covers": [
+          "Agent loops (plan, act, observe)"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Explains what makes a system agentic through the foundational Plan, Act, Observe loop.",
+        "reviewed": true
+      },
+      {
+        "id": "eur8dUO9mvE",
+        "title": "What is MCP? Integrate AI Agents with Databases & APIs",
+        "channel": "IBM Technology",
+        "minutes": 4,
+        "covers": [
+          "What is MCP?",
+          "MCP (hosts, clients, servers)"
+        ],
+        "relatedTo": [
+          "Agent loops (plan, act, observe)"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "core"
+      },
+      {
+        "id": "kQmXtrmQ5Zg",
+        "title": "Building Agents with Model Context Protocol - Full Workshop with Mahesh Murag of Anthropic",
+        "channel": "AI Engineer",
+        "minutes": 78,
+        "covers": [
+          "Agent loops (plan, act, observe)",
+          "MCP workshop Mahesh Murag"
+        ],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "core"
+      },
+      {
+        "id": "vD0E3EUb8-8",
+        "title": "Context Engineering vs. Prompt Engineering: Smarter AI with RAG & Agents",
+        "channel": "IBM Technology",
+        "minutes": 6,
+        "covers": [
+          "Context Engineering vs. Prompt Engineering"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "7j1t3UZA1TY",
+        "title": "MCP vs API: Simplifying AI Agent Integration with External Data",
+        "channel": "IBM Technology",
+        "minutes": 7,
+        "covers": [
+          "MCP vs API",
+          "Tool protocols and MCP discovery"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "seed"
+      },
+      {
+        "id": "BacJ6sEhqMo",
+        "title": "The Four Types of Memory Every AI Agent Needs",
+        "channel": "IBM Technology",
+        "minutes": 11,
+        "covers": [
+          "Memory and tool protocols"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Martin Keen explains the four types of memory AI agents use, from short-term context buffers to long-term memory.",
+        "reviewed": true
+      },
+      {
+        "id": "Yq29bZ8Hlrc",
+        "title": "Optimize RAG with AI Agents & Vector Databases",
+        "channel": "IBM Technology",
+        "minutes": 33,
+        "covers": [
+          "Optimize RAG with AI Agents and Vector Databases"
+        ],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "seed"
+      }
+    ],
     "totalWatchTime": "2h 35m watch"
   },
   {
@@ -9278,6 +10443,156 @@ export const CURRICULUM_MODULES: CurriculumModule[] = [
           "answer": "It aligns raw token-completion models with human values, encouraging helpful, harmless, and truthful answers.",
           "hint": "Pretraining teaches language; alignment teaches judgment and ethics."
         }
+      }
+    ],
+    "topics": [
+      "CI/CD Prompt Regression Test Runner",
+      "Deterministic Input/Output Guardrails",
+      "Cost, Latency & Cache Hit Telemetry",
+      "Demographic Bias Probing & Fairness"
+    ],
+    "labs": [
+      {
+        "id": "m12-production-lab",
+        "route": "/labs/production-lab",
+        "title": "Production & Responsible AI Lab",
+        "status": "lite",
+        "loadsTask": "Regression test matrix, guardrails testing, latency/cost/cache stats, bias probing"
+      }
+    ],
+    "videos": [
+      {
+        "id": "zYGDpG-pTho",
+        "title": "RAG vs Fine-Tuning vs Prompt Engineering: Optimizing AI Models",
+        "channel": "IBM Technology",
+        "minutes": 13,
+        "covers": [
+          "Prompting vs RAG vs fine-tuning"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "whyThisVideo": "Martin Keen compares RAG, fine-tuning, and prompt engineering to guide when to extend knowledge versus refine responses.",
+        "reviewed": true
+      },
+      {
+        "id": "vBJF2sy1Pyw",
+        "title": "The challenges with using LLM as a Judge",
+        "channel": "Qdrant Vector Space Talks",
+        "minutes": 20,
+        "covers": [
+          "LLM-as-judge in production"
+        ],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "core"
+      },
+      {
+        "id": "LZJTrAXcyFM",
+        "title": "Building an LLM-as-a-Judge Evaluation Pipeline",
+        "channel": "Prompt Engineering Lab",
+        "minutes": 15,
+        "covers": [
+          "LLM-as-judge in production"
+        ],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "optional"
+      },
+      {
+        "id": "DNmIqNjbKoM",
+        "title": "Prompt Versioning & Testing Strategies — Reliable LLM Development | Uplatz",
+        "channel": "Uplatz",
+        "minutes": 6,
+        "covers": [
+          "Prompt versioning and regression tests"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Explores how to version, test, and validate prompts in production AI so outputs remain stable and reproducible.",
+        "reviewed": true
+      },
+      {
+        "id": "u57EnkQaUTY",
+        "title": "What is Prompt Caching? Optimize LLM Latency with AI Transformers",
+        "channel": "IBM Technology",
+        "minutes": 9,
+        "covers": [
+          "Guardrails, cost, latency, caching"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Explains how prompt caching works with AI transformers to cut cost and reduce LLM inference latency.",
+        "reviewed": true
+      },
+      {
+        "id": "l5K4r_TJz_8",
+        "title": "How to implement LLM guardrails for RAG applications",
+        "channel": "IBM Developer",
+        "minutes": 7,
+        "covers": [
+          "LLM guardrails explained",
+          "Guardrails, cost, latency, caching"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Demonstrates how to implement contextual grounding checks and guardrails to detect hallucinations in production applications.",
+        "reviewed": true
+      },
+      {
+        "id": "HdafI0t3sEY",
+        "title": "RAG vs. CAG: Solving Knowledge Gaps in AI Models",
+        "channel": "IBM Technology",
+        "minutes": 9,
+        "covers": [
+          "Caching"
+        ],
+        "relatedTo": [
+          "Guardrails, cost, latency, caching"
+        ],
+        "level": "intermediate",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "core"
+      },
+      {
+        "id": "yh-3WU1FKrk",
+        "title": "What is Responsible AI? A Guide to AI Governance",
+        "channel": "IBM Technology",
+        "minutes": 6,
+        "covers": [
+          "Bias, safety, governance"
+        ],
+        "level": "beginner",
+        "status": "ok",
+        "resolvedBy": "agent-search",
+        "role": "core",
+        "whyThisVideo": "Provides an essential guide to Responsible AI principles, risk minimization, and AI governance frameworks.",
+        "reviewed": true
+      },
+      {
+        "id": "7xTGNNLPyMI",
+        "title": "Deep Dive into LLMs like ChatGPT",
+        "channel": "Andrej Karpathy",
+        "minutes": 211,
+        "covers": [
+          "Post-training and assistant models"
+        ],
+        "relatedTo": [
+          "Bias, safety, governance"
+        ],
+        "level": "advanced",
+        "status": "ok",
+        "resolvedBy": "seed",
+        "role": "optional"
       }
     ],
     "totalWatchTime": "1h 10m watch"

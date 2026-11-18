@@ -42,6 +42,139 @@ const LEVEL_RANK: Record<string, number> = {
   advanced: 3,
 };
 
+const MODULE_TOPICS: Record<number, string[]> = {
+  1: ["Byte-Pair Encoding (BPE)", "Transformer Self-Attention", "Autoregressive Next-Token Sampling", "Prompt Anatomy (Task, Context, Constraints)"],
+  2: ["Zero-Shot & Few-Shot Directives", "Chain of Thought Reasoning", "Instruction vs Constraint Prompting", "Role & Persona Scaffolding"],
+  3: ["Contextual Document Grounding", "Delimiter Scoping & Boundary Enclosures", "Structured Data Wrappers", "Reflection Critique Loops"],
+  4: ["Dynamic Template Variable Interpolation", "Multi-Turn Conversation Simulation", "Linear Prompt Chains", "DAG Workflow Orchestration"],
+  5: ["Iterative Refinement & Prompt Diffs", "ROUGE-L & BLEU Syntactic Metrics", "BERTScore Embedding Similarity", "LLM-as-a-Judge Rubrics & Automated Tuning"],
+  6: ["Multi-Model Output Comparison", "Multimodal Vision & Text Prompts", "Model Latency & Token Cost Variances", "Provider Fallback Strategies"],
+  7: ["Function Calling & JSON Schemas", "Tool Sandbox Execution", "In-Memory Document Retrieval (RAG)", "Chunk Inspection & Source Grounding"],
+  8: ["Direct & Indirect Injection Attacks", "Jailbreak Framing & Token Smuggling", "System Prompt Leakage Prevention", "Multi-Tier Defensive Guardrails"],
+  9: ["Software Engineering & Refactoring", "Pedagogical Socratic Scaffolding", "Business Automation & Action Items", "Scientific Synthesis & Research Probing"],
+  10: ["Tree of Thoughts (ToT) Branching", "ReAct Paradigm (Reason + Act)", "Active Uncertainty Prompting", "Automatic Prompt Engineer (APE)"],
+  11: ["Autonomous Loop (Plan, Act, Observe)", "Context Window Budgeting & Compaction", "Model Context Protocol (MCP) Architecture", "Tool Orchestration & Handoffs"],
+  12: ["CI/CD Prompt Regression Test Runner", "Deterministic Input/Output Guardrails", "Cost, Latency & Cache Hit Telemetry", "Demographic Bias Probing & Fairness"],
+};
+
+const MODULE_LABS: Record<number, any[]> = {
+  1: [
+    {
+      id: "m1-anatomy",
+      route: "/labs/anatomy",
+      title: "Prompt Anatomy Inspector",
+      status: "full",
+      loadsTask: "Deconstruct structured components (context, task, constraints, input, output schema)",
+    },
+    {
+      id: "m1-llm-simulator",
+      route: "/labs/llm-simulator",
+      title: "LLM Processing Simulator",
+      status: "full",
+      loadsTask: "Inspect 6-stage transformer pipeline and subword BPE tokenization",
+    },
+  ],
+  2: [
+    {
+      id: "m2-technique-comparison",
+      route: "/labs/compare",
+      title: "Technique Comparison Lab",
+      status: "full",
+      loadsTask: "Compare 8 prompting paradigms side-by-side with execution engine",
+    },
+  ],
+  3: [
+    {
+      id: "m3-context-builder",
+      route: "/labs/context-builder",
+      title: "Context Builder & Reflection Lab",
+      status: "full",
+      loadsTask: "Contextual, delimiter, structured modes & reflection loops",
+    },
+  ],
+  4: [
+    {
+      id: "m4-workflow-builder",
+      route: "/workflow",
+      title: "Workflow Builder & Conversation Simulator",
+      status: "full",
+      loadsTask: "Multi-turn simulator, dynamic variables, and chain pipelines",
+    },
+  ],
+  5: [
+    {
+      id: "m5-optimizer-eval",
+      route: "/labs/optimize",
+      title: "Optimizer & Evaluation Center",
+      status: "full",
+      loadsTask: "Iterative prompt refinement, ROUGE-L/BLEU, BERTScore concept, hallucination judge",
+    },
+  ],
+  6: [
+    {
+      id: "m6-multimodal-arena",
+      route: "/labs/multimodal",
+      title: "Multi-Model Arena",
+      status: "lite",
+      loadsTask: "Dual Gemini & OpenAI side-by-side comparison with multimodal input",
+    },
+  ],
+  7: [
+    {
+      id: "m7-tool-lab",
+      route: "/labs/tool-lab",
+      title: "Tool-Augmented Prompting & RAG Lab",
+      status: "lite",
+      loadsTask: "Function-calling sandbox with mock tools and in-memory RAG document retrieval",
+    },
+  ],
+  8: [
+    {
+      id: "m8-security-arena",
+      route: "/arena",
+      title: "Prompt Security Arena",
+      status: "full",
+      loadsTask: "Defend against prompt injection, jailbreaks, and system prompt leakage",
+    },
+  ],
+  9: [
+    {
+      id: "m9-domain-prompt-lab",
+      route: "/labs/domain-lab",
+      title: "Domain Prompt Lab",
+      status: "lite",
+      loadsTask: "Domain-tuned templates for coding, education, business automation, and research",
+    },
+  ],
+  10: [
+    {
+      id: "m10-reasoning-playground",
+      route: "/labs/reasoning",
+      title: "Reasoning Playground",
+      status: "full",
+      loadsTask: "Tree of Thoughts, ReAct, active prompting, expert prompting, and APE",
+    },
+  ],
+  11: [
+    {
+      id: "m11-agent-lab",
+      route: "/labs/agent-lab",
+      title: "AI Agent & Context Engineering Lab",
+      status: "lite",
+      loadsTask: "Autonomous loop visualizer (plan-act-observe), context window meter, MCP explorer",
+    },
+  ],
+  12: [
+    {
+      id: "m12-production-lab",
+      route: "/labs/production-lab",
+      title: "Production & Responsible AI Lab",
+      status: "lite",
+      loadsTask: "Regression test matrix, guardrails testing, latency/cost/cache stats, bias probing",
+    },
+  ],
+};
+
 ALL_MODULES.forEach((mod, idx) => {
   const expectedTitle = EXPECTED_TITLES[idx];
   if (mod.title !== expectedTitle) {
@@ -51,10 +184,19 @@ ALL_MODULES.forEach((mod, idx) => {
     throw new Error(`Module ${mod.id} must have 5 quiz questions, got: ${mod.quiz.length}`);
   }
 
+  // Assign topics and labs
+  mod.topics = MODULE_TOPICS[mod.number] || mod.keyConcepts || [];
+  mod.labs = MODULE_LABS[mod.number] || [];
+
   let modTotalMinutes = 0;
   const uniqueVideoIds = new Set<string>();
+  const allModuleVideos: VideoSource[] = [];
 
   mod.lessons.forEach((les) => {
+    // Map relatedLab to module's primary lab if needed
+    if (mod.labs.length > 0 && (!les.relatedLab || les.relatedLab.trim().length === 0)) {
+      les.relatedLab = mod.labs[0].route;
+    }
     if (les.quiz.length !== 5) {
       throw new Error(`Lesson ${les.id} must have 5 quiz questions, got: ${les.quiz.length}`);
     }
@@ -92,6 +234,9 @@ ALL_MODULES.forEach((mod, idx) => {
       }
 
       les.videos.forEach((v) => {
+        if (!allModuleVideos.some((existing) => existing.id === v.id)) {
+          allModuleVideos.push(v);
+        }
         if (v.status === "ok" && !uniqueVideoIds.has(v.id)) {
           uniqueVideoIds.add(v.id);
           // UI watch time = core videos only
@@ -103,6 +248,7 @@ ALL_MODULES.forEach((mod, idx) => {
     }
   });
 
+  mod.videos = allModuleVideos;
   mod.videoCount = uniqueVideoIds.size;
   mod.lessonCount = mod.lessons.length;
 
@@ -202,6 +348,14 @@ export interface Lesson {
   notesMarkdown?: string;
 }
 
+export interface LabReference {
+  id: string;
+  route: string;
+  title: string;
+  status: "full" | "lite";
+  loadsTask?: string | Record<string, any>;
+}
+
 export interface CurriculumModule {
   id: string;
   number: number;
@@ -218,6 +372,9 @@ export interface CurriculumModule {
   totalWatchTime?: string;
   level: "Foundational" | "Core" | "Advanced" | "Specialized";
   tags: string[];
+  topics: string[];
+  labs: LabReference[];
+  videos: VideoSource[];
   youtubeVideoId: string;
   accent: "amber" | "cyan";
   keyTakeaway: string;
