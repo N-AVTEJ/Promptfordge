@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useCallback, useRef } from "react";
+import Link from "next/link";
 import ReactFlow, {
   Controls,
   Background,
@@ -48,6 +49,7 @@ import {
   executeWorkflow,
 } from "@/lib/workflow/engine";
 import { STARTER_TEMPLATES, MODULE_WORKFLOW_TEMPLATES } from "@/lib/workflow/templates";
+import { CURRICULUM_MODULES } from "@/content/modules";
 import {
   getSavedWorkflows,
   saveWorkflow,
@@ -457,7 +459,7 @@ export function WorkflowStudio() {
                   href="/academy/mod-04"
                   className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-2.5 py-0.5 font-mono text-[10px] font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
                 >
-                  <span>Module 4: Advanced Prompt Techniques</span>
+                  <span>Module 04: {CURRICULUM_MODULES.find((m) => m.number === 4)?.title}</span>
                 </Link>
                 <Badge variant="outline" className="border-navy/20 font-mono text-[10px] text-navy/70">
                   Full Lab
@@ -482,27 +484,27 @@ export function WorkflowStudio() {
               onChange={(e) => handleSelectTemplate(e.target.value)}
               className="bg-transparent font-mono text-xs text-navy focus:outline-none cursor-pointer"
             >
-              <optgroup label="Module 4: Advanced Prompt Techniques">
+              <optgroup label={`Module 04: ${CURRICULUM_MODULES.find((m) => m.number === 4)?.title}`}>
                 <option value="template-m4-chain" className="bg-white text-navy">
-                  M4: Linear Prompt Chain with Variables
+                  M04: Linear Prompt Chain with Variables
                 </option>
               </optgroup>
-              <optgroup label="Module 3: Context & Interaction">
+              <optgroup label={`Module 03: ${CURRICULUM_MODULES.find((m) => m.number === 3)?.title}`}>
                 <option value="template-m3-reflection" className="bg-white text-navy">
-                  M3: Reflection & Critique Loop
+                  M03: Reflection & Critique Loop
                 </option>
               </optgroup>
-              <optgroup label="Module 7: Tool-Augmented Prompting">
+              <optgroup label={`Module 07: ${CURRICULUM_MODULES.find((m) => m.number === 7)?.title}`}>
                 <option value="template-m7-tool-call" className="bg-white text-navy">
-                  M7: Tool-Augmented Function Call
+                  M07: Tool-Augmented Function Call
                 </option>
               </optgroup>
-              <optgroup label="Module 11: AI Agents & MCP">
+              <optgroup label={`Module 11: ${CURRICULUM_MODULES.find((m) => m.number === 11)?.title}`}>
                 <option value="template-m11-agent-loop" className="bg-white text-navy">
                   M11: Autonomous Agent Loop
                 </option>
               </optgroup>
-              <optgroup label="Module 12: Production & Responsible AI">
+              <optgroup label={`Module 12: ${CURRICULUM_MODULES.find((m) => m.number === 12)?.title}`}>
                 <option value="template-m12-regression" className="bg-white text-navy">
                   M12: Production Regression Test Matrix
                 </option>

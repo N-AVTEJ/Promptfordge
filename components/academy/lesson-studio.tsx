@@ -17,6 +17,8 @@ import {
   Compass,
   Clock,
   ExternalLink,
+  FlaskConical,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -29,7 +31,7 @@ import { QuizCard } from "@/components/academy/quiz-card";
 import { NotesPanel } from "@/components/academy/notes-panel";
 import { LabSlotPanel } from "@/components/academy/lab-slot-panel";
 import { ProgressModal } from "@/components/academy/progress-modal";
-import type { CurriculumModule, Lesson } from "@/content/modules";
+import { CURRICULUM_MODULES, type CurriculumModule, type Lesson } from "@/content/modules";
 
 export interface LessonStudioProps {
   module: CurriculumModule;
@@ -56,6 +58,7 @@ export function LessonStudio({
   const [customLabPrompt, setCustomLabPrompt] = React.useState<string | undefined>(undefined);
   const [selectedVideoId, setSelectedVideoId] = React.useState<string | undefined>(undefined);
   const [showCheckAnswer, setShowCheckAnswer] = React.useState(false);
+  const [justCompleted, setJustCompleted] = React.useState(false);
 
   // Videos sorted beginner first
   const sortedVideos = React.useMemo(() => {
@@ -88,6 +91,24 @@ export function LessonStudio({
 
   const activeVideoId = activeVideo?.id ?? lesson.youtubeId;
   const activeVideoStatus = activeVideo?.status ?? lesson.status ?? (activeVideoId ? "ok" : "slot");
+
+  const isCurrentLessonComplete = progress.completedLessonIds.includes(lesson.id);
+  const quizScore = progress.quizScores?.[lesson.id];
+
+  const handleToggleComplete = React.useCallback(() => {
+    const willBeComplete = !isCurrentLessonComplete;
+    toggleLesson(lesson.id);
+    if (willBeComplete) {
+      setJustCompleted(true);
+    }
+  }, [isCurrentLessonComplete, toggleLesson, lesson.id]);
+
+  const handleVideoEnded = React.useCallback(() => {
+    if (!isCurrentLessonComplete) {
+      toggleLesson(lesson.id);
+      setJustCompleted(true);
+    }
+  }, [isCurrentLessonComplete, toggleLesson, lesson.id]);
 
   // Keyboard navigation
   React.useEffect(() => {
@@ -129,13 +150,13 @@ export function LessonStudio({
         setMobileTab("right");
       } else if (e.key === "m" || (e.altKey && e.key === "m")) {
         e.preventDefault();
-        toggleLesson(lesson.id);
+        handleToggleComplete();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [router, prevLesson, nextLesson, lesson.id, toggleLesson]);
+  }, [router, prevLesson, nextLesson, lesson.id, handleToggleComplete]);
 
   React.useEffect(() => {
     visitLesson(module.id, lesson.id);
@@ -143,6 +164,7 @@ export function LessonStudio({
     setCurrentPlaybackSecond(0);
     setSelectedVideoId(undefined);
     setShowCheckAnswer(false);
+    setJustCompleted(false);
   }, [module.id, lesson.id, visitLesson]);
 
   const handleSeek = (seconds: number) => {
@@ -155,8 +177,24 @@ export function LessonStudio({
   ).length;
   const modulePercent = Math.round((completedInModule / module.lessons.length) * 100);
 
-  const isCurrentLessonComplete = progress.completedLessonIds.includes(lesson.id);
-  const quizScore = progress.quizScores?.[lesson.id];
+  const suggestedNext = React.useMemo(() => {
+    if (nextLesson) {
+      return {
+        title: nextLesson.title,
+        href: `/academy/${nextLesson.moduleId}/${nextLesson.lessonId}`,
+        badge: "Next in this Module",
+      };
+    }
+    const nextMod = CURRICULUM_MODULES.find((m) => m.number === module.number + 1);
+    if (nextMod && nextMod.lessons[0]) {
+      return {
+        title: `${nextMod.title} · ${nextMod.lessons[0].title}`,
+        href: `/academy/${nextMod.id}/${nextMod.lessons[0].id}`,
+        badge: `Next: Module ${String(nextMod.number).padStart(2, "0")}`,
+      };
+    }
+    return null;
+  }, [nextLesson, module]);
 
   const handleSendToLab = () => {
     setCustomLabPrompt(lesson.practiceChallenge.starterPrompt);
@@ -216,7 +254,7 @@ export function LessonStudio({
           <Button
             variant={isCurrentLessonComplete ? "outline" : "default"}
             size="sm"
-            onClick={() => toggleLesson(lesson.id)}
+            onClick={handleToggleComplete}
             className={cn(
               "h-8 px-2.5 sm:px-3 text-xs flex items-center gap-1.5 font-bold transition-all",
               isCurrentLessonComplete
@@ -515,6 +553,7 @@ export function LessonStudio({
               title={activeVideo?.title ?? lesson.title}
               status={activeVideoStatus}
               onTimeUpdate={(sec) => setCurrentPlaybackSecond(sec)}
+              onEnded={handleVideoEnded}
             />
 
             {/* Direct YouTube fallback link */}
@@ -871,6 +910,79 @@ export function LessonStudio({
                 </Button>
               </div>
             </div>
+
+            {/* Completion Celebration & Suggested Next Lesson */}
+            {(isCurrentLessonComplete || justCompleted) && (
+              <div className="rounded-3xl border-2 border-mint-500/40 bg-white p-6 sm:p-8 shadow-sm space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-navy/10">
+                  <div className="flex items-center gap-4">
+                    <ProgressRing
+                      percent={modulePercent}
+                      size={64}
+                      strokeWidth={5}
+                      accent="emerald"
+                    />
+                    <div className="space-y-1">
+                      <div className="inline-flex items-center gap-1.5 rounded-full bg-mint-100 px-2.5 py-0.5 text-xs font-mono font-bold text-mint-800">
+                        <Sparkles className="h-3.5 w-3.5 text-mint-700" />
+                        <span>Lesson Complete!</span>
+                      </div>
+                      <h3 className="text-base font-bold text-navy font-sans">
+                        Module {String(module.number).padStart(2, "0")} Progress: {modulePercent}%
+                      </h3>
+                      <p className="text-xs text-navy/60 font-mono">
+                        {completedInModule} of {module.lessons.length} lessons mastered
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={`/academy/${module.id}`}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-navy/15 bg-daylight px-3.5 py-2 text-xs font-bold text-navy hover:bg-white transition-colors"
+                    >
+                      <BookOpen className="h-3.5 w-3.5 text-ultramarine" />
+                      <span>Module Overview</span>
+                    </Link>
+                    {(lesson.relatedLab || module.labs[0]?.route) && (
+                      <Link
+                        href={lesson.relatedLab || module.labs[0]?.route || "/labs"}
+                        className="inline-flex items-center gap-1.5 rounded-xl border border-navy/15 bg-white px-3.5 py-2 text-xs font-bold text-navy hover:bg-daylight hover:border-ultramarine/40 hover:text-ultramarine transition-colors"
+                      >
+                        <FlaskConical className="h-3.5 w-3.5 text-ultramarine" />
+                        <span>Practice in Lab</span>
+                      </Link>
+                    )}
+                  </div>
+                </div>
+
+                {suggestedNext && (
+                  <div className="rounded-2xl border border-navy/10 bg-daylight p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-ultramarine bg-ultramarine/10 border border-ultramarine/20 px-2 py-0.5 rounded">
+                          {suggestedNext.badge}
+                        </span>
+                        <span className="text-xs font-mono text-navy/50">
+                          Recommended next step
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-bold text-navy font-sans">
+                        {suggestedNext.title}
+                      </h4>
+                    </div>
+
+                    <Link
+                      href={suggestedNext.href}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-ultramarine px-4 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-ultramarine/90 transition-colors shrink-0"
+                    >
+                      <span>Continue to Next Lesson</span>
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
           </section>
 
           {/* PANEL 3 (RIGHT): Tabbed Notes, Lab Slot & Quiz (Cols: 4/12) */}

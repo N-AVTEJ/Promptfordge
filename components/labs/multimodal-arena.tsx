@@ -2,26 +2,18 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import {
   Layers,
   Sparkles,
   Play,
-  RotateCcw,
   Upload,
-  Image as ImageIcon,
   X,
   AlertTriangle,
-  Clock,
-  Zap,
-  DollarSign,
   Key,
-  CheckCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 
 interface ModelExecutionResult {
   provider: "Gemini" | "OpenAI";
@@ -35,8 +27,6 @@ interface ModelExecutionResult {
 }
 
 export function MultiModelArenaLab() {
-  const prefersReduced = useReducedMotion();
-
   const [promptText, setPromptText] = useState(
     "Analyze this image and describe the architectural patterns, components, and potential single points of failure in detail."
   );

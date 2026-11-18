@@ -12,14 +12,19 @@ import {
   FlaskConical,
   X,
   ExternalLink,
+  CheckCircle2,
+  Lock,
+  PlayCircle,
+  BarChart3,
 } from "lucide-react";
 import { useProgress } from "@/lib/storage/progress";
 import { useChallenges } from "@/lib/storage/challenges";
 import { getArenaProgress } from "@/lib/storage/arena";
 import { getStorageItem, STORAGE_KEYS, CompareExperimentRecord } from "@/lib/storage/index";
-import { getSuggestedNextLesson, getCurriculumStats } from "@/lib/dashboard/recommend";
+import { getCurriculumStats } from "@/lib/dashboard/recommend";
 import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 import { CURRICULUM_MODULES } from "@/content/modules";
+import { cn } from "@/lib/utils";
 
 interface ExperimentTelemetryItem {
   techniqueId?: string;
@@ -30,41 +35,50 @@ interface ExperimentTelemetryItem {
 
 interface ProgressRingProps {
   percentage: number;
-  label: string;
-  sublabel: string;
-  strokeColor: string;
-  icon: React.ReactNode;
+  label?: string;
+  sublabel?: string;
+  strokeColor?: string;
+  icon?: React.ReactNode;
+  size?: number;
 }
 
 function ProgressRing({
   percentage,
   label,
   sublabel,
-  strokeColor,
+  strokeColor = "stroke-ultramarine",
   icon,
+  size = 104,
 }: ProgressRingProps) {
   const prefersReduced = useReducedMotion();
-  const radius = 42;
-  const strokeWidth = 8;
+  const radius = size >= 100 ? 42 : size >= 64 ? 26 : 18;
+  const strokeWidth = size >= 100 ? 8 : size >= 64 ? 5 : 3.5;
   const circumference = 2 * Math.PI * radius;
   const clampedPercent = Math.min(100, Math.max(0, percentage));
   const offset = circumference - (clampedPercent / 100) * circumference;
+  const center = size / 2;
 
   return (
     <div className="flex flex-col items-center justify-center text-center">
-      <div className="relative flex items-center justify-center">
-        <svg className="h-32 w-32 -rotate-90 transform" viewBox="0 0 104 104" aria-hidden="true">
+      <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
+        <svg
+          className="-rotate-90 transform"
+          width={size}
+          height={size}
+          viewBox={`0 0 ${size} ${size}`}
+          aria-hidden="true"
+        >
           <circle
-            cx="52"
-            cy="52"
+            cx={center}
+            cy={center}
             r={radius}
             className="stroke-navy/10"
             strokeWidth={strokeWidth}
             fill="transparent"
           />
           <motion.circle
-            cx="52"
-            cy="52"
+            cx={center}
+            cy={center}
             r={radius}
             className={strokeColor}
             strokeWidth={strokeWidth}
@@ -80,17 +94,24 @@ function ProgressRing({
         </svg>
 
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="mb-0.5">{icon}</div>
-          <span className="font-mono text-lg font-bold text-navy">
+          {icon && <div className="mb-0.5">{icon}</div>}
+          <span
+            className={cn(
+              "font-mono font-bold text-navy",
+              size >= 100 ? "text-lg" : size >= 64 ? "text-xs" : "text-[10px]"
+            )}
+          >
             {clampedPercent}%
           </span>
         </div>
       </div>
 
-      <div className="mt-4 space-y-1">
-        <h4 className="font-sans text-sm font-bold text-navy">{label}</h4>
-        <p className="font-mono text-xs text-navy/60">{sublabel}</p>
-      </div>
+      {(label || sublabel) && (
+        <div className="mt-3 space-y-0.5">
+          {label && <h4 className="font-sans text-xs font-bold text-navy">{label}</h4>}
+          {sublabel && <p className="font-mono text-[10px] text-navy/60">{sublabel}</p>}
+        </div>
+      )}
     </div>
   );
 }
@@ -135,7 +156,7 @@ const STARTER_EXPERIMENTS: CompareExperimentRecord[] = [
         techniqueId: "zero-shot",
         formatComplianceSpread: { mean: 0.67, min: 0.5, max: 0.8, stdev: 0.1 },
         judgeClaritySpread: { mean: 0.6, min: 0.5, max: 0.7, stdev: 0.08 },
-        latencySpread: { mean: 1200, min: 1100, max: 1300, stdev: 80, values: [1100, 1200, 1300] },
+        latencySpread: { mean: 1200, min: 1100, max: 1300, stdev: 80, values: [110, 1200, 1300] },
         outputTokensSpread: { mean: 340, min: 320, max: 360, stdev: 16, values: [320, 340, 360] },
         costSpread: { mean: 0.0008, min: 0.0007, max: 0.0009, stdev: 0.00008, values: [0.0007, 0.0008, 0.0009] },
       },
@@ -172,6 +193,74 @@ export function DashboardView() {
     return getArenaProgress();
   }, [isHydrated]);
 
+  // 12 Module Progress Rings from localStorage
+  const moduleRingsData = useMemo(() => {
+    return CURRICULUM_MODULES.map((m) => {
+      const completedCount = m.lessons.filter((l) =>
+        progress.completedLessonIds.includes(l.id)
+      ).length;
+      const totalCount = m.lessons.length;
+      const percentage = Math.min(
+        100,
+        Math.round((completedCount / (totalCount || 1)) * 100)
+      );
+      return {
+        module: m,
+        completedCount,
+        totalCount,
+        percentage,
+        isCompleted: percentage === 100,
+      };
+    });
+  }, [progress.completedLessonIds]);
+
+  // Step 6: "Next step": the first incomplete lesson plus its lab
+  const nextStep = useMemo(() => {
+    for (const m of CURRICULUM_MODULES) {
+      for (const l of m.lessons) {
+        if (!progress.completedLessonIds.includes(l.id)) {
+          const defaultLab = m.labs[0];
+          const labTarget = l.relatedLab || defaultLab?.route || "/labs";
+          const taskParam = defaultLab?.loadsTask
+            ? `?task=${encodeURIComponent(
+                typeof defaultLab.loadsTask === "string"
+                  ? defaultLab.loadsTask
+                  : JSON.stringify(defaultLab.loadsTask)
+              )}`
+            : "";
+          return {
+            module: m,
+            lesson: l,
+            lab: defaultLab,
+            labHref: `${labTarget}${taskParam}`,
+            lessonHref: `/academy/${m.id}/${l.id}`,
+          };
+        }
+      }
+    }
+    return null;
+  }, [progress.completedLessonIds]);
+
+  // Data-driven Module Completion Badges
+  const moduleBadges = useMemo(() => {
+    return moduleRingsData.map(({ module: m, completedCount, totalCount, percentage, isCompleted }) => {
+      return {
+        id: `badge-${m.id}`,
+        moduleNumber: m.number,
+        title: m.title,
+        subtitle: m.subtitle,
+        isUnlocked: isCompleted,
+        progress: `${completedCount}/${totalCount}`,
+        percentage,
+      };
+    });
+  }, [moduleRingsData]);
+
+  const unlockedBadgesCount = useMemo(
+    () => moduleBadges.filter((b) => b.isUnlocked).length,
+    [moduleBadges]
+  );
+
   // Compare experiments (3 items)
   const recentExperiments = useMemo(() => {
     if (!isHydrated) return STARTER_EXPERIMENTS.slice(0, 3);
@@ -189,89 +278,27 @@ export function DashboardView() {
 
   // Curriculum calculations
   const stats = useMemo(() => getCurriculumStats(progress), [progress]);
-  const recommendation = useMemo(() => getSuggestedNextLesson(progress), [progress]);
 
-  // Three lessons for "Continue learning"
-  const continueLearningLessons = useMemo(() => {
-    const list: Array<{
-      module: typeof CURRICULUM_MODULES[0];
-      lesson: typeof CURRICULUM_MODULES[0]["lessons"][0];
-      badge: string;
-      reason: string;
-    }> = [];
-
-    // 1. Recommended lesson
-    list.push({
-      module: recommendation.module,
-      lesson: recommendation.lesson,
-      badge: recommendation.isRemediation ? "Remediation Quiz" : "Recommended Next",
-      reason: recommendation.reason,
-    });
-
-    // 2. Next sequential lesson or last visited
-    const allLessons = CURRICULUM_MODULES.flatMap((m) =>
-      m.lessons.map((l) => ({ module: m, lesson: l }))
-    );
-    const completedSet = new Set(progress.completedLessonIds);
-
-    const nextUncompleted = allLessons.find(
-      (item) => !completedSet.has(item.lesson.id) && item.lesson.id !== recommendation.lesson.id
-    );
-
-    if (nextUncompleted) {
-      list.push({
-        module: nextUncompleted.module,
-        lesson: nextUncompleted.lesson,
-        badge: `Module ${nextUncompleted.module.number}`,
-        reason: nextUncompleted.lesson.summary,
-      });
-    } else {
-      // Pick Module 2 Lesson 1 as fallback
-      const fallback = allLessons[1] || allLessons[0];
-      list.push({
-        module: fallback.module,
-        lesson: fallback.lesson,
-        badge: "Milestone",
-        reason: fallback.lesson.summary,
-      });
-    }
-
-    // 3. Specialized / Advanced lesson
-    const advancedLesson = allLessons.find(
-      (item) => item.module.number >= 3 && !completedSet.has(item.lesson.id)
-    ) || allLessons[2] || allLessons[0];
-
-    list.push({
-      module: advancedLesson.module,
-      lesson: advancedLesson.lesson,
-      badge: "Deep Dive",
-      reason: advancedLesson.lesson.summary,
-    });
-
-    return list.slice(0, 3);
-  }, [recommendation, progress]);
-
-  // Percentage calculations
   const challengesPercentage = Math.round(
     ((challenges.completedMissionIds.length || 0) / 9) * 100
   );
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20 lg:py-28 space-y-16">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12 sm:py-20 space-y-16">
       {/* 1. Welcome Header */}
       <div className="rounded-3xl border border-navy/10 bg-white p-8 sm:p-12 shadow-sm">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-daylight px-3.5 py-1 text-xs font-mono font-semibold text-navy">
               <span className="h-2 w-2 rounded-full bg-ultramarine animate-pulse" />
-              <span>Interactive Learning System</span>
+              <span>Engineering Command Center · Zero Auth Wall</span>
             </div>
             <h1 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-navy">
-              Engineering Command Center
+              Engineering Dashboard
             </h1>
-            <p className="max-w-[65ch] text-base leading-[1.7] text-navy/75">
-              Deterministic curriculum progress, empirical laboratory runs, and
-              sequential curriculum recommendations. Zero authentication wall.
+            <p className="max-w-[65ch] text-sm sm:text-base leading-[1.7] text-navy/75">
+              Deterministic progress tracking across all {CURRICULUM_MODULES.length} modules,
+              empirical multi-model experiment telemetry, and unlockable achievement milestones.
             </p>
           </div>
 
@@ -294,23 +321,162 @@ export function DashboardView() {
         </div>
       </div>
 
-      {/* 2. Three Summary Cards */}
+      {/* 2. Step 6: "Next step" Hero (First incomplete lesson + its lab) */}
+      <section aria-labelledby="next-step-heading">
+        {nextStep ? (
+          <div className="rounded-3xl border-2 border-ultramarine/30 bg-white p-6 sm:p-8 shadow-sm space-y-6">
+            <div className="flex items-center justify-between border-b border-navy/10 pb-4">
+              <div className="flex items-center gap-2">
+                <span className="rounded-full bg-ultramarine/10 px-3 py-1 font-mono text-xs font-bold text-ultramarine border border-ultramarine/20">
+                  Next Step
+                </span>
+                <span className="text-xs font-mono text-navy/60">
+                  First incomplete curriculum unit
+                </span>
+              </div>
+              <span className="rounded-full bg-daylight px-3 py-1 font-mono text-xs font-semibold text-navy/70 border border-navy/10">
+                Module {String(nextStep.module.number).padStart(2, "0")}
+              </span>
+            </div>
+
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+              <div className="space-y-2 max-w-2xl">
+                <span className="text-xs font-mono font-bold text-ultramarine">
+                  Module {String(nextStep.module.number).padStart(2, "0")}: {nextStep.module.title}
+                </span>
+                <h3 className="text-xl sm:text-2xl font-bold font-sans text-navy">
+                  {nextStep.lesson.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-navy/75 leading-relaxed">
+                  {nextStep.lesson.summary}
+                </p>
+                {nextStep.lab && (
+                  <div className="flex items-center gap-2 pt-2 text-xs font-mono text-navy/70">
+                    <FlaskConical className="h-4 w-4 text-ultramarine" />
+                    <span>Associated Lab: <strong className="text-navy">{nextStep.lab.title}</strong></span>
+                    <span className="rounded bg-daylight px-2 py-0.5 text-[10px] font-bold text-navy/60 border border-navy/10">
+                      {nextStep.lab.status === "full" ? "Full Lab" : "Lite"}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+                <Link
+                  href={nextStep.lessonHref}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-ultramarine px-5 py-3 text-xs font-bold text-white shadow-xs hover:bg-ultramarine/90 transition-colors"
+                >
+                  <PlayCircle className="h-4 w-4" />
+                  <span>Launch Lesson</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                {nextStep.lab && (
+                  <Link
+                    href={nextStep.labHref}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-navy/15 bg-daylight px-5 py-3 text-xs font-bold text-navy hover:bg-white hover:border-ultramarine/40 hover:text-ultramarine transition-colors"
+                  >
+                    <FlaskConical className="h-4 w-4 text-ultramarine" />
+                    <span>Practice in Lab</span>
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="rounded-3xl border border-mint-300 bg-mint-50/50 p-8 text-center space-y-3">
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-mint-100 text-mint-800">
+              <Trophy className="h-6 w-6" />
+            </div>
+            <h3 className="text-xl font-bold font-sans text-navy">
+              All {CURRICULUM_MODULES.length} Curriculum Modules Mastered! 🎉
+            </h3>
+            <p className="text-sm text-navy/70 max-w-lg mx-auto">
+              You have completed every lesson across the curriculum. Test your prompt defense skills in the Security Arena or explore visual labs.
+            </p>
+            <div className="pt-2">
+              <Link
+                href="/arena"
+                className="inline-flex items-center gap-2 rounded-xl bg-ultramarine px-4 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-ultramarine/90 transition-colors"
+              >
+                <span>Launch Security Arena</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* 3. Step 6: 12 Progress Rings from localStorage (one per module) */}
+      <section aria-labelledby="rings-heading" className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-navy/10 pb-4">
+          <div>
+            <h2 id="rings-heading" className="font-sans text-2xl font-bold text-navy">
+              Module Progress Rings
+            </h2>
+            <p className="mt-1 text-sm text-navy/70">
+              Real-time progress rings for all {CURRICULUM_MODULES.length} modules synchronized with localStorage.
+            </p>
+          </div>
+          <Link
+            href="/academy"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-ultramarine hover:underline"
+          >
+            <span>Academy Overview</span>
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {moduleRingsData.map((item) => (
+            <Link
+              key={item.module.id}
+              href={`/academy/${item.module.id}`}
+              className="hover-lift flex flex-col items-center justify-between rounded-2xl border border-navy/10 bg-white p-4 text-center shadow-xs transition-all hover:border-ultramarine/40"
+            >
+              <div className="w-full flex items-center justify-between text-[11px] font-mono text-navy/50 mb-2">
+                <span className="font-bold text-navy">M{String(item.module.number).padStart(2, "0")}</span>
+                {item.isCompleted ? (
+                  <CheckCircle2 className="h-3.5 w-3.5 text-mint-700" />
+                ) : (
+                  <span>{item.completedCount}/{item.totalCount}</span>
+                )}
+              </div>
+
+              <ProgressRing
+                percentage={item.percentage}
+                size={68}
+                strokeColor={item.isCompleted ? "stroke-mint" : "stroke-ultramarine"}
+              />
+
+              <div className="mt-3 w-full">
+                <h4 className="font-sans text-xs font-bold text-navy truncate" title={item.module.title}>
+                  {item.module.title}
+                </h4>
+                <p className="font-mono text-[10px] text-navy/50 mt-0.5">
+                  {item.isCompleted ? "Mastered" : `${item.percentage}% Done`}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* 4. Curriculum Summary Metrics (Curriculum, Quiz, Missions) */}
       <section aria-labelledby="summary-heading" className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 id="summary-heading" className="font-sans text-xl font-bold text-navy">
-            Curriculum Progress
+            Curriculum Comprehension & Challenges
           </h2>
           <span className="font-mono text-xs text-navy/60">
-            Real-time local storage metrics
+            Composite metrics
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Summary Card 1: Curriculum Progress */}
           <div className="rounded-2xl border border-navy/10 bg-white p-8 shadow-sm flex flex-col items-center justify-between">
             <ProgressRing
               percentage={stats.completionPercentage}
-              label="Academy Curriculum"
+              label="Overall Curriculum"
               sublabel={`${stats.completedLessons} of ${stats.totalLessons} Lessons`}
               strokeColor="stroke-ultramarine"
               icon={<GraduationCap className="h-6 w-6 text-ultramarine" />}
@@ -318,12 +484,11 @@ export function DashboardView() {
             <div className="mt-6 w-full pt-4 border-t border-navy/10 flex items-center justify-between text-xs font-mono text-navy/60">
               <span>Status:</span>
               <span className="text-ultramarine font-bold">
-                {stats.completedLessons === stats.totalLessons ? "Curriculum Completed" : "In Progress"}
+                {stats.completedLessons === stats.totalLessons ? "Complete" : "In Progress"}
               </span>
             </div>
           </div>
 
-          {/* Summary Card 2: Quiz Comprehension */}
           <div className="rounded-2xl border border-navy/10 bg-white p-8 shadow-sm flex flex-col items-center justify-between">
             <ProgressRing
               percentage={stats.quizzesPassPercentage}
@@ -338,7 +503,6 @@ export function DashboardView() {
             </div>
           </div>
 
-          {/* Summary Card 3: Missions & Challenges */}
           <div className="rounded-2xl border border-navy/10 bg-white p-8 shadow-sm flex flex-col items-center justify-between">
             <ProgressRing
               percentage={challengesPercentage}
@@ -357,133 +521,179 @@ export function DashboardView() {
         </div>
       </section>
 
-      {/* 3. Continue Learning Section (3 items with View all link) */}
-      <section aria-labelledby="continue-learning-heading" className="space-y-6">
-        <div className="flex items-center justify-between border-b border-navy/10 pb-4">
+      {/* 5. Step 6: Data-Driven Module Completion Badges (Animated Unlock) */}
+      <section aria-labelledby="badges-heading" className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-navy/10 pb-4">
           <div>
-            <h2 id="continue-learning-heading" className="font-sans text-2xl font-bold text-navy">
-              Continue Learning
+            <h2 id="badges-heading" className="font-sans text-2xl font-bold text-navy flex items-center gap-2">
+              <Trophy className="h-5 w-5 text-marigold-600" />
+              <span>Module Completion Badges</span>
+              <span className="rounded-full bg-daylight px-2.5 py-0.5 text-xs font-mono font-bold text-navy border border-navy/10">
+                {unlockedBadgesCount} / {moduleBadges.length} Unlocked
+              </span>
             </h2>
-            <p className="mt-1 max-w-[65ch] text-sm text-navy/70">
-              Sequential curriculum recommendations determined by deterministic progress rules.
+            <p className="mt-1 text-sm text-navy/70">
+              Data-driven completion badges awarded upon 100% completion of each curriculum module.
             </p>
           </div>
-          <Link
-            href="/academy"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-ultramarine hover:text-ultramarine/80 transition-colors"
-          >
-            <span>View all modules</span>
-            <ArrowRight className="h-4 w-4" />
-          </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {continueLearningLessons.map((item, idx) => (
-            <div
-              key={idx}
-              className="hover-lift flex flex-col justify-between rounded-2xl border border-navy/10 bg-white p-8 shadow-sm"
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {moduleBadges.map((badge) => (
+            <motion.div
+              key={badge.id}
+              whileHover={{ scale: 1.02 }}
+              className={cn(
+                "rounded-2xl p-5 border transition-all flex flex-col justify-between",
+                badge.isUnlocked
+                  ? "bg-white border-marigold/40 shadow-sm ring-1 ring-marigold/20"
+                  : "bg-daylight/50 border-navy/10 opacity-75"
+              )}
             >
-              <div>
+              <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="rounded-full bg-daylight px-3 py-1 font-mono text-xs font-bold text-navy border border-navy/10">
-                    Module {String(item.module.number).padStart(2, "0")}
+                  <span className="rounded bg-daylight px-2 py-0.5 font-mono text-[10px] font-bold text-navy border border-navy/10">
+                    M{String(badge.moduleNumber).padStart(2, "0")}
                   </span>
-                  <span className="rounded-full bg-ultramarine/10 px-2.5 py-0.5 font-mono text-[11px] font-bold text-ultramarine border border-ultramarine/20">
-                    {item.badge}
-                  </span>
+                  {badge.isUnlocked ? (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-marigold/20 px-2 py-0.5 font-mono text-[10px] font-bold text-navy border border-marigold/30">
+                      <Sparkles className="h-3 w-3 text-marigold-600" />
+                      <span>Unlocked</span>
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 font-mono text-[10px] text-navy/40">
+                      <Lock className="h-3 w-3" />
+                      <span>Locked</span>
+                    </span>
+                  )}
                 </div>
 
-                <h3 className="mt-5 font-sans text-lg font-bold text-navy line-clamp-2">
-                  {item.lesson.title}
-                </h3>
+                <h4 className="font-sans text-sm font-bold text-navy line-clamp-1">
+                  {badge.title}
+                </h4>
 
-                <p className="mt-3 text-sm leading-[1.7] text-navy/75 line-clamp-3">
-                  {item.reason}
+                <p className="text-xs text-navy/60 font-mono">
+                  {badge.isUnlocked
+                    ? "Module fully mastered!"
+                    : `${badge.progress} lessons completed`}
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-navy/10">
-                <Link
-                  href={`/academy/${item.module.id}/${item.lesson.id}`}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-ultramarine px-4 py-2.5 text-xs font-bold text-white shadow-xs transition-all hover:bg-ultramarine/90"
-                >
-                  <span>Launch Lesson Studio</span>
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+              <div className="mt-4 pt-3 border-t border-navy/10 flex items-center justify-between text-[11px] font-mono">
+                <span className="text-navy/50">Completion</span>
+                <span className={badge.isUnlocked ? "font-bold text-mint-700" : "text-navy/60"}>
+                  {badge.percentage}%
+                </span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
 
-      {/* 4. Recent Experiments Section (3 items with View all link) */}
+      {/* 6. Step 6: Recent Experiments with Small Per-Metric Chart */}
       <section aria-labelledby="experiments-heading" className="space-y-6">
         <div className="flex items-center justify-between border-b border-navy/10 pb-4">
           <div>
-            <h2 id="experiments-heading" className="font-sans text-2xl font-bold text-navy">
-              Recent Experiments
+            <h2 id="experiments-heading" className="font-sans text-2xl font-bold text-navy flex items-center gap-2">
+              <BarChart3 className="h-5 w-5 text-ultramarine" />
+              <span>Recent Experiments & Benchmark Telemetry</span>
             </h2>
             <p className="mt-1 max-w-[65ch] text-sm text-navy/70">
-              Empirical multi-run benchmarks comparing zero-shot vs few-shot schema compliance.
+              Empirical multi-run benchmarks with per-metric compliance and latency sparklines.
             </p>
           </div>
           <Link
             href="/labs/compare"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-ultramarine hover:text-ultramarine/80 transition-colors"
           >
-            <span>View all experiments</span>
+            <span>View compare lab</span>
             <ExternalLink className="h-4 w-4" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {recentExperiments.map((exp) => (
-            <div
-              key={exp.id}
-              className="hover-lift flex flex-col justify-between rounded-2xl border border-navy/10 bg-white p-8 shadow-sm"
+        {recentExperiments.length === 0 ? (
+          <div className="rounded-2xl border border-navy/10 bg-white p-12 text-center shadow-xs space-y-3">
+            <p className="text-sm font-semibold text-navy">
+              No empirical benchmark experiments recorded yet.
+            </p>
+            <p className="text-xs text-navy/60 font-mono">
+              Run comparative prompt experiments to inspect latency, output tokens, and format compliance.
+            </p>
+            <Link
+              href="/labs/compare"
+              className="inline-flex items-center gap-2 rounded-xl bg-ultramarine px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-ultramarine/90 transition-colors mt-2"
             >
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-bold text-ultramarine">
-                    {exp.model}
-                  </span>
-                  <span className="font-mono text-[11px] text-navy/50" suppressHydrationWarning>
-                    {new Date(exp.timestamp).toLocaleDateString()}
-                  </span>
+              <span>Launch Technique Comparison Lab</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {recentExperiments.map((exp) => (
+              <div
+                key={exp.id}
+                className="hover-lift flex flex-col justify-between rounded-2xl border border-navy/10 bg-white p-6 shadow-sm"
+              >
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs font-bold text-ultramarine">
+                      {exp.model}
+                    </span>
+                    <span className="font-mono text-[11px] text-navy/50" suppressHydrationWarning>
+                      {new Date(exp.timestamp).toLocaleDateString()}
+                    </span>
+                  </div>
+
+                  <h3 className="mt-4 font-sans text-sm font-bold text-navy line-clamp-2">
+                    {exp.task || "Comparison Evaluation Benchmark"}
+                  </h3>
+
+                  {/* Per-Metric Comparison Chart */}
+                  <div className="mt-4 rounded-xl bg-daylight p-3 space-y-2 border border-navy/5">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-navy/50 block">
+                      Comparative Metrics ({exp.results?.length || 2} Techniques)
+                    </span>
+
+                    {exp.results?.slice(0, 2).map((rawRes, rIdx) => {
+                      const res = rawRes as ExperimentTelemetryItem;
+                      const compliance = Math.round((res.formatComplianceSpread?.mean ?? 0.8) * 100);
+                      const latency = Math.round(res.latencySpread?.mean ?? 500);
+                      return (
+                        <div key={rIdx} className="space-y-1 font-mono text-[11px]">
+                          <div className="flex justify-between text-navy/80">
+                            <span className="font-semibold">{res.techniqueId}</span>
+                            <span>{compliance}% format · {latency}ms</span>
+                          </div>
+                          {/* Mini visual bar */}
+                          <div className="h-1.5 w-full bg-navy/10 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-ultramarine rounded-full"
+                              style={{ width: `${Math.max(10, compliance)}%` }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
 
-                <h3 className="mt-5 font-sans text-base font-bold text-navy line-clamp-2">
-                  {exp.task || "Comparison Evaluation Benchmark"}
-                </h3>
-
-                <div className="mt-4 rounded-xl bg-daylight p-3.5 space-y-1.5 font-mono text-xs text-navy/80 border border-navy/5">
-                  <div className="flex justify-between">
-                    <span>Runs per technique:</span>
-                    <span className="font-bold text-navy">{exp.runsPerTechnique}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Techniques evaluated:</span>
-                    <span className="font-bold text-navy">{exp.results?.length || 2}</span>
-                  </div>
+                <div className="mt-6 pt-4 border-t border-navy/10">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedExperiment(exp)}
+                    className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-navy/15 bg-white py-2 text-xs font-bold text-navy hover:bg-daylight hover:border-ultramarine/40 hover:text-ultramarine transition-all"
+                  >
+                    <FlaskConical className="h-3.5 w-3.5" />
+                    <span>Inspect Metrics</span>
+                  </button>
                 </div>
               </div>
-
-              <div className="mt-6 pt-4 border-t border-navy/10">
-                <button
-                  type="button"
-                  onClick={() => setSelectedExperiment(exp)}
-                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-navy/15 bg-white py-2.5 text-xs font-bold text-navy hover:bg-daylight hover:border-ultramarine/40 hover:text-ultramarine transition-all"
-                >
-                  <FlaskConical className="h-3.5 w-3.5" />
-                  <span>Inspect Experiment Metrics</span>
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
 
-      {/* Drawer for Experiment Details (Opens in drawer, NOT inline!) */}
+      {/* Drawer for Experiment Details */}
       <AnimatePresence>
         {selectedExperiment && (
           <div

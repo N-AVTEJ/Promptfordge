@@ -2,30 +2,21 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   Layers,
-  Sparkles,
   Play,
-  RotateCcw,
   CheckCircle2,
   RefreshCw,
   Code2,
   FileText,
   Braces,
-  MessageSquare,
   ShieldCheck,
-  ArrowRight,
-  HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 
 export function ContextBuilderLab() {
-  const prefersReduced = useReducedMotion();
-
   // Active sub-mode: "builder" | "reflection" | "interaction"
   const [activeTab, setActiveTab] = useState<"builder" | "reflection" | "interaction">("builder");
 

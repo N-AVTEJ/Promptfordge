@@ -4,24 +4,31 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Layers,
-  Sparkles,
   Play,
-  Wrench,
   Calculator,
   Search,
   CloudSun,
   FileText,
   CheckCircle2,
-  Database,
-  ArrowRight,
-  Code2,
-  ListFilter,
   RefreshCw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
+
+interface ToolCallItem {
+  id: string;
+  tool: string;
+  arguments: Record<string, string | number>;
+  result: Record<string, string | number>;
+}
+
+interface RetrievedChunkItem {
+  id: string;
+  title: string;
+  content: string;
+  relevance: number;
+}
 
 // 10 Sample In-Memory RAG Documents
 const SAMPLE_DOCS = [
@@ -38,20 +45,19 @@ const SAMPLE_DOCS = [
 ];
 
 export function ToolLab() {
-  const prefersReduced = useReducedMotion();
   const [activeTab, setActiveTab] = useState<"function-calling" | "rag">("function-calling");
 
   // Function Calling State
   const [toolPrompt, setToolPrompt] = useState(
     "Calculate the total annual cost of 45 Pro licenses at $39/mo with an 8% discount, and look up the api_rate_limit for the Pro tier."
   );
-  const [toolCalls, setToolCalls] = useState<any[]>([]);
+  const [toolCalls, setToolCalls] = useState<ToolCallItem[]>([]);
   const [finalSynthesizedAnswer, setFinalSynthesizedAnswer] = useState<string | null>(null);
   const [isToolRunning, setIsToolRunning] = useState(false);
 
   // RAG State
   const [ragQuery, setRagQuery] = useState("What are the mandatory security rules for storing encryption keys in production?");
-  const [retrievedChunks, setRetrievedChunks] = useState<any[]>([]);
+  const [retrievedChunks, setRetrievedChunks] = useState<RetrievedChunkItem[]>([]);
   const [ragAnswer, setRagAnswer] = useState<string | null>(null);
   const [isRagRunning, setIsRagRunning] = useState(false);
 
@@ -109,7 +115,7 @@ export function ToolLab() {
 
     setTimeout(() => {
       // Step 1: Model analyzes prompt and emits tool calls
-      const calls = [
+      const calls: ToolCallItem[] = [
         {
           id: "call_calc_01",
           tool: "calculator",
@@ -123,6 +129,16 @@ export function ToolLab() {
           result: executeLookup("api_rate_limit_pro"),
         },
       ];
+
+      if (toolPrompt.toLowerCase().includes("weather") || toolPrompt.toLowerCase().includes("city")) {
+        calls.push({
+          id: "call_weather_03",
+          tool: "weather_mock",
+          arguments: { city: "San Francisco" },
+          result: executeWeather("San Francisco"),
+        });
+      }
+
       setToolCalls(calls);
 
       // Step 2: Model receives tool results and synthesizes output

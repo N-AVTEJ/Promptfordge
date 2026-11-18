@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Keyboard, X, Sparkles, Command } from "lucide-react";
+import { Keyboard, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function ShortcutsModal() {

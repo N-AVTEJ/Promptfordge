@@ -15,6 +15,7 @@ export interface YouTubeEmbedProps {
   title: string;
   status?: "ok" | "slot" | "unavailable" | "unverified";
   onTimeUpdate?: (seconds: number) => void;
+  onEnded?: () => void;
   className?: string;
   duration?: number;
 }
@@ -26,6 +27,7 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
       title,
       status = "ok",
       onTimeUpdate,
+      onEnded,
       className,
       duration = 720,
     },
@@ -126,6 +128,7 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
         setCurrentTime((prev) => {
           if (prev >= totalDuration) {
             setIsPlaying(false);
+            onEnded?.();
             return totalDuration;
           }
           const next = prev + 1;
@@ -134,7 +137,23 @@ export const YouTubeEmbed = React.forwardRef<YouTubeEmbedRef, YouTubeEmbedProps>
         });
       }, 1000);
       return () => clearInterval(interval);
-    }, [isPlaying, isPlaceholder, onTimeUpdate, totalDuration]);
+    }, [isPlaying, isPlaceholder, onTimeUpdate, onEnded, totalDuration]);
+
+    // Listen for YouTube iframe state changes (state 0 = ended)
+    React.useEffect(() => {
+      const handleMessage = (event: MessageEvent) => {
+        try {
+          const data = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+          if (data && (data.event === "onStateChange" && data.info === 0)) {
+            onEnded?.();
+          }
+        } catch {
+          // Ignore non-json messages
+        }
+      };
+      window.addEventListener("message", handleMessage);
+      return () => window.removeEventListener("message", handleMessage);
+    }, [onEnded]);
 
     const iframeSrc = React.useMemo(() => {
       if (isPlaceholder || !youtubeId) return "";

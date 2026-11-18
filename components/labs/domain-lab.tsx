@@ -4,9 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Layers,
-  Sparkles,
   Play,
-  RotateCcw,
   Code2,
   GraduationCap,
   Briefcase,
@@ -14,12 +12,10 @@ import {
   Copy,
   Check,
   RefreshCw,
-  Cpu,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 
 type DomainTrack = "coding" | "education" | "business" | "research";
 
@@ -100,7 +96,6 @@ Critique this claim across 4 dimensions:
 ];
 
 export function DomainPromptLab() {
-  const prefersReduced = useReducedMotion();
   const [activeTrack, setActiveTrack] = useState<DomainTrack>("coding");
   const [promptText, setPromptText] = useState(DOMAIN_TRACKS[0].defaultPrompt);
   const [output, setOutput] = useState<string | null>(null);

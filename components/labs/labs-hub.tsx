@@ -1,316 +1,331 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import {
-  Layers,
-  Cpu,
-  Terminal,
+  FlaskConical,
   ArrowRight,
-  Sparkles,
+  BookOpen,
+  Search,
+  ExternalLink,
+  RotateCcw,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-
-const LabLoadingSkeleton = () => (
-  <div className="min-h-[500px] w-full rounded-2xl border border-navy/10 bg-white p-8 flex flex-col items-center justify-center space-y-4 animate-pulse shadow-sm">
-    <div className="h-8 w-48 rounded bg-navy/5" />
-    <div className="h-4 w-96 rounded bg-navy/5" />
-    <div className="h-64 w-full rounded-xl bg-navy/5 mt-6" />
-  </div>
-);
-
-const PromptPlayground = dynamic(
-  () => import("./playground").then((m) => m.PromptPlayground),
-  { ssr: false, loading: LabLoadingSkeleton }
-);
-
-const PromptAnatomyLab = dynamic(
-  () => import("./prompt-anatomy").then((m) => m.PromptAnatomyLab),
-  { ssr: false, loading: LabLoadingSkeleton }
-);
-
-const LlmSimulatorLab = dynamic(
-  () => import("./llm-simulator").then((m) => m.LlmSimulatorLab),
-  { ssr: false, loading: LabLoadingSkeleton }
-);
-
-const CompareLab = dynamic(
-  () => import("./compare-lab").then((m) => m.CompareLab),
-  { ssr: false, loading: LabLoadingSkeleton }
-);
-
-const OptimizeLab = dynamic(
-  () => import("./optimize-lab").then((m) => m.OptimizeLab),
-  { ssr: false, loading: LabLoadingSkeleton }
-);
-
-const ReasoningLab = dynamic(
-  () => import("./reasoning/reasoning-lab").then((m) => m.ReasoningLab),
-  { ssr: false, loading: LabLoadingSkeleton }
-);
-
-export type LabTab =
-  | "anatomy"
-  | "simulator"
-  | "playground"
-  | "compare"
-  | "optimize"
-  | "reasoning";
+import { Button } from "@/components/ui/button";
+import { CURRICULUM_MODULES } from "@/content/modules";
+import { cn } from "@/lib/utils";
 
 export function LabsHub() {
-  const [activeTab, setActiveTab] = useState<LabTab>("anatomy");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"all" | "full" | "lite">("all");
+  const [hoveredLabId, setHoveredLabId] = useState<string | null>(null);
+
+  // Collect all labs grouped by module 1 to 12
+  const groupedModules = useMemo(() => {
+    return CURRICULUM_MODULES.map((mod) => {
+      const matchingLabs = mod.labs.filter((lab) => {
+        if (statusFilter !== "all" && lab.status !== statusFilter) {
+          return false;
+        }
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase().trim();
+          const inTitle = lab.title.toLowerCase().includes(q);
+          const inRoute = lab.route.toLowerCase().includes(q);
+          const inModTitle = mod.title.toLowerCase().includes(q);
+          const inTopics = mod.topics?.some((t) => t.toLowerCase().includes(q));
+          const inTask =
+            typeof lab.loadsTask === "string" && lab.loadsTask.toLowerCase().includes(q);
+          if (!inTitle && !inRoute && !inModTitle && !inTopics && !inTask) {
+            return false;
+          }
+        }
+        return true;
+      });
+
+      return {
+        module: mod,
+        labs: matchingLabs,
+      };
+    }).filter((group) => group.labs.length > 0);
+  }, [searchQuery, statusFilter]);
+
+  const totalLabsCount = useMemo(
+    () => CURRICULUM_MODULES.reduce((acc, m) => acc + m.labs.length, 0),
+    []
+  );
+
+  const fullLabsCount = useMemo(
+    () =>
+      CURRICULUM_MODULES.reduce(
+        (acc, m) => acc + m.labs.filter((l) => l.status === "full").length,
+        0
+      ),
+    []
+  );
+
+  const liteLabsCount = totalLabsCount - fullLabsCount;
 
   return (
-    <div className="space-y-8">
-      {/* Labs Hub Hero & Card Switchers */}
-      <div className="space-y-4">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-ember-400">
-            <Sparkles className="h-4 w-4" />
-            <span>Interactive Visual Laboratories</span>
+    <div className="space-y-10">
+      {/* Header Banner */}
+      <div className="rounded-3xl border border-navy/10 bg-white p-8 sm:p-12 shadow-sm">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+          <div className="space-y-3 max-w-3xl">
+            <div className="inline-flex items-center gap-2 rounded-full bg-ultramarine/10 px-3.5 py-1 text-xs font-mono font-bold text-ultramarine border border-ultramarine/20">
+              <FlaskConical className="h-4 w-4" />
+              <span>Interactive Engineering Laboratories · {totalLabsCount} Labs Across {CURRICULUM_MODULES.length} Modules</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-navy font-sans">
+              Laboratory Index
+            </h1>
+            <p className="text-sm sm:text-base text-navy/75 leading-[1.7] max-w-[68ch]">
+              Every curriculum module couples mental models with at least one interactive visualizer.
+              From 6-stage transformer tokenization to adversarial red-teaming and production evaluation pipelines.
+            </p>
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-forge-text sm:text-4xl">
-            PromptForge Visual Labs
-          </h1>
-          <p className="text-sm text-forge-muted max-w-3xl leading-relaxed">
-            Hands-on visualizers for understanding LLM architecture and prompt structure.
-            Explore subword tokenization, vector geometry, multi-head attention routing, and strict architectural component decomposition.
+
+          {/* Quick Metrics */}
+          <div className="grid grid-cols-3 gap-3 rounded-2xl border border-navy/10 bg-daylight p-5 shadow-xs shrink-0 text-center font-mono">
+            <div className="p-2">
+              <div className="text-2xl font-black text-navy">{totalLabsCount}</div>
+              <div className="text-[11px] text-navy/60 uppercase">Total Labs</div>
+            </div>
+            <div className="border-x border-navy/10 p-2">
+              <div className="text-2xl font-black text-ultramarine">{fullLabsCount}</div>
+              <div className="text-[11px] text-navy/60 uppercase">Full Labs</div>
+            </div>
+            <div className="p-2">
+              <div className="text-2xl font-black text-mint-700">{liteLabsCount}</div>
+              <div className="text-[11px] text-navy/60 uppercase">Lite Labs</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Search & Filter Controls */}
+        <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 border-t border-navy/10 pt-6">
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-navy/40" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search labs, routes, topics, or modules..."
+              className="w-full rounded-xl border border-navy/15 bg-daylight pl-10 pr-4 py-2 text-xs font-medium text-navy placeholder:text-navy/40 focus:border-ultramarine focus:outline-none focus:ring-1 focus:ring-ultramarine/30"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-navy/40 hover:text-navy text-xs font-mono"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-mono text-navy/50 mr-1 hidden sm:inline">
+              Filter:
+            </span>
+            {(
+              [
+                { id: "all", label: `All (${totalLabsCount})` },
+                { id: "full", label: `Full (${fullLabsCount})` },
+                { id: "lite", label: `Lite (${liteLabsCount})` },
+              ] as const
+            ).map((filter) => {
+              const active = statusFilter === filter.id;
+              return (
+                <button
+                  key={filter.id}
+                  onClick={() => setStatusFilter(filter.id)}
+                  className={cn(
+                    "rounded-lg px-3 py-1.5 text-xs font-semibold transition-all",
+                    active
+                      ? "bg-ultramarine text-white shadow-xs"
+                      : "bg-daylight text-navy/70 hover:bg-navy/5 hover:text-navy"
+                  )}
+                >
+                  {filter.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Structured List Grouped by Module 1 to 12 */}
+      {groupedModules.length === 0 ? (
+        <div className="rounded-2xl border border-navy/10 bg-white p-12 text-center shadow-xs space-y-3">
+          <p className="text-sm font-semibold text-navy">
+            No visual laboratories match your search & filter criteria.
           </p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              setSearchQuery("");
+              setStatusFilter("all");
+            }}
+            className="text-xs gap-1.5 mt-2"
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
+            <span>Reset Search & Filters</span>
+          </Button>
         </div>
+      ) : (
+        <div className="space-y-8">
+          {groupedModules.map(({ module: mod, labs }) => (
+            <div
+              key={mod.id}
+              className="rounded-3xl border border-navy/10 bg-white shadow-sm overflow-hidden"
+            >
+              {/* Module Marker Header */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-navy/10 bg-daylight/60 px-6 py-4">
+                <div className="flex items-center gap-3">
+                  <span className="rounded-full bg-navy px-3 py-1 font-mono text-xs font-bold text-white shadow-xs">
+                    Module {String(mod.number).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h2 className="font-sans text-base font-bold text-navy">
+                      {mod.title}
+                    </h2>
+                    <p className="text-xs font-mono text-ultramarine font-semibold">
+                      {mod.subtitle}
+                    </p>
+                  </div>
+                </div>
 
-        {/* 6 Interactive Lab Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
-          {/* Card 1: Prompt Anatomy */}
-          <div
-            onClick={() => setActiveTab("anatomy")}
-            className={`group cursor-pointer rounded-xl border p-5 transition-all flex flex-col justify-between ${
-              activeTab === "anatomy"
-                ? "border-cyan-500 bg-cyan-950/20 shadow-lg ring-1 ring-cyan-500/50"
-                : "border-forge-border bg-forge-surface hover:border-cyan-500/40 hover:bg-forge-surface/80"
-            }`}
-          >
-            <div>
-              <div className="flex items-center justify-between">
-                <Badge variant="outline" className="border-cyan-500/40 text-cyan-300 font-mono text-[10px]">
-                  Module 2 · Anatomy
-                </Badge>
-                <Link
-                  href="/labs/anatomy"
-                  className="text-xs text-forge-muted hover:text-cyan-400 flex items-center gap-0.5"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <span>Standalone</span>
-                  <ArrowRight className="h-3 w-3" />
-                </Link>
+                <div className="flex items-center gap-2 shrink-0">
+                  <Link
+                    href={`/academy/${mod.id}`}
+                    className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-ultramarine hover:underline"
+                  >
+                    <BookOpen className="h-3.5 w-3.5" />
+                    <span>Module Overview & Lessons</span>
+                    <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
               </div>
-              <h3 className="mt-3 text-lg font-bold text-forge-text group-hover:text-cyan-400 transition-colors flex items-center gap-2">
-                <Layers className="h-4 w-4 text-cyan-400" />
-                <span>Prompt Anatomy</span>
-              </h3>
-              <p className="mt-1.5 text-xs text-forge-muted leading-relaxed">
-                Deconstruct prompts into Role, Task, Context, Examples, Constraints, and Output Format. Test A/B component variations live.
-              </p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-forge-border/60 flex items-center justify-between text-xs font-mono">
-              <span className="text-forge-muted">Rule-based + AI</span>
-              <span className="text-cyan-400 font-bold">Open Visualizer →</span>
-            </div>
-          </div>
 
-          {/* Card 2: LLM Simulator */}
-          <div
-            onClick={() => setActiveTab("simulator")}
-            className={`group cursor-pointer rounded-xl border p-5 transition-all flex flex-col justify-between ${
-              activeTab === "simulator"
-                ? "border-ember-500 bg-ember-950/20 shadow-lg ring-1 ring-ember-500/50"
-                : "border-forge-border bg-forge-surface hover:border-ember-500/40 hover:bg-forge-surface/80"
-            }`}
-          >
-            <div>
-              <div className="flex items-center justify-between">
-                <Badge variant="outline" className="border-ember-500/40 text-ember-400 font-mono text-[10px]">
-                  Module 1 · Transformers
-                </Badge>
-                <Link
-                  href="/labs/llm-simulator"
-                  className="text-xs text-forge-muted hover:text-ember-400 flex items-center gap-0.5"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <span>Standalone</span>
-                  <ArrowRight className="h-3 w-3" />
-                </Link>
-              </div>
-              <h3 className="mt-3 text-lg font-bold text-forge-text group-hover:text-ember-400 transition-colors flex items-center gap-2">
-                <Cpu className="h-4 w-4 text-ember-400" />
-                <span>LLM Simulator</span>
-              </h3>
-              <p className="mt-1.5 text-xs text-forge-muted leading-relaxed">
-                6-stage transformer simulator: BPE tokenization, vector embeddings, positional encoding, self-attention graph, and sampling.
-              </p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-forge-border/60 flex items-center justify-between text-xs font-mono">
-              <span className="text-forge-muted">Real BPE + Attention</span>
-              <span className="text-ember-400 font-bold">Open Simulator →</span>
-            </div>
-          </div>
+              {/* Module Labs Structured Entries */}
+              <div className="divide-y divide-navy/10">
+                {labs.map((lab) => {
+                  const isHovered = hoveredLabId === lab.id;
+                  const taskQuery = lab.loadsTask
+                    ? `?task=${encodeURIComponent(
+                        typeof lab.loadsTask === "string"
+                          ? lab.loadsTask
+                          : JSON.stringify(lab.loadsTask)
+                      )}`
+                    : "";
+                  const labHref = `${lab.route}${taskQuery}`;
 
-          {/* Card 3: Multi-Model Playground */}
-          <div
-            onClick={() => setActiveTab("playground")}
-            className={`group cursor-pointer rounded-xl border p-5 transition-all flex flex-col justify-between ${
-              activeTab === "playground"
-                ? "border-emerald-500 bg-emerald-950/20 shadow-lg ring-1 ring-emerald-500/50"
-                : "border-forge-border bg-forge-surface hover:border-emerald-500/40 hover:bg-forge-surface/80"
-            }`}
-          >
-            <div>
-              <div className="flex items-center justify-between">
-                <Badge variant="outline" className="border-emerald-500/40 text-emerald-400 font-mono text-[10px]">
-                  Engine · Multi-Adapter
-                </Badge>
-                <Link
-                  href="/labs/playground"
-                  className="text-xs text-forge-muted hover:text-emerald-400 flex items-center gap-0.5"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <span>Standalone</span>
-                  <ArrowRight className="h-3 w-3" />
-                </Link>
+                  return (
+                    <div
+                      key={lab.id}
+                      tabIndex={0}
+                      onMouseEnter={() => setHoveredLabId(lab.id)}
+                      onMouseLeave={() => setHoveredLabId(null)}
+                      onFocus={() => setHoveredLabId(lab.id)}
+                      onBlur={() => setHoveredLabId(null)}
+                      className={cn(
+                        "group p-6 transition-all outline-none",
+                        isHovered ? "bg-ultramarine/[0.02]" : "hover:bg-daylight/40"
+                      )}
+                    >
+                      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                        {/* Main Lab Info */}
+                        <div className="space-y-3 flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="font-sans text-lg font-bold text-navy">
+                              {lab.title}
+                            </h3>
+
+                            {lab.status === "full" ? (
+                              <span className="rounded-full bg-mint-100 border border-mint-300 px-2.5 py-0.5 font-mono text-[10px] font-bold text-mint-800">
+                                Full Lab
+                              </span>
+                            ) : (
+                              <span className="rounded-full bg-daylight border border-navy/20 px-2.5 py-0.5 font-mono text-[10px] font-bold text-navy/70">
+                                Lite
+                              </span>
+                            )}
+
+                            <span className="font-mono text-xs text-navy/40">
+                              {lab.route}
+                            </span>
+                          </div>
+
+                          {/* Practiced Topics Pills */}
+                          {mod.topics && mod.topics.length > 0 && (
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <span className="text-[11px] font-mono text-navy/50 mr-1">
+                                Practices:
+                              </span>
+                              {mod.topics.map((topic, tIdx) => (
+                                <span
+                                  key={tIdx}
+                                  className="rounded-md border border-navy/10 bg-daylight px-2 py-0.5 text-[10px] font-mono text-navy/75"
+                                >
+                                  {topic}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Lab Launch Action */}
+                        <div className="flex items-center gap-3 shrink-0">
+                          <Link
+                            href={labHref}
+                            className="inline-flex items-center gap-2 rounded-xl bg-ultramarine px-4 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-ultramarine/90 transition-all group-hover:shadow-md"
+                          >
+                            <span>Launch Lab</span>
+                            <ExternalLink className="h-3.5 w-3.5" />
+                          </Link>
+                        </div>
+                      </div>
+
+                      {/* Interactive Hover / Focus Preview Details */}
+                      <div
+                        className={cn(
+                          "mt-4 rounded-2xl border transition-all overflow-hidden",
+                          isHovered
+                            ? "border-ultramarine/30 bg-white p-4 opacity-100 max-h-96 shadow-xs"
+                            : "border-transparent bg-daylight/50 p-3 opacity-90 max-h-32 text-navy/70"
+                        )}
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 text-xs">
+                          <div className="space-y-1">
+                            <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-ultramarine block">
+                              Preloaded Task Specification
+                            </span>
+                            <p className="font-mono text-xs text-navy leading-relaxed font-medium">
+                              {typeof lab.loadsTask === "string"
+                                ? lab.loadsTask
+                                : JSON.stringify(lab.loadsTask)}
+                            </p>
+                          </div>
+
+                          <div className="text-right shrink-0 hidden sm:block">
+                            <span className="font-mono text-[10px] text-navy/50 block">
+                              Status Engine
+                            </span>
+                            <span className="font-mono text-xs font-semibold text-navy">
+                              {lab.status === "full"
+                                ? "Dedicated Interactive Studio"
+                                : "Shared Execution Engine (Lite)"}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-              <h3 className="mt-3 text-lg font-bold text-forge-text group-hover:text-emerald-400 transition-colors flex items-center gap-2">
-                <Terminal className="h-4 w-4 text-emerald-400" />
-                <span>Live Playground</span>
-              </h3>
-              <p className="mt-1.5 text-xs text-forge-muted leading-relaxed">
-                Execute prompts against live Gemini & OpenAI providers with latency metrics, LRU caching, and cost estimation.
-              </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-forge-border/60 flex items-center justify-between text-xs font-mono">
-              <span className="text-forge-muted">Gemini & OpenAI</span>
-              <span className="text-emerald-400 font-bold">Open Workbench →</span>
-            </div>
-          </div>
-          {/* Card 4: Technique Comparison Lab */}
-          <div
-            onClick={() => setActiveTab("compare")}
-            className={`group cursor-pointer rounded-xl border p-5 transition-all flex flex-col justify-between ${
-              activeTab === "compare"
-                ? "border-ember-500 bg-ember-950/20 shadow-lg ring-1 ring-ember-500/50"
-                : "border-forge-border bg-forge-surface hover:border-ember-500/40 hover:bg-forge-surface/80"
-            }`}
-          >
-            <div>
-              <div className="flex items-center justify-between">
-                <Badge variant="outline" className="border-ember-500/40 text-ember-400 font-mono text-[10px]">
-                  Module 4 · Comparison
-                </Badge>
-                <Link
-                  href="/labs/compare"
-                  className="text-xs text-forge-muted hover:text-ember-400 flex items-center gap-0.5"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <span>Standalone</span>
-                  <ArrowRight className="h-3 w-3" />
-                </Link>
-              </div>
-              <h3 className="mt-3 text-lg font-bold text-forge-text group-hover:text-ember-400 transition-colors flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-ember-400" />
-                <span>Technique Compare</span>
-              </h3>
-              <p className="mt-1.5 text-xs text-forge-muted leading-relaxed">
-                Empirical multi-technique benchmarking. Run zero-shot to structured prompts with N-run spreads and independent metrics.
-              </p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-forge-border/60 flex items-center justify-between text-xs font-mono">
-              <span className="text-forge-muted">6 Techniques · Multi-Run</span>
-              <span className="text-ember-400 font-bold">Open Compare →</span>
-            </div>
-          </div>
-          {/* Card 5: Prompt Optimizer */}
-          <div
-            onClick={() => setActiveTab("optimize")}
-            className={`group cursor-pointer rounded-xl border p-5 transition-all flex flex-col justify-between ${
-              activeTab === "optimize"
-                ? "border-amber-500 bg-amber-950/20 shadow-lg ring-1 ring-amber-500/50"
-                : "border-forge-border bg-forge-surface hover:border-amber-500/40 hover:bg-forge-surface/80"
-            }`}
-          >
-            <div>
-              <div className="flex items-center justify-between">
-                <Badge variant="outline" className="border-amber-500/40 text-amber-300 font-mono text-[10px]">
-                  Module 5 · Optimize
-                </Badge>
-                <Link
-                  href="/labs/optimize"
-                  className="text-xs text-forge-muted hover:text-amber-400 flex items-center gap-0.5"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <span>Standalone</span>
-                  <ArrowRight className="h-3 w-3" />
-                </Link>
-              </div>
-              <h3 className="mt-3 text-lg font-bold text-forge-text group-hover:text-amber-400 transition-colors flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-amber-400" />
-                <span>Prompt Optimizer</span>
-              </h3>
-              <p className="mt-1.5 text-xs text-forge-muted leading-relaxed">
-                Diagnose weak prompts, inspect line diffs with pedagogical rationale, compare per-metric results, and save to library.
-              </p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-forge-border/60 flex items-center justify-between text-xs font-mono">
-              <span className="text-forge-muted">Diff & Versioning</span>
-              <span className="text-amber-400 font-bold">Open Optimizer →</span>
-            </div>
-          </div>
-          {/* Card 6: Reasoning Playground */}
-          <div
-            onClick={() => setActiveTab("reasoning")}
-            className={`group cursor-pointer rounded-xl border p-5 transition-all flex flex-col justify-between ${
-              activeTab === "reasoning"
-                ? "border-purple-500 bg-purple-950/20 shadow-lg ring-1 ring-purple-500/50"
-                : "border-forge-border bg-forge-surface hover:border-purple-500/40 hover:bg-forge-surface/80"
-            }`}
-          >
-            <div>
-              <div className="flex items-center justify-between">
-                <Badge variant="outline" className="border-purple-500/40 text-purple-300 font-mono text-[10px]">
-                  Module 4 · Reasoning
-                </Badge>
-                <Link
-                  href="/labs/reasoning"
-                  className="text-xs text-forge-muted hover:text-purple-400 flex items-center gap-0.5"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <span>Standalone</span>
-                  <ArrowRight className="h-3 w-3" />
-                </Link>
-              </div>
-              <h3 className="mt-3 text-lg font-bold text-forge-text group-hover:text-purple-400 transition-colors flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-purple-400" />
-                <span>Reasoning Playground</span>
-              </h3>
-              <p className="mt-1.5 text-xs text-forge-muted leading-relaxed">
-                Visual prompt reasoning: Tree-of-Thoughts heuristic branching, ReAct mock tool loops, and Multi-Persona Specialist Council.
-              </p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-forge-border/60 flex items-center justify-between text-xs font-mono">
-              <span className="text-forge-muted">ToT + ReAct + Council</span>
-              <span className="text-purple-400 font-bold">Open Reasoning →</span>
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
-
-      {/* Embedded Active Lab View */}
-      <div className="pt-4">
-        {activeTab === "anatomy" && <PromptAnatomyLab />}
-        {activeTab === "simulator" && <LlmSimulatorLab />}
-        {activeTab === "playground" && <PromptPlayground />}
-        {activeTab === "compare" && <CompareLab />}
-        {activeTab === "optimize" && <OptimizeLab />}
-        {activeTab === "reasoning" && <ReasoningLab />}
-      </div>
+      )}
     </div>
   );
 }

@@ -4,29 +4,16 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Layers,
-  Sparkles,
-  Play,
-  RotateCcw,
-  Bot,
-  Gauge,
   Network,
   CheckCircle2,
-  ArrowRight,
-  RefreshCw,
-  Terminal,
   Server,
   Laptop,
-  Database,
-  Sliders,
-  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { useReducedMotion } from "@/lib/motion/use-reduced-motion";
 
 export function AgentLab() {
-  const prefersReduced = useReducedMotion();
   const [activeTab, setActiveTab] = useState<"loop" | "meter" | "mcp">("loop");
 
   // Agent Loop State
