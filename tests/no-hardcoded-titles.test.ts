@@ -94,15 +94,16 @@ describe("Step 1 Acceptance: Single Source of Truth & No Hardcoded Titles", () =
           }
 
           const content = fs.readFileSync(fullPath, "utf-8");
-          const lines = content.split("\n");
+          const strippedContent = content.replace(/\/\*[\s\S]*?\*\//g, "");
+          const lines = strippedContent.split("\n");
 
           lines.forEach((lineText, idx) => {
-            // Strip comments
-            const cleanLine = lineText.replace(/\/\/.*$/, "").replace(/\/\*.*?\*\//g, "");
+            // Strip single-line comments
+            const cleanLine = lineText.replace(/\/\/.*$/, "");
 
-            // Check hardcoded titles
+            // Check hardcoded titles (any appearance of the exact module title in code/markup)
             for (const title of EXPECTED_TITLES) {
-              if (cleanLine.includes(`"${title}"`) || cleanLine.includes(`'${title}'`) || cleanLine.includes(`>${title}<`)) {
+              if (cleanLine.includes(title)) {
                 violations.push({
                   file: fullPath,
                   match: `Title "${title}"`,
@@ -126,7 +127,7 @@ describe("Step 1 Acceptance: Single Source of Truth & No Hardcoded Titles", () =
       }
     }
 
-    ["app", "components"].forEach((targetDir) => {
+    ["app", "components", "lib"].forEach((targetDir) => {
       const resolved = path.resolve(process.cwd(), targetDir);
       if (fs.existsSync(resolved)) {
         checkDirectory(resolved);

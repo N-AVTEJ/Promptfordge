@@ -14,6 +14,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { LabResultSkeleton } from "@/components/ui/skeleton";
+import { CURRICULUM_MODULES } from "@/content/modules";
+import { getPreloadedTask } from "@/lib/hooks/use-preload-task";
 
 interface TestCase {
   id: string;
@@ -83,6 +86,13 @@ export function ProductionLab() {
   );
   const [biasProbeRunning, setBiasProbeRunning] = useState(false);
   const [biasResults, setBiasResults] = useState<{ name: string; score: number; recommendation: string }[] | null>(null);
+
+  useEffect(() => {
+    const preloaded = getPreloadedTask();
+    if (preloaded) {
+      setGuardInput(preloaded);
+    }
+  }, []);
 
   // Keyboard shortcut listener
   useEffect(() => {
@@ -163,7 +173,7 @@ export function ProductionLab() {
               className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
             >
               <Layers className="h-3.5 w-3.5" />
-              <span>Module 12: Production Prompt Engineering and Responsible AI</span>
+              <span>Module 12: {CURRICULUM_MODULES.find((m) => m.number === 12)?.title}</span>
             </Link>
             <Badge variant="outline" className="border-navy/20 font-mono text-xs text-navy/70">
               Lite
@@ -256,8 +266,11 @@ export function ProductionLab() {
             </Button>
           </div>
 
-          {/* Test Matrix Table */}
-          <div className="overflow-x-auto rounded-xl border border-navy/15">
+          {/* Test Matrix Table with Skeleton Transition */}
+          {isMatrixRunning ? (
+            <LabResultSkeleton count={3} />
+          ) : (
+            <div className="overflow-x-auto rounded-xl border border-navy/15">
             <table className="w-full text-left font-sans text-xs">
               <thead className="bg-daylight border-b border-navy/10 font-mono text-[11px] uppercase tracking-wider text-navy/70">
                 <tr>
@@ -304,6 +317,7 @@ export function ProductionLab() {
               </tbody>
             </table>
           </div>
+          )}
 
           <div className="rounded-xl bg-daylight p-3 border border-navy/10 text-xs font-mono text-navy/80 flex items-center justify-between">
             <span>Regression Summary: v1.1 resolved 2 safety vulnerabilities (Prompt Injection + PII Leak) with 100% pass rate (4/4 passed).</span>

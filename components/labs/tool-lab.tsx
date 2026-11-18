@@ -15,6 +15,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { LabResultSkeleton } from "@/components/ui/skeleton";
+import { CURRICULUM_MODULES } from "@/content/modules";
+import { getPreloadedTask } from "@/lib/hooks/use-preload-task";
 
 interface ToolCallItem {
   id: string;
@@ -60,6 +63,14 @@ export function ToolLab() {
   const [retrievedChunks, setRetrievedChunks] = useState<RetrievedChunkItem[]>([]);
   const [ragAnswer, setRagAnswer] = useState<string | null>(null);
   const [isRagRunning, setIsRagRunning] = useState(false);
+
+  useEffect(() => {
+    const preloaded = getPreloadedTask();
+    if (preloaded) {
+      setToolPrompt(preloaded);
+      setRagQuery(preloaded);
+    }
+  }, []);
 
   // Keyboard shortcut listener
   useEffect(() => {
@@ -199,7 +210,7 @@ export function ToolLab() {
               className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
             >
               <Layers className="h-3.5 w-3.5" />
-              <span>Module 7: Tool-Augmented Prompting</span>
+              <span>Module 7: {CURRICULUM_MODULES.find((m) => m.number === 7)?.title}</span>
             </Link>
             <Badge variant="outline" className="border-navy/20 font-mono text-xs text-navy/70">
               Lite
@@ -303,8 +314,10 @@ export function ToolLab() {
             </Button>
           </Card>
 
+          {isToolRunning && <LabResultSkeleton count={2} />}
+
           {/* Stepped Tool Call Log & Answer */}
-          {toolCalls.length > 0 && (
+          {!isToolRunning && toolCalls.length > 0 && (
             <div className="space-y-4">
               <div className="font-mono text-xs font-bold text-navy uppercase tracking-wider">
                 Tool Execution Trace
@@ -382,8 +395,10 @@ export function ToolLab() {
             </Button>
           </Card>
 
+          {isRagRunning && <LabResultSkeleton count={2} />}
+
           {/* Retrieved Chunks Display */}
-          {retrievedChunks.length > 0 && (
+          {!isRagRunning && retrievedChunks.length > 0 && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs font-bold uppercase tracking-wider text-navy">

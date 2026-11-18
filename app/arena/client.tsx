@@ -18,6 +18,7 @@ import {
   setLastActiveArenaTab,
 } from "@/lib/storage/arena";
 import { ARENA_LEVELS } from "@/lib/arena/levels";
+import { CURRICULUM_MODULES } from "@/content/modules";
 
 type ArenaTab = "levels" | "compare" | "red-vs-blue";
 
@@ -51,7 +52,7 @@ export function SecurityArenaClient() {
                   className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
                 >
                   <Layers className="h-3.5 w-3.5" />
-                  <span>Module 8: Security in Prompt Engineering</span>
+                  <span>Module 8: {CURRICULUM_MODULES.find((m) => m.number === 8)?.title}</span>
                 </a>
                 <span className="rounded border border-navy/20 bg-daylight px-2 py-0.5 font-mono text-[10px] text-navy/70 uppercase">
                   Full Lab

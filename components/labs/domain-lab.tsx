@@ -16,6 +16,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { LabResultSkeleton } from "@/components/ui/skeleton";
+import { CURRICULUM_MODULES } from "@/content/modules";
+import { getPreloadedTask } from "@/lib/hooks/use-preload-task";
 
 type DomainTrack = "coding" | "education" | "business" | "research";
 
@@ -102,6 +105,13 @@ export function DomainPromptLab() {
   const [isRunning, setIsRunning] = useState(false);
   const [telemetry, setTelemetry] = useState<{ latencyMs: number; tokens: number; costUsd: number } | null>(null);
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const preloaded = getPreloadedTask();
+    if (preloaded) {
+      setPromptText(preloaded);
+    }
+  }, []);
 
   // Switch prompt when track changes
   const handleSelectTrack = (trackId: DomainTrack) => {
@@ -275,7 +285,7 @@ Uncontrolled cloud storage waste and unoptimized vector queries drove a 28% MoM 
               className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
             >
               <Layers className="h-3.5 w-3.5" />
-              <span>Module 9: Domain-Specific Prompt Engineering</span>
+              <span>Module 9: {CURRICULUM_MODULES.find((m) => m.number === 9)?.title}</span>
             </Link>
             <Badge variant="outline" className="border-navy/20 font-mono text-xs text-navy/70">
               Lite
@@ -375,7 +385,11 @@ Uncontrolled cloud storage waste and unoptimized vector queries drove a 28% MoM 
                 )}
               </div>
 
-              {output ? (
+              {isRunning ? (
+                <div className="mt-3">
+                  <LabResultSkeleton count={2} />
+                </div>
+              ) : output ? (
                 <div className="mt-3 p-4 rounded-xl bg-daylight font-mono text-xs text-navy whitespace-pre-wrap leading-relaxed max-h-[380px] overflow-y-auto border border-navy/10">
                   {output}
                 </div>

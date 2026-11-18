@@ -14,6 +14,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { LabResultSkeleton } from "@/components/ui/skeleton";
+import { CURRICULUM_MODULES } from "@/content/modules";
+import { getPreloadedTask } from "@/lib/hooks/use-preload-task";
 
 interface ModelExecutionResult {
   provider: "Gemini" | "OpenAI";
@@ -43,6 +46,13 @@ export function MultiModelArenaLab() {
     gemini?: ModelExecutionResult;
     openai?: ModelExecutionResult;
   } | null>(null);
+
+  useEffect(() => {
+    const preloaded = getPreloadedTask();
+    if (preloaded) {
+      setPromptText(preloaded);
+    }
+  }, []);
 
   // Keyboard shortcut listener
   useEffect(() => {
@@ -204,7 +214,7 @@ export function MultiModelArenaLab() {
               className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
             >
               <Layers className="h-3.5 w-3.5" />
-              <span>Module 6: Multi-Model Prompting</span>
+              <span>Module 6: {CURRICULUM_MODULES.find((m) => m.number === 6)?.title}</span>
             </Link>
             <Badge variant="outline" className="border-navy/20 font-mono text-xs text-navy/70">
               Lite
@@ -349,7 +359,9 @@ export function MultiModelArenaLab() {
             </Badge>
           </div>
 
-          {results?.gemini ? (
+          {isRunning ? (
+            <LabResultSkeleton count={2} />
+          ) : results?.gemini ? (
             <div className="space-y-4">
               {results.gemini.missingKeyMessage && (
                 <div className="p-2.5 rounded-lg border border-marigold/30 bg-marigold/10 text-[11px] font-mono text-marigold-900 flex items-center gap-2">
@@ -397,7 +409,9 @@ export function MultiModelArenaLab() {
             </Badge>
           </div>
 
-          {results?.openai ? (
+          {isRunning ? (
+            <LabResultSkeleton count={2} />
+          ) : results?.openai ? (
             <div className="space-y-4">
               {results.openai.missingKeyMessage && (
                 <div className="p-2.5 rounded-lg border border-marigold/30 bg-marigold/10 text-[11px] font-mono text-marigold-900 flex items-center gap-2">

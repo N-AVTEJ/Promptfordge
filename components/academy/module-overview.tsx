@@ -252,12 +252,14 @@ export function ModuleOverview({ module }: ModuleOverviewProps) {
         <div className="rounded-3xl border border-navy/10 bg-white p-6 sm:p-8 shadow-sm divide-y divide-navy/10">
           {module.lessons.map((lesson, idx) => {
             const isComplete = progress.completedLessonIds.includes(lesson.id);
-            const labTarget = lesson.relatedLab || defaultLab?.route || "/labs";
-            const taskQuery = defaultLab?.loadsTask
+            const matchedLab = (module.labs && module.labs.find((l) => l.route === lesson.relatedLab)) || defaultLab;
+            const labTarget = lesson.relatedLab || matchedLab?.route || "/labs";
+            const taskPayload = matchedLab?.loadsTask || lesson.practiceChallenge?.starterPrompt;
+            const taskQuery = taskPayload
               ? `?task=${encodeURIComponent(
-                  typeof defaultLab.loadsTask === "string"
-                    ? defaultLab.loadsTask
-                    : JSON.stringify(defaultLab.loadsTask)
+                  typeof taskPayload === "string"
+                    ? taskPayload
+                    : JSON.stringify(taskPayload)
                 )}`
               : "";
             const labHref = `${labTarget}${taskQuery}`;

@@ -36,6 +36,16 @@ import {
   EXPERT_PRESETS,
   EXPERT_EDUCATIONAL_DISCLOSURE,
 } from "../lib/reasoning/expert-engine";
+import {
+  ACTIVE_PROMPTING_SUITES,
+  ACTIVE_PROMPTING_DISCLOSURE,
+  getActivePromptingSuite,
+} from "../lib/reasoning/active-prompting-engine";
+import {
+  APE_EXPERIMENTS,
+  APE_EDUCATIONAL_DISCLOSURE,
+  getApeExperiment,
+} from "../lib/reasoning/ape-engine";
 
 describe("Phase 8: Workflow Builder Acceptance Tests", () => {
   it("A 4-node chain runs end to end and each node displays its output", async () => {
@@ -588,5 +598,43 @@ describe("Phase 8: Reasoning Playground Acceptance Tests", () => {
       EXPERT_EDUCATIONAL_DISCLOSURE.includes("specialist role boundaries"),
       "Must explain specialist boundaries"
     );
+  });
+
+  it("Active Prompting engine evaluates disagreement and curates uncertainty exemplars", () => {
+    assert.ok(ACTIVE_PROMPTING_SUITES.length >= 2);
+    const suite = getActivePromptingSuite();
+    assert.ok(suite.samples.length >= 4);
+
+    for (const sample of suite.samples) {
+      assert.ok(sample.question.length > 0);
+      assert.ok(sample.sampledAnswers.length >= 4, "Must have sampled outputs");
+      assert.ok(sample.disagreementScore >= 0 && sample.disagreementScore <= 1);
+      assert.ok(["low", "medium", "high"].includes(sample.uncertaintyLevel));
+      assert.ok(sample.curatedExemplar.length > 0, "Must have curated exemplar");
+      assert.ok(
+        sample.accuracyWithActive >= sample.accuracyWithoutActive,
+        "Active prompting must improve or maintain accuracy"
+      );
+    }
+
+    assert.ok(ACTIVE_PROMPTING_DISCLOSURE.includes("Educational Simulation"));
+  });
+
+  it("Automatic Prompt Engineer (APE) proposes candidate hypotheses and ranks by Monte Carlo score", () => {
+    assert.ok(APE_EXPERIMENTS.length >= 2);
+    const exp = getApeExperiment();
+    assert.ok(exp.inputOutputDemos.length >= 2);
+    assert.ok(exp.testCases.length >= 2);
+    assert.ok(exp.candidates.length >= 2);
+
+    const ranks = exp.candidates.map((c) => c.rank);
+    assert.deepStrictEqual(ranks, [1, 2, 3]);
+
+    const topCandidate = exp.candidates.find((c) => c.rank === 1)!;
+    assert.strictEqual(topCandidate.status, "top_candidate");
+    assert.strictEqual(topCandidate.averageScore, 100);
+    assert.ok(topCandidate.instruction.length > 20);
+
+    assert.ok(APE_EDUCATIONAL_DISCLOSURE.includes("Educational Simulation"));
   });
 });

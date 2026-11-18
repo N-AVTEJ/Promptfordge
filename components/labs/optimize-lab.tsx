@@ -20,6 +20,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { LabResultSkeleton } from "@/components/ui/skeleton";
+import { CURRICULUM_MODULES } from "@/content/modules";
+import { getPreloadedTask } from "@/lib/hooks/use-preload-task";
 import { savePrompt } from "@/lib/storage/library";
 import {
   DiagnosisCategory,
@@ -70,6 +73,10 @@ export function OptimizeLab() {
 
   React.useEffect(() => {
     completeLab("optimize");
+    const preloaded = getPreloadedTask();
+    if (preloaded) {
+      setPromptText(preloaded);
+    }
   }, [completeLab]);
 
   // Result state
@@ -287,7 +294,7 @@ export function OptimizeLab() {
             className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
           >
             <Layers className="h-3.5 w-3.5" />
-            <span>Module 5: Prompt Optimization Techniques</span>
+            <span>Module 5: {CURRICULUM_MODULES.find((m) => m.number === 5)?.title}</span>
           </Link>
           <Badge variant="outline" className="border-navy/20 font-mono text-xs text-navy/70">
             Full Lab
@@ -467,8 +474,15 @@ export function OptimizeLab() {
         </div>
       </div>
 
+      {/* Skeleton Loading State */}
+      {isLoading && (
+        <div className="pt-4">
+          <LabResultSkeleton count={3} />
+        </div>
+      )}
+
       {/* Optimization Results Section */}
-      {analysis && (
+      {!isLoading && analysis && (
         <div className="space-y-8 pt-4">
           {/* Demo Data Notice */}
           {isDemoData && (

@@ -219,6 +219,7 @@ async function runCrawl() {
 
   if (failures === 0) {
     console.log("🎉 ALL ACCEPTANCE ASSERTIONS PASSED!");
+    process.exit(0);
   } else {
     console.error(`❌ CRAWL ENCOUNTERED ${failures} FAILURES!`);
     process.exit(1);

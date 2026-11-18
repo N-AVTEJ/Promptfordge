@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { CURRICULUM_MODULES } from "@/content/modules";
 
 export function AgentLab() {
   const [activeTab, setActiveTab] = useState<"loop" | "meter" | "mcp">("loop");
@@ -90,6 +91,18 @@ export function AgentLab() {
     return () => clearInterval(timer);
   }, [isLoopAutoPlaying, loopSteps.length]);
 
+  // Keyboard shortcut listener (Cmd / Ctrl + Enter toggles Agent execution loop)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+        e.preventDefault();
+        setIsLoopAutoPlaying((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <div className="space-y-8 pb-16">
       {/* Header & Module Chip */}
@@ -101,7 +114,7 @@ export function AgentLab() {
               className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
             >
               <Layers className="h-3.5 w-3.5" />
-              <span>Module 11: AI Agents, Context Engineering and MCP</span>
+              <span>Module 11: {CURRICULUM_MODULES.find((m) => m.number === 11)?.title}</span>
             </Link>
             <Badge variant="outline" className="border-navy/20 font-mono text-xs text-navy/70">
               Lite

@@ -37,6 +37,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { LabResultSkeleton } from "@/components/ui/skeleton";
+import { CURRICULUM_MODULES } from "@/content/modules";
+import { getPreloadedTask } from "@/lib/hooks/use-preload-task";
 import {
   SYLLABUS_TECHNIQUES,
   SYLLABUS_TECHNIQUE_IDS,
@@ -160,6 +163,13 @@ export function CompareLab() {
   }, []);
 
   // Update prompt templates whenever task changes unless user manually edited that technique
+  useEffect(() => {
+    const preloaded = getPreloadedTask();
+    if (preloaded) {
+      setTask(preloaded);
+    }
+  }, []);
+
   useEffect(() => {
     setCustomPrompts((prev) => {
       const next: Record<string, string> = { ...prev };
@@ -592,7 +602,7 @@ export function CompareLab() {
               className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
             >
               <Layers className="h-3.5 w-3.5" />
-              <span>Module 2: Example and Instruction Based Prompts</span>
+              <span>Module 2: {CURRICULUM_MODULES.find((m) => m.number === 2)?.title}</span>
             </Link>
           </div>
 
@@ -1067,6 +1077,12 @@ export function CompareLab() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {isRunning && (
+          <div className="w-full max-w-5xl pt-4">
+            <LabResultSkeleton count={3} />
+          </div>
+        )}
 
         {/* Error Banner */}
         {errorMessage && (

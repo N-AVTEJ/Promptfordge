@@ -21,6 +21,7 @@ import {
 import {
   STAGES,
 } from "@/lib/labs/simulator/types";
+import { CURRICULUM_MODULES } from "@/content/modules";
 import {
   compareTokenizers,
   MULTILINGUAL_PRESETS,
@@ -286,7 +287,7 @@ export function LlmSimulatorLab() {
               className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
             >
               <Cpu className="h-3.5 w-3.5" />
-              <span>Module 1: Introduction to Prompt Engineering</span>
+              <span>Module 1: {CURRICULUM_MODULES.find((m) => m.number === 1)?.title}</span>
             </Link>
             <Badge variant="outline" className="border-navy/20 font-mono text-xs text-navy/70">
               Full Lab

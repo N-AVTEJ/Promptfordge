@@ -92,3 +92,57 @@ export interface ExpertCouncilPreset {
   query: string;
   domain: string;
 }
+
+// ---------------------------------------------------------------------------
+// Active Prompting Types (Diao et al., 2023)
+// ---------------------------------------------------------------------------
+
+export interface ActivePromptSample {
+  id: string;
+  question: string;
+  sampledAnswers: string[];
+  disagreementScore: number; // 0.0 - 1.0 (variance across generation drafts)
+  uncertaintyLevel: "low" | "medium" | "high";
+  curatedExemplar: string; // Expert CoT exemplar step
+  accuracyWithoutActive: number; // % accuracy baseline
+  accuracyWithActive: number; // % accuracy with uncertainty-curated exemplar
+}
+
+export interface ActivePromptSuite {
+  id: string;
+  title: string;
+  domain: string;
+  samples: ActivePromptSample[];
+  educationalDisclosure: string;
+}
+
+// ---------------------------------------------------------------------------
+// Automatic Prompt Engineer (APE) Types (Zhou et al., 2022)
+// ---------------------------------------------------------------------------
+
+export interface ApeTestCase {
+  id: string;
+  input: string;
+  expectedOutput: string;
+}
+
+export interface ApeCandidate {
+  id: string;
+  instruction: string;
+  generationStep: number;
+  testScores: { caseId: string; score: number; passed: boolean }[];
+  averageScore: number; // 0 - 100%
+  rank: number;
+  status: "top_candidate" | "evaluated" | "eliminated";
+  rationale: string;
+}
+
+export interface ApeExperiment {
+  id: string;
+  taskTitle: string;
+  taskDescription: string;
+  inputOutputDemos: { input: string; output: string }[];
+  testCases: ApeTestCase[];
+  candidates: ApeCandidate[];
+  educationalDisclosure: string;
+}

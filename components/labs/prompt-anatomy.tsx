@@ -23,6 +23,8 @@ import {
   AnatomyComponentType,
   COMPONENT_CONFIGS,
 } from "@/lib/labs/anatomy/types";
+import { CURRICULUM_MODULES } from "@/content/modules";
+import { getPreloadedTask } from "@/lib/hooks/use-preload-task";
 import {
   parsePromptAnatomy,
   parseAiAnalysisResponse,
@@ -145,6 +147,10 @@ export function PromptAnatomyLab() {
 
   React.useEffect(() => {
     completeLab("anatomy");
+    const preloaded = getPreloadedTask();
+    if (preloaded) {
+      setPromptText(preloaded);
+    }
   }, [completeLab]);
 
   // A/B Comparison Mode State
@@ -442,6 +448,22 @@ Return strictly valid JSON with no markdown fences or preambles:
     }
   };
 
+  // Keyboard shortcut (Cmd / Ctrl + Enter runs AI Analysis or Comparison)
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+        e.preventDefault();
+        if (compareMode) {
+          if (!isComparing) handleRunComparison();
+        } else {
+          if (!isAiAnalyzing) handleAnalyzeWithAi();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [compareMode, isComparing, isAiAnalyzing, handleRunComparison, handleAnalyzeWithAi]);
+
   const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopiedVariant(id);
@@ -547,7 +569,7 @@ Return strictly valid JSON with no markdown fences or preambles:
               className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
             >
               <Layers className="h-3.5 w-3.5" />
-              <span>Module 1: Introduction to Prompt Engineering</span>
+              <span>Module 1: {CURRICULUM_MODULES.find((m) => m.number === 1)?.title}</span>
             </Link>
             <Badge variant="outline" className="border-navy/20 font-mono text-xs text-navy/70">
               Full Lab

@@ -50,6 +50,7 @@ import {
 } from "@/lib/workflow/engine";
 import { STARTER_TEMPLATES, MODULE_WORKFLOW_TEMPLATES } from "@/lib/workflow/templates";
 import { CURRICULUM_MODULES } from "@/content/modules";
+import { getPreloadedTask } from "@/lib/hooks/use-preload-task";
 import {
   getSavedWorkflows,
   saveWorkflow,
@@ -91,7 +92,7 @@ export function WorkflowStudio() {
   const [newWorkflowName, setNewWorkflowName] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Load saved workflows on mount
+  // Load saved workflows on mount & check preloaded task
   React.useEffect(() => {
     try {
       const list = getSavedWorkflows();
@@ -99,7 +100,18 @@ export function WorkflowStudio() {
     } catch {
       // Safe fallback
     }
-  }, []);
+
+    const preloaded = getPreloadedTask();
+    if (preloaded) {
+      setNodes((nds) =>
+        nds.map((n) =>
+          n.type === "userInput"
+            ? { ...n, data: { ...n.data, inputPrompt: preloaded } }
+            : n
+        )
+      );
+    }
+  }, [setNodes]);
 
   // Handle template selection
   const handleSelectTemplate = useCallback(
@@ -484,29 +496,29 @@ export function WorkflowStudio() {
               onChange={(e) => handleSelectTemplate(e.target.value)}
               className="bg-transparent font-mono text-xs text-navy focus:outline-none cursor-pointer"
             >
-              <optgroup label={`Module 04: ${CURRICULUM_MODULES.find((m) => m.number === 4)?.title}`}>
+              <optgroup label={`Module 04: ${CURRICULUM_MODULES.find((m) => m.number === 4)?.title} (${CURRICULUM_MODULES.find((m) => m.number === 4)?.tags?.slice(0, 2).join(", ")})`}>
                 <option value="template-m4-chain" className="bg-white text-navy">
-                  M04: Linear Prompt Chain with Variables
+                  M04 [Tags: {CURRICULUM_MODULES.find((m) => m.number === 4)?.tags?.join(", ")}]: Linear Prompt Chain with Variables
                 </option>
               </optgroup>
-              <optgroup label={`Module 03: ${CURRICULUM_MODULES.find((m) => m.number === 3)?.title}`}>
+              <optgroup label={`Module 03: ${CURRICULUM_MODULES.find((m) => m.number === 3)?.title} (${CURRICULUM_MODULES.find((m) => m.number === 3)?.tags?.slice(0, 2).join(", ")})`}>
                 <option value="template-m3-reflection" className="bg-white text-navy">
-                  M03: Reflection & Critique Loop
+                  M03 [Tags: {CURRICULUM_MODULES.find((m) => m.number === 3)?.tags?.join(", ")}]: Reflection & Critique Loop
                 </option>
               </optgroup>
-              <optgroup label={`Module 07: ${CURRICULUM_MODULES.find((m) => m.number === 7)?.title}`}>
+              <optgroup label={`Module 07: ${CURRICULUM_MODULES.find((m) => m.number === 7)?.title} (${CURRICULUM_MODULES.find((m) => m.number === 7)?.tags?.slice(0, 2).join(", ")})`}>
                 <option value="template-m7-tool-call" className="bg-white text-navy">
-                  M07: Tool-Augmented Function Call
+                  M07 [Tags: {CURRICULUM_MODULES.find((m) => m.number === 7)?.tags?.join(", ")}]: Tool-Augmented Function Call
                 </option>
               </optgroup>
-              <optgroup label={`Module 11: ${CURRICULUM_MODULES.find((m) => m.number === 11)?.title}`}>
+              <optgroup label={`Module 11: ${CURRICULUM_MODULES.find((m) => m.number === 11)?.title} (${CURRICULUM_MODULES.find((m) => m.number === 11)?.tags?.slice(0, 2).join(", ")})`}>
                 <option value="template-m11-agent-loop" className="bg-white text-navy">
-                  M11: Autonomous Agent Loop
+                  M11 [Tags: {CURRICULUM_MODULES.find((m) => m.number === 11)?.tags?.join(", ")}]: Autonomous Agent Loop
                 </option>
               </optgroup>
-              <optgroup label={`Module 12: ${CURRICULUM_MODULES.find((m) => m.number === 12)?.title}`}>
+              <optgroup label={`Module 12: ${CURRICULUM_MODULES.find((m) => m.number === 12)?.title} (${CURRICULUM_MODULES.find((m) => m.number === 12)?.tags?.slice(0, 2).join(", ")})`}>
                 <option value="template-m12-regression" className="bg-white text-navy">
-                  M12: Production Regression Test Matrix
+                  M12 [Tags: {CURRICULUM_MODULES.find((m) => m.number === 12)?.tags?.join(", ")}]: Production Regression Test Matrix
                 </option>
               </optgroup>
               <optgroup label="Baseline DAG Templates">

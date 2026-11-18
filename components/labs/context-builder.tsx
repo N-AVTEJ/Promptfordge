@@ -15,6 +15,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { LabResultSkeleton } from "@/components/ui/skeleton";
+import { CURRICULUM_MODULES } from "@/content/modules";
+import { getPreloadedTask } from "@/lib/hooks/use-preload-task";
 
 export function ContextBuilderLab() {
   // Active sub-mode: "builder" | "reflection" | "interaction"
@@ -46,6 +49,14 @@ export function ContextBuilderLab() {
   const [response2, setResponse2] = useState<string | null>(null);
   const [interactionStep, setInteractionStep] = useState<1 | 2>(1);
   const [isInteractionRunning, setIsInteractionRunning] = useState(false);
+
+  useEffect(() => {
+    const preloaded = getPreloadedTask();
+    if (preloaded) {
+      setUserQuery(preloaded);
+      setReflectionTask(preloaded);
+    }
+  }, []);
 
   // Keyboard shortcut listener
   useEffect(() => {
@@ -228,7 +239,7 @@ export function ContextBuilderLab() {
               className="inline-flex items-center gap-1.5 rounded-full border border-ultramarine/30 bg-ultramarine/10 px-3 py-1 font-mono text-xs font-semibold text-ultramarine hover:bg-ultramarine/20 transition-colors"
             >
               <Layers className="h-3.5 w-3.5" />
-              <span>Module 3: Context Based and Interaction Based Prompts</span>
+              <span>Module 3: {CURRICULUM_MODULES.find((m) => m.number === 3)?.title}</span>
             </Link>
             <Badge variant="outline" className="border-navy/20 font-mono text-xs text-navy/70">
               Full Lab
@@ -415,7 +426,11 @@ export function ContextBuilderLab() {
                   <span className="font-mono text-xs font-bold text-navy uppercase tracking-wider">
                     Model Output
                   </span>
-                  {builderOutput ? (
+                  {isBuilderRunning ? (
+                    <div className="mt-2">
+                      <LabResultSkeleton count={2} />
+                    </div>
+                  ) : builderOutput ? (
                     <div className="mt-2 p-3 rounded-xl border border-mint/40 bg-mint/10 font-mono text-xs text-navy whitespace-pre-wrap">
                       {builderOutput}
                     </div>
